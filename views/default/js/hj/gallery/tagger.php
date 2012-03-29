@@ -25,6 +25,7 @@ if (FALSE) :
 		.hover(function() {
 			var link = $('.hj-gallery-tags-map li').find('a.hj-gallery-tag-' + $(this).attr('id').replace('elgg-object-', ''));
 			link.addClass('hj-gallery-tag-hover').find('span').show().addClass('hj-gallery-tag-selected');
+
 		}, function() {
 			var link = $('.hj-gallery-tags-map li').find('a.hj-gallery-tag-' + $(this).attr('id').replace('elgg-object-', ''));
 			link.removeClass('hj-gallery-tag-hover').find('span').hide().removeClass('hj-gallery-tag-selected');
@@ -159,6 +160,7 @@ if (FALSE) :
 	}
 
 	elgg.register_hook_handler('init', 'system', hj.gallery.tagger.init);
+	elgg.register_hook_handler('success', 'hj:framework:ajax', hj.gallery.tagger.init);
 	
 
 

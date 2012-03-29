@@ -21,8 +21,12 @@ $form_body .= elgg_view('input/text', array(
 $form_body .= elgg_view('input/submit', array('value' => elgg_echo('hj:album:image:tag:create'), 'class' => 'hidden'));
 
 echo $form_body;
-?>
+
+if (!elgg_in_context('places')) :
+	?>
 <script type="text/javascript">
+	elgg.provide('hj.gallery.tagger');
 	elgg.register_hook_handler('success', 'hj:framework:ajax', hj.gallery.tagger.init);
 	elgg.trigger_hook('success', 'hj:framework:ajax');
 </script>
+<?php endif; ?>

@@ -13,8 +13,18 @@ $thumb_size = elgg_extract('thumb_size', $vars, 'large');
 $file = get_entity($entity->image);
 
 if (elgg_in_context('activity') || elgg_in_context('main')) {
-	echo elgg_view_entity_icon($file, 'medium');
+	echo elgg_view_entity_icon($file, 'large');
 	return true;
+}
+
+if (get_input('list_type') == 'carousel') {
+	echo elgg_view_entity_icon($file, 'master');
+	echo $entity->title;
+	echo $entity->description;
+	return true;
+}
+if ($entity->canEdit()) {
+
 }
 
 $title = $entity->title;
@@ -102,6 +112,8 @@ if ($full) {
 	if (!elgg_in_context('fancybox')) {
 		$tags_view .= elgg_view_form('hj/gallery/phototag', array('id' => "hj-gallery-tagger-form", 'class' => 'hj-gallery-tag-save hidden'), array('entity' => $file, 'image' => $entity, 'params' => $tag_form_params));
 	}
+	$tags_view = '<div class="clearfix">' . $tags_view . '</div>';
+	
 	$tags_map = '<style type="text/css">';
 	foreach ($tags as $tag) {
 		$tags_map .= elgg_view_entity($tag, array('return_type' => 'styles'));
@@ -130,73 +142,18 @@ if ($full) {
 
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
-	$icon = elgg_view_entity_icon($file, 'medium');
 
+	$icon = elgg_view_entity_icon($file, 'small');
 	$intro = elgg_view_image_block($icon, $list_body);
+	$col1 = $preview_image;
+	$col2 = '<div id="hj-image-master-details">' . $intro . $tags_view . $full_description . elgg_view_comments($entity) .'</div>';
 
-	if ($entity->canEdit()) {
-		elgg_register_menu_item('hjalbumimage', array(
-			'name' => 'makeavatar',
-			'text' => elgg_echo('hj:album:image:makeavatar'),
-			'href' => "action/gallery/makeavatar?e=$file->guid",
-			'is_action' => true,
-			'priority' => 100
-		));
+	//$view = elgg_view_layout('hj/dynamic', array('grid' => array(4,8), 'content' => array($col2, $col1)));
 
-
-		$new['params'] = array(
-			'entity_guid' => $file->guid,
-			'target' => "hj-gallery-image-edit"
-		);
-
-		elgg_register_menu_item('hjalbumimage', array(
-			'name' => 'editthumb',
-			'text' => elgg_echo('hj:album:image:editthumb'),
-			'href' => "action/hj/gallery/thumb?type=get&image_guid=$entity->guid",
-			'is_action' => true,
-			'class' => 'hj-ajaxed-view',
-			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 200
-		));
-
-		elgg_register_menu_item('hjalbumimage', array(
-			'name' => 'makecover',
-			'text' => elgg_echo('hj:album:image:makecover'),
-			'href' => "action/gallery/makecover?e=$entity->guid",
-			'is_action' => true,
-			'class' => 'hj-ajaxed-view',
-			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 300
-		));
-
-		elgg_register_menu_item('hjalbumimage', array(
-			'name' => 'starttagging',
-			'text' => elgg_echo('hj:album:image:startagging'),
-			'href' => "javascript:void(0);",
-			'is_action' => false,
-			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 400
-		));
-		elgg_register_menu_item('hjalbumimage', array(
-			'name' => 'stoptagging',
-			'text' => elgg_echo('hj:album:image:stoptagging'),
-			'href' => "javascript:void(0);",
-			'class' => 'hidden',
-			'is_action' => false,
-			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 500
-		));
-	}
-
-	$col1 = elgg_view_menu('hjalbumimage', array(
-		'entity' => $entity,
-		'sort_by' => 'priority'
-			));
-
-	$intro .= $col1 . $full_description;
-	$col2 = $preview_image . $tags_view . elgg_view_comments($entity);
 	echo "<div id=\"full-elgg-object-$entity->guid\">";
-	echo elgg_view_layout('hj/dynamic', array('grid' => array(4, 8), 'content' => array($intro, $col2)));
+	echo $col1;
+	echo $col2;
+	echo '<div class="clearfloat"></div>';
 	echo '<div id="hj-gallery-image-edit"></div>';
 	echo "</div>";
 } else {
@@ -208,6 +165,7 @@ if ($full) {
 	$params['full_view'] = true;
 	$params['has_full_view'] = true;
 	$params['target'] = "hj-gallery-image-full";
+	$params['fbox_x'] = '900';
 	unset($params['data-options']);
 
 	$data = hj_framework_json_query($params);
@@ -218,13 +176,14 @@ if ($full) {
 		'href' => "action/framework/entities/view?e=$entity->guid",
 		'data-options' => htmlentities($data, ENT_QUOTES, 'UTF-8'),
 		'class' => 'hj-ajaxed-view',
+		'rel' => 'fancybox'
 	);
 
 	$image = elgg_view('output/url', $fullview);
 
-	$gallery = "<li id=\"elgg-object-$file->guid\" class=\"elgg-item\">
+	$gallery = "<div id=\"elgg-object-$file->guid\" class=\"elgg-item\">
 	    <div class=\"hj-gallery-image elgg-image elgg-image-gallery\">$image</div>
-	    </li>";
+	    </div>";
 
 	echo $gallery;
 }

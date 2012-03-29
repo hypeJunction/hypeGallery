@@ -14,14 +14,17 @@
 }
 .elgg-module-album
 {
-    border-top:2px solid #e8e8e8;
-	border-bottom:2px solid #e8e8e8;
-    padding:10px;
+    padding:20px;
+	margin:10px;
+	background:#fff;
+	border:1px solid #e8e8e8;
 }
 
 .elgg-module-image {
-	border-bottom:2px solid #e8e8e8;
-	padding:10px;
+	padding:20px;
+	margin:10px;
+	background:#fff;
+	border:1px solid #e8e8e8;
 }
 
 #hj-gallery-image-edit {
@@ -29,8 +32,14 @@
 	padding:20px;
 	width:800px;
 }
+.hj-gallery-album-images {
+	border:0;
+	margin:0;
+}
 .hj-gallery-album-images > li {
-    margin:15px 2px;
+    margin:0;
+	border:0;
+	float:left;
 }
 li.hj-gallery-imageplaceholder {
     margin:20px 10px 20px 0;
@@ -44,16 +53,24 @@ li.hj-gallery-imageplaceholder {
     vertical-align:middle;
     border:5px dashed #ddd;
 }
+.hj-album-list {
+	border:0;
+}
+
 .hj-album-list > li {
-    margin:5px;
-    text-align:center;
-    font-size:11px;
-    padding:7px 15px;
-    width:105px;
-	height:200px;
-	overflow:hidden;
-    vertical-align:top;
-    cursor:pointer;
+	border:0;
+	padding:10px;
+	border:1px solid #e8e8e8;
+	margin:3px 0;
+}
+
+.hj-album-list .elgg-image-block > .elgg-image {
+	width:158px;
+	padding:0 5px 10px;
+	text-align:center;
+	border:1px solid #e8e8e8;
+	font-size:0.9em;
+	background:#f4f4f4;
 }
 
 .hj-album-list img {
@@ -84,10 +101,6 @@ li.hj-gallery-imageplaceholder {
     text-decoration:none;
 }
 
-.hj-album-list {
-    text-align:center;
-}
-
 .elgg-menu-hjalbumimage {
 	margin:10px;
 }
@@ -114,12 +127,27 @@ li.hj-gallery-imageplaceholder {
 }
 #hj-image-master {
 	position:relative;
+	width:600px;
+	height:600px;
+	overflow:hidden;
+	margin:0;
+	float:left;
+}
+#hj-image-master-details {
+	float:right;
+	margin-right:10px;
+	width:260px;
+}
+#hj-image-master img {
+	border:0;
+	padding:0;
+	position:absolute;
 }
 
 #hj-gallery-tagger-form {
 	background:#fff;
 	position:absolute;
-	z-index:999;
+	z-index:9999;
 	border:1px solid #000;
 	width:200px;
 	padding:10px;
@@ -136,9 +164,14 @@ li.hj-gallery-imageplaceholder {
 	background:#f4f4f4;
 	border:1px solid #e8e8e8;
 	margin:4px;
+	float:left;
 }
 
 /* Image Map CSS */
+
+.hj-gallery-tags-map {
+	border:0;
+}
 .hj-gallery-tags-map li {
 	margin:0;
 	padding:0;

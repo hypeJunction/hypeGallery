@@ -21,6 +21,8 @@ $english = array(
     'hj:gallery:addnew' => 'Create Album',
     'hj:gallery:addimage' => 'Add Photo',
     'hj:gallery:noalbums' => 'There are no albums yet',
+	'hj:gallery:allalbums' => 'All Site Albums',
+	'hj:gallery:myalbums' => 'My Albums',
 
 	'hj:gallery:image:author' => 'Added by %s',
 
@@ -115,6 +117,8 @@ $english = array(
 	'hj:album:image:tag:create' => 'Add Tag',
 	'hj:gallery:phototag:success' => 'Tag added successfully',
 	'hj:gallery:phototag:error' => 'Tag could not be added',
+
+	'hj:gallery:menu:owner_block' => 'Albums',
 	
 );
 

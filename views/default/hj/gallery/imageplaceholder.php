@@ -44,6 +44,7 @@ unset($params['data-options']);
 $data = hj_framework_json_query($params);
 
 $params = array(
+		'name' => 'add',
 	    'title' => elgg_echo('hj:gallery:addimage'),
 	    'text' => elgg_echo('hj:gallery:addimage'),
 	    'href' => "action/framework/entities/edit",
@@ -53,14 +54,14 @@ $params = array(
 	    'class' => "hj-ajaxed-add"
 	);
 
-$add = elgg_view('output/url', $params);
+elgg_register_menu_item('hjentityhead', $params);
 
-$html = <<<HTML
-    <li class="elgg-item hj-gallery-imageplaceholder">
-	<div class="hj-gallery-addimage-placeholder">
-	    <span>$add</span>
-	</div>
-    </li>
-HTML;
-
-echo $html;
+//$html = <<<HTML
+//    <li class="elgg-item hj-gallery-imageplaceholder">
+//	<div class="hj-gallery-addimage-placeholder">
+//	    <span>$add</span>
+//	</div>
+//    </li>
+//HTML;
+//
+//echo $html;

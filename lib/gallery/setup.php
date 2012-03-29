@@ -153,13 +153,3 @@ function hj_gallery_setup_album_image_form() {
     }
     return false;
 }
-
-/**
- * Register subtypes with stdClasses
- */
-run_function_once('hj_gallery_add_subtypes');
-
-function hj_gallery_add_subtypes() {
-    add_subtype('object', 'hjalbum', 'hjAlbum');
-    add_subtype('object', 'hjalbumimage', 'hjAlbumImage');
-}

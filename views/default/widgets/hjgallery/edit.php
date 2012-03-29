@@ -22,6 +22,7 @@ $options = <<<HTML
     <div>
         <span>$subtype_label</span>
         <span>$subtype_input</span>
+	</div>
 HTML;
 
 echo $options;
