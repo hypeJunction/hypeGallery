@@ -62,7 +62,7 @@ $view_params = array(
     'limit' => $limit,
     'count' => $count,
 	'base_url' => 'hj/sync/priority',
-	'data-options' => htmlentities(json_encode($data_options), ENT_QUOTES, 'UTF-8')
+	'data-options' => $data_options
 );
 
 $content = elgg_view_entity_list($albums, $view_params);
