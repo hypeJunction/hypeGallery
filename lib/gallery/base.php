@@ -1,5 +1,22 @@
 <?php
 
+function hj_gallery_register_title_buttons() {
+	
+	$album_max = elgg_get_plugin_setting('album_max', 'hypeGallery');
+	$album_count = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => 'hjalbum',
+		'owner_guid' => elgg_get_logged_in_user_guid(),
+		'count' => true
+			));
+
+	if (!$album_max || $album_count < $album_max || $album_max == '0') {
+		elgg_register_title_button();
+	}
+
+	return true;
+}
+
 /**
  * Get user's gallery
  *

@@ -9,7 +9,7 @@ $full = elgg_extract('full_view', $vars, false);
 if (!$entity) {
 	return true;
 }
-elgg_push_context('album');
+//elgg_push_context('album');
 
 $images = $entity->getContainedFiles('hjalbumimage');
 $owner = $entity->getOwnerEntity();
@@ -48,7 +48,7 @@ if ($entity->friend_tags) {
 $subtitle = implode('<br />', $subtitle);
 
 if ($full) {
-	$icon = elgg_view_entity_icon($entity, 'large', array('href' => false));
+	$icon = elgg_view_entity_icon($entity, 'large', array('href' => false, 'class' => 'hj-gallery-album-cover-large'));
 } else {
 	$icon = elgg_view_entity_icon($entity, 'medium', array('href' => false));
 	$data = elgg_clean_vars($vars);
@@ -90,12 +90,14 @@ $footer_menu = elgg_view_menu('hjentityfoot', array(
 	'params' => $params,
 		));
 
+$target = "hj-gallery-album-images-$entity->guid";
+$params['target'] = $target;
 $icons = elgg_view_entity_list($images, array(
 	'list_type' => 'gallery',
 	'gallery_class' => 'hj-gallery-album-images',
-	'thumb_size' => 'small',
+	'thumb_size' => 'medium',
 	'full_view' => false,
-	'list_id' => "album-images-$entity->guid",
+	'list_id' => $target,
 	'data-options' => $params,
 	'pagination' => true,
 	'limit' => 5,
@@ -136,4 +138,4 @@ if ($full) {
 echo '<div class="clearfix">';
 echo $list_body;
 echo '</div>';
-elgg_pop_context();
+//elgg_pop_context();

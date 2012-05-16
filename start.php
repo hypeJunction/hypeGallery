@@ -78,8 +78,10 @@ function hj_gallery_init() {
 	elgg_register_plugin_hook_handler('register', 'menu:hjentityhead', 'hj_image_entity_head_menu');
 	elgg_register_plugin_hook_handler('register', 'menu:hjsectionfoot', 'hj_gallery_section_foot_menu');
 
+	elgg_register_plugin_hook_handler('hj:framework:form:multifile', 'all', 'hj_gallery_multifile_upload');
 	//elgg_extend_view('page/components/list/prepend', 'hj/gallery/imageplaceholder');
 
+	elgg_register_action('hj/gallery/add', $shortcuts['actions'] . 'hj/gallery/add.php');
 	elgg_register_action('gallery/makeavatar', $shortcuts['actions'] . 'hj/gallery/avatar.php');
 	elgg_register_action('hj/gallery/thumb', $shortcuts['actions'] . 'hj/gallery/thumb.php');
 	elgg_register_action('gallery/makecover', $shortcuts['actions'] . 'hj/gallery/cover.php');
@@ -102,12 +104,90 @@ function hj_gallery_page_handler($page) {
 	$shortcuts = hj_framework_path_shortcuts($plugin);
 	$pages = $shortcuts['pages'] . 'gallery/';
 
+	elgg_load_js('hj.comments.base');
+	elgg_load_css('hj.comments.base');
+	elgg_load_js('hj.likes.base');
+
 	elgg_load_js('hj.framework.carousel');
 	elgg_load_css('hj.framework.carousel');
+
+	elgg_load_js('jquery.imgareaselect');
+	elgg_load_css('jquery.imgareaselect');
+
+	elgg_load_js('hj.gallery.cropper');
+	elgg_load_js('hj.gallery.tagger');
+
+	elgg_load_css('hj.gallery.base');
+
+	elgg_push_breadcrumb(elgg_echo('items:object:hjalbum'), 'gallery/all');
 
 // Check if the username was provided in the url
 // If no username specified, display logged in user's gallery
 	switch ($page[0]) {
+
+		case 'add' :
+			if (!elgg_is_logged_in()) {
+				return false;
+			}
+
+			$title = elgg_echo('gallery:add');
+
+			$container_guid = elgg_extract(1, $page, null);
+
+			elgg_push_breadcrumb($title);
+
+			$params = array(
+				'container_guid' => $container_guid,
+				'owner_guid' => elgg_get_logged_in_user_guid(),
+				'subject_guid' => null
+			);
+
+			$params = hj_framework_extract_params_from_params($params);
+
+			$content = elgg_view_form('hj/gallery/add', array(
+				'enctype' => 'multipart/form-data'
+					), $params);
+
+			$layout = elgg_view_layout('one_sidebar', array(
+				'title' => $title,
+				'content' => $content
+					));
+
+			echo elgg_view_page($title, $layout);
+
+			break;
+
+		case 'edit' :
+			if (!elgg_is_logged_in()) {
+				return false;
+			}
+
+			$entity_guid = elgg_extract(1, $page, null);
+			$entity = get_entity($entity_guid);
+
+			if (!elgg_instanceof($entity)) {
+				return false;
+			}
+			$title = elgg_echo('hj:gallery:album:edit', array($entity->title));
+
+			elgg_push_breadcrumb($entity->title, $entity->getURL());
+			elgg_push_breadcrumb(elgg_echo('edit'));
+
+			$params = hj_framework_extract_params_from_entity($entity);
+
+			$content = elgg_view_form('hj/gallery/add', array(
+				'enctype' => 'multipart/form-data'
+					), $params);
+
+			$layout = elgg_view_layout('one_sidebar', array(
+				'title' => $title,
+				'content' => $content
+					));
+
+			echo elgg_view_page($title, $layout);
+
+			break;
+
 		case 'owner' :
 			if (isset($page[1])) {
 				set_input('username', $page[1]);
@@ -116,13 +196,28 @@ function hj_gallery_page_handler($page) {
 			} else {
 				return false;
 			}
-
+			
+			hj_gallery_register_title_buttons();
 			include "{$pages}owner.php";
+			break;
+
+		case 'friends' :
+			if (isset($page[1])) {
+				set_input('username', $page[1]);
+			} elseif (elgg_is_logged_in()) {
+				set_input('username', elgg_get_logged_in_user_entity()->username);
+			} else {
+				return false;
+			}
+			hj_gallery_register_title_buttons();
+			include "{$pages}friends.php";
 			break;
 
 		case 'album' :
 			if (isset($page[1])) {
 				set_input('e', $page[1]);
+			} else {
+				return false;
 			}
 			if (isset($page[2])) {
 				set_input('im', $page[2]);
@@ -132,12 +227,12 @@ function hj_gallery_page_handler($page) {
 			break;
 
 		case 'all' :
+		default :
+			hj_gallery_register_title_buttons();
 			include "{$pages}all.php";
 			break;
-
-		default :
-			return false;
 	}
+
 	return true;
 }
 
@@ -195,7 +290,7 @@ function hj_gallery_entity_head_menu($hook, $type, $return, $params) {
 			'list_type' => 'gallery',
 			'full_view' => false,
 			'event' => 'create',
-			'target' => "album-images-$entity->guid"
+			'target' => "hj-gallery-album-images-$entity->guid"
 		);
 
 		$image_max = elgg_get_plugin_setting('image_max', 'hypeGallery');
@@ -249,7 +344,7 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 
 		$new['params'] = array(
 			'entity_guid' => $file->guid,
-			'target' => "hj-gallery-image-edit"
+			'target' => "full-elgg-object-$entity->guid #hj-gallery-image-edit"
 		);
 
 		$options = array(
@@ -282,7 +377,7 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 			'href' => "javascript:void(0);",
 			'is_action' => false,
 			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 400,
+			'priority' => 355,
 			'section' => 'dropdown'
 		);
 		$return[] = ElggMenuItem::factory($options);
@@ -294,11 +389,23 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 			'class' => 'hidden',
 			'is_action' => false,
 			'data-options' => htmlentities(json_encode($new), ENT_QUOTES, 'UTF-8'),
-			'priority' => 500,
+			'priority' => 356,
 			'section' => 'dropdown'
 		);
 		$return[] = ElggMenuItem::factory($options);
 	}
+
+	if (elgg_instanceof($entity, 'object', 'hjalbum')) {
+		$options = array(
+			'name' => 'edit',
+			'text' => elgg_echo('hj:album:editandupload'),
+			'href' => "gallery/edit/$entity->guid",
+			'is_action' => false,
+			'section' => 'dropdown'
+		);
+		$return[] = ElggMenuItem::factory($options);
+	}
+
 	return $return;
 }
 
@@ -376,7 +483,6 @@ function hj_gallery_owner_block_menu($hook, $type, $return, $params) {
 
 function hj_gallery_page_menu($hook, $type, $return, $params) {
 	if ($params['context'] == 'gallery') {
-
 		$all = array(
 			'name' => 'all',
 			'title' => elgg_echo('hj:gallery:allalbums'),
@@ -398,21 +504,32 @@ function hj_gallery_page_menu($hook, $type, $return, $params) {
 	return $return;
 }
 
-function hj_gallery_icon_sizes($hook, $type, $return, $params) {
-	$entity = elgg_extract('entity', $params);
+function hj_gallery_multifile_upload($hook, $type, $return, $params) {
+	$entity = elgg_extract('entity', $params, false);
+	$file_guid = elgg_extract('file_guid', $params, false);
 
-	if (!elgg_instanceof($entity, 'object', 'hjalbum') && !elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+	if (!elgg_instanceof($entity, 'object', 'hjalbum') && $entity->subtype !== 'hjalbum') {
 		return $return;
 	}
-	$thumb_sizes = array(
-		'tiny' => 16,
-		'small' => 50,
-		'medium' => 75,
-		'large' => 150,
-		'preview' => 250,
-		'master' => 600,
-		'full' => 1024,
-	);
 
-	return $thumb_sizes;
+	$img = new hjAlbumImage();
+	$img->owner_guid = $entity->owner_guid;
+	$img->container_guid = $entity->guid;
+	$img->access_id = $entity->access_id;
+	$img->title = $entity->title;
+	$img->description = $entity->desription;
+	$img->location = $entity->location;
+	$img->date = $entity->date;
+	$img->image = $file_guid;
+	$img->save();
+
+	hj_framework_set_entity_priority($img);
+
+	$file = new hjFile((int) $file_guid);
+	$file->container_guid = $img->guid;
+	$file->owner_guid = $img->owner_guid;
+	$file->access_id = $img->access_id;
+	$file->save();
+
+	return true;
 }

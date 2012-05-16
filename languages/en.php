@@ -16,6 +16,7 @@ $english = array(
 
     'hj:gallery:album:owner' => "%s's Album",
     'hj:gallery:albums:owner' => "%s's Albums",
+	'hj:gallery:albums:friends' => "Friends' Albums",
 	'hj:gallery:album:author' => 'by %s',
 	'hj:gallery:albums:all' => 'All Site Albums',
     'hj:gallery:addnew' => 'Create Album',
@@ -23,8 +24,12 @@ $english = array(
     'hj:gallery:noalbums' => 'There are no albums yet',
 	'hj:gallery:allalbums' => 'All Site Albums',
 	'hj:gallery:myalbums' => 'My Albums',
+	'hj:gallery:album:edit' => 'Edit %s',
 
+	'hj:gallery:albums:friends:none' => 'You do not have any friends yet',
 	'hj:gallery:image:author' => 'Added by %s',
+
+	'gallery:add' => 'Create new album',
 
     /**
      *  Widgets
@@ -75,6 +80,8 @@ $english = array(
 	'hj:album:image:editthumb' => 'Edit Thumbnail',
 	'hj:album:image:tag' => 'Tag',
 
+	'hj:album:editandupload' => 'Edit/Batch Upload',
+	
 	'hj:gallery:thumb:crop:success' => 'Thumbnail was successfully created',
 	'hj:album:image:thumb:create' => 'Create a thumbnail',
 	'hj:album:image:preview' => 'Preview',

@@ -11,20 +11,20 @@ $full = elgg_extract('full_view', $vars, false);
 $list_type = elgg_extract('list_type', $vars, 'list');
 $thumb_size = elgg_extract('thumb_size', $vars, 'large');
 $file = get_entity($entity->image);
-
 if (elgg_in_context('activity') || elgg_in_context('main')) {
 	echo elgg_view_entity_icon($file, 'large');
 	return true;
 }
 
 if (get_input('list_type') == 'carousel') {
-	echo elgg_view_entity_icon($file, 'master');
-	echo $entity->title;
-	echo $entity->description;
+	echo '<div class="hj-gallery-carousel-image-wrapper">';
+	echo elgg_view_entity_icon($file, 'full', array('class' => 'hj-gallery-carousel-image'));
+	echo '</div>';
+	echo elgg_view_title($entity->title);
+	echo elgg_view('output/longtext', array(
+		'value' => $entity->description
+	));
 	return true;
-}
-if ($entity->canEdit()) {
-
 }
 
 $title = $entity->title;
@@ -54,7 +54,9 @@ if ($full) {
 	}
 }
 
-$subtitle = implode('<br />', $subtitle);
+if (!empty($subtitle)) {
+	$subtitle = implode('<br />', $subtitle);
+}
 
 if ($full) {
 
@@ -62,7 +64,6 @@ if ($full) {
 	$params = hj_framework_extract_params_from_entity($entity, $params);
 	$params['fbox_x'] = '900';
 	$params['fbox_y'] = '800';
-	$params['has_full_view'] = false;
 	$params['target'] = "full-elgg-object-$entity->guid";
 
 	$header_menu = elgg_view_menu('hjentityhead', array(
@@ -71,7 +72,8 @@ if ($full) {
 		'handler' => 'hjfile',
 		'class' => 'elgg-menu-hz hj-menu-hz',
 		'sort_by' => 'priority',
-		'params' => $params
+		'params' => $params,
+		'has_full_view' => false
 			));
 
 	$footer_menu = elgg_view_menu('hjentityfoot', array(
@@ -127,7 +129,7 @@ if ($full) {
 			));
 
 	if ($file->simpletype == 'image') {
-		$preview_image = '<div id="hj-image-master" class="hj-file-icon-preview hj-file-icon-master">' . elgg_view_entity_icon($file, 'master', array('class' => 'hj-gallery-taggable')) . $tags_map . '</div>';
+		$preview_image = '<div id="hj-image-master" class="hj-file-icon-preview hj-file-icon-master"><div class="hj-file-icon-background">' . elgg_view_entity_icon($file, 'master', array('class' => 'hj-gallery-taggable')) . $tags_map . '</div></div>';
 	}
 	$full_description = $entity->description;
 
@@ -151,8 +153,7 @@ if ($full) {
 	//$view = elgg_view_layout('hj/dynamic', array('grid' => array(4,8), 'content' => array($col2, $col1)));
 
 	echo "<div id=\"full-elgg-object-$entity->guid\">";
-	echo $col1;
-	echo $col2;
+	echo elgg_view_image_block($col1, $col2);
 	echo '<div class="clearfloat"></div>';
 	echo '<div id="hj-gallery-image-edit"></div>';
 	echo "</div>";

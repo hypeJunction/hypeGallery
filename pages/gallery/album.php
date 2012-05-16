@@ -1,30 +1,19 @@
 <?php
-elgg_load_js('hj.framework.ajax');
-elgg_load_js('hj.framework.tabs');
 
-elgg_load_js('jquery.imgareaselect');
-elgg_load_css('jquery.imgareaselect');
-
-elgg_load_js('hj.gallery.cropper');
-elgg_load_js('hj.gallery.tagger');
-
-elgg_load_css('hj.gallery.base');
-
-if (elgg_is_admin_logged_in()) {
-    //elgg_load_js('hj.framework.tabs.sortable');
-}
-
-$username = get_input('username');
-$owner = get_user_by_username($username);
-$limit = get_input('limit', 6);
+$limit = get_input('limit', 0);
 $offset = get_input('offset', 0);
 
 $selected_album_guid = get_input('e');
 $selected_album = get_entity($selected_album_guid);
 
-if ($selected_album) {
-	$images = $selected_album->getContainedFiles('hjalbumimage');
+if (!elgg_instanceof($selected_album, 'object', 'hjalbum')) {
+	forward('gallery/all');
 }
+
+elgg_set_page_owner_guid($selected_album->owner_guid);
+elgg_push_breadcrumb($selected_album->title);
+
+$images = $selected_album->getContainedFiles('hjalbumimage');
 
 $selected_album_view = '<div id="hj-gallery-album-full">' . elgg_view_entity($selected_album, array('full_view' => false)) . '</div>';
 
@@ -35,7 +24,8 @@ $data_options = array(
 	'subtype' => 'hjalbumimage',
 	'container_guid' => $selected_album->guid,
 	'count' => true,
-	'limit' => $limit
+	'limit' => $limit,
+	'offset' => $offset
 );
 
 $count = elgg_get_entities($data_options);

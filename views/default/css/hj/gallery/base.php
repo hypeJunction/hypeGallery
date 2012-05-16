@@ -127,23 +127,31 @@ li.hj-gallery-imageplaceholder {
 }
 #hj-image-master {
 	position:relative;
-	width:600px;
-	height:600px;
+	width:620px;
+	height:620px;
 	overflow:hidden;
 	margin:0;
 	float:left;
+	background:#000;
 }
 #hj-image-master-details {
 	float:right;
 	margin-right:10px;
-	width:260px;
+	width:240px;
 }
+#hj-image-master .hj-file-icon-background {
+	width:auto;
+	position:relative;
+}
+
 #hj-image-master img {
 	border:0;
 	padding:0;
 	position:absolute;
+	left:0;
+	right:0;
+	margin:0 auto;
 }
-
 #hj-gallery-tagger-form {
 	background:#fff;
 	position:absolute;
@@ -165,8 +173,19 @@ li.hj-gallery-imageplaceholder {
 	border:1px solid #e8e8e8;
 	margin:4px;
 	float:left;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
 }
 
+.hj-gallery-tags-list > li > a.hj-gallery-tags-item-title {
+	padding-left:20px;
+}
+
+.hj-gallery-tags-list > li > a.hj-ajaxed-remove {
+	position:absolute;
+	left:3px;
+}
 /* Image Map CSS */
 
 .hj-gallery-tags-map {
@@ -206,4 +225,19 @@ li.hj-gallery-imageplaceholder {
 .hj-gallery-tags-map li a:hover {
 	border:4px solid red;
 	display:block;
+}
+#hj-layout-main-column img.hj-gallery-album-cover-large {
+	max-width:150px;
+}
+
+.hj-gallery-carousel-image-wrapper {
+	text-align:center;
+	background:#000;
+	padding:5px;
+}
+
+img.hj-gallery-carousel-image {
+	padding:0;
+	border:0;
+	width:94%;
 }

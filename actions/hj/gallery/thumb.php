@@ -31,17 +31,11 @@ switch ($type) {
 		$x2 = (int) get_input('x2', 0);
 		$y2 = (int) get_input('y2', 0);
 
-		$icon_sizes = array(
-			'tiny' => 16,
-			'small' => 25,
-			'medium' => 40,
-			'large' => 100,
-			'preview' => 250,
-		);
+		$icon_sizes = hj_framework_get_thumb_sizes();
 
 		$files = array();
 		foreach ($icon_sizes as $name => $size_info) {
-			$resized = get_resized_image_from_existing_file($filename, $size_info, $size_info, true, $x1, $y1, $x2, $y2, true);
+			$resized = get_resized_image_from_existing_file($filename, $size_info['w'], $size_info['h'], $size['square'], $x1, $y1, $x2, $y2, true);
 			$thumb_meta = "{$name}thumb";
 			$thumb_filename = $file->$thumb_meta;
 			$thumb_filename = "hjfile/$file->container_guid/{$file->guid}{$name}.jpg";
