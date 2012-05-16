@@ -88,6 +88,11 @@ function hj_gallery_init() {
 	elgg_register_action('hj/gallery/phototag', $shortcuts['actions'] . 'hj/gallery/phototag.php');
 
 	elgg_register_ajax_view('object/hjalbum');
+
+	add_group_tool_option('gallery', elgg_echo('hj:gallery:enablegallery'), true);
+	elgg_extend_view('groups/tool_latest', 'hj/gallery/group_module');
+
+	run_function_once('hj_gallery_upgrade_186');
 }
 
 function hj_gallery_album_url($entity) {
@@ -134,6 +139,8 @@ function hj_gallery_page_handler($page) {
 
 			$container_guid = elgg_extract(1, $page, null);
 
+			elgg_set_page_owner_guid($container_guid);
+			
 			elgg_push_breadcrumb($title);
 
 			$params = array(
@@ -165,6 +172,8 @@ function hj_gallery_page_handler($page) {
 			$entity_guid = elgg_extract(1, $page, null);
 			$entity = get_entity($entity_guid);
 
+			elgg_set_page_owner_guid($entity->owner_guid);
+
 			if (!elgg_instanceof($entity)) {
 				return false;
 			}
@@ -186,6 +195,18 @@ function hj_gallery_page_handler($page) {
 
 			echo elgg_view_page($title, $layout);
 
+			break;
+
+		case 'group' :
+			if (isset($page[1])) {
+				set_input('group_guid', $page[1]);
+			} else {
+				return false;
+			}
+			elgg_set_page_owner_guid($page[1]);
+			
+			hj_gallery_register_title_buttons();
+			include "{$pages}group.php";
 			break;
 
 		case 'owner' :
@@ -530,6 +551,18 @@ function hj_gallery_multifile_upload($hook, $type, $return, $params) {
 	$file->owner_guid = $img->owner_guid;
 	$file->access_id = $img->access_id;
 	$file->save();
+
+	return true;
+}
+
+function hj_gallery_upgrade_186 () {
+
+	$form = hj_framework_get_data_pattern('object', 'hjalbum');
+
+	$form->addField(array(
+		'input_type' => 'multifile',
+		'name' => 'photos'
+	));
 
 	return true;
 }

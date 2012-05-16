@@ -12,7 +12,7 @@ $list_type = elgg_extract('list_type', $vars, 'list');
 $thumb_size = elgg_extract('thumb_size', $vars, 'large');
 $file = get_entity($entity->image);
 if (elgg_in_context('activity') || elgg_in_context('main')) {
-	echo elgg_view_entity_icon($file, 'large');
+	echo elgg_view_entity_icon($file, elgg_extract('thumb_size', $vars, 'medium'));
 	return true;
 }
 

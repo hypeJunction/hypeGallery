@@ -19,6 +19,7 @@ $english = array(
 	'hj:gallery:albums:friends' => "Friends' Albums",
 	'hj:gallery:album:author' => 'by %s',
 	'hj:gallery:albums:all' => 'All Site Albums',
+	'hj:gallery:albums:group' => '%s\'s Albums',
     'hj:gallery:addnew' => 'Create Album',
     'hj:gallery:addimage' => 'Add Photo',
     'hj:gallery:noalbums' => 'There are no albums yet',
@@ -126,6 +127,10 @@ $english = array(
 	'hj:gallery:phototag:error' => 'Tag could not be added',
 
 	'hj:gallery:menu:owner_block' => 'Albums',
+
+	'hj:gallery:enablegallery' => 'Enable group gallery',
+	'gallery:group' => 'Group Albums',
+	
 	
 );
 

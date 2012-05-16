@@ -1,15 +1,18 @@
 <?php
 
+elgg_load_css('hj.gallery.base');
+
 $entity = elgg_extract('entity', $vars, false);
+
 if (!$entity) {
 	$entity = get_entity(get_input('guid'));
 }
-$full = elgg_extract('full_view', $vars, false);
 
 if (!$entity) {
 	return true;
 }
-//elgg_push_context('album');
+
+$full = elgg_extract('full_view', $vars, false);
 
 $images = $entity->getContainedFiles('hjalbumimage');
 $owner = $entity->getOwnerEntity();
@@ -92,17 +95,26 @@ $footer_menu = elgg_view_menu('hjentityfoot', array(
 
 $target = "hj-gallery-album-images-$entity->guid";
 $params['target'] = $target;
-$icons = elgg_view_entity_list($images, array(
+
+$icons_view_params = array(
 	'list_type' => 'gallery',
 	'gallery_class' => 'hj-gallery-album-images',
-	'thumb_size' => 'medium',
+	'thumb_size' => 'small',
 	'full_view' => false,
 	'list_id' => $target,
 	'data-options' => $params,
 	'pagination' => true,
 	'limit' => 5,
 	'position' => 'both'
-		));
+		);
+
+if (elgg_in_context('activity') || elgg_in_context('main')) {
+	echo $icons;
+	return true;
+}
+
+$icons_view_params['thumb_size'] = 'medium';
+$icons = elgg_view_entity_list($images, $icons_view_params);
 
 if ($entity->canWriteToContainer()) {
 	//$icons .= elgg_view('hj/gallery/imageplaceholder', $params);
@@ -131,9 +143,6 @@ if ($full) {
 	);
 	$params = $params + $vars;
 	$list_body = elgg_view('object/elements/summary', $params);
-	if (elgg_in_context('activity') || elgg_in_context('main')) {
-		echo $icons;
-	}
 }
 echo '<div class="clearfix">';
 echo $list_body;
