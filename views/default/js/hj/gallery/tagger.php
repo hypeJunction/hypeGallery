@@ -43,6 +43,24 @@ hj.gallery.tagger.init = function() {
 		$(this)
 		.closest('#hj-image-master')
 		.css({ 'height' : $(this).parent().find('img').height() });
+
+		var ratio = $(this).parent().find('img').width() / $(this).parent().find('img').attr('original-width');
+
+		$(this)
+		.children('li')
+		.each(function() {
+			var elem = $(this).find('a').first();
+			if (!elem.attr('adjusted')) {
+				elem.css({
+					'top' : Math.round(parseInt(elem.css('top'), 10) * ratio),
+					'left' : Math.round(parseInt(elem.css('left'), 10) * ratio),
+					'width' : Math.round(parseInt(elem.css('width'), 10) * ratio),
+					'height' : Math.round(parseInt(elem.css('height'), 10) * ratio)
+				});
+
+				elem.attr('adjusted', true);
+			}
+		})
 	});
 		
 	$('.hj-gallery-tags-map li a').hover(function() {
@@ -75,13 +93,15 @@ hj.gallery.tagger.startTagging = function(event) {
 	}, function(event) {
 		form.addClass('hidden')
 	});
-		
+
 	$(image).imgAreaSelect({
 		disable: false,
 		handles: true,
 		keys: { arrows: 15, shift: 5 },
 		fadeSpeed: 200,
-		parent: $(image).closest('div.hj-file-icon-background') ,
+		imageWidth: $(image).attr('original-width'),
+		imageHeight: $(image).attr('original-height'),
+		parent: $(image).closest('div.hj-file-icon-background'),
 		onSelectEnd: function(img, selection){
 			$('input[name="x1"]', form).val(selection.x1);
 			$('input[name="y1"]', form).val(selection.y1);

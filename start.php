@@ -32,6 +32,10 @@ function hj_gallery_init() {
 // Load PHP library
 	elgg_load_library('hj:gallery:base');
 
+// Register albums and images in search
+	elgg_register_entity_type('object', 'hjalbum');
+	elgg_register_entity_type('object', 'hjalbumimage');
+	
 // Register pagehandlers for the gallery
 	elgg_register_page_handler('gallery', 'hj_gallery_page_handler');
 	elgg_register_entity_url_handler('object', 'hjalbum', 'hj_gallery_album_url');
@@ -52,6 +56,9 @@ function hj_gallery_init() {
 // Register CSS and JS
 	$css_url = elgg_get_simplecache_url('css', 'hj/gallery/base');
 	elgg_register_css('hj.gallery.base', $css_url);
+
+	$js_url = elgg_get_simplecache_url('js', 'hj/gallery/base');
+	elgg_register_js('hj.gallery.base', $js_url);
 
 	$js_url = elgg_get_simplecache_url('js', 'hj/gallery/cropper');
 	elgg_register_js('hj.gallery.cropper', $js_url);
@@ -88,6 +95,7 @@ function hj_gallery_init() {
 	elgg_register_action('hj/gallery/phototag', $shortcuts['actions'] . 'hj/gallery/phototag.php');
 
 	elgg_register_ajax_view('object/hjalbum');
+	elgg_register_ajax_view('icon/object/hjalbumimage');
 
 	add_group_tool_option('gallery', elgg_echo('hj:gallery:enablegallery'), true);
 	elgg_extend_view('groups/tool_latest', 'hj/gallery/group_module');
@@ -101,7 +109,7 @@ function hj_gallery_album_url($entity) {
 
 function hj_gallery_image_url($entity) {
 	$album = $entity->getContainerEntity();
-	return "gallery/album/$album->guid#elgg-object-$entity->guid/";
+	return "gallery/image/$entity->guid";
 }
 
 function hj_gallery_page_handler($page) {
@@ -240,11 +248,17 @@ function hj_gallery_page_handler($page) {
 			} else {
 				return false;
 			}
-			if (isset($page[2])) {
-				set_input('im', $page[2]);
-			}
 			include "{$pages}album.php";
+			break;
 
+
+		case 'image' :
+			if (isset($page[1])) {
+				set_input('e', $page[1]);
+			} else {
+				return false;
+			}
+			include "{$pages}image.php";
 			break;
 
 		case 'all' :
@@ -252,6 +266,7 @@ function hj_gallery_page_handler($page) {
 			hj_gallery_register_title_buttons();
 			include "{$pages}all.php";
 			break;
+
 	}
 
 	return true;
@@ -278,6 +293,12 @@ function hj_gallery_album_icon($hook, $type, $return, $params) {
 			return $return;
 		}
 	}
+	
+	if (elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+		$file = get_entity($entity->image);
+		return $file->getIconURL($size);
+	}
+
 }
 
 function hj_gallery_get_gallery_section_types_hook($hook, $type, $return, $params) {
@@ -350,7 +371,7 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 	$entity = elgg_extract('entity', $params, false);
 	$handler = elgg_extract('handler', $params);
 
-	if (elgg_instanceof($entity, 'object', 'hjalbumimage') && $handler == 'hjfile') {
+	if (elgg_instanceof($entity, 'object', 'hjalbumimage') && $handler == 'hjfile' && $entity->canEdit()) {
 		$file = get_entity($params['file_guid']);
 
 		$options = array(
@@ -364,7 +385,8 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 		$return[] = ElggMenuItem::factory($options);
 
 		$new['params'] = array(
-			'entity_guid' => $file->guid,
+			'file_guid' => $file->guid,
+			'entity_guid' => $entity->guid,
 			'target' => "full-elgg-object-$entity->guid #hj-gallery-image-edit"
 		);
 
@@ -416,7 +438,7 @@ function hj_image_entity_head_menu($hook, $type, $return, $params) {
 		$return[] = ElggMenuItem::factory($options);
 	}
 
-	if (elgg_instanceof($entity, 'object', 'hjalbum')) {
+	if (elgg_instanceof($entity, 'object', 'hjalbum') && $entity->canEdit()) {
 		$options = array(
 			'name' => 'edit',
 			'text' => elgg_echo('hj:album:editandupload'),

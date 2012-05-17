@@ -32,9 +32,11 @@ $target = "hj-list-albums";
 
 $view_params = array(
 	'full_view' => true,
-	'list_type' => 'list',
+	'list_type' => get_input('list_type', 'gallery'),
+	'list_type_toggle' => true,
 	'list_id' => $target,
 	'list_class' => 'hj-album-list',
+	'gallery_class' => 'elgg-gallery hj-album-gallery',
 	'item_class' => 'hj-view-entity elgg-state-draggable',
 	'pagination' => true,
 	'offset' => $offset,

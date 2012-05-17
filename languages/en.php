@@ -26,6 +26,7 @@ $english = array(
 	'hj:gallery:allalbums' => 'All Site Albums',
 	'hj:gallery:myalbums' => 'My Albums',
 	'hj:gallery:album:edit' => 'Edit %s',
+	'hj:gallery:album:photos' => '%s photos',
 
 	'hj:gallery:albums:friends:none' => 'You do not have any friends yet',
 	'hj:gallery:image:author' => 'Added by %s',
@@ -130,7 +131,8 @@ $english = array(
 
 	'hj:gallery:enablegallery' => 'Enable group gallery',
 	'gallery:group' => 'Group Albums',
-	
+
+	'hj:gallery:image:container' => 'in %s',
 	
 );
 

@@ -1,7 +1,7 @@
 <?php
 
 function hj_gallery_register_title_buttons() {
-	
+
 	$album_max = elgg_get_plugin_setting('album_max', 'hypeGallery');
 	$album_count = elgg_get_entities(array(
 		'type' => 'object',
@@ -114,4 +114,50 @@ function hj_gallery_prepare_permissions_array() {
 	$options = elgg_trigger_plugin_hook('hj:gallery:permission', 'all', null, $options);
 
 	return $options;
+}
+
+function hj_gallery_get_image_tags($entity) {
+
+	$tag_params = array(
+		'type' => 'object',
+		'subtype' => 'hjannotation',
+		'container_guid' => $entity->guid,
+		'metadata_name_value_pairs' => array(
+			array('name' => 'annotation_name', 'value' => 'hjimagetag'),
+			array('name' => 'annotation_value', 'value' => '', 'operand' => '!=')
+		),
+		'limit' => 0,
+		'order_by' => 'e.time_created asc'
+	);
+
+	$tags = elgg_get_entities_from_metadata($tag_params);
+
+	return $tags;
+}
+
+function hj_gallery_get_next_image($entity) {
+
+	$next = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => 'hjalbumimage',
+		'container_guid' => $entity->container_guid,
+		'wheres' => array("e.guid < $entity->guid"),
+		'limit' => 1
+	));
+
+	return ($next) ? $next[0] : false;
+
+}
+
+function hj_gallery_get_prev_image($entity) {
+
+	$prev = elgg_get_entities(array(
+		'type' => 'object',
+		'subtype' => 'hjalbumimage',
+		'container_guid' => $entity->container_guid,
+		'wheres' => array("e.guid > $entity->guid"),
+		'limit' => 1
+	));
+
+	return ($prev) ? $prev[0] : false;
 }
