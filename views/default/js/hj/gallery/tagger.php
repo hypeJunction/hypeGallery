@@ -50,27 +50,31 @@ hj.gallery.tagger.init = function() {
 		.children('li')
 		.each(function() {
 			var elem = $(this).find('a').first();
-			if (!elem.attr('adjusted')) {
-				elem.css({
-					'top' : Math.round(parseInt(elem.css('top'), 10) * ratio),
-					'left' : Math.round(parseInt(elem.css('left'), 10) * ratio),
-					'width' : Math.round(parseInt(elem.css('width'), 10) * ratio),
-					'height' : Math.round(parseInt(elem.css('height'), 10) * ratio)
-				});
-
-				elem.attr('adjusted', true);
+			if (!elem.data('dimensions')) {
+				var origin_dim = {
+					'top' : elem.css('top'),
+					'left' : elem.css('left'),
+					'width' : elem.css('width'),
+					'height' : elem.css('height')
+				};
+				elem.data('dimensions', origin_dim);
 			}
-		})
-	});
+			elem.css({
+				'top' : Math.round(parseInt(elem.data('dimensions').top, 10) * ratio),
+				'left' : Math.round(parseInt(elem.data('dimensions').left, 10) * ratio),
+				'width' : Math.round(parseInt(elem.data('dimensions').width, 10) * ratio),
+				'height' : Math.round(parseInt(elem.data('dimensions').height, 10) * ratio)
+			});
+		});
 		
-	$('.hj-gallery-tags-map li a').hover(function() {
-		$(this).find('span').show();
-	}, function() {
-		$(this).find('span').hide();
+		$('.hj-gallery-tags-map li a').hover(function() {
+			$(this).find('span').show();
+		}, function() {
+			$(this).find('span').hide();
+		});
 	});
-
 }
-	
+
 hj.gallery.tagger.startTagging = function(event) {
 	event.preventDefault();
 	event.stopPropagation();
@@ -193,8 +197,8 @@ hj.gallery.tagger.saveTag = function(event) {
 	elgg.action($(this).attr('action'), params);
 }
 
-elgg.register_hook_handler('init', 'system', hj.gallery.tagger.init);
-elgg.register_hook_handler('success', 'hj:framework:ajax', hj.gallery.tagger.init);
+elgg.register_hook_handler('init', 'system', hj.gallery.tagger.init, 800);
+elgg.register_hook_handler('success', 'hj:framework:ajax', hj.gallery.tagger.init, 800);
 	
 
 

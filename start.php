@@ -296,8 +296,11 @@ function hj_gallery_album_icon($hook, $type, $return, $params) {
 	
 	if (elgg_instanceof($entity, 'object', 'hjalbumimage')) {
 		$file = get_entity($entity->image);
+		if ($file)
 		return $file->getIconURL($size);
 	}
+
+	return $return;
 
 }
 
@@ -328,11 +331,12 @@ function hj_gallery_entity_head_menu($hook, $type, $return, $params) {
 			'context' => 'gallery',
 			'handler' => 'hjalbum',
 			'push_context' => 'gallery',
-			'thumb_size' => 'small',
+			'thumb_size' => 'medium',
 			'list_type' => 'gallery',
 			'full_view' => false,
 			'event' => 'create',
-			'target' => "hj-gallery-album-images-$entity->guid"
+			'target' => "hj-gallery-album-images-$entity->guid",
+			'dom_order' => 'prepend',
 		);
 
 		$image_max = elgg_get_plugin_setting('image_max', 'hypeGallery');

@@ -4,13 +4,15 @@
     <author>Ismayil Khayredinov (hypeJunction)</author>
     <version>1.8.6</version>
     <category>enhancements</category>
+	<category>gallery</category>
+	<category>hypeJunction</category>
     <description>Photo Gallery Plugin for Elgg</description>
     <website>http://hypeJunction.com</website>
     <copyright>See lisence.txt</copyright>
     <license>GNU Public License version 2</license>
     <requires>
         <type>elgg_version</type>
-        <version>2011123101</version>
+        <version>2012041801</version>
     </requires>
     <requires>
         <type>plugin</type>
