@@ -56,6 +56,7 @@ li.hj-gallery-imageplaceholder {
 .hj-album-list,
 .hj-album-gallery {
 	border:0;
+	clear:both;
 }
 
 .hj-album-list > li,
@@ -64,6 +65,9 @@ li.hj-gallery-imageplaceholder {
 	padding:10px;
 	border:1px solid #e8e8e8;
 	margin:3px 0;
+	position:relative;
+	display:block;
+	float:left;
 }
 
 .hj-album-gallery > li {
