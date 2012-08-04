@@ -100,7 +100,9 @@ function hj_gallery_init() {
 	add_group_tool_option('gallery', elgg_echo('hj:gallery:enablegallery'), true);
 	elgg_extend_view('groups/tool_latest', 'hj/gallery/group_module');
 
-	run_function_once('hj_gallery_upgrade_186');
+	if (elgg_is_admin_logged_in()) {
+		run_function_once('hj_gallery_upgrade_186');
+	}
 }
 
 function hj_gallery_album_url($entity) {
