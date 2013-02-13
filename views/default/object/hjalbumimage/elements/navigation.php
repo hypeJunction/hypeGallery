@@ -13,7 +13,7 @@ $data = hj_framework_json_query($data);
 
 if ($next) {
 	$next_link = elgg_view('output/url', array(
-		'class' => 'hj-ajaxed-view hj-right',
+		'class' => 'hj-ajaxed-view pull-right',
 		'href' => "action/framework/entities/view?e=$next->guid",
 		'is_action' => true,
 		'data-options' => $data,
@@ -24,7 +24,7 @@ if ($next) {
 
 if ($prev) {
 	$prev_link = elgg_view('output/url', array(
-		'class' => 'hj-ajaxed-view hj-left',
+		'class' => 'hj-ajaxed-view pull-left',
 		'href' => "action/framework/entities/view?e=$prev->guid",
 		'is_action' => true,
 		'data-options' => $data,

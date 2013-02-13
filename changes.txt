@@ -1,4 +1,0 @@
-1.8.5 - 1.8.6
-- Major bugfixes
-- Completely reworked views and pages
-- Responsive photo layout with proper tag scaling
