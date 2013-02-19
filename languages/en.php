@@ -18,8 +18,9 @@ $english = array(
     'hj:gallery:albums:owner' => "%s's Albums",
 	'hj:gallery:albums:friends' => "Friends' Albums",
 	'hj:gallery:album:author' => 'by %s',
-	'hj:gallery:albums:all' => 'All Site Albums',
+	'hj:gallery:albums:all' => 'Site Albums',
 	'hj:gallery:albums:group' => '%s\'s Albums',
+	'hj:gallery:albums:groups' => 'Group Albums',
     'hj:gallery:addnew' => 'Create Album',
     'hj:gallery:addimage' => 'Add Photo',
     'hj:gallery:noalbums' => 'There are no albums yet',
@@ -33,14 +34,9 @@ $english = array(
 
 	'gallery:add' => 'Create new album',
 
-    /**
-     *  Widgets
-     */
-    'hj:gallery:widget' => 'Add Gallery Section',
-    'hj:gallery:widgetdescription' => 'Gallery Section Widget',
-    'hj:gallery:widget:title' => 'Section Title',
-
-    'hj:gallery:widget:type' => 'Section Type',
+	'hj:gallery:create:album' => 'Create an album',
+	'hj:gallery:manage:album' => 'Manage Album',
+	
     /**
      * Labels
      *
@@ -61,6 +57,12 @@ $english = array(
     'hj:label:hjalbum:tags' => 'Word Tags',
     'hj:label:hjalbum:copyright' => 'Copyright Notices',
     'hj:label:hjalbum:access_id' => 'Visibility',
+	'hj:label:hjalbum:upload' => 'Upload Images',
+	'hj:label:hjalbum:category' => 'Category',
+	'hj:label:hjalbum:permissions' => 'Who can add photos to this album?',
+	'hj:label:hjalbum:time_created' => 'Date Created',
+	'hj:label:hjalbum:last_action' => 'Last Updated',
+	'hj:label:hjalbum:owner' => 'Creator',
 
     'hj:label:hjalbumimage:image' => 'Upload Image',
     'hj:label:hjalbumimage:title' => 'Title',
@@ -68,11 +70,12 @@ $english = array(
     'hj:label:hjalbumimage:location' => 'Location',
     'hj:label:hjalbumimage:date' => 'Date',
     'hj:label:hjalbumimage:friend_tags' => 'Friends in this photo',
-    'hj:label:hjalbumimage:tags' => 'Word Tags',
+    'hj:label:hjalbumimage:tags' => 'Tags',
     'hj:label:hjalbumimage:copyright' => 'Copyright Notices',
     'hj:label:hjalbumimage:access_id' => 'Visibility',
-	'hj:label:hjalbum:permissions' => 'Who can add photos to this album?',
-
+	'hj:label:hjalbumimage:time_created' => 'Uploaded',
+	'hj:label:hjalbumimage:owner' => 'Added by',
+	
 	'permission:value:private' => 'Just me',
 	'permission:value:friends' => 'Me and my friends',
 	'permission:value:public' => 'Everyone',
@@ -115,8 +118,8 @@ $english = array(
 	'river:create:object:hjalbumimage' => '%s uploaded a new image | %s',
 	'river:update:object:hjalbumimage' => '%s updated their image | %s',
 
-	'river:create:object:hjalbum' => '%s created a new album | %s',
-	'river:update:object:hjalbum' => '%s updated their album | %s',
+	'river:create:object:hjalbum' => '%s created a new album | %s (%s images)',
+	'river:update:object:hjalbum' => '%s updated their album | %s (%s images)',
 
 	'hj:album:cover:success' => 'New album cover was successfully set',
 	'hj:album:cover:error' => 'There was a problem with setting an album cover',
@@ -133,6 +136,18 @@ $english = array(
 	'gallery:group' => 'Group Albums',
 
 	'hj:gallery:image:container' => 'in %s',
+
+	'hj:gallery:switch:photostream' => 'Photostream',
+	'hj:gallery:switch:albums' => 'Album View',
+	'hj:gallery:switch:thumbs' => 'Thumbnails',
+	'hj:gallery:switch:details' => 'Details',
+	
+	'hj:gallery:list_type_toggle:table' => 'Table',
+	'hj:gallery:list_type_toggle:gallery' => 'Gallery',
+	'hj:gallery:list_type_toggle:map' => 'Map',
+
+	'hj:gallery:upload:toalbum' => 'Upload new images to %s',
+	'hj:gallery:upload' => 'Add images',
 	
 );
 
