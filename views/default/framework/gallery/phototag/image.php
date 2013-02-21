@@ -20,11 +20,17 @@ $params = array(
 	'data-originalheight' => $master_dimensions[1]
 );
 
+echo '<div class="hj-gallery-tagger-wrapper">';
+
 echo elgg_view('output/img', $params);
 
 echo elgg_view_form('gallery/phototag', array(
-	'class' => 'hj-gallery-tagger-form hidden',
+	'class' => 'hj-gallery-tag-save hidden',
 	'data-uid' => $entity->guid
 		), $vars);
 
 echo elgg_view('framework/gallery/phototag/elements/map', $vars);
+
+echo '</div>';
+
+echo elgg_view('framework/gallery/phototag/elements/list', $vars);

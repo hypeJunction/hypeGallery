@@ -38,7 +38,7 @@ if ($full) {
 	$description = elgg_view('object/hjalbumimage/elements/description', $vars);
 
 	$comments = elgg_view('object/hjalbumimage/elements/comments', $vars);
-	echo elgg_view_module('main', '', $image . $description . $details, array(
+	echo elgg_view_module('main', '', $description . $image . $details, array(
 		'footer' => $comments
 	));
 	elgg_pop_context();

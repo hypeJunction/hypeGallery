@@ -184,6 +184,9 @@ $english = array(
 	'hj:album:image:thumb:reset' => 'Reset Thumbnails',
 	'hj:gallery:thumb:reset:success' => 'Thumbnail was successfully reset',
 	'hj:gallery:thumb:reset:error' => 'There was an error resetting the thumbnail',
+
+	'hj:gallery:tagger:instructions' => 'To create a tag, select an area on the photo',
+	
 );
 
 add_translation("en", $english);

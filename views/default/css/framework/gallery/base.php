@@ -59,11 +59,12 @@
 		width: 100px;
 		height: 100px;
 	}
-	#hj-image-master {
+	#hj-image-master,
+	.hj-gallery-tagger-wrapper {
 		position:relative;
 	}
 
-	.hj-gallery-tagger-form {
+	.hj-gallery-tag-save {
 		background:#fff;
 		position:absolute;
 		z-index:999;
@@ -83,6 +84,8 @@
 		background:#f4f4f4;
 		border:1px solid #e8e8e8;
 		margin:4px;
+		display:inline-block;
+		width:20%;
 	}
 
 	/* Image Map CSS */
