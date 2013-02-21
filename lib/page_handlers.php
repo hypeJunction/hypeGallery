@@ -34,27 +34,30 @@ function hj_gallery_page_handler($page, $handler) {
 					break;
 
 				case 'owner' :
+				case 'friends' :
+				case 'groups' :
+				case 'favorites' :
 					gatekeeper();
 					if (isset($page[2])) {
 						$owner = get_user_by_username($page[2]);
-					} else {
-						$owner = elgg_get_logged_in_user_entity();
 					}
-
 					if (!$owner) {
 						return false;
 					}
 
 					elgg_set_page_owner_guid($owner->guid);
-					include "{$pages}dashboard/owner.php";
+					$include = "{$pages}dashboard/{$dashboard}.php";
+
+					if (!file_exists($include)) {
+						return false;
+					}
+					include $include;
 					break;
 
 				case 'friends' :
 					gatekeeper();
 					if (isset($page[2])) {
 						$owner = get_user_by_username($page[2]);
-					} else {
-						$owner = elgg_get_logged_in_user_entity();
 					}
 
 					if (!$owner) {
@@ -139,19 +142,19 @@ function hj_gallery_page_handler($page, $handler) {
 			if (!$entity)
 				return false;
 
-			if (!$entity->canWriteToContainer()) {
+			if (!$entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
 				return false;
 			}
 
 			set_input('container_guid', $entity->guid);
-			
+
 			$include = "{$pages}upload/upload.php";
 
 			if (!file_exists($include)) {
 				return false;
 			}
 			include $include;
-			
+
 			break;
 
 		case 'view' :
@@ -166,6 +169,21 @@ function hj_gallery_page_handler($page, $handler) {
 			$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array('entity' => $entity));
 
 			echo elgg_view_page($entity->title, elgg_view_layout('framework/entity', array('entity' => $entity, 'sidebar' => $sidebar)));
+			break;
+
+		case 'thumb' :
+			if (!isset($page[1])) {
+				return false;
+			}
+			$entity = get_entity($page[1]);
+
+			if (!$entity || !$entity->canEdit())
+				return false;
+
+			$title = elgg_echo('hj:album:image:editthumb');
+			$content = elgg_view_form('gallery/thumb', array(), array('entity' => $entity));
+
+			echo elgg_view_page($title, elgg_view_layout('one_column', array('title' => $title, 'content' => $content)));
 			break;
 	}
 

@@ -5,7 +5,6 @@ $return_type = elgg_extract('return_type', $vars, 'map');
 
 switch ($return_type) {
 
-	default :
 	case 'styles' :
 		$output .= '.hj-gallery-tags-map a.hj-gallery-tag-' . $tag->guid . ' { ';
 		//$output .= 'border:1px solid #000;';
@@ -22,6 +21,7 @@ switch ($return_type) {
 		echo $output;
 		break;
 
+	default :
 	case 'map' :
 		echo '<a class="hj-gallery-tag-' . $tag->guid . '" title="' . $tag->description . '"><span><b>' . $tag->annotation_value . '</b></span></a></li>';
 		break;
@@ -30,14 +30,20 @@ switch ($return_type) {
 
 		if ($tag->canEdit()) {
 			$delete_link = elgg_view('output/url', array(
-				'text' => elgg_view_icon('hj hj-icon-delete'),
-				'href' => "action/framework/entities/delete?e={$tag->guid}",
-				'class' => 'hj-ajaxed-remove',
-				'rel' => 'confirm',
+				'text' => elgg_view_icon('remove'),
+				'href' => $tag->getDeleteURL(),
+				'class' => 'elgg-button-delete-entity',
 				'is_action' => true,
 				'id' => "hj-ajaxed-remove-{$tag->guid}"
 					));
 		}
-		echo '<a href="' . $tag->url . '" class="hj-gallery-tags-item-title" class="hj-gallery-tag-link-' . $tag->guid . '">' . $tag->annotation_value . '</a>' . $delete_link . '</li>';
+
+		echo '<li>' . elgg_view('output/url', array(
+			'href' => $tag->url,
+			'text' => "$tag->annotation_value$delete_link",
+			'data-uid' => $tag->guid,
+			'class' => 'hj-gallery-tags-item-title'
+		)) . '</li>';
+
 		break;
 }

@@ -1,14 +1,15 @@
 <?php
 
-hj_forum_register_dashboard_title_buttons('group');
+hj_gallery_register_dashboard_title_buttons('group');
 
-$title = elgg_echo('hj:forum:dashboard:group', array($group->name));
+$group = elgg_get_page_owner_entity();
+$title = elgg_echo('hj:gallery:albums:owner', array($group->name));
 
 elgg_push_breadcrumb($title);
 
-$content = elgg_view('framework/forum/dashboard/group');
+$content = elgg_view('framework/gallery/dashboard/group');
 
-$sidebar = elgg_view('framework/forum/dashboard/sidebar', array(
+$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array(
 	'dashboard' => 'group'
 ));
 

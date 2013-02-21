@@ -17,7 +17,7 @@ foreach ($icon_sizes as $name => $size_info) {
 
 	if ($resized) {
 		//@todo Make these actual entities.  See exts #348.
-		$file = new ElggFile();
+		$file = new hjFile();
 		$file->owner_guid = $guid;
 		$file->setFilename("profile/{$owner->guid}{$name}.jpg");
 		$file->open('write');

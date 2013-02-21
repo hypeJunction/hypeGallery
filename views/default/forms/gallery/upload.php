@@ -1,7 +1,4 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+$params = elgg_clean_vars($vars);
+echo hj_framework_view_form_body('hjalbum:upload', $params);

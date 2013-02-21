@@ -1,21 +1,13 @@
 <?php
 
-// Add album image subtype to the list of file subtypes
-elgg_register_plugin_hook_handler('file:subtypes', 'framework:config', 'hj_gallery_extend_file_subtypes');
-
 // Custom order by clauses
 elgg_register_plugin_hook_handler('order_by_clause', 'framework:lists', 'hj_gallery_order_by_clauses');
 
 // Custom search clause
-elgg_register_plugin_hook_handler('custom_sql_clause', 'framework:lists', 'hj_gallery_filter_forum_list');
+elgg_register_plugin_hook_handler('custom_sql_clause', 'framework:lists', 'hj_gallery_filter_list');
 
 // Allow users to use albums as container entities
 elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'hj_gallery_container_permissions_check');
-
-function hj_gallery_extend_file_subtypes($hook, $type, $return, $params) {
-	$return[] = 'hjalbumimage';
-	return $return;
-}
 
 function hj_gallery_order_by_clauses($hook, $type, $options, $params) {
 
@@ -66,6 +58,57 @@ function hj_gallery_order_by_clauses($hook, $type, $options, $params) {
 }
 
 /**
+ * Custom clauses for forum keyword search
+ */
+function hj_gallery_filter_list($hook, $type, $options, $params) {
+
+	if (!is_array($options['subtypes'])) {
+		if (isset($options['subtype'])) {
+			$options['subtypes'] = array($options['subtype']);
+			unset($options['subtype']);
+		} elseif (isset($options['subtypes'])) {
+			$options['subtypes'] = array($options['subtypes']);
+		} else {
+			return $options;
+		}
+	}
+
+	if (!in_array('hjalbum', $options['subtypes'])
+			&& !in_array('hjalbumimage', $options['subtypes'])) {
+		return $options;
+	}
+
+	$query = get_input("__q", false);
+
+	if (!$query || empty($query)) {
+		return $options;
+	}
+
+	$query = sanitise_string(urldecode($query));
+
+	$dbprefix = elgg_get_config('dbprefix');
+	$tag_names = elgg_get_registered_tag_metadata_names();
+
+	$options['joins'][] = "JOIN {$dbprefix}metadata mdtags on e.guid = mdtags.entity_guid";
+	$options['joins'][] = "JOIN {$dbprefix}metastrings msntags on mdtags.name_id = msntags.id";
+	$options['joins'][] = "JOIN {$dbprefix}metastrings msvtags on mdtags.value_id = msvtags.id";
+
+	$access = get_access_sql_suffix('mdtags');
+	$sanitised_tags = array();
+
+	foreach ($tag_names as $tag) {
+		$sanitised_tags[] = '"' . sanitise_string($tag) . '"';
+	}
+
+	$tags_in = implode(',', $sanitised_tags);
+
+	$options['joins'][] = "JOIN {$dbprefix}objects_entity oe_q ON e.guid = oe_q.guid";
+	$options['wheres'][] = "((MATCH(oe_q.title, oe_q.description) AGAINST ('$query')) OR (msntags.string IN ($tags_in) AND msvtags.string = '$query' AND $access))";
+
+	return $options;
+}
+
+/**
  * Bypass default permission to allow users to add images to albums
  */
 function hj_gallery_container_permissions_check($hook, $type, $return, $params) {
@@ -92,11 +135,13 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 					break;
 
 				case 'hjalbumimage' :
+
 					if ($container->canEdit()) {
 						return true;
 					}
 
 					$owner = $container->getOwnerEntity();
+					$group = $container->getContainerEntity();
 
 					$permissions = $container->permissions;
 
@@ -114,13 +159,17 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 						case 'public' :
 							return true;
 							break;
+
+						case 'group' :
+							if (elgg_instanceof($group, 'group')) {
+								return $group->isMember($user);
+							}
+							break;
 					}
 
 					return $return;
 					break;
-
 			}
 			break;
-
 	}
 }

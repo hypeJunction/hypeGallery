@@ -5,8 +5,9 @@ elgg_register_plugin_hook_handler('init', 'form:edit:plugin:user:hypegallery', '
 
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbum', 'hj_gallery_init_album_form');
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbumimage', 'hj_gallery_init_image_form');
+elgg_register_plugin_hook_handler('init', 'form:hjalbum:upload', 'hj_gallery_upload_form');
 
-elgg_register_plugin_hook_handler('process:upload', 'form:input:type:file', 'hj_gallery_process_gallery_image_files');
+elgg_register_plugin_hook_handler('process:input', 'form:input:name:gallery_image_files', 'hj_gallery_process_gallery_image_files');
 
 function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 
@@ -14,14 +15,16 @@ function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 
 	$settings = array(
 		'album_river',
-		'image_river',
-		'bookmarks',
 		'favorites',
 		'interface_location',
 		'interface_calendar',
 		'copyrights',
 		'categories',
-		'collaborative_albums'
+		'collaborative_albums',
+		'group_albums',
+//		'site_albums_quota',
+		'avatars',
+		'tagging'
 	);
 
 
@@ -36,12 +39,12 @@ function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 		);
 	}
 
-	$config['fields']['params[album_max]'] = array(
-		'value' => $entity->album_max
-	);
-	$config['fields']['params[images_max]'] = array(
-		'value' => $entity->images_max
-	);
+//	$config['fields']['params[site_albums_quota]'] = array(
+//		'value' => $entity->site_albums_quota_value
+//	);
+//	$config['fields']['params[images_max]'] = array(
+//		'value' => $entity->images_max
+//	);
 
 	$config['buttons'] = false;
 
@@ -93,7 +96,7 @@ function hj_gallery_init_album_form($hook, $type, $return, $params) {
 				'class' => 'elgg-input-longtext',
 				'label' => elgg_echo('hj:label:hjalbum:description')
 			),
-			'category' => (HYPEGALLERY_CATEGORIES) ? array(
+			'categories' => (HYPEGALLERY_CATEGORIES) ? array(
 				'input_type' => 'categories',
 				'value' => $entity->category,
 				'label' => elgg_echo('hj:label:hjalbum:category')
@@ -120,33 +123,20 @@ function hj_gallery_init_album_form($hook, $type, $return, $params) {
 				'label' => elgg_echo('hj:label:hjalbum:copyright'),
 				'required' => true
 					) : NULL,
-			'permissions' => (HYPEGALLERY_COLLABORATIVE_ALBUMS) ? array(
-				'input_type' => 'dropdown',
-				'value' => $entity->permissions,
-				'options_values' => array(
-					'private' => elgg_echo('permission:value:private'),
-					'friends' => elgg_echo('permission:value:friends'),
-					'public' => elgg_echo('permission:value:public')
-				),
-				'label' => elgg_echo('hj:label:hjalbum:permissions')
-					) : NULL,
-			'gallery_image_files' => array(
+			'permissions' => hj_gallery_get_permissions_options($entity, $container),
+			'gallery_image_files' => (!$entity) ? array(
 				'input_type' => 'multifile',
 				'allowedfiletypes' => array(
 					'image/jpeg', 'image/jpg', 'image/png', 'image/gif'
 				),
 				'data-callback' => 'image:upload::framework:gallery',
 				'label' => elgg_echo('hj:label:hjalbum:upload')
-			),
+			) : null,
 			'access_id' => array(
 				'value' => $entity->access_id,
 				'input_type' => 'access',
 				'label' => elgg_echo('hj:label:hjalbum:access_id')
-			),
-			'add_to_river' => (HYPEGALLERY_ALBUM_RIVER) ? array(
-				'input_type' => 'hidden',
-				'value' => ($entity) ? false : true
-					) : null
+			)
 		)
 	);
 
@@ -185,43 +175,59 @@ function hj_gallery_init_image_form($hook, $type, $return, $params) {
 				'class' => 'elgg-input-longtext',
 				'label' => elgg_echo('hj:label:hjalbumimage:description')
 			),
-			'image' => array(
-				'input_type' => 'file',
-				'value_type' => 'file',
-				'value' => ($entity)
-			),
-			'category' => array(
+			'categories' => (HYPEGALLERY_CATEGORIES) ? array(
 				'input_type' => 'categories',
-				'value' => ($entity) ? $entity->category : $container->category,
+				'value' => $entity->categories,
 				'label' => elgg_echo('hj:label:hjalbumimage:category')
-			),
-			'location' => array(
+					) : NULL,
+			'location' => (HYPEGALLERY_INTERFACE_LOCATION) ? array(
 				'input_type' => 'location',
-				'value' => ($entity) ? $entity->getLocation() : ($container) ? $container->getLocation() : '',
-				'label' => elgg_echo('hj:label:hjalbumimage:location')
-			),
-			'date' => array(
+				'value' => ($entity) ? $entity->getLocation() : '',
+				'label' => elgg_echo('hj:label:hjalbumimage:location'),
+				'required' => true
+					) : NULL,
+			'date' => (HYPEGALLERY_INTERFACE_CALENDAR) ? array(
 				'input_type' => 'date',
-				'value' => ($entity) ? $entity->date : $container->date,
-				'label' => elgg_echo('hj:label:hjalbumimage:date')
-			),
+				'value' => $entity->date,
+				'label' => elgg_echo('hj:label:hjalbumimage:date'),
+				'required' => true
+					) : NULL,
 			'tags' => array(
 				'input_type' => 'tags',
-				'value' => ($entity) ? $entity->tags : $container->tags,
+				'value' => $entity->tags,
 				'label' => elgg_echo('hj:label:hjalbumimage:tags')
 			),
-			'copyright' => array(
-				'value' => ($entity) ? $entity->copyright : $container->copyright,
-				'label' => elgg_echo('hj:label:hjalbumimage:copyright')
+			'copyright' => (HYPEGALLERY_COPYRIGHTS) ? array(
+				'value' => $entity->copyright,
+				'label' => elgg_echo('hj:label:hjalbumimage:copyright'),
+				'required' => true
+					) : NULL,
+		)
+	);
+
+	return $config;
+}
+
+function hj_gallery_upload_form($hook, $type, $return, $params) {
+
+	$config = array(
+		'attributes' => array(
+			'enctype' => 'multipart/form-data',
+			'id' => 'form-edit-object-hjalbum',
+			'action' => 'action/gallery/upload'
+		),
+		'fields' => array(
+			'gallery_image_files' => array(
+				'input_type' => 'multifile',
+				'allowedfiletypes' => array(
+					'image/jpeg', 'image/jpg', 'image/png', 'image/gif'
+				),
+				'data-callback' => 'image:upload::framework:gallery',
+				'label' => elgg_echo('hj:label:hjalbum:upload')
 			),
-			'access_id' => array(
-				'value' => ($entity) ? $entity->access_id : $container->access_id,
+			'add_to_river' => (HYPEGALLERY_ALBUM_RIVER) ? array(
 				'input_type' => 'hidden',
-				'label' => elgg_echo('hj:label:hjalbum:access_id')
-			),
-			'add_to_river' => (HYPEGALLERY_IMAGE_RIVER) ? array(
-				'input_type' => 'hidden',
-				'value' => ($entity) ? false : true
+				'value' => true
 					) : null
 		)
 	);
@@ -235,26 +241,41 @@ function hj_gallery_init_image_form($hook, $type, $return, $params) {
  */
 function hj_gallery_process_gallery_image_files($hook, $type, $return, $params) {
 
-	$entity = elgg_extract('entity', $params);
-	$name = elgg_extract('name', $params);
-	$files = elgg_extract('files', $params);
+	// prevent the action from processing this input
+	// @see hj_gallery_handle_uploaded_files()
+	return true;
 
-	if ($name == 'gallery_image_files') {
+}
 
-		$guids = hj_framework_process_file_upload($name, $entity);
+function hj_gallery_get_permissions_options($entity, $container) {
 
-		if ($guids) {
-			foreach ($guids as $name => $guid) {
-				$return[] = $guid;
-				$entity = get_entity($guid);
-				if ($entity) {
-					$entity->disable('temp_file_upload');
-				}
-			}
-		}
-		set_input('uploads', $return);
-		return true;
+	if (!$container) {
+		return false;
 	}
 
-	return $return;
+	if (!HYPEGALLERY_COLLABORATIVE_ALBUMS) {
+		return false;
+	}
+
+	if (elgg_instanceof($container, 'group')) {
+		return array('input_type' => 'dropdown',
+			'value' => $entity->permissions,
+			'options_values' => array(
+				'private' => elgg_echo('permission:value:private'),
+				'group' => elgg_echo('permission:value:group')
+			),
+			'label' => elgg_echo('hj:label:hjalbum:permissions')
+		);
+	}
+
+	return array(
+		'input_type' => 'dropdown',
+		'value' => $entity->permissions,
+		'options_values' => array(
+			'private' => elgg_echo('permission:value:private'),
+			'friends' => elgg_echo('permission:value:friends'),
+			'public' => elgg_echo('permission:value:public')
+		),
+		'label' => elgg_echo('hj:label:hjalbum:permissions')
+	);
 }

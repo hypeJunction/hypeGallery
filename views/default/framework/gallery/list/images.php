@@ -1,20 +1,38 @@
 <?php
 
 $list_id = elgg_extract('list_id', $vars, "imagelist");
-$container_guids = elgg_extract('container_guids', $vars, ELGG_ENTITIES_ANY_VALUE);
-$subtypes = elgg_extract('subtypes', $vars, ELGG_ENTITIES_ANY_VALUE);
+$getter_options = elgg_extract('getter_options', $vars);
 
 $list_type = get_input("__list_type_$list_id", 'gallery');
 
-$getter_options = array(
-	'types' => 'object',
-	'subtypes' => $subtypes,
-	'container_guids' => $container_guids,
+$filter_vars = array(
+	'handler' => 'gallery',
+	'items_handler' => 'images'
 );
+
+$filter_vars = array_merge($vars, $filter_vars);
+
+switch (get_input('details')) {
+	default :
+		$list_class = 'hj-imagelist-thumbs';
+		$limit_select_options = array(9, 18, 45, 90);
+		if (!get_input("__lim_$list_id", false)) {
+			set_input("__lim_$list_id", 9);
+		}
+		break;
+
+	case 'summary' :
+		$list_class = 'hj-imagelist-summary';
+		break;
+
+	case 'full' :
+		$list_class = 'hj-imagelist-full';
+		break;
+}
 
 $list_options = array(
 	'list_type' => $list_type,
-	'list_class' => (get_input('details')) ? "hj-imagelist-detailed" : "hj-imagelist",
+	'list_class' => $list_class,
 	'list_view_options' => array(
 		'table' => array(
 			'head' => array(
@@ -75,7 +93,8 @@ $list_options = array(
 		)
 	),
 	'list_pagination' => true,
-	'filter' => elgg_view('framework/gallery/filters/list', $vars)
+	'limit_select_options' => $limit_select_options,
+	'filter' => elgg_view('framework/gallery/filters/list', $filter_vars)
 );
 
 $viewer_options = array(

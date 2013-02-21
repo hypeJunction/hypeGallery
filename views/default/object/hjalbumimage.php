@@ -2,6 +2,7 @@
 
 elgg_load_css('gallery.base.css');
 elgg_load_js('gallery.base.js');
+elgg_load_js('gallery.popup.js');
 
 $entity = elgg_extract('entity', $vars, false);
 
@@ -12,7 +13,7 @@ if (!$entity) {
 $full = elgg_extract('full_view', $vars, false);
 $list_type = elgg_extract('list_type', $vars, 'list');
 
-if (elgg_in_context('activity')) {
+if (elgg_in_context('activity') || elgg_in_context('main')) {
 	echo elgg_view('object/hjalbumimage/river', $vars);
 	return true;
 }

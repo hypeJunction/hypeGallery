@@ -10,13 +10,15 @@ $english = array(
 
 	'item:object:hjalbum' => 'Album',
 	'items:object:hjalbum' => 'Albums',
-
+	'hj:gallery:albums' => 'Albums',
+	
 	'item:object:hjalbumimage' => 'Album Image',
 	'items:object:hjalbumimage' => 'Album Images',
 
     'hj:gallery:album:owner' => "%s's Album",
     'hj:gallery:albums:owner' => "%s's Albums",
 	'hj:gallery:albums:friends' => "Friends' Albums",
+	'hj:gallery:albums:friends:owner' => "%s\s Friends' Albums",
 	'hj:gallery:album:author' => 'by %s',
 	'hj:gallery:albums:all' => 'Site Albums',
 	'hj:gallery:albums:group' => '%s\'s Albums',
@@ -25,9 +27,12 @@ $english = array(
     'hj:gallery:addimage' => 'Add Photo',
     'hj:gallery:noalbums' => 'There are no albums yet',
 	'hj:gallery:allalbums' => 'All Site Albums',
-	'hj:gallery:myalbums' => 'My Albums',
+	'hj:gallery:albums:mine' => 'My Albums',
 	'hj:gallery:album:edit' => 'Edit %s',
 	'hj:gallery:album:photos' => '%s photos',
+	'hj:gallery:albums:favorites' => 'Favorites',
+	'hj:gallery:albums:favorites:mine' => 'My Favorites',
+	'hj:gallery:albums:favorites:owner' => '%s\'s Favorites',
 
 	'hj:gallery:albums:friends:none' => 'You do not have any friends yet',
 	'hj:gallery:image:author' => 'Added by %s',
@@ -36,6 +41,7 @@ $english = array(
 
 	'hj:gallery:create:album' => 'Create an album',
 	'hj:gallery:manage:album' => 'Manage Album',
+	'hj:gallery:manage:instructions' => 'Permissions of this album allow you to upload images. Below you will only see images uploaded by you',
 	
     /**
      * Labels
@@ -54,11 +60,11 @@ $english = array(
     'hj:label:hjalbum:date' => 'Album Date',
     'hj:label:hjalbum:friend_tags' => 'Friends in this album',
     'hj:framework:relationship_tags:notagged_in' => 'You do not yet have any friends',
-    'hj:label:hjalbum:tags' => 'Word Tags',
+    'hj:label:hjalbum:tags' => 'Tags',
     'hj:label:hjalbum:copyright' => 'Copyright Notices',
     'hj:label:hjalbum:access_id' => 'Visibility',
 	'hj:label:hjalbum:upload' => 'Upload Images',
-	'hj:label:hjalbum:category' => 'Category',
+	'hj:label:hjalbum:category' => 'Categories',
 	'hj:label:hjalbum:permissions' => 'Who can add photos to this album?',
 	'hj:label:hjalbum:time_created' => 'Date Created',
 	'hj:label:hjalbum:last_action' => 'Last Updated',
@@ -75,10 +81,12 @@ $english = array(
     'hj:label:hjalbumimage:access_id' => 'Visibility',
 	'hj:label:hjalbumimage:time_created' => 'Uploaded',
 	'hj:label:hjalbumimage:owner' => 'Added by',
+	'hj:label:hjalbumimage:category' => 'Categories',
 	
 	'permission:value:private' => 'Just me',
 	'permission:value:friends' => 'Me and my friends',
 	'permission:value:public' => 'Everyone',
+	'permission:value:group' => 'Group Members',
 
 	'hj:album:image:makeavatar' => 'Make Profile Picture',
 	'hj:album:image:makecover' => 'Make Album Cover',
@@ -119,7 +127,7 @@ $english = array(
 	'river:update:object:hjalbumimage' => '%s updated their image | %s',
 
 	'river:create:object:hjalbum' => '%s created a new album | %s (%s images)',
-	'river:update:object:hjalbum' => '%s updated their album | %s (%s images)',
+	'river:update:object:hjalbum' => '%s uploaded %s images to an album | %s (%s images)',
 
 	'hj:album:cover:success' => 'New album cover was successfully set',
 	'hj:album:cover:error' => 'There was a problem with setting an album cover',
@@ -135,20 +143,47 @@ $english = array(
 	'hj:gallery:enablegallery' => 'Enable group gallery',
 	'gallery:group' => 'Group Albums',
 
-	'hj:gallery:image:container' => 'in %s',
+	'hj:gallery:image:container' => ' in %s',
 
 	'hj:gallery:switch:photostream' => 'Photostream',
 	'hj:gallery:switch:albums' => 'Album View',
 	'hj:gallery:switch:thumbs' => 'Thumbnails',
-	'hj:gallery:switch:details' => 'Details',
-	
+	'hj:gallery:switch:details' => 'Summary',
+	'hj:gallery:switch:detail_full' => 'Full',
+	'hj:gallery:goto:full' => 'View Image Profile',
+
 	'hj:gallery:list_type_toggle:table' => 'Table',
 	'hj:gallery:list_type_toggle:gallery' => 'Gallery',
 	'hj:gallery:list_type_toggle:map' => 'Map',
 
 	'hj:gallery:upload:toalbum' => 'Upload new images to %s',
 	'hj:gallery:upload' => 'Add images',
-	
+
+	'hj:gallery:filter' => 'Filter Albums & Images',
+
+	'hj:gallery:upload:imagesuploaded' => '%s images were successfully uploaded',
+	'hj:gallery:upload:error' => 'An error occurred while uploading your images',
+	'hj:gallery:upload:unsupportedtype' => '%s could not be uploaded due to unsupported type',
+	'hj:gallery:upload:pending' => '%s images are pending approval',
+	'hj:gallery:upload:pending:message' => '
+		%s images were uploaded to your album %s and are pending approval. <br />
+		You can approve them in by following this link: <br />%s
+	',
+
+	'hj:gallery:nofriends' => 'You do not have any friends yet',
+	'hj:gallery:nogroups' => 'You do not belong to any groups yet',
+
+	'hj:gallery:groupoption:enable' => 'Enable group albums',
+
+	'hj:gallery:approve' => 'Approve',
+	'hj:gallery:approve:error' => 'An error occurred while try to approve this image',
+	'hj:gallery:approve:success' => 'Image successfully approved',
+	'hj:gallery:upload:approved' => 'Images have been approved',
+	'hj:gallery:upload:approved:message' => 'One or more images you uploaded to %s have been approved',
+
+	'hj:album:image:thumb:reset' => 'Reset Thumbnails',
+	'hj:gallery:thumb:reset:success' => 'Thumbnail was successfully reset',
+	'hj:gallery:thumb:reset:error' => 'There was an error resetting the thumbnail',
 );
 
 add_translation("en", $english);

@@ -3,7 +3,7 @@
 $stream = get_input('photostream', false);
 $page_owner = elgg_get_page_owner_entity();
 
-$list_id = "gr$page_owner->guid";
+$list_id = "gal$page_owner->guid";
 
 if (!$stream) {
 
@@ -12,7 +12,7 @@ if (!$stream) {
 		'getter_options' => array(
 			'types' => 'object',
 			'subtypes' => array('hjalbum'),
-			'container_guids' => $page_owner->guid
+			'owner_guids' => $page_owner->guid
 			));
 
 	echo elgg_view('framework/gallery/list/albums', $params);
@@ -28,7 +28,7 @@ if (!$stream) {
 		'getter_options' => array(
 			'types' => 'object',
 			'subtypes' => array('hjalbumimage'),
-			'container_guids' => $page_owner->guid
+			'owner_guids' => $page_owner->guid
 			));
 
 	echo elgg_view('framework/gallery/list/images', $params);

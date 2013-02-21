@@ -2,8 +2,6 @@
 
 $entity = elgg_extract('entity', $vars);
 
-$title = $entity->getTitle();
-
 $params = array(
 	'entity' => $entity,
 	'class' => 'elgg-menu-hjentityhead elgg-menu-hz elgg-menu-album',
@@ -12,13 +10,22 @@ $params = array(
 	'dropdown' => false
 );
 
-$menu = elgg_view_menu('hjentityhead', $params);
-
-$title = elgg_view_image_block('', $title, array(
-	'image_alt' => $menu
-		));
+$details .= elgg_view('object/hjalbum/elements/tags', $vars);
+if (HYPEGALLERY_CATEGORIES) {
+	$details .= elgg_view('object/hjalbum/elements/categories', $vars);
+}
+if (HYPEGALLERY_COPYRIGHTS) {
+	$details .= elgg_view('object/hjalbum/elements/copyright', $vars);
+}
+if (HYPEGALLERY_INTERFACE_LOCATION) {
+	$details .= elgg_view('object/hjalbum/elements/location', $vars);
+}
+if (HYPEGALLERY_INTERFACE_CALENDAR) {
+	$details .= elgg_view('object/hjalbum/elements/date', $vars);
+}
 
 $content = elgg_view('framework/bootstrap/object/elements/description', $vars);
+$content .= $details;
 
 $list_id = "ai$entity->guid";
 
@@ -28,6 +35,10 @@ $getter_options = array(
 	'subtypes' => array('hjalbumimage'),
 	'container_guid' => $entity->guid,
 );
+
+if (!$entity->canEdit() && $entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+	$getter_options['owner_guids'] = elgg_get_logged_in_user_guid(); // for collaborative albums/only show images uploaded by the user
+}
 
 $list_options = array(
 	'list_type' => get_input("__list_type_$list_id", 'table'),
@@ -39,7 +50,7 @@ $list_options = array(
 				'draggable' => ($entity->canEdit()) ? array(
 					'text' => '',
 					'sortable' => false
-				) : null,
+						) : null,
 				'icon' => array(
 					'text' => '',
 					'sortable' => false,
@@ -92,8 +103,22 @@ if (!get_input("__ord_$list_id", false)) {
 	set_input("__dir_$list_id", 'ASC');
 }
 
+if ($entity->canEdit()) {
+	$ha = access_get_show_hidden_status();
+	access_show_hidden_entities(true);
+}
 $content .= hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
 
-$module = elgg_view_module('gallery-album', $title, $content);
+if ($entity->canEdit()) {
+	access_show_hidden_entities($ha);
+}
+
+$module = elgg_view_module('gallery-album', '', $content);
+
+if ($entity->owner_guids != elgg_get_logged_in_user_guid()) {
+	echo '<div class="hj-gallery-manage-instructions">';
+	echo elgg_echo('hj:gallery:manage:instructions');
+	echo '</div>';
+}
 
 echo $module;

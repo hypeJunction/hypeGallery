@@ -2,7 +2,7 @@
 	<script type="text/javascript">
 <?php endif; ?>
 
-	elgg.provide('hj.gallery.cropper');
+	elgg.provide('framework.gallery.cropper');
 
 	/**
 	 * Register the avatar cropper.
@@ -10,12 +10,12 @@
 	 * If the hidden inputs have the coordinates from a previous cropping, begin
 	 * the selection and preview with that displayed.
 	 */
-	hj.gallery.cropper.init = function() {
+	framework.gallery.cropper.init = function() {
 		var params = {
 			selectionOpacity: 0,
 			aspectRatio: '1:1',
-			onSelectEnd: hj.gallery.cropper.selectChange,
-			onSelectChange: hj.gallery.cropper.preview,
+			onSelectEnd: framework.gallery.cropper.selectChange,
+			onSelectChange: framework.gallery.cropper.preview,
 			parent: $('#hj-image-cropper').closest('div#hj-image-master')
 		};
 
@@ -31,7 +31,7 @@
 		if ($('input[name=x2]').val()) {
 			var ias = $('#hj-image-cropper').imgAreaSelect({instance: true});
 			var selection = ias.getSelection();
-			hj.gallery.cropper.preview($('#hj-image-cropper'), selection);
+			framework.gallery.cropper.preview($('#hj-image-cropper'), selection);
 		}
 	};
 
@@ -42,7 +42,7 @@
 	 * @param {Object} imgareaselect selection object
 	 * @return void
 	 */
-	hj.gallery.cropper.preview = function(img, selection) {
+	framework.gallery.cropper.preview = function(img, selection) {
 		// catch for the first click on the image
 		if (selection.width == 0 || selection.height == 0) {
 			return;
@@ -67,14 +67,16 @@
 	 * @param {Object} imgareaselect selection object
 	 * @return void
 	 */
-	hj.gallery.cropper.selectChange = function(img, selection) {
+	framework.gallery.cropper.selectChange = function(img, selection) {
 		$('input[name=x1]').val(selection.x1);
 		$('input[name=x2]').val(selection.x2);
 		$('input[name=y1]').val(selection.y1);
 		$('input[name=y2]').val(selection.y2);
 	};
 
-	elgg.register_hook_handler('init', 'system', hj.gallery.cropper.init);
+	elgg.register_hook_handler('init', 'system', framework.gallery.cropper.init);
+	elgg.register_hook_handler('cropper', 'framework:gallery', framework.gallery.cropper.init);
+	
 <?php if (FALSE) : ?>
 	</script>
 	<?php endif;

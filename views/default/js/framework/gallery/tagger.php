@@ -8,18 +8,19 @@ if (FALSE) :
 	<script type="text/javascript">
 <?php endif; ?>
 	
-elgg.provide('hj.gallery.tagger');
+elgg.provide('framework.gallery.tagger');
 	
-hj.gallery.tagger.init = function() {
+framework.gallery.tagger.init = function() {
+
 	$('.elgg-menu-item-starttagging')
-	.live('click', hj.gallery.tagger.startTagging);
+	.live('click', framework.gallery.tagger.startTagging);
 
 	$('.elgg-menu-item-stoptagging')
-	.live('click', hj.gallery.tagger.stopTagging)
+	.live('click', framework.gallery.tagger.stopTagging)
 
 	$('.hj-gallery-tag-save')
 	.unbind('submit')
-	.bind('submit', hj.gallery.tagger.saveTag);
+	.bind('submit', framework.gallery.tagger.saveTag);
 
 	$('ul.hj-gallery-tags-list > li')
 	.hover(function() {
@@ -75,101 +76,97 @@ hj.gallery.tagger.init = function() {
 	});
 }
 
-hj.gallery.tagger.startTagging = function(event) {
+framework.gallery.tagger.startTagging = function(event) {
+
 	event.preventDefault();
-	event.stopPropagation();
 		
 	$(this)
-	.find('a')
 	.addClass('hidden');
 		
 	$('.elgg-menu-item-stoptagging')
-	.find('a')
 	.removeClass('hidden');
 		
-	window.tag_options = $(this).find('a').data('options');
-	var form = $('#hj-gallery-tagger-form');
-	var image = '#hj-entity-icon-' + window.tag_options.params.entity_guid + '.hj-gallery-taggable';
+	framework.gallery.tagger.uid = $('a', $(this)).eq(0).data();
 
-	$(image)
+	var $form = $('form.hj-gallery-tagger-form[data-uid="' + framework.gallery.tagger.uid + "']").eq(0);
+	var $image = $('img.elgg-state-taggable[data-uid="' + framework.gallery.tagger.uid + "']").eq(0);
+
+	console.log($form, $image);
+	
+	framework.gallery.tagger.options = $image.data();
+
+	$image
 	.hover(function(event) {
 			
 	}, function(event) {
-		form.addClass('hidden')
+		$form.addClass('hidden')
 	});
 
-	$(image).imgAreaSelect({
+	$image.imgAreaSelect({
 		disable: false,
 		handles: true,
 		keys: { arrows: 15, shift: 5 },
 		fadeSpeed: 200,
-		imageWidth: $(image).attr('original-width'),
-		imageHeight: $(image).attr('original-height'),
-		parent: $(image).closest('div.hj-file-icon-background'),
+		imageWidth: framework.gallery.tagger.options.originalwidth,
+		imageHeight: framework.gallery.tagger.options.originalheight,
 		onSelectEnd: function(img, selection){
-			$('input[name="x1"]', form).val(selection.x1);
-			$('input[name="y1"]', form).val(selection.y1);
-			$('input[name="x2"]', form).val(selection.x2);
-			$('input[name="y2"]', form).val(selection.y2);
-			$('input[name="w"]', form).val(selection.width);
-			$('input[name="h"]', form).val(selection.height);
-			form.css('left', selection.x1);
-			form.css('top', selection.y2);
-			form.removeClass("hidden");
-			if (selection.width == 0 && selection.height == 0) { form.addClass("hidden"); }
+			$('input[name="x1"]', $form).val(selection.x1);
+			$('input[name="y1"]', $form).val(selection.y1);
+			$('input[name="x2"]', $form).val(selection.x2);
+			$('input[name="y2"]', $form).val(selection.y2);
+			$('input[name="w"]', $form).val(selection.width);
+			$('input[name="h"]', $form).val(selection.height);
+			$form.css('left', selection.x1);
+			$form.css('top', selection.y2);
+			$form.removeClass("hidden");
+			if (selection.width == 0 && selection.height == 0) { 
+				$form.addClass("hidden");
+			}
 		},
 		onSelectChange: function(img, selection){
-			$('input[type="text"]', form).each(function() {
+			$('input[type="text"]', $form).each(function() {
 				$(this).val('');
 			});
-			form.addClass('hidden');
+			$form.addClass('hidden');
 		},
 		onSelectStart: function(img, selection){
-			$('input[type="text"]', form).each(function() {
+			$('input[type="text"]', $form).each(function() {
 				$(this).val('');
 			});
-			form.addClass('hidden');
+			$form.addClass('hidden');
 		}
 	});
 }
 
-hj.gallery.tagger.stopTagging = function(event) {
+framework.gallery.tagger.stopTagging = function(event) {
 	event.preventDefault();
 	event.stopPropagation();
 
 	$(this)
-	.find('a')
 	.addClass('hidden');
 
 	$('.elgg-menu-item-starttagging')
-	.find('a')
 	.removeClass('hidden');
 
 	$('#hj-gallery-tagger-form')
 	.addClass('hidden');
 
-	var image = '#hj-entity-icon-' + window.tag_options.params.entity_guid + '.hj-gallery-taggable';
+	framework.gallery.tagger.uid = $(this).find('a').data('uid');
+	var $form = $('#hj-gallery-tagger-form');
+	var $image = $('img.elgg-state-taggable[data-uid["' + framework.gallery.tagger.uid + "']").eq(0);
 
-	$(image).imgAreaSelect({
+	$image.imgAreaSelect({
 		disable: true,
 		hide: true
 	});
 }
 
 
-hj.gallery.tagger.saveTag = function(event) {
+framework.gallery.tagger.saveTag = function(event) {
 	event.preventDefault();
 	event.stopPropagation();
 
 	var form = $(this);
-	var values = new Object();
-	values = $.parseJSON($(this).find('input[name="params"]').val());
-
-	if (values.target) {
-		var target = '#'+values.target;
-	} else {
-		var target = '#elgg-object-'+values.entity_guid;
-	}
 
 	var params = {
 		dataType : 'json',
@@ -197,10 +194,7 @@ hj.gallery.tagger.saveTag = function(event) {
 	elgg.action($(this).attr('action'), params);
 }
 
-elgg.register_hook_handler('init', 'system', hj.gallery.tagger.init, 800);
-elgg.register_hook_handler('success', 'hj:framework:ajax', hj.gallery.tagger.init, 800);
-	
-
+elgg.register_hook_handler('init', 'system', framework.gallery.tagger.init);
 
 <?php if (FALSE) : ?>
 	</script>

@@ -1,12 +1,17 @@
 <?php
 
-run_function_once('hj_gallery_1360950978');
+$ia = elgg_set_ignore_access(true);
+$ha = access_get_show_hidden_status();
+access_show_hidden_entities(true);
 
-function hj_gallery_1360950978() {
+run_function_once('hj_gallery_1361394670');
+run_function_once('hj_gallery_1361396953');
+run_function_once('hj_gallery_1361394680');
 
-	$ia = elgg_set_ignore_access(true);
-	$ha = access_get_show_hidden_status();
-	access_show_hidden_entities(true);
+elgg_set_ignore_access($ia);
+access_show_hidden_entities($ha);
+
+function hj_gallery_1361394670() {
 
 	ini_set('memory_limit', '512M');
 	ini_set('max_execution_time', '500');
@@ -24,43 +29,124 @@ function hj_gallery_1360950978() {
 
 	foreach ($rows as $row) {
 		$imagehandler = new hjAlbumImage($row->guid);
-		$filehandler = new hjFile($row->file_guid);
 
-		$filename = $filehandler->getFilenameOnFilestore();
-		$imagehandler->setFilename($filename);
+		try {
+			$filehandler = new hjFile($row->file_guid);
+		} catch (Exception $e) {
+			continue;
+		}
+
+		$filestorename = $filehandler->getFilename();
+		$filestorename = elgg_substr($filestorename, elgg_strlen("hjfile/"));
+
+		$temp = new hjFile();
+		$temp->setFilename("hjfile/" . $filestorename);
+		$temp->owner_guid = $filehandler->owner_guid;
+		$temp->open('read');
+		$content = $temp->grabFile();
+		$temp->close();
+
+		$filehandler->setFilename("hjfile/{$filehandler->getGUID()}.temp");
+		$filehandler->save();
+
+		$imagehandler->owner_guid = $filehandler->owner_guid;
+		$imagehandler->setFilename("hjfile/" . $filestorename);
 		$imagehandler->setMimeType($filehandler->getMimeType());
 		$imagehandler->originalfilename = $filehandler->originalfilename;
 		$imagehandler->filesize = $filehandler->filesize;
 
-		$imagehandler->save();
+		$imagehandler->open('write');
+		$imagehandler->write($content);
+		$imagehandler->close();
 
-		$icon_sizes = hj_framework_get_thumb_sizes($imagehandler->getSubtype());
+		unset($imagehandler->image);
 
-		$old_prefix = "hjfile/$filehandler->container_guid/$filehandler->guid";
-		$prefix = "icons/$imagehandler->guid";
-
-		foreach ($icon_sizes as $size => $values) {
-				$old_thumb = new ElggFile();
-				$old_thumb->owner_guid = elgg_get_logged_in_user_guid();
-				$old_thumb->setFilename("$old_prefix$size.jpg");
-
-				if (!$content = $old_thumb->grabFile()) {
-					$content = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square']);
-				}
-				$thumb = new ElggFile();
-				$thumb->owner_guid = elgg_get_logged_in_user_guid();
-				$thumb->setMimeType('image/jpeg');
-				$thumb->setFilename("$prefix$size.jpg");
-				$thumb->open("write");
-				$thumb->write($content);
-				$thumb->close();
+		if ($imagehandler->save()) {
+			hj_framework_generate_entity_icons($imagehandler);
 		}
 
-		$imagehandler->icontime = $filehandler->icontime;
-
-		//$filehandler->delete();
+		$temp->delete();
+		$filehandler->delete();
 	}
+}
 
-	elgg_set_ignore_access($ia);
-	access_show_hidden_entities($ha);
+function hj_gallery_1361396953() {
+
+	ini_set('memory_limit', '512M');
+	ini_set('max_execution_time', '500');
+
+	$subtypeIdImage = get_subtype_id('object', 'hjalbumimage');
+
+	$dbprefix = elgg_get_config('dbprefix');
+
+	$files = elgg_get_entities(array(
+		'types' => 'object',
+		'subtypes' => 'hjfile',
+		'joins' => array(
+			"JOIN {$dbprefix}entities ce"
+		),
+		'wheres' => array("(ce.guid = e.container_guid AND ce.subtype = $subtypeIdImage)"),
+		'limit' => 0
+			));
+
+	foreach ($files as $filehandler) {
+
+		$imagehandler = new hjAlbumImage($filehandler->container_guid);
+
+		$filestorename = $filehandler->getFilename();
+		$filestorename = elgg_substr($filestorename, elgg_strlen("hjfile/"));
+
+		if (!$filestorename || empty($filestorename)) {
+			if (isset($filehandler->originalfilename)) {
+				$filestorename = $filehandler->originalfilename;
+			} else if (isset($filehandler->title)) {
+				$filestorename = $filehandler->title;
+			} else {
+				continue;
+			}
+		}
+
+		$temp = new hjFile();
+		$temp->setFilename("hjfile/" . $filestorename);
+		$temp->owner_guid = $filehandler->owner_guid;
+		$temp->open('read');
+		$content = $temp->grabFile();
+		$temp->close();
+
+		$imagehandler->owner_guid = $filehandler->owner_guid;
+		$imagehandler->setFilename("hjfile/" . $filestorename);
+		$imagehandler->setMimeType($filehandler->getMimeType());
+		$imagehandler->originalfilename = $filehandler->originalfilename;
+		$imagehandler->filesize = $filehandler->filesize;
+
+		$imagehandler->open('write');
+		$imagehandler->write($content);
+		$imagehandler->close();
+
+		unset($imagehandler->image);
+
+		if ($imagehandler->save()) {
+			hj_framework_generate_entity_icons($imagehandler);
+		}
+
+		$temp->delete();
+		$filehandler->delete();
+	}
+}
+
+function hj_gallery_1361379980() {
+
+	// set priority metadata on images
+	$subtype = get_subtype_id('object', 'hjalbumimage');
+
+	$dbprefix = elgg_get_config('dbprefix');
+	$query = "SELECT guid, owner_guid
+				FROM {$dbprefix}entities e
+				WHERE e.subtype IN ($subtype)";
+
+	$data = get_data($query);
+
+	foreach ($data as $e) {
+		create_metadata($e->guid, 'priority', 0, '', $e->owner_guid, ACCESS_PUBLIC);
+	}
 }

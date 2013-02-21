@@ -2,37 +2,44 @@
 
 $filter_context = elgg_extract('filter_context', $vars, 'site');
 
-$tabs = array(
-	'site' => array(
-		'text' => elgg_echo('hj:gallery:albums:all'),
-		'href' => 'gallery/dashboard/site',
-		'selected' => ($filter_context == 'site'),
-		'priority' => 100,
-	),
-	'mine' => array(
-		'text' => elgg_echo('hj:gallery:myalbums'),
-		'href' => 'gallery/dashboard/owner',
-		'selected' => ($filter_context == 'mine'),
-		'priority' => 200,
-	),
-	'friends' => array(
-		'text' => elgg_echo('hj:gallery:albums:friends'),
-		'href' => 'gallery/dashboard/friends',
-		'selected' => ($filter_context == 'friends'),
-		'priority' => 300,
-	),
-	'groups' => array(
-		'text' => elgg_echo('hj:gallery:albums:groups'),
-		'href' => 'gallery/dashboard/groups',
-		'selected' => ($filter_context == 'groups'),
-		'priority' => 400,
-	),
-	'bookmarks' => (HYPEGALLERY_BOOKMARKS) ? array(
-		'text' => elgg_echo('hj:gallery:albums:bookmarks'),
-		'href' => 'gallery/dashboard/bookmarks',
-		'selected' => ($filter_context == 'bookmarks'),
-		'priority' => 500,
-	) : null,
+$viewer = elgg_get_page_owner_entity();
+if (!elgg_instanceof($viewer, 'user')) {
+	$viewer = elgg_get_logged_in_user_entity();
+}
+
+if (elgg_is_logged_in()) {
+	$tabs = array(
+		'mine' => array(
+			'text' => elgg_echo('hj:gallery:albums:mine'),
+			'href' => "gallery/dashboard/owner/$viewer->username",
+			'selected' => ($filter_context == 'owner'),
+			'priority' => 200,
+		),
+		'friends' => array(
+			'text' => elgg_echo('hj:gallery:albums:friends'),
+			'href' => "gallery/dashboard/friends/$viewer->username",
+			'selected' => ($filter_context == 'friends'),
+			'priority' => 300,
+		),
+		'groups' => (HYPEGALLERY_GROUP_ALBUMS) ? array(
+			'text' => elgg_echo('hj:gallery:albums:groups'),
+			'href' => "gallery/dashboard/groups/$viewer->username",
+			'selected' => ($filter_context == 'groups'),
+			'priority' => 400,
+		) : NULL,
+		'favorites' => (HYPEGALLERY_FAVORITES) ? array(
+			'text' => elgg_echo('hj:gallery:albums:favorites'),
+			'href' => "gallery/dashboard/favorites/$viewer->username",
+			'selected' => ($filter_context == 'favorites'),
+			'priority' => 500,
+		) : NULL,
+	);
+}
+$tabs['site'] = array(
+	'text' => elgg_echo('hj:gallery:albums:all'),
+	'href' => 'gallery/dashboard/site',
+	'selected' => ($filter_context == 'site'),
+	'priority' => 100,
 );
 
 foreach ($tabs as $name => $tab) {

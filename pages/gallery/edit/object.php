@@ -3,7 +3,7 @@
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-if (!$entity instanceof hjObject) {
+if (!elgg_instanceof($entity)) {
 	return false;
 }
 

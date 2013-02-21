@@ -22,4 +22,12 @@ class hjAlbumImage extends hjFile {
 		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 	}
 
+	public function getEditURL() {
+		return "gallery/edit/$this->guid";
+	}
+
+	public function getDeleteURL() {
+		return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/framework/delete/object?guid=$this->guid");
+	}
+
 }

@@ -18,7 +18,9 @@ $info .= elgg_view('object/hjalbum/elements/time_created', $vars);
 $description = elgg_view('object/hjalbum/elements/description', $vars);
 
 $details .= elgg_view('object/hjalbum/elements/tags', $vars);
-
+if (HYPEGALLERY_CATEGORIES) {
+	$details .= elgg_view('object/hjalbum/elements/categories', $vars);
+}
 if (HYPEGALLERY_COPYRIGHTS) {
 	$details .= elgg_view('object/hjalbum/elements/copyright', $vars);
 }
@@ -36,7 +38,7 @@ if (get_input('details')) {
 	));
 	$images = elgg_view('object/hjalbum/elements/images', $vars);
 	$body = elgg_view_image_block($info . $details, $images);
-	echo elgg_view_module('info', $title, $body, array('footer' => $description, 'class' => 'elgg-module-album-detailed'));
+	echo elgg_view_module('aside', $title, $body, array('footer' => $description, 'class' => 'elgg-module-album-detailed'));
 } else {
 	echo elgg_view_module('album', $title, $info);
 }

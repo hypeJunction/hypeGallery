@@ -27,7 +27,7 @@ if (HYPEGALLERY_INTERFACE_CALENDAR) {
 
 $menu = elgg_view('object/hjalbumimage/elements/menu', $vars);
 
-if (get_input('details')) {
+if (get_input('details') == 'summary') {
 
 	$vars['size'] = 'master';
 	$info = elgg_view('object/hjalbumimage/elements/icon', $vars) . $info;
@@ -35,12 +35,22 @@ if (get_input('details')) {
 	$title = elgg_view_image_block('', $title, array(
 		'image_alt' => $menu
 			));
-	echo elgg_view_module('info', $title, $info . $details, array('class' => 'elgg-module-albumimage-detailed'));
+	echo elgg_view_module('aside', $title, $info . $details, array('class' => 'elgg-module-albumimage-summary'));
+} else if (get_input('details') == 'full') {
 
+	$vars['size'] = 'master';
+	$info = elgg_view('object/hjalbumimage/elements/icon', $vars) . $info;
+
+	$title = elgg_view_image_block('', $title, array(
+		'image_alt' => $menu
+			));
+
+	echo elgg_view_module('aside', $title, $info . $details, array('class' => 'elgg-module-albumimage-full'));
 } else {
 
 	$vars['size'] = 'large';
 	$info = elgg_view('object/hjalbumimage/elements/icon', $vars) . $info;
 
 	echo elgg_view_module('album', $title, $info);
+
 }

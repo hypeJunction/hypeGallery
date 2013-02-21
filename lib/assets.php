@@ -7,6 +7,9 @@ elgg_register_simplecache_view('css/framework/gallery/base');
 elgg_register_js('gallery.base.js', elgg_get_simplecache_url('js', 'framework/gallery/base'));
 elgg_register_simplecache_view('js/framework/gallery/base');
 
+elgg_register_js('gallery.popup.js', elgg_get_simplecache_url('js', 'framework/gallery/popup'));
+elgg_register_simplecache_view('js/framework/gallery/popup');
+
 elgg_register_js('gallery.cropper.js', elgg_get_simplecache_url('js', 'framework/gallery/cropper'));
 elgg_register_simplecache_view('js/framework/gallery/cropper');
 
