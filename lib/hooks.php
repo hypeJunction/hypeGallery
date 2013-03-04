@@ -58,7 +58,7 @@ function hj_gallery_order_by_clauses($hook, $type, $options, $params) {
 }
 
 /**
- * Custom clauses for forum keyword search
+ * Custom clauses for album/image keyword search
  */
 function hj_gallery_filter_list($hook, $type, $options, $params) {
 

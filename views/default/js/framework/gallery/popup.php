@@ -10,17 +10,15 @@ framework.gallery.dialog = $('<div id="gallery-dialog">');
 
 framework.gallery.popup = function() {
 
-	$('.hj-gallery-popup').live('click', framework.gallery.popup_trigger);
+	$('.hj-gallery-popup').live('click', framework.gallery.popupTrigger);
 
 }
 
-framework.gallery.popup_trigger = function(e) {
+framework.gallery.popupTrigger = function(e) {
 
 	$element = $(this);
 	$dialog = framework.gallery.dialog;
 
-	console.log($element);
-	
 	e.preventDefault;
 
 	elgg.post($element.attr('href'), {

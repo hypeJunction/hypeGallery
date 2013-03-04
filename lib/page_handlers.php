@@ -11,10 +11,6 @@ function hj_gallery_page_handler($page, $handler) {
 
 	elgg_load_css('gallery.base.css');
 	elgg_load_js('gallery.base.js');
-//	elgg_load_js('gallery.cropper.js');
-//	elgg_load_js('gallery.tagger.js');
-//	elgg_load_js('jquery.imgareaselect');
-//	elgg_load_css('jquery.imgareaselect');
 
 	elgg_push_breadcrumb(elgg_echo('gallery'), 'gallery/dashboard/site');
 
@@ -54,19 +50,6 @@ function hj_gallery_page_handler($page, $handler) {
 					include $include;
 					break;
 
-				case 'friends' :
-					gatekeeper();
-					if (isset($page[2])) {
-						$owner = get_user_by_username($page[2]);
-					}
-
-					if (!$owner) {
-						return false;
-					}
-
-					elgg_set_page_owner_guid($owner->guid);
-					include "{$pages}dashboard/friends.php";
-					break;
 			}
 
 			break;

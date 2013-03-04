@@ -1,8 +1,14 @@
 <?php
 
 $entity = elgg_extract('entity', $vars, false);
+$full = elgg_extract('full_view', $vars, false);
 
 if (!elgg_instanceof($entity, 'object', 'hjalbum')) {
+	return true;
+}
+
+if ($full) {
+	echo elgg_view('object/hjalbum/list', $vars);
 	return true;
 }
 

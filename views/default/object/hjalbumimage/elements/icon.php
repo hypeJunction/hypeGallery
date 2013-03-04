@@ -1,3 +1,3 @@
 <?php
 
-echo elgg_view_entity_icon($vars['entity'], $vars['size']);
+echo elgg_view('framework/bootstrap/object/elements/icon', $vars);

@@ -11,7 +11,7 @@ if (!$entity) {
 }
 
 $full = elgg_extract('full_view', $vars, false);
-$list_type = elgg_extract('list_type', $vars, 'list');
+$list_type = elgg_extract('list_type', $vars, 'gallery');
 
 if (elgg_in_context('activity') || elgg_in_context('main')) {
 	echo elgg_view('object/hjalbumimage/river', $vars);

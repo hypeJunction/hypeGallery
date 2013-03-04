@@ -105,6 +105,13 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					);
 				}
 
+				$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
+					'text' => elgg_echo('hj:album:image:download'),
+					'href' => $entity->getDownloadURL(),
+					'priority' => 50,
+					'parent_name' => 'options'
+						) : NULL;
+
 				$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
 					'text' => elgg_echo('hj:album:image:makeavatar'),
 					'href' => "action/gallery/makeavatar?e=$entity->guid",
@@ -211,6 +218,13 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
+					'text' => elgg_echo('hj:album:image:download'),
+					'href' => $entity->getDownloadURL(),
+					'class' => 'elgg-button elgg-button-action',
+					'priority' => 50,
+					'parent_name' => 'options'
+						) : NULL;
 
 			$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
 				'text' => elgg_echo('hj:album:image:makeavatar'),
@@ -270,7 +284,7 @@ function hj_gallery_list_filter_menu($hook, $type, $return, $params) {
 		$items[] = array(
 			'name' => 'toggle:depth:albums',
 			'text' => elgg_echo('hj:gallery:switch:albums'),
-			'href' => elgg_http_remove_url_query_element($url, 'photostream'),
+			'href' => hj_framework_http_remove_url_query_element($url, 'photostream'),
 			'section' => 'depth_toggle',
 			'selected' => (!get_input('photostream')),
 			'priority' => 210
@@ -292,7 +306,7 @@ function hj_gallery_list_filter_menu($hook, $type, $return, $params) {
 		$items[] = array(
 			'name' => 'toggle:details:thumbs',
 			'text' => elgg_echo('hj:gallery:switch:thumbs'),
-			'href' => elgg_http_remove_url_query_element($url, 'details'),
+			'href' => hj_framework_http_remove_url_query_element($url, 'details'),
 			'section' => 'details_toggle',
 			'selected' => (!get_input('details')),
 			'priority' => 310

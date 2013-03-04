@@ -15,9 +15,11 @@ $filter_vars = array_merge($vars, $filter_vars);
 switch (get_input('details')) {
 	default :
 		$list_class = 'hj-imagelist-thumbs';
-		$limit_select_options = array(9, 18, 45, 90);
-		if (!get_input("__lim_$list_id", false)) {
-			set_input("__lim_$list_id", 9);
+		if ($list_type == 'gallery') {
+			$limit_select_options = array(9, 18, 45, 90);
+			if (!get_input("__lim_$list_id", false)) {
+				set_input("__lim_$list_id", 9);
+			}
 		}
 		break;
 
@@ -92,14 +94,15 @@ $list_options = array(
 			)
 		)
 	),
-	'list_pagination' => true,
+	'pagination' => true,
 	'limit_select_options' => $limit_select_options,
 	'filter' => elgg_view('framework/gallery/filters/list', $filter_vars)
 );
 
 $viewer_options = array(
 	'full_view' => false,
-	'list_type' => $list_type
+	'list_type' => $list_type,
+	'size' => 'medium'
 );
 
 if (!get_input("__ord_$list_id", false)) {

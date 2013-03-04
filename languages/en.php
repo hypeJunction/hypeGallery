@@ -90,6 +90,7 @@ $english = array(
 
 	'hj:album:image:makeavatar' => 'Make Profile Picture',
 	'hj:album:image:makecover' => 'Make Album Cover',
+	'hj:album:image:download' => 'Download',
 	'hj:album:image:editthumb' => 'Edit Thumbnail',
 	'hj:album:image:tag' => 'Tag',
 
@@ -186,6 +187,39 @@ $english = array(
 	'hj:gallery:thumb:reset:error' => 'There was an error resetting the thumbnail',
 
 	'hj:gallery:tagger:instructions' => 'To create a tag, select an area on the photo',
+
+	'edit:plugin:hypegallery:params[album_river]' => 'Add album updates to the activity stream',
+	'edit:plugin:hypegallery:hint:album_river' => 'Enabling this option will add entries about newly uploaded images to the activity stream',
+
+	'edit:plugin:hypegallery:params[favorites]' => 'Enable favorites tab on the dashboard',
+	'edit:plugin:hypegallery:hint:favorites' => 'Enabling this option will add a favorites tab and display a list of liked images',
+
+	'edit:plugin:hypegallery:params[interface_location]' => 'Enable location interface',
+	'edit:plugin:hypegallery:hint:interface_location' => 'Enabling this option will add a required location field to images, and add a map view (should the map interface be enabled)',
+
+	'edit:plugin:hypegallery:params[interface_calendar]' => 'Enable dates for albums and images',
+	'edit:plugin:hypegallery:hint:interface_calendar' => 'Enabling this option will add a required date field to images, and add a calendar view (should the calendar interface be enabled)',
+
+	'edit:plugin:hypegallery:params[copyrights]' => 'Add copyright information to albums and images',
+	'edit:plugin:hypegallery:hint:copyrights' => 'Enabling this option will add a required copyright field to images',
+
+	'edit:plugin:hypegallery:params[categories]' => 'Enable categories',
+	'edit:plugin:hypegallery:hint:categories' => 'Enablighs this option will add a categories field to images',
+
+	'edit:plugin:hypegallery:params[collaborative_albums]' => 'Enable collaborative albums',
+	'edit:plugin:hypegallery:hint:collaborative_albums' => 'Enabling this option will allows users to create collaborative albums; other users will be given an opportunity to add images to collaborative albums, pending original creator\'s approval',
+
+	'edit:plugin:hypegallery:params[group_albums]' => 'Enable group albums',
+	'edit:plugin:hypegallery:hint:group_albums' => 'Enabling this option will add gallery interface to groups',
+
+	'edit:plugin:hypegallery:params[avatars]' => 'Users can use uploaded images as avatars',
+	'edit:plugin:hypegallery:hint:avatars' => 'Enabling this option will allow users to use uploaded images as their avatars',
+
+	'edit:plugin:hypegallery:params[tagging]' => 'Enable image area tagging',
+	'edit:plugin:hypegallery:hint:tagging' => 'Enabligh this option will allow users to add image area tags to images',
+
+	'edit:plugin:hypegallery:params[downloads]' => 'Enable downloads',
+	'edit:plugin:hypegallery:hint:downloads' => 'Enabling this option will allow users to download images',
 	
 );
 

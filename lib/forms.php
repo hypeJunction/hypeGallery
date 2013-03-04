@@ -24,7 +24,8 @@ function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 		'group_albums',
 //		'site_albums_quota',
 		'avatars',
-		'tagging'
+		'tagging',
+		'downloads'
 	);
 
 
@@ -35,7 +36,8 @@ function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 				0 => elgg_echo('disable'),
 				1 => elgg_echo('enable')
 			),
-			'value' => $entity->$s
+			'value' => $entity->$s,
+			'hint' => elgg_echo("edit:plugin:hypegallery:hint:$s")
 		);
 	}
 

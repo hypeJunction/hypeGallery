@@ -17,6 +17,8 @@ foreach ($query as $key => $val) {
 	}
 }
 
+$body .= elgg_view('dashboard/filter/list/extend', $vars);
+
 $footer .= '<div class="hj-ajax-loader hj-loader-indicator hidden"></div>';
 
 $footer .= elgg_view('input/submit', array(

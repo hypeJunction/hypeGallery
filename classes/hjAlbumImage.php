@@ -30,4 +30,7 @@ class hjAlbumImage extends hjFile {
 		return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/framework/delete/object?guid=$this->guid");
 	}
 
+	public function getDownloadURL() {
+		return elgg_normalize_url("framework/download/$this->guid");
+	}
 }

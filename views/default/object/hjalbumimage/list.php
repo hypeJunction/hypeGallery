@@ -9,9 +9,7 @@ if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
 
 $title = elgg_view('object/hjalbumimage/elements/title', $vars);
 
-if ($full) {
-
-	$details .= elgg_view('object/hjalbumimage/elements/tags', $vars);
+$details .= elgg_view('object/hjalbumimage/elements/tags', $vars);
 
 	if (HYPEGALLERY_CATEGORIES) {
 		$details .= elgg_view('object/hjalbumimage/elements/categories', $vars);
@@ -25,6 +23,8 @@ if ($full) {
 	if (HYPEGALLERY_INTERFACE_CALENDAR) {
 		$details .= elgg_view('object/hjalbumimage/elements/date', $vars);
 	}
+
+if ($full) {
 
 	elgg_push_context('image-full-view');
 
@@ -44,7 +44,7 @@ if ($full) {
 	elgg_pop_context();
 } else {
 	$vars['size'] = 'medium';
-	$cover = elgg_view('object/hjalbumimage/elements/cover', $vars);
+	$cover = elgg_view('object/hjalbumimage/elements/icon', $vars);
 	$briefdescription = elgg_view('object/hjalbumimage/elements/briefdescription', $vars);
-	echo elgg_view_image_block($cover, $title . $briefdescription);
+	echo elgg_view_image_block($cover, $title . $briefdescription . $details);
 }

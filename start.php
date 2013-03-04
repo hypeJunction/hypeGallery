@@ -22,6 +22,7 @@ define('HYPEGALLERY_COLLABORATIVE_ALBUMS', elgg_get_plugin_setting('collaborativ
 define('HYPEGALLERY_GROUP_ALBUMS', elgg_get_plugin_setting('group_albums', 'hypeGallery'));
 define('HYPEGALLERY_AVATARS', elgg_get_plugin_setting('avatars', 'hypeGallery'));
 define('HYPEGALLERY_TAGGING', elgg_get_plugin_setting('tagging', 'hypeGallery'));
+define('HYPEGALLERY_DOWNLOADS', elgg_get_plugin_setting('downloads', 'hypeGallery'));
 
 /** @todo: Add quota logic */
 //define('HYPEGALLERY_SITE_ALBUMS_QUOTA', elgg_get_plugin_setting('site_albums_quota', 'hypeGallery'));

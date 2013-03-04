@@ -9,12 +9,6 @@ if (!elgg_instanceof($entity, 'object', 'hjalbum')) {
 
 $title = elgg_view('object/hjalbum/elements/title', $vars);
 
-$vars['size'] = 'large';
-$info = elgg_view('object/hjalbum/elements/cover', $vars);
-$info .= elgg_view('object/hjalbum/elements/image_count', $vars);
-$info .= elgg_view('object/hjalbum/elements/author', $vars);
-$info .= elgg_view('object/hjalbum/elements/time_created', $vars);
-
 $description = elgg_view('object/hjalbum/elements/description', $vars);
 
 $details .= elgg_view('object/hjalbum/elements/tags', $vars);
@@ -50,9 +44,14 @@ if ($full) {
 	));
 	elgg_pop_context();
 } else {
+
 	$vars['size'] = 'medium';
-	$cover = elgg_view('framework/bootstrap/object/elements/icon', $vars);
-	$count = elgg_view('object/hjalbum/elements/image_count', $vars);
-	$briefdescription = elgg_view('framework/bootstrap/object/elements/briefdescription', $vars);
-	echo elgg_view_image_block($cover, $title . $briefdescription . $info . $details);
+	$cover = elgg_view('object/hjalbum/elements/cover', $vars);
+
+	$info .= elgg_view('object/hjalbum/elements/briefdescription', $vars);
+	$info .= elgg_view('object/hjalbum/elements/image_count', $vars);
+	$info .= elgg_view('object/hjalbum/elements/author', $vars);
+	$info .= elgg_view('object/hjalbum/elements/time_created', $vars);
+	
+	echo elgg_view_image_block($cover, $title . $info . $details);
 }

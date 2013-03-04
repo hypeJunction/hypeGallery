@@ -2,23 +2,29 @@
 	<style>
 	<?php endif; ?>
 
-	.hj-albumlist-thumbs > li,
-	.hj-imagelist-thumbs > li {
+	.elgg-module.elgg-module-album {
+		width:200px;
+		text-align:center;
+		margin:0 auto;
+	}
+	.elgg-gallery.hj-albumlist-thumbs > li,
+	.elgg-gallery.hj-imagelist-thumbs > li {
 		display: inline-block;
-		width: 200px;
 		margin: 5px;
 		text-align: center;
 		border: 1px solid #e8e8e8;
 		vertical-align:top;
+		width:200px;
+		text-align:center;
 	}
-	.hj-albumlist-summary > li {
+	.elgg-gallery.hj-albumlist-summary > li {
 		width:95%;
 		padding:2%;
 		display:block;
 		margin:10px 0;
 	}
 
-	.hj-imagelist-summary > li {
+	.elgg-gallery.hj-imagelist-summary > li {
 		width:45%;
 		padding:2%;
 		display:inline-block;
@@ -27,6 +33,13 @@
 	}
 	.elgg-module-album > .elgg-head {
 		padding: 10px 3px;
+	}
+
+	.hj-imagelist-summary .elgg-menu-entity {
+		max-width: 150px;
+		height: auto;
+		font-size:10px;
+		line-height:12px;
 	}
 
 	.elgg-module-album > .elgg-body {

@@ -20,7 +20,7 @@ $filter_vars = array_merge($vars, $filter_vars);
 $list_options = array(
 	'list_type' => $list_type,
 	'list_class' => $list_class,
-	'list_pagination' => true,
+	'pagination' => true,
 );
 
 $viewer_options = array(
