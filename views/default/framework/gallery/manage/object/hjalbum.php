@@ -115,7 +115,7 @@ if ($entity->canEdit()) {
 
 $module = elgg_view_module('gallery-album', '', $content);
 
-if ($entity->owner_guids != elgg_get_logged_in_user_guid()) {
+if ($entity->owner_guid != elgg_get_logged_in_user_guid() ) {
 	echo '<div class="hj-gallery-manage-instructions">';
 	echo elgg_echo('hj:gallery:manage:instructions');
 	echo '</div>';
