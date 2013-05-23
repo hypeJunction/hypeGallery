@@ -5,7 +5,7 @@ elgg_register_plugin_hook_handler('init', 'form:edit:plugin:user:hypegallery', '
 
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbum', 'hj_gallery_init_album_form');
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbumimage', 'hj_gallery_init_image_form');
-elgg_register_plugin_hook_handler('init', 'form:hjalbum:upload', 'hj_gallery_upload_form');
+elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbum:upload', 'hj_gallery_upload_form');
 
 elgg_register_plugin_hook_handler('process:input', 'form:input:name:gallery_image_files', 'hj_gallery_process_gallery_image_files');
 

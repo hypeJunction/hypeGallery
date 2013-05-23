@@ -20,10 +20,10 @@ if ($tag->save(false)) {
 	system_message(elgg_echo('hj:gallery:phototag:success'));
 
 	$html = array(
-		'list' => "<li class=\"elgg-item\" data-uid=\"$tag->guid\">" . elgg_view_entity($tag, array(
+		'list' => "<li class=\"elgg-item elgg-object elgg-object-hjimagetag\" data-uid=\"$tag->guid\">" . elgg_view_entity($tag, array(
 			'return_type' => 'list'
 		)) . '</li>',
-		'map' => "<li class=\"elgg-item\" data-uid=\"$tag->guid\">" . elgg_view_entity($tag, array(
+		'map' => "<li class=\"elgg-item elgg-object elgg-object-hjimagetag\" data-uid=\"$tag->guid\">" . elgg_view_entity($tag, array(
 			'return_type' => 'map'
 		)) . '</li>'
 	);

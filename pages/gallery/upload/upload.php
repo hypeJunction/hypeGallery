@@ -13,7 +13,7 @@ $title = elgg_echo('hj:gallery:upload:toalbum', array($entity->getTitle()));
 
 elgg_push_breadcrumb($title);
 
-$content = hj_framework_view_form("hjalbum:upload", array(
+$content = hj_framework_view_form("edit:object:hjalbum:upload", array(
 	'entity' => $entity,
 		));
 

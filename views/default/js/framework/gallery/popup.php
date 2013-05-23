@@ -25,7 +25,7 @@ framework.gallery.popupTrigger = function(e) {
 		data : {
 			guid : $element.data('uid'),
 			view : 'xhr',
-			endpoint : 'layout'
+			endpoint : 'content'
 		},
 
 		beforeSend : function() {

@@ -59,7 +59,7 @@
 				elgg.post($elem.attr('href'), {
 					data : {
 						view : 'xhr',
-						endpoint : 'layout'
+						endpoint : 'content'
 					},
 					beforeSend : function() {
 						$dialog

@@ -1,6 +1,4 @@
-<?php if (FALSE) : ?>
-	<style>
-	<?php endif; ?>
+<?php if (FALSE) : ?><style type="text/css"><?php endif; ?>
 
 	.elgg-module.elgg-module-album {
 		width:200px;
@@ -58,7 +56,7 @@
 	.hj-albumimage-icon {
 		display:block;
 	}
-	
+
 	#avatar-croppingtool {
 		border-top: 1px solid #ccc;
 	}
@@ -137,3 +135,5 @@
 		border:4px solid red;
 		display:block;
 	}
+
+	<?php if (FALSE) : ?></style><?php endif; ?>

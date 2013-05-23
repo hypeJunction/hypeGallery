@@ -41,6 +41,6 @@ echo elgg_view('input/form', array(
 	'action' => '',
 	'disable_security' => true,
 	'body' => $filter,
-	'class' => 'pull-right'
+	'class' => 'float-alt'
 ));
 echo '</div>';
