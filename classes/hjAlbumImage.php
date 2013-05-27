@@ -21,7 +21,7 @@ class hjAlbumImage extends hjFile {
 		$friendly_title = elgg_get_friendly_title($this->title);
 		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 	}
-
+	
 	public function getEditURL() {
 		return "gallery/edit/$this->guid";
 	}

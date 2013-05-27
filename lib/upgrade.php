@@ -1,5 +1,8 @@
 <?php
 
+ini_set('memory_limit', '512M');
+set_time_limit(0);
+
 $ia = elgg_set_ignore_access(true);
 $ha = access_get_show_hidden_status();
 access_show_hidden_entities(true);
@@ -7,14 +10,12 @@ access_show_hidden_entities(true);
 run_function_once('hj_gallery_1361394670');
 run_function_once('hj_gallery_1361396953');
 run_function_once('hj_gallery_1361394680');
+run_function_once('hj_gallery_1369646725');
 
 elgg_set_ignore_access($ia);
 access_show_hidden_entities($ha);
 
 function hj_gallery_1361394670() {
-
-	ini_set('memory_limit', '512M');
-	ini_set('max_execution_time', '500');
 
 	$subtypeId = get_subtype_id('object', 'hjalbumimage');
 	$dbprefix = elgg_get_config('dbprefix');
@@ -71,9 +72,6 @@ function hj_gallery_1361394670() {
 }
 
 function hj_gallery_1361396953() {
-
-	ini_set('memory_limit', '512M');
-	ini_set('max_execution_time', '500');
 
 	$subtypeIdImage = get_subtype_id('object', 'hjalbumimage');
 
@@ -149,4 +147,24 @@ function hj_gallery_1361379980() {
 	foreach ($data as $e) {
 		create_metadata($e->guid, 'priority', 0, '', $e->owner_guid, ACCESS_PUBLIC);
 	}
+}
+
+function hj_gallery_1369646725() {
+
+	$subtype = get_subtype_id('object', 'hjalbumimage');
+
+	$dbprefix = elgg_get_config('dbprefix');
+	$query = "	SELECT guid, owner_guid, time_created FROM {$dbprefix}entities e
+					WHERE NOT EXISTS (
+						SELECT 1 FROM {$dbprefix}metadata md
+						WHERE md.entity_guid = e.guid
+							AND md.name_id = 'icontime'
+								) AND e.subtype = $subtype";
+
+	$rows = get_data($query);
+
+	foreach ($rows as $row) {
+		create_metadata($row->guid, 'icontime', $row->time_created, '', $row->owner_guid, ACCESS_PUBLIC);
+	}
+	
 }

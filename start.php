@@ -10,7 +10,7 @@
  * @copyright Copyrigh (c) 2011-2013, Ismayil Khayredinov
  */
 
-define('HYPEGALLERY_RELEASE', 1361396953);
+define('HYPEGALLERY_RELEASE', 1369646725);
 
 define('HYPEGALLERY_ALBUM_RIVER', elgg_get_plugin_setting('album_river', 'hypeGallery'));
 define('HYPEGALLERY_FAVORITES', elgg_get_plugin_setting('favorites', 'hypeGallery'));
