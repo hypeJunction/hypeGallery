@@ -10,16 +10,19 @@ $error = elgg_echo('hj:gallery:approve:error');
 
 if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 	if ($entity->enable()) {
+
+		$posted = $entity->posted;
+		$river_posted = "river_$posted";
+
 		$md = elgg_get_metadata(array(
 			'guid' => $entity->container_guid,
 			'metadata_names' => $river_posted,
 			'limit' => 1
 				));
-		
+
 		if ($md) {
 			$meta = $md[0];
 			if ($meta->enable()) { // will return false if already enabled.. we want to perform this only once
-
 				add_to_river('river/object/hjalbum/update', 'update', $entity->owner_guid, $entity->container_guid, $entity->access_id, $posted);
 
 				$to = $entity->owner_guid;
@@ -43,16 +46,16 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 		$error = false;
 
 		$success = elgg_echo('hj:gallery:approve:success');
-		$posted = $entity->posted;
-		$river_posted = "river_$posted";
 	}
 }
 
 if ($error) {
-	register_error(elgg_echo('hj:gallery:approve:error'));
+	register_error($error);
 } else {
-	system_message(elgg_echo('hj:gallery:approve:success'));
-	print json_encode(array('guid' => $entity->getGUID()));
+	system_message($success);
+	if (elgg_is_xhr()) {
+		print json_encode(array('guid' => $entity->getGUID()));
+	}
 }
 
 access_show_hidden_entities($ha);

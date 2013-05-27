@@ -28,7 +28,9 @@ if ($tag->save(false)) {
 		)) . '</li>'
 	);
 
-	print(json_encode($html));
+	if (elgg_is_xhr()) {
+		print(json_encode($html));
+	}
 	forward(REFERER);
 } else {
 	register_error(elgg_echo('hj:gallery:phototag:error'));
