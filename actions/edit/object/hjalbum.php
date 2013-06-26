@@ -7,13 +7,9 @@ if ($result) {
 
 	$images = hj_gallery_handle_uploaded_files($entity);
 
-	foreach ($images as $image) {
-		$image_guids[] = $image->guid;
-	}
-
-	if ($image_guids) {
+	if ($images) {
 		$posted = time();
-		$entity->$posted = serialize($image_guids);
+		$entity->$posted = serialize($images);
 		add_to_river('river/object/hjalbum/create', 'create', $entity->owner_guid, $entity->guid, $entity->access_id, $posted);
 	}
 

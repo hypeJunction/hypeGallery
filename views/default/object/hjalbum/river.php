@@ -11,9 +11,11 @@ if (!$entity->$river_time) {
 		'limit' => 9,
 		'size' => 'medium',
 		'list_type' => 'gallery',
+		'item_class' => 'elgg-photo mas',
 		'pagination' => false
 	));
 } else {
+
 	$guids = unserialize($entity->$river_time);
 	foreach ($guids as $guid) {
 		if (get_entity($guid)) {
@@ -24,6 +26,7 @@ if (!$entity->$river_time) {
 	echo elgg_view_entity_list($images, array(
 		'size' => 'medium',
 		'list_type' => 'gallery',
+		'item_class' => 'elgg-photo mas',
 		'pagination' => false
 	));
 }
