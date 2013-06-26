@@ -70,7 +70,10 @@ function hj_gallery_handle_uploaded_files($entity) {
 
 		foreach ($uploads as $guid) {
 
-			$query = "	UPDATE {$dbprefix}entities e
+			if ((int)$guid <= 0)
+				continue;
+			
+			$query = "UPDATE {$dbprefix}entities e
 				SET e.subtype = $subtypeIdNew, e.container_guid = $entity->guid
 				WHERE e.guid = $guid";
 			update_data($query);
