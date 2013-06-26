@@ -136,4 +136,8 @@
 		display:block;
 	}
 
+	tr.hj-draggable-element-placeholder {
+		border:2px dashed #e8e8e8;
+	}
+	
 	<?php if (FALSE) : ?></style><?php endif; ?>
