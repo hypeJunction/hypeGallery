@@ -38,7 +38,7 @@ echo '<div class="hj-framework-list-filter">';
 
 echo elgg_view('input/form', array(
 	'method' => 'GET',
-	'action' => '',
+	'action' => full_url(),
 	'disable_security' => true,
 	'body' => $filter,
 	'class' => 'float-alt'
