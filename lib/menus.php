@@ -35,7 +35,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					'data-toggle' => 'dialog',
 					'data-callback' => 'refresh:lists::framework',
 					'data-uid' => $entity->guid,
-					'parent_name' => 'options',
 					'priority' => 400
 				);
 			}
@@ -44,7 +43,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				$items['manage'] = array(
 					'text' => elgg_echo('hj:gallery:manage:album'),
 					'href' => "gallery/manage/$entity->guid",
-					'parent_name' => 'options',
 					'priority' => 400
 				);
 			}
@@ -84,7 +82,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					'text' => elgg_echo('hj:gallery:approve'),
 					'href' => "action/gallery/approve/image?guid=$entity->guid",
 					'is_action' => true,
-					'parent_name' => 'options',
 					'class' => 'elgg-button-gallery-approve',
 					'data-toggle' => 'dialog',
 					'data-callback' => 'refresh:lists::framework',
@@ -124,7 +121,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					'text' => elgg_echo('hj:album:image:download'),
 					'href' => $entity->getDownloadURL(),
 					'priority' => 50,
-					'parent_name' => 'options'
 						) : NULL;
 
 				$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
@@ -132,7 +128,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					'href' => "action/gallery/makeavatar?e=$entity->guid",
 					'is_action' => true,
 					'priority' => 100,
-					'parent_name' => 'options'
 						) : NULL;
 
 				if (elgg_in_context('gallery-manage')) {
@@ -141,7 +136,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 						'href' => "gallery/thumb/$entity->guid",
 						'class' => 'elgg-button-gallery-editthumb',
 						'priority' => 990,
-						'parent_name' => 'options'
 					);
 
 					if ($entity->getContainerEntity()->canEdit()) {
@@ -154,7 +148,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 							'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
 							'data-uid' => $entity->guid,
 							'priority' => 980,
-							'parent_name' => 'options'
 						);
 					}
 				}
@@ -246,7 +239,6 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 				'href' => $entity->getDownloadURL(),
 				'class' => 'elgg-button elgg-button-action',
 				'priority' => 50,
-				'parent_name' => 'options'
 					) : NULL;
 
 			$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
