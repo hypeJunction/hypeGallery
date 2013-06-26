@@ -1,9 +1,15 @@
 <?php if (FALSE) : ?><style type="text/css"><?php endif; ?>
 
 	.elgg-module.elgg-module-album {
-		width:200px;
+		width:185px;
 		text-align:center;
 		margin:0 auto;
+	}
+	.elgg-module.elgg-module-album .elgg-head {
+		padding:0;
+	}
+	.elgg-module.elgg-module-album .elgg-body {
+		padding:0;
 	}
 	.elgg-gallery.hj-albumlist-thumbs > li,
 	.elgg-gallery.hj-imagelist-thumbs > li {
@@ -12,7 +18,7 @@
 		text-align: center;
 		border: 1px solid #e8e8e8;
 		vertical-align:top;
-		width:200px;
+		width:185px;
 		text-align:center;
 	}
 	.elgg-gallery.hj-albumlist-summary > li {
