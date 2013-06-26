@@ -70,12 +70,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 		case 'hjalbumimage' :
 
-			$items['options'] = array(
-				'text' => elgg_view_icon('settings'),
-				'href' => "#elgg-entity-$entity->guid",
-				'priority' => 500
-			);
-
 			// Item is pending approval
 			if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 				$items['approve'] = array(
