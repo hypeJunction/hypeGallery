@@ -8,7 +8,7 @@
 		framework.gallery.init = function() {
 
 			$(".gallery-manage-album tbody").sortable({
-				items:                'tr.hj-draggable-element',
+				items:                'tr.elgg-object-hjalbumimage',
 				connectWith:          '.gallery-manage-album tbody',
 				handle:               '.hj-draggable-element-handle',
 				forcePlaceholderSize: true,
