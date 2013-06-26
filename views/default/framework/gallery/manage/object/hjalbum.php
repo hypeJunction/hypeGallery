@@ -2,14 +2,6 @@
 
 $entity = elgg_extract('entity', $vars);
 
-$params = array(
-	'entity' => $entity,
-	'class' => 'elgg-menu-hjentityhead elgg-menu-hz elgg-menu-album',
-	'sort_by' => 'priority',
-	'handler' => 'album',
-	'dropdown' => false
-);
-
 $details .= elgg_view('object/hjalbum/elements/tags', $vars);
 if (HYPEGALLERY_CATEGORIES) {
 	$details .= elgg_view('object/hjalbum/elements/categories', $vars);

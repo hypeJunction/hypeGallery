@@ -7,7 +7,7 @@ elgg_register_menu_item('site', array(
 	'href' => 'gallery/dashboard/site',
 ));
 
-elgg_register_plugin_hook_handler('register', 'menu:hjentityhead', 'hj_gallery_entity_menu');
+elgg_register_plugin_hook_handler('register', 'menu:entity', 'hj_gallery_entity_menu');
 elgg_register_plugin_hook_handler('register', 'menu:title', 'hj_gallery_entity_title_menu');
 elgg_register_plugin_hook_handler('register', 'menu:list_filter', 'hj_gallery_list_filter_menu');
 elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'hj_gallery_owner_block_menu');
@@ -49,6 +49,25 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			if ($entity->canEdit()) {
+				$items['edit'] = array(
+					'text' => elgg_echo('edit'),
+					'href' => $entity->getEditURL(),
+					'class' => 'elgg-button-edit-entity',
+					'data-toggle' => 'dialog',
+					'data-callback' => 'refresh:lists::framework',
+					'data-uid' => $entity->guid,
+					'priority' => 995
+				);
+				$items['delete'] = array(
+					'text' => elgg_echo('delete'),
+					'href' => $entity->getDeleteURL(),
+					'class' => 'elgg-button-delete-entity',
+					'data-uid' => $entity->guid,
+					'priority' => 1000
+				);
+			}
+
 			break;
 
 		case 'hjalbumimage' :
@@ -76,7 +95,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
 					'href' => $entity->getDeleteURL(),
-					'parent_name' => 'options',
 					'class' => 'elgg-button-delete-entity',
 					'data-uid' => $entity->guid,
 					'priority' => 1000
@@ -84,11 +102,9 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 			} else {
 
 				if ($entity->canEdit()) {
-					// have to add these again since hjAlbumImage is not instanceof hjObject
 					$items['edit'] = array(
 						'text' => elgg_echo('edit'),
 						'href' => $entity->getEditURL(),
-						'parent_name' => 'options',
 						'class' => 'elgg-button-edit-entity',
 						'data-toggle' => 'dialog',
 						'data-callback' => 'refresh:lists::framework',
@@ -98,7 +114,6 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					$items['delete'] = array(
 						'text' => elgg_echo('delete'),
 						'href' => $entity->getDeleteURL(),
-						'parent_name' => 'options',
 						'class' => 'elgg-button-delete-entity',
 						'data-uid' => $entity->guid,
 						'priority' => 1000
@@ -144,11 +159,21 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					}
 				}
 			}
+
+
 			break;
 	}
 
 	if ($items) {
 		foreach ($items as $name => $item) {
+			foreach ($return as $key => $val) {
+				if (!$val instanceof ElggMenuItem) {
+					unset($return[$key]);
+				}
+				if ($val instanceof ElggMenuItem && $val->getName() == $name) {
+					unset($return[$key]);
+				}
+			}
 			$item['name'] = $name;
 			$return[$name] = ElggMenuItem::factory($item);
 		}
@@ -193,38 +218,36 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			if ($entity->canEdit()) {
+				$items['edit'] = array(
+					'text' => elgg_echo('edit'),
+					'href' => $entity->getEditURL(),
+					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
+					'data-toggle' => 'dialog',
+					'data-uid' => $entity->guid,
+					'priority' => 995
+				);
+
+				$items['delete'] = array(
+					'text' => elgg_echo('delete'),
+					'href' => $entity->getDeleteURL(),
+					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
+					'data-uid' => $entity->guid,
+					'priority' => 1000
+				);
+			}
+
 			break;
 
 		case 'hjalbumimage' :
 
-			if ($entity->canEdit()) {
-// have to add these again since hjAlbumImage is not instanceof hjObject
-				$items = array(
-					'edit' => array(
-						'text' => elgg_echo('edit'),
-						'href' => $entity->getEditURL(),
-						'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
-						'data-toggle' => 'dialog',
-						'data-uid' => $entity->guid,
-						'priority' => 995
-					),
-					'delete' => array(
-						'text' => elgg_echo('delete'),
-						'href' => $entity->getDeleteURL(),
-						'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
-						'data-uid' => $entity->guid,
-						'priority' => 1000
-					)
-				);
-			}
-
 			$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
-					'text' => elgg_echo('hj:album:image:download'),
-					'href' => $entity->getDownloadURL(),
-					'class' => 'elgg-button elgg-button-action',
-					'priority' => 50,
-					'parent_name' => 'options'
-						) : NULL;
+				'text' => elgg_echo('hj:album:image:download'),
+				'href' => $entity->getDownloadURL(),
+				'class' => 'elgg-button elgg-button-action',
+				'priority' => 50,
+				'parent_name' => 'options'
+					) : NULL;
 
 			$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
 				'text' => elgg_echo('hj:album:image:makeavatar'),
@@ -255,11 +278,38 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			if ($entity->canEdit()) {
+				$items['edit'] = array(
+					'text' => elgg_echo('edit'),
+					'href' => $entity->getEditURL(),
+					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
+					'data-toggle' => 'dialog',
+					'data-uid' => $entity->guid,
+					'priority' => 995
+				);
+
+				$items['delete'] = array(
+					'text' => elgg_echo('delete'),
+					'href' => $entity->getDeleteURL(),
+					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
+					'data-uid' => $entity->guid,
+					'priority' => 1000
+				);
+			}
+
 			break;
 	}
 
 	if ($items) {
 		foreach ($items as $name => $item) {
+			foreach ($return as $key => $val) {
+				if (!$val instanceof ElggMenuItem) {
+					unset($return[$key]);
+				}
+				if ($val instanceof ElggMenuItem && $val->getName() == $name) {
+					unset($return[$key]);
+				}
+			}
 			$item['name'] = $name;
 			$return[$name] = ElggMenuItem::factory($item);
 		}
