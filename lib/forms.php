@@ -7,7 +7,7 @@ elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbum', 'hj_galler
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbumimage', 'hj_gallery_init_image_form');
 elgg_register_plugin_hook_handler('init', 'form:edit:object:hjalbum:upload', 'hj_gallery_upload_form');
 
-elgg_register_plugin_hook_handler('process:input', 'form:input:name:gallery_image_files', 'hj_gallery_process_gallery_image_files');
+elgg_register_plugin_hook_handler('process:input', 'form:input:name:gallery_files', 'hj_gallery_process_gallery_files');
 
 function hj_gallery_init_plugin_settings_form($hook, $type, $return, $params) {
 
@@ -81,61 +81,66 @@ function hj_gallery_init_album_form($hook, $type, $return, $params) {
 		'fields' => array(
 			'type' => array(
 				'input_type' => 'hidden',
-				'value' => 'object'
+				'value' => 'object',
 			),
 			'subtype' => array(
 				'input_type' => 'hidden',
 				'value' => 'hjalbum'
 			),
+			'guid' => array(
+				'input_type' => 'hidden',
+				'value' => $entity->guid
+			),
+			'container_guid' => array(
+				'input_type' => 'hidden',
+				'value' => $container->guid,
+			),
 			'title' => array(
 				'value' => $entity->title,
 				'required' => true,
-				'label' => elgg_echo('hj:label:hjalbum:title')
+				'label' => elgg_echo('hj:label:hjalbum:title'),
 			),
 			'description' => array(
 				'value' => $entity->description,
 				'input_type' => 'longtext',
 				'class' => 'elgg-input-longtext',
-				'label' => elgg_echo('hj:label:hjalbum:description')
+				'label' => elgg_echo('hj:label:hjalbum:description'),
 			),
 			'categories' => (HYPEGALLERY_CATEGORIES) ? array(
-				'input_type' => 'categories',
+				'input_type' => 'gallery/categories',
 				'value' => $entity->category,
-				'label' => elgg_echo('hj:label:hjalbum:category')
+				'label' => elgg_echo('hj:label:hjalbum:category'),
 					) : NULL,
 			'location' => (HYPEGALLERY_INTERFACE_LOCATION) ? array(
 				'input_type' => 'location',
 				'value' => ($entity) ? $entity->getLocation() : '',
 				'label' => elgg_echo('hj:label:hjalbum:location'),
-				'required' => true
+				//'required' => true
 					) : NULL,
 			'date' => (HYPEGALLERY_INTERFACE_CALENDAR) ? array(
 				'input_type' => 'date',
 				'value' => $entity->date,
 				'label' => elgg_echo('hj:label:hjalbum:date'),
-				'required' => true
+				//'required' => true
 					) : NULL,
 			'tags' => array(
 				'input_type' => 'tags',
 				'value' => $entity->tags,
-				'label' => elgg_echo('hj:label:hjalbum:tags')
+				'label' => elgg_echo('hj:label:hjalbum:tags'),
 			),
 			'copyright' => (HYPEGALLERY_COPYRIGHTS) ? array(
+				'input_type' => 'gallery/copyright',
 				'value' => $entity->copyright,
 				'label' => elgg_echo('hj:label:hjalbum:copyright'),
-				'required' => true
+				//'required' => true
 					) : NULL,
 			'permissions' => hj_gallery_get_permissions_options($entity, $container),
-			'gallery_image_files' => (!$entity) ? array(
-				'input_type' => 'multifile',
-				'allowedfiletypes' => array(
-					'image/jpeg', 'image/jpg', 'image/png', 'image/gif'
-				),
-				'data-callback' => 'image:upload::framework:gallery',
+			'gallery_files' => (!$entity) ? array(
+				'input_type' => 'gallery/filedrop',
 				'label' => elgg_echo('hj:label:hjalbum:upload')
 			) : null,
 			'access_id' => array(
-				'value' => $entity->access_id,
+				'value' => (isset($entity->access_id)) ? $entity->access_id : get_default_access(),
 				'input_type' => 'access',
 				'label' => elgg_echo('hj:label:hjalbum:access_id')
 			)
@@ -219,7 +224,7 @@ function hj_gallery_upload_form($hook, $type, $return, $params) {
 			'action' => 'action/gallery/upload'
 		),
 		'fields' => array(
-			'gallery_image_files' => array(
+			'gallery_files' => array(
 				'input_type' => 'multifile',
 				'allowedfiletypes' => array(
 					'image/jpeg', 'image/jpg', 'image/png', 'image/gif'
@@ -241,7 +246,7 @@ function hj_gallery_upload_form($hook, $type, $return, $params) {
  * Process filedrop fallback uploads
  *
  */
-function hj_gallery_process_gallery_image_files($hook, $type, $return, $params) {
+function hj_gallery_process_gallery_files($hook, $type, $return, $params) {
 
 	// prevent the action from processing this input
 	// @see hj_gallery_handle_uploaded_files()

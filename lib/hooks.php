@@ -1,5 +1,25 @@
 <?php
 
+elgg_register_plugin_hook_handler('view', 'page/components/list', 'hj_gallery_override_list_view');
+elgg_register_plugin_hook_handler('view', 'page/components/gallery', 'hj_gallery_override_list_view');
+
+function hj_gallery_override_list_view($hook, $type, $return, $params) {
+
+	$vars = elgg_extract('vars', $params);
+	$list_type = elgg_extract('list_type', $vars);
+
+	switch ($list_type) {
+
+		case 'photostream' :
+			return elgg_view('framework/grids/photostream', $vars);
+			break;
+
+	}
+
+	return $return;
+
+}
+
 // Custom order by clauses
 elgg_register_plugin_hook_handler('order_by_clause', 'framework:lists', 'hj_gallery_order_by_clauses');
 

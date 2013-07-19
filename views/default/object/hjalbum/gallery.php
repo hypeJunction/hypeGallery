@@ -12,39 +12,53 @@ if ($full) {
 	return true;
 }
 
-$title = elgg_view('object/hjalbum/elements/title', $vars);
+$title = elgg_view('output/url', array(
+	'text' => $entity->title,
+	'href' => $entity->getURL(),
+	'title' => elgg_strip_tags($entity->description),
+	'is_trusted' => true
+		));
 
-$vars['size'] = 'large';
-$info = elgg_view('object/hjalbum/elements/cover', $vars);
-
-$info .= elgg_view('object/hjalbum/elements/image_count', $vars);
-$info .= elgg_view('object/hjalbum/elements/author', $vars);
-$info .= elgg_view('object/hjalbum/elements/time_created', $vars);
-
-$description = elgg_view('object/hjalbum/elements/description', $vars);
-
-$details .= elgg_view('object/hjalbum/elements/tags', $vars);
-if (HYPEGALLERY_CATEGORIES) {
-	$details .= elgg_view('object/hjalbum/elements/categories', $vars);
-}
-if (HYPEGALLERY_COPYRIGHTS) {
-	$details .= elgg_view('object/hjalbum/elements/copyright', $vars);
-}
-if (HYPEGALLERY_INTERFACE_LOCATION) {
-	$details .= elgg_view('object/hjalbum/elements/location', $vars);
-}
-if (HYPEGALLERY_INTERFACE_CALENDAR) {
-	$details .= elgg_view('object/hjalbum/elements/date', $vars);
-}
-
-$menu = elgg_view('object/hjalbum/elements/menu', $vars);
-if (get_input('details')) {
-	$title = elgg_view_image_block('', $title, array(
-		'image_alt' => $menu
-	));
-	$images = elgg_view('object/hjalbum/elements/images', $vars);
-	$body = elgg_view_image_block($info . $details, $images);
-	echo elgg_view_module('aside', $title, $body, array('footer' => $description, 'class' => 'elgg-module-album-detailed'));
+$count = $entity->getContainedFiles(array('count' => true));
+if ($count) {
+	$cover = elgg_view_entity_icon($entity, '325x200');
 } else {
-	echo elgg_view_module('album', $title, $info);
+	$cover = "<div class=\"gallery-album-cover-placeholder\" style=\"display:block;width:325px;height:200px;\"></div>";
 }
+
+$info_link = elgg_view('output/url', array(
+	'text' => elgg_view_icon('info'),
+	'href' => "#gallery-info-$entity->guid",
+	'rel' => 'toggle'
+));
+$info .= elgg_view('object/hjalbum/meta', $vars);
+
+
+$owner = get_entity($entity->owner_guid);
+if ($owner) {
+	$author = elgg_view('output/url', array(
+		'text' => elgg_view('output/img', array(
+			'src' => $owner->getIconURL('small'),
+		)),
+		'href' => $owner->getURL(),
+		'title' => $owner->name
+	));
+}
+
+$html = <<<__HTML
+	<div class="gallery-album-cover">
+		$cover
+		<div class="gallery-album-meta">
+			<div class="gallery-album-count">$count</div>
+			<div class="gallery-album-author">$author</div>
+			<div class="gallery-album-title">$title</div>
+			<div class="gallery-album-info-link">$info_link</div>
+			
+		</div>
+		<div id="gallery-info-$entity->guid" class="gallery-media-extras hidden">
+			$info
+		</div>
+	</div>
+__HTML;
+
+echo $html;

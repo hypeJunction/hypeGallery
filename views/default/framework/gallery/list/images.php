@@ -110,6 +110,6 @@ if (!get_input("__ord_$list_id", false)) {
 	set_input("__dir_$list_id", 'ASC');
 }
 
-$content = hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
+//$content = hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
 
 echo elgg_view_module('gallery', '', $content);

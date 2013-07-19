@@ -1,9 +1,7 @@
 <?php
 
 $list_id = elgg_extract('list_id', $vars, "albumlist");
-$getter_options = elgg_extract('getter_options', $vars);
-
-$list_type = get_input("__list_type_$list_id", 'gallery');
+$options = elgg_extract('getter_options', $vars);
 
 $filter_vars = array(
 	'handler' => 'gallery',
@@ -114,6 +112,6 @@ if (!get_input("__ord_$list_id", false)) {
 	set_input("__dir_$list_id", 'DESC');
 }
 
-$content = hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
+$content = elgg_list_entities(array_merge($getter_options, $list_options, $viewer_options));
 
 echo elgg_view_module('gallery', '', $content);

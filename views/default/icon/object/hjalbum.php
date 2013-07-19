@@ -27,18 +27,19 @@ if (isset($vars['href'])) {
 
 $img = elgg_view('output/img', array(
 	'src' => $entity->getIconURL($vars['size']),
-	'alt' => $title,
 	'class' => $class,
 	'width' => $requested_w,
 	'height' => $requested_h,
 		));
 
+
 if ($url) {
-	
+
 	$loader = elgg_normalize_url('mod/hypeGallery/graphics/loader.gif');
 	$params = array(
 		'href' => $url,
 		'text' => $img,
+		'title' => $title . ": " . elgg_strip_tags($entity->description),
 		'is_trusted' => true,
 		'data-guid' => $entity->guid,
 		'style' => "display:block;width:{$requested_w}px;height:{$requested_h}px;background:transparent url($loader) 50% 50% no-repeat;"

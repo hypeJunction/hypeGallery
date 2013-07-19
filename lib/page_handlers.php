@@ -3,11 +3,9 @@
 // Page handler
 elgg_register_page_handler('gallery', 'hj_gallery_page_handler');
 
-function hj_gallery_page_handler($page, $handler) {
+function hj_gallery_page_handler($page) {
 
-	$plugin = 'hypeGallery';
-	$shortcuts = hj_framework_path_shortcuts($plugin);
-	$pages = $shortcuts['pages'] . 'gallery/';
+	$path = elgg_get_plugins_path() . 'hypeGallery/pages/gallery/';
 
 	elgg_load_css('gallery.base.css');
 	elgg_load_js('gallery.base.js');
@@ -26,7 +24,7 @@ function hj_gallery_page_handler($page, $handler) {
 
 				default :
 				case 'site' :
-					include "{$pages}dashboard/site.php";
+					include "{$path}dashboard/site.php";
 					break;
 
 				case 'owner' :
@@ -37,19 +35,18 @@ function hj_gallery_page_handler($page, $handler) {
 					if (isset($page[2])) {
 						$owner = get_user_by_username($page[2]);
 					}
-					if (!$owner) {
+					if (!$owner && isset($page[2])) {
 						return false;
 					}
 
 					elgg_set_page_owner_guid($owner->guid);
-					$include = "{$pages}dashboard/{$dashboard}.php";
+					$include = "{$path}dashboard/{$dashboard}.php";
 
 					if (!file_exists($include)) {
 						return false;
 					}
 					include $include;
 					break;
-
 			}
 
 			break;
@@ -67,7 +64,7 @@ function hj_gallery_page_handler($page, $handler) {
 
 			elgg_set_page_owner_guid($group->guid);
 
-			include "{$pages}dashboard/group.php";
+			include "{$path}dashboard/group.php";
 			break;
 
 		case 'create' :
@@ -87,7 +84,7 @@ function hj_gallery_page_handler($page, $handler) {
 
 			set_input('container_guid', $container_guid);
 
-			$include = "{$pages}create/{$subtype}.php";
+			$include = "{$path}create/{$subtype}.php";
 
 			if (!file_exists($include)) {
 				return false;
@@ -104,7 +101,7 @@ function hj_gallery_page_handler($page, $handler) {
 
 			set_input('guid', $guid);
 
-			$include = "{$pages}{$action}/object.php";
+			$include = "{$path}{$action}/object.php";
 
 			if (!file_exists($include)) {
 				return false;
@@ -131,7 +128,7 @@ function hj_gallery_page_handler($page, $handler) {
 
 			set_input('container_guid', $entity->guid);
 
-			$include = "{$pages}upload/upload.php";
+			$include = "{$path}upload/upload.php";
 
 			if (!file_exists($include)) {
 				return false;
@@ -151,7 +148,17 @@ function hj_gallery_page_handler($page, $handler) {
 
 			$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array('entity' => $entity));
 
-			echo elgg_view_page($entity->title, elgg_view_layout('framework/entity', array('entity' => $entity, 'sidebar' => $sidebar)));
+			$layout = elgg_view_layout('content', array(
+				'entity' => $entity,
+				'title' => $entity->title,
+				'content' => elgg_view_entity($entity, array(
+					'full_view' => true
+				)),
+				'sidebar' => $sidebar,
+					));
+			echo elgg_view_page($entity->title, $layout, 'default', array(
+				'entity' => $entity
+			));
 			break;
 
 		case 'thumb' :
@@ -167,6 +174,17 @@ function hj_gallery_page_handler($page, $handler) {
 			$content = elgg_view_form('gallery/thumb', array(), array('entity' => $entity));
 
 			echo elgg_view_page($title, elgg_view_layout('one_column', array('title' => $title, 'content' => $content)));
+			break;
+
+		case 'icon':
+			set_input('guid', $page[1]);
+			set_input('size', $page[2]);
+			include "{$path}icon/icon.php";
+			break;
+
+		case 'download':
+			set_input('guid', $page[1]);
+			include "{$path}file/download.php";
 			break;
 	}
 

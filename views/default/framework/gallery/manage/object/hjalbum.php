@@ -99,7 +99,7 @@ if ($entity->canEdit()) {
 	$ha = access_get_show_hidden_status();
 	access_show_hidden_entities(true);
 }
-$content .= hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
+//$content .= hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities');
 
 if ($entity->canEdit()) {
 	access_show_hidden_entities($ha);

@@ -8,7 +8,7 @@ if (!$entity || !$entity->canEdit()) {
 	forward(REFERER);
 }
 
-$master = new hjFile();
+$master = new ElggFile();
 $master->owner_guid = $entity->owner_guid;
 $master->setFilename("icons/{$entity->guid}master.jpg");
 
@@ -25,7 +25,7 @@ $coords = array(
 	'y2' => $y_proportion * (int) get_input('y2', 0),
 );
 
-$temp = new hjFile();
+$temp = new ElggFile();
 $temp->owner_guid = $master->owner_guid;
 $temp->setFilename("temp/$entity->guid.jpg");
 $temp->setMimeType('image/jpeg');

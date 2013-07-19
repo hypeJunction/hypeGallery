@@ -1,6 +1,6 @@
 <?php
 
-class hjAlbum extends hjObject {
+class hjAlbum extends ElggObject {
 
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
@@ -17,33 +17,39 @@ class hjAlbum extends hjObject {
 				));
 	}
 
-	public function getContainedFiles($limit = 10) {
-		$options = array(
-			'types' => 'object',
-			'subtypes' => array('hjalbumimage'),
-			'container_guids' => $this->guid,
-			'limit' => $limit
-		);
+	public function getURL($action = 'view') {
+		switch ($action) {
 
-		$options = hj_framework_get_order_by_clause('md.priority', 'ASC', $options);
+			default :
+			case 'view' :
+				$friendly_title = elgg_get_friendly_title($this->title);
+				return "gallery/view/$this->guid/$friendly_title";
+				break;
 
-		return elgg_get_entities($options);
+			case 'edit' :
+				return "gallery/edit/$this->guid";
+				break;
+
+			case 'delete' :
+				return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
+				break;
+
+			case 'manage' :
+				return "gallery/manage/$this->guid";
+				break;
+		}
 	}
 
-	public function getURL() {
-		$friendly_title = elgg_get_friendly_title($this->title);
-		return "gallery/view/$this->guid/$friendly_title";
-	}
-
-	public function getEditURL() {
-		return "gallery/edit/$this->guid";
+	public function getContainedFiles($options = array()) {
+		$options['container_guids'] = array($this->guid);
+		return hj_gallery_get_files($options);
 	}
 
 	public function getIconURL($size = 'medium') {
 
 		if ($this->cover) {
 			$cover_image = get_entity($this->cover);
-		} else if ($images = $this->getContainedFiles(1)) {
+		} else if ($images = $this->getContainedFiles(array('limit' => 1))) {
 			$cover_image = $images[0];
 		}
 
@@ -52,7 +58,6 @@ class hjAlbum extends hjObject {
 		} else {
 			return parent::getIconURL($size);
 		}
-
 	}
 
 }

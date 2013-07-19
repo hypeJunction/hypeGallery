@@ -9,8 +9,7 @@ if (!$entity) {
 	return true;
 }
 
-$full = elgg_extract('full_view', $vars, false);
-$list_type = elgg_extract('list_type', $vars, 'gallery');
+$list_type = elgg_extract('list_type', $vars, 'photostream');
 
 if (elgg_in_context('activity') || elgg_in_context('main')) {
 	echo elgg_view('object/hjalbum/river', $vars);

@@ -6,7 +6,7 @@ elgg_load_js('gallery.tagger.js');
 
 $entity = elgg_extract('entity', $vars);
 
-$master = new hjFile();
+$master = new ElggFile();
 $master->owner_guid = $entity->owner_guid;
 $master->setFilename("icons/{$entity->guid}master.jpg");
 $master_dimensions = getimagesize($master->getFilenameOnFilestore());

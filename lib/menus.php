@@ -50,7 +50,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 			if ($entity->canEdit()) {
 				$items['edit'] = array(
 					'text' => elgg_echo('edit'),
-					'href' => $entity->getEditURL(),
+					'href' => $entity->getURL('edit'),
 					'class' => 'elgg-button-edit-entity',
 					'data-toggle' => 'dialog',
 					'data-callback' => 'refresh:lists::framework',
@@ -59,7 +59,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				);
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
-					'href' => $entity->getDeleteURL(),
+					'href' => $entity->getURL('delete'),
 					'class' => 'elgg-button-delete-entity',
 					'data-uid' => $entity->guid,
 					'priority' => 1000
@@ -85,7 +85,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
-					'href' => $entity->getDeleteURL(),
+					'href' => $entity->getURL('delete'),
 					'class' => 'elgg-button-delete-entity',
 					'data-uid' => $entity->guid,
 					'priority' => 1000
@@ -95,7 +95,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				if ($entity->canEdit()) {
 					$items['edit'] = array(
 						'text' => elgg_echo('edit'),
-						'href' => $entity->getEditURL(),
+						'href' => $entity->getURL('edit'),
 						'class' => 'elgg-button-edit-entity',
 						'data-toggle' => 'dialog',
 						'data-callback' => 'refresh:lists::framework',
@@ -104,7 +104,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					);
 					$items['delete'] = array(
 						'text' => elgg_echo('delete'),
-						'href' => $entity->getDeleteURL(),
+						'href' => $entity->getURL('delete'),
 						'class' => 'elgg-button-delete-entity',
 						'data-uid' => $entity->guid,
 						'priority' => 1000
@@ -113,7 +113,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 				$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
 					'text' => elgg_echo('hj:album:image:download'),
-					'href' => $entity->getDownloadURL(),
+					'href' => $entity->getURL('download'),
 					'priority' => 50,
 						) : NULL;
 
@@ -208,7 +208,7 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 			if ($entity->canEdit()) {
 				$items['edit'] = array(
 					'text' => elgg_echo('edit'),
-					'href' => $entity->getEditURL(),
+					'href' => $entity->getURL('edit'),
 					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
 					'data-toggle' => 'dialog',
 					'data-uid' => $entity->guid,
@@ -217,7 +217,7 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
-					'href' => $entity->getDeleteURL(),
+					'href' => $entity->getURL('delete'),
 					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
 					'data-uid' => $entity->guid,
 					'priority' => 1000
@@ -230,7 +230,7 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 
 			$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
 				'text' => elgg_echo('hj:album:image:download'),
-				'href' => $entity->getDownloadURL(),
+				'href' => $entity->getURL('download'),
 				'class' => 'elgg-button elgg-button-action',
 				'priority' => 50,
 					) : NULL;
@@ -267,7 +267,7 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 			if ($entity->canEdit()) {
 				$items['edit'] = array(
 					'text' => elgg_echo('edit'),
-					'href' => $entity->getEditURL(),
+					'href' => $entity->getURL('edit'),
 					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
 					'data-toggle' => 'dialog',
 					'data-uid' => $entity->guid,
@@ -276,7 +276,7 @@ function hj_gallery_entity_title_menu($hook, $type, $return, $params) {
 
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
-					'href' => $entity->getDeleteURL(),
+					'href' => $entity->getURL('delete'),
 					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
 					'data-uid' => $entity->guid,
 					'priority' => 1000
@@ -320,7 +320,7 @@ function hj_gallery_list_filter_menu($hook, $type, $return, $params) {
 		$items[] = array(
 			'name' => 'toggle:depth:albums',
 			'text' => elgg_echo('hj:gallery:switch:albums'),
-			'href' => hj_framework_http_remove_url_query_element($url, 'photostream'),
+			'href' => elgg_http_remove_url_query_element($url, 'photostream'),
 			'section' => 'depth_toggle',
 			'selected' => (!get_input('photostream')),
 			'priority' => 210
@@ -342,7 +342,7 @@ function hj_gallery_list_filter_menu($hook, $type, $return, $params) {
 		$items[] = array(
 			'name' => 'toggle:details:thumbs',
 			'text' => elgg_echo('hj:gallery:switch:thumbs'),
-			'href' => hj_framework_http_remove_url_query_element($url, 'details'),
+			'href' => elgg_http_remove_url_query_element($url, 'details'),
 			'section' => 'details_toggle',
 			'selected' => (!get_input('details')),
 			'priority' => 310

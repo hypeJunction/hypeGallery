@@ -1,19 +1,21 @@
 <?php
 
-$shortcuts = hj_framework_path_shortcuts('hypeGallery');
+$path = elgg_get_plugins_path() . 'hypeGallery/actions/';
 
 // Actions
-elgg_register_action('edit/object/hjalbum', $shortcuts['actions'] . 'edit/object/hjalbum.php');
-elgg_register_action('edit/object/hjalbumimage', $shortcuts['actions'] . 'edit/object/hjalbumimage.php');
+elgg_register_action('edit/object/hjalbum', $path . 'edit/object/hjalbum.php');
+elgg_register_action('edit/object/hjalbumimage', $path . 'edit/object/hjalbumimage.php');
 
-elgg_register_action('gallery/order/images', $shortcuts['actions'] . 'order/images.php');
+elgg_register_action('gallery/delete/object', $path . 'delete/object.php');
 
-elgg_register_action('gallery/upload', $shortcuts['actions'] . 'upload/upload.php');
+elgg_register_action('gallery/order/images', $path . 'order/images.php');
 
-elgg_register_action('gallery/approve/image', $shortcuts['actions'] . 'approve/image.php');
+elgg_register_action('gallery/upload', $path . 'upload/upload.php');
 
-elgg_register_action('gallery/makeavatar', $shortcuts['actions'] . 'addons/avatar.php');
-elgg_register_action('gallery/makecover', $shortcuts['actions'] . 'addons/cover.php');
-elgg_register_action('gallery/phototag', $shortcuts['actions'] . 'addons/phototag.php');
-elgg_register_action('gallery/thumb', $shortcuts['actions'] . 'addons/thumb.php');
-elgg_register_action('gallery/thumb_reset', $shortcuts['actions'] . 'addons/thumb_reset.php');
+elgg_register_action('gallery/approve/image', $path . 'approve/image.php');
+
+elgg_register_action('gallery/makeavatar', $path . 'addons/avatar.php');
+elgg_register_action('gallery/makecover', $path . 'addons/cover.php');
+elgg_register_action('gallery/phototag', $path . 'addons/phototag.php');
+elgg_register_action('gallery/thumb', $path . 'addons/thumb.php');
+elgg_register_action('gallery/thumb_reset', $path . 'addons/thumb_reset.php');

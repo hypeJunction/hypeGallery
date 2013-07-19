@@ -1,14 +1,15 @@
-# hypeGallery 1.9
+hypeGallery 1.9
+===============
 
-## Introduction
+## Introduction ##
 
-hypeGallery 1.9 is a photo gallery plugin for Elgg.
+hypeGallery 1.9 is a media gallery plugin for Elgg.
 
-## Features
+## Features ##
 
-- Collaborative albums
-- Group albums
-- Using uploaded photos as profile avatars
-- Image area tagging
-- Photo downloads
-- Integration with hypeMaps (mapped representation of albums and images)
+* User and group albums
+* Collaborative albums
+* Easily convert uploaded image to profile avatars
+* Image area tagging
+* Downloads
+* Maps

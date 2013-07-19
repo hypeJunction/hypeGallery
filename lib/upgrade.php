@@ -32,26 +32,26 @@ function hj_gallery_1361394670() {
 		$imagehandler = new hjAlbumImage($row->guid);
 
 		try {
-			$filehandler = new hjFile($row->file_guid);
+			$filehandler = new ElggFile($row->file_guid);
 		} catch (Exception $e) {
 			continue;
 		}
 
 		$filestorename = $filehandler->getFilename();
-		$filestorename = elgg_substr($filestorename, elgg_strlen("hjfile/"));
+		$filestorename = elgg_substr($filestorename, elgg_strlen("ElggFile/"));
 
-		$temp = new hjFile();
-		$temp->setFilename("hjfile/" . $filestorename);
+		$temp = new ElggFile();
+		$temp->setFilename("ElggFile/" . $filestorename);
 		$temp->owner_guid = $filehandler->owner_guid;
 		$temp->open('read');
 		$content = $temp->grabFile();
 		$temp->close();
 
-		$filehandler->setFilename("hjfile/{$filehandler->getGUID()}.temp");
+		$filehandler->setFilename("ElggFile/{$filehandler->getGUID()}.temp");
 		$filehandler->save();
 
 		$imagehandler->owner_guid = $filehandler->owner_guid;
-		$imagehandler->setFilename("hjfile/" . $filestorename);
+		$imagehandler->setFilename("ElggFile/" . $filestorename);
 		$imagehandler->setMimeType($filehandler->getMimeType());
 		$imagehandler->originalfilename = $filehandler->originalfilename;
 		$imagehandler->filesize = $filehandler->filesize;
@@ -79,7 +79,7 @@ function hj_gallery_1361396953() {
 
 	$files = elgg_get_entities(array(
 		'types' => 'object',
-		'subtypes' => 'hjfile',
+		'subtypes' => 'ElggFile',
 		'joins' => array(
 			"JOIN {$dbprefix}entities ce"
 		),
@@ -92,7 +92,7 @@ function hj_gallery_1361396953() {
 		$imagehandler = new hjAlbumImage($filehandler->container_guid);
 
 		$filestorename = $filehandler->getFilename();
-		$filestorename = elgg_substr($filestorename, elgg_strlen("hjfile/"));
+		$filestorename = elgg_substr($filestorename, elgg_strlen("ElggFile/"));
 
 		if (!$filestorename || empty($filestorename)) {
 			if (isset($filehandler->originalfilename)) {
@@ -104,15 +104,15 @@ function hj_gallery_1361396953() {
 			}
 		}
 
-		$temp = new hjFile();
-		$temp->setFilename("hjfile/" . $filestorename);
+		$temp = new ElggFile();
+		$temp->setFilename("ElggFile/" . $filestorename);
 		$temp->owner_guid = $filehandler->owner_guid;
 		$temp->open('read');
 		$content = $temp->grabFile();
 		$temp->close();
 
 		$imagehandler->owner_guid = $filehandler->owner_guid;
-		$imagehandler->setFilename("hjfile/" . $filestorename);
+		$imagehandler->setFilename("ElggFile/" . $filestorename);
 		$imagehandler->setMimeType($filehandler->getMimeType());
 		$imagehandler->originalfilename = $filehandler->originalfilename;
 		$imagehandler->filesize = $filehandler->filesize;

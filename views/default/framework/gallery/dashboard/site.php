@@ -1,33 +1,39 @@
 <?php
 
-$stream = get_input('photostream', false);
+$display = get_input('display', 'albums');
 
+echo '<div id="gallery-dashboard">';
 
-if (!$stream) {
+switch ($display) {
 
-	$params = array(
-		'list_id' => "sitealbums",
-		'getter_options' => array(
+	default :
+	case 'albums' :
+		echo elgg_list_entities(array(
 			'types' => 'object',
 			'subtypes' => array('hjalbum'),
-		)
-	);
+			'full_view' => false,
+			'list_type' => get_input('list_type', 'gallery'),
+			'gallery_class' => 'gallery-photostream',
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset_albums', 0),
+			'offset_key' => 'offset_albums'
+		));
+		break;
 
-	echo elgg_view('framework/gallery/list/albums', $params);
-} else {
-
-	if (!get_input("__ord_sitephotostream", false)) {
-		set_input("__ord_sitephotostream", 'e.time_created');
-		set_input("__dir_sitephotostream", 'DESC');
-	}
-
-	$params = array(
-		'list_id' => "sitephotostream",
-		'getter_options' => array(
+	case 'photostream' :
+		echo elgg_list_entities(array(
 			'types' => 'object',
-			'subtypes' => array('hjalbumimage')
-		)
-	);
-
-	echo elgg_view('framework/gallery/list/images', $params);
+			'subtypes' => array('hjalbumimage'),
+			'list_type' => get_input('list_type', 'gallery'),
+			'gallery_class' => 'gallery-photostream',
+			'full_view' => false,
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset_photostream', 0),
+			'offset_key' => 'offset_photostream'
+		));
+		break;
 }
+
+echo '</div>';

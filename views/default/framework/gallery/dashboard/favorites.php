@@ -33,6 +33,6 @@ if (!get_input("__ord_$list_id", false)) {
 	set_input("__dir_$list_id", 'DESC');
 }
 
-$content = hj_framework_view_list($list_id, $getter_options, $list_options, $viewer_options, 'elgg_get_entities_from_annotations');
+$content = elgg_list_entities_from_annotations(array_merge($getter_options, $list_options, $viewer_options));
 
 echo elgg_view_module('gallery', '', $content);
