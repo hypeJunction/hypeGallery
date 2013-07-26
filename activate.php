@@ -2,7 +2,8 @@
 
 $subtypes = array(
 	'hjalbum' => 'hjAlbum',
-	'hjalbumimage' => 'hjAlbumImage'
+	'hjalbumimage' => 'hjAlbumImage',
+	'hjimagetag' => ''
 );
 
 foreach ($subtypes as $subtype => $class) {

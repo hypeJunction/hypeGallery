@@ -7,9 +7,6 @@ function hj_gallery_page_handler($page) {
 
 	$path = elgg_get_plugins_path() . 'hypeGallery/pages/gallery/';
 
-	elgg_load_css('gallery.base.css');
-	elgg_load_js('gallery.base.js');
-
 	elgg_push_breadcrumb(elgg_echo('gallery'), 'gallery/dashboard/site');
 
 	switch ($page[0]) {
@@ -94,7 +91,7 @@ function hj_gallery_page_handler($page) {
 			break;
 
 		case 'edit' :
-		case 'manage' :
+		case 'view' :
 			gatekeeper();
 
 			list($action, $guid) = $page;
@@ -102,6 +99,24 @@ function hj_gallery_page_handler($page) {
 			set_input('guid', $guid);
 
 			$include = "{$path}{$action}/object.php";
+
+			if (!file_exists($include)) {
+				return false;
+			}
+
+			include $include;
+			break;
+
+		case 'manage' :
+			gatekeeper();
+
+			if (!isset($page[1])) {
+				return false;
+			}
+
+			set_input('guid', $page[1]);
+
+			$include = "{$path}manage/album.php";
 
 			if (!file_exists($include)) {
 				return false;
@@ -137,30 +152,6 @@ function hj_gallery_page_handler($page) {
 
 			break;
 
-		case 'view' :
-			if (!isset($page[1])) {
-				return false;
-			}
-			$entity = get_entity($page[1]);
-
-			if (!$entity)
-				return false;
-
-			$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array('entity' => $entity));
-
-			$layout = elgg_view_layout('content', array(
-				'entity' => $entity,
-				'title' => $entity->title,
-				'content' => elgg_view_entity($entity, array(
-					'full_view' => true
-				)),
-				'sidebar' => $sidebar,
-					));
-			echo elgg_view_page($entity->title, $layout, 'default', array(
-				'entity' => $entity
-			));
-			break;
-
 		case 'thumb' :
 			if (!isset($page[1])) {
 				return false;
@@ -170,21 +161,38 @@ function hj_gallery_page_handler($page) {
 			if (!$entity || !$entity->canEdit())
 				return false;
 
-			$title = elgg_echo('hj:album:image:editthumb');
-			$content = elgg_view_form('gallery/thumb', array(), array('entity' => $entity));
+			$title = elgg_echo('hj:gallery:image:editthumb');
+			$content = elgg_view('framework/gallery/tools/cropper', array(
+				'entity' => $entity
+					));
 
-			echo elgg_view_page($title, elgg_view_layout('one_column', array('title' => $title, 'content' => $content)));
+			echo elgg_view_page($title, elgg_view_layout('one_column', array(
+						'title' => $title,
+						'content' => $content))
+			);
 			break;
 
 		case 'icon':
-			set_input('guid', $page[1]);
-			set_input('size', $page[2]);
+			$guid = elgg_extract(1, $page, 0);
+			$size = elgg_extract(2, $page, 'medium');
+			$fit = elgg_extract(3, $page, 'inside');
+			$scale = elgg_extract(4, $page, 'any');
+
+			set_input('guid', $guid);
+			set_input('size', $size);
+			set_input('fit', $fit);
+			set_input('scale', $scale);
 			include "{$path}icon/icon.php";
 			break;
 
 		case 'download':
 			set_input('guid', $page[1]);
 			include "{$path}file/download.php";
+			break;
+
+		case 'livesearch':
+			set_input('search_type', $page[1]);
+			include "{$path}search/livesearch.php";
 			break;
 	}
 

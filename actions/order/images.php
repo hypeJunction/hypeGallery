@@ -1,12 +1,15 @@
 <?php
 
-$priorities = get_input('elgg-entity');
+$priorities = get_input('elgg-object');
 
-for ($i = 0; $i < count($priorities); $i++) {
-	$image = get_entity($priorities[$i]);
+$i = 0;
+foreach ($priorities as $priority => $guid) {
+	$image = get_entity($guid);
 	if (elgg_instanceof($image) && $image->canEdit()) {
-		$image->priority = $i * 10 + 1;
-		$reordered[$image->guid] = $image->priority;
+		if (create_metadata($image->guid, 'priority', $i, 'int', $entity->owner_guid, ACCESS_PUBLIC)) {
+			$reordered[$image->guid] = $image->priority;
+			$i++;
+		}
 	}
 }
 if (elgg_is_xhr()) {

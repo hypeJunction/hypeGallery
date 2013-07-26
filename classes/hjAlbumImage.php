@@ -8,13 +8,11 @@ class hjAlbumImage extends ElggFile {
 	}
 
 	public function save() {
-		if ($guid = parent::save()) {
-			update_entity_last_action($this->container_guid);
-			if (!isset($this->priority)) {
-				$this->priority = 0;
-			}
+		update_entity_last_action($this->container_guid);
+		if (!isset($this->priority)) {
+			$this->priority = 0;
 		}
-		return $guid;
+		return parent::save();
 	}
 
 	public function getURL($action = 'view') {
@@ -26,7 +24,7 @@ class hjAlbumImage extends ElggFile {
 				break;
 
 			case 'edit' :
-				return elgg_normalize_url("gallery/manage/$this->container_guid#$this->guid");
+				return elgg_normalize_url("gallery/manage/$this->container_guid#elgg-object-$this->guid");
 				break;
 
 			case 'delete' :

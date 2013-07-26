@@ -1,56 +1,122 @@
 <?php
 
-$form_name = 'edit:object:hjalbum';
-$params = elgg_clean_vars($vars);
+$container = elgg_extract('container', $vars, false);
+$entity = elgg_extract('entity', $vars, false);
+$container = (elgg_instanceof($entity)) ? $entity->getContainerEntity() : $container;
 
-$form_settings = elgg_trigger_plugin_hook('init', "form:$form_name", $params, array());
+$sticky_values = elgg_get_sticky_values('edit:object:hjalbum');
+$time = time();
 
-$fields = elgg_extract('fields', $form_settings, array());
+$main .= '<label>' . elgg_echo('hj:label:hjalbum:title') . '</label>';
+$main .= elgg_view('input/text', array(
+	'name' => "title",
+	'placeholder' => elgg_echo('hj:label:hjalbum:title'),
+	'required' => true,
+	'value' => (isset($sticky_values['title'])) ? $sticky_values['title'] : $entity->title
+		));
 
-foreach ($fields as $name => $options) {
-	
-	if (!$options)
-		continue;
 
-	$input_type = elgg_extract('input_type', $options, 'text');
-	$label = elgg_extract('label', $options, elgg_echo("$form_name:$name"));
-	$hint = elgg_extract('hint', $options, false);
-	$required = elgg_extract('required', $options, false);
-	if (!isset($options['name'])) {
-		$options['name'] = $name;
-	}
-	
-	unset($options['input_type']);
-	unset($options['label']);
-	unset($options['hint']);
-	unset($options['fieldset']);
+$main .= '<label>' . elgg_echo('hj:label:hjalbum:upload') . '</label>';
+$main .= elgg_view('input/gallery/filedrop', array(
+	'entity' => $entity,
+	'batch_upload_time' => (isset($sticky_values['batch_upload_time'])) ? $sticky_values['batch_upload_time'] : $time
+		));
 
-	if ($input_type !== 'hidden') {
-		$view = '<div class="elgg-input-wrapper">';
-		$view .= ($label) ? "<label>$label</label>" : '';
-		$view .= ($required) ? '<i class="elgg-input-required"></i>' : '';
-		$view .= elgg_view("input/$input_type", $options);
-		$view .= ($hint) ? "<span class=\"elgg-text-help\">$hint</span>" : '';
-		$view .= '</div>';
-	} else {
-		$view = elgg_view('input/hidden', $options);
-	}
-
-	if (!in_array($name, array('title', 'gallery_files'))) {
-		$details[] = $view;
-	} else {
-		$main[] = $view;
-	}
+$main .= '<div class="clearfix">';
+if (HYPEGALLERY_COLLABORATIVE_ALBUMS) {
+	$main .= '<div class="elgg-col elgg-col-1of2">';
+	$main .= '<label>' . elgg_echo('hj:label:hjalbum:permissions') . '</label>';
+	$main .= elgg_view('input/dropdown', array(
+		'name' => "permissions",
+		'required' => true,
+		'options_values' => hj_gallery_get_permissions_options($container),
+		'value' => (isset($sticky_values['permissions'])) ? $sticky_values['permissions'] : $entity->permissions
+			));
+	$main .= '</div>';
 }
 
-echo '<div class="gallery-edit-form">';
-echo implode('', $main);
-echo elgg_view('output/url', array(
-	'text' => elgg_echo('hj:gallery:edit:details'),
-	'href' => '#gallery-hidden-details',
-	'rel' => 'toggle'
-));
+$main .= '<div class="elgg-col elgg-col-1of2">';
+$main .= '<label>' . elgg_echo('hj:label:hjalbum:access_id') . '</label>';
+$main .= elgg_view('input/access', array(
+	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : $entity->access_id
+		));
+$main .= '</div>';
+$main .= '</div>';
+
+$details .= '<label>' . elgg_echo('hj:label:hjalbum:description') . '</label>';
+$details .= elgg_view('input/plaintext', array(
+	'name' => "description",
+	'value' => (isset($sticky_values['description'])) ? $sticky_values['description'] : $entity->description
+		));
+
+$details .= '<label>' . elgg_echo('hj:label:hjalbum:tags') . '</label>';
+$details .= elgg_view('input/tags', array(
+	'name' => "tags",
+	'value' => (isset($sticky_values['tags'])) ? $sticky_values['tags'] : $entity->tags
+		));
+
+if (HYPEGALLERY_CATEGORIES) {
+	$details .= '<label>' . elgg_echo('hj:label:hjalbum:category') . '</label>';
+	$details .= elgg_view('input/gallery/categories', array(
+		'name' => "categories",
+		'value' => (isset($sticky_values['categories'])) ? $sticky_values['categories'] : $entity->categories
+			));
+}
+
+if (HYPEGALLERY_COPYRIGHTS) {
+	$details .= '<label>' . elgg_echo('hj:label:hjalbum:copyright') . '</label>';
+	$details .= elgg_view('input/text', array(
+		'name' => "copyright",
+		'value' => (isset($sticky_values['copyright'])) ? $sticky_values['copyright'] : $entity->copyright
+			));
+}
+
+if (HYPEGALLERY_INTERFACE_LOCATION) {
+	$details .= '<label>' . elgg_echo('hj:label:hjalbum:location') . '</label>';
+	$details .= elgg_view('input/location', array(
+		'name' => "location",
+		'value' => (isset($sticky_values['location'])) ? $sticky_values['location'] : $entity->location
+			));
+}
+
+if (HYPEGALLERY_INTERFACE_CALENDAR) {
+	$details .= '<label>' . elgg_echo('hj:label:hjalbum:date') . '</label>';
+	$details .= elgg_view('input/date', array(
+		'name' => "date",
+		'value' => (isset($sticky_values['date'])) ? $sticky_values['date'] : $entity->date
+			));
+}
+
+echo '<div class="gallery-edit-form clearfix">';
+echo $main;
+
+echo '<div class="elgg-foot">';
+
 echo '<div id="gallery-hidden-details" class="hidden">';
-echo implode('', $details);
+echo $details;
 echo '</div>';
+
+echo elgg_view('input/hidden', array(
+	'name' => 'container_guid',
+	'value' => $container->guid
+));
+
+echo elgg_view('input/hidden', array(
+	'name' => 'batch_upload_time',
+	'value' => (isset($sticky_values['batch_upload_time'])) ? $sticky_values['batch_upload_time'] : $time
+));
+
+echo elgg_view('output/url', array(
+	'text' => '<i class="gallery-icon-info"></i><span>' . elgg_echo('hj:gallery:edit:details') . '</span>',
+	'href' => '#gallery-hidden-details',
+	'rel' => 'toggle',
+	'class' => 'gallery-hidden-details-toggle'
+));
+
+echo elgg_view('input/submit', array(
+	'value' => elgg_echo('save'),
+	'class' => 'elgg-button elgg-button-submit float-alt'
+));
+echo '</div>';
+
 echo '</div>';

@@ -49,7 +49,9 @@ class hjAlbum extends ElggObject {
 
 		if ($this->cover) {
 			$cover_image = get_entity($this->cover);
-		} else if ($images = $this->getContainedFiles(array('limit' => 1))) {
+		} 
+		if (!$cover_image) {
+			$images = $this->getContainedFiles(array('limit' => 1));
 			$cover_image = $images[0];
 		}
 

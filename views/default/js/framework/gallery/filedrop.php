@@ -2,144 +2,218 @@
 	<script type="text/javascript">
 <?php endif; ?>
 
-	elgg.provide('framework');
-	elgg.provide('framework.gallery');
-	elgg.provide('framework.gallery.filedrop');
+elgg.provide('framework');
+elgg.provide('framework.gallery');
+elgg.provide('framework.gallery.filedrop');
 
-	framework.gallery.filedrop.init = function() {
+framework.gallery.filedrop.init = function() {
 
-		var $filedrop = $('#gallery-filedrop');
-		var $filedropfallback = $('.filedrop-fallback', $filedrop);
-		var $message = $('.filedrop-message', $filedrop);
+	var $filedrop = $('#gallery-filedrop');
 
-		var container_guid = $filedrop.data('containerGuid');
-		var batch_time = $filedrop.data('batchTime');
+	var container_guid = $filedrop.data('containerGuid');
 
-		$filedrop
-		.live('click', function(e) {
-			e.preventDefault();
-			$('#gallery-filedrop-input').trigger('click');
-		})
+	framework.gallery.filedrop.template = $('.gallery-template', $filedrop).html();
 		
-		$filedrop.filedrop({
+	$('.gallery-filedrop-fallback-trigger', $filedrop)
+	.live('click', function(e) {
+		e.preventDefault();
+		$('#gallery-filedrop-fallback').trigger('click');
+	})
+		
+	$filedrop
+	.filedrop({
+		fallback_id : 'gallery-filedrop-fallback',
+		url: elgg.security.addToken(elgg.normalize_url('action/gallery/upload/filedrop?container_guid='+ container_guid)),
+		paramname: 'filedrop_files',
+		headers: {
+			'X-Requested-With': 'XMLHttpRequest'
+		},
+		//allowedfiletypes : $filedrop.data('allowedfiletypes'),
+		queuefiles : 100,
+		maxfiles : 100,
+		maxfilesize : <?php echo (int)ini_get('upload_max_filesize') ?>,
 
-				fallback_id : 'gallery-filedrop-input',
-				url: elgg.security.addToken(elgg.normalize_url('action/gallery/upload?container_guid=' + container_guid + '&batch_upload_time=' + batch_time)),              // upload handler, handles each file separately, can also be a function returning a url
-				paramname: 'gallery_files',          // POST parameter name used on serverside to reference file
-				headers: {							// Send additional request headers
-					'X-Requested-With': 'XMLHttpRequest'
-				},
+		uploadFinished:function(i, file, response){
 
-				//allowedfiletypes: ['image/jpg', 'image/jpeg','image/png','image/gif'],   // filetypes allowed by Content-Type.  Empty array means no restrictions
-				allowedfiletypes : $filedrop.data('allowedfiletypes'),
-				queuefiles: 10,
+			if (response.status >= 0) {
 
-				uploadFinished:function(i, file, response){
+				$('#gallery-filedrop-fallback').val(''); // in case upload was triggered by fallback
 
-					$.data(file).addClass('elgg-state-complete');
-					
-				},
+				$.data(file).find('.elgg-state-uploaded').show();
+				$.data(file).find('.gallery-filedrop-progressholder').replaceWith($(response.output.form)).find('input').focus();
+				
+				$.data(file).closest('form').find('[type="submit"]').show();
 
-				error: function(err, file) {
-					switch(err) {
-						case 'BrowserNotSupported':
-							elgg.register_error(elgg.echo('hj:framework:filedrop:browsernotsupported'));
-							$filedrop.hide();
-							//$filedropfallback.show();
-							break;
+				$.data(file).after($('<input>').attr({type:'hidden',name:'filedrop_guids[]'}).val(response.output.image_guid));
 
-						case 'FileTypeNotAllowed':
-							elgg.register_error(elgg.echo('hj:framework:filedrop:filetypenotallowed'));
-							break;
+				elgg.trigger_hook('ajax:success', 'framework', { response : response, element : $filedrop });
+				elgg.ui.initDatePicker();
 
-						default:
-							break;
-					}
-				},
+			} else {
 
-				// Called before each upload is started
-				beforeEach: function(file){
-				},
+				$.data(file).find('.elgg-state-failed').show();
+				$.data(file).find('.gallery-filedrop-progressholder').replaceWith($('<p>').addClass('gallery-item-in-bulk').text(response.system_messages.error.join('')));
+			}
+		},
+		
+		error: function(err, file) {
+			switch(err) {
+				case 'BrowserNotSupported':
+					$('#gallery-filedrop-fallback').show();
+					elgg.register_error(elgg.echo('hj:gallery:filedrop:browsernotsupported'));
+					break;
 
-				uploadStarted:function(i, file, len){
-					if(file.type.match(/^image\//)){
-						framework.gallery.filedrop.createImage(file, $filedrop);
-					} else {
-						framework.gallery.filedrop.createPlaceholder(file, $filedrop);
-					}
-				},
+				case 'TooManyFiles':
+					elgg.register_error(elgg.echo('hj:gallery:filedrop:toomanyfiles'));
+					break;
 
-				progressUpdated: function(i, file, progress) {
-					$.data(file).find('.filedrop-progress').width(progress);
-				}
+				case 'FileTooLarge':
+					elgg.register_error(elgg.echo('hj:gallery:filedrop:filetoolarge'));
+					break;
 
-			});
+				case 'FileTypeNotAllowed':
+					elgg.register_error(elgg.echo('hj:gallery:filedrop:filetypenotallowed'));
+					break;
 
-	}
+				default:
+					break;
+			}
+		},
 
-	framework.gallery.filedrop.template = '<div class="filedrop-preview">'+
-		'<span class="filedrop-imageholder">'+
-		'<img />'+
-		'<span class="elgg-state-uploaded"></span>'+
-		'</span>'+
-		'<div class="filedrop-progressholder">'+
-		'<div class="filedrop-progress"></div>'+
-		'</div>'+
-		'</div>';
+		beforeEach: function(file){
+
+		},
+
+		uploadStarted:function(i, file, len){
+			if(file.type.match(/^image\//)){
+				framework.gallery.filedrop.createImage(file, $filedrop);
+			} else if(file.type.match(/^video\//)){
+				framework.gallery.filedrop.createVideo(file, $filedrop);
+			} else if(file.type.match(/^audio\//)){
+				framework.gallery.filedrop.createAudio(file, $filedrop);
+			} else {
+				framework.gallery.filedrop.createPlaceholder(file, $filedrop);
+			}
+		},
+
+		progressUpdated: function(i, file, progress) {
+			$.data(file).find('.gallery-filedrop-progress').width(progress);
+		}
+
+	});
+
+}
+
+framework.gallery.filedrop.createImage = function(file, $container){
+
+	var $preview = $(framework.gallery.filedrop.template),
+	$image = $('img', $preview);
+
+	var reader = new FileReader();
+
+	$image.width(300);
+
+	reader.onload = function(e){
+
+		// e.target.result holds the DataURL which
+		// can be used as a source of the image:
+
+		$image.attr('src',e.target.result);
+	};
+
+	// Reading the file as a DataURL. When finished,
+	// this will trigger the onload function above:
+	reader.readAsDataURL(file);
+
+	$preview.appendTo($('.gallery-filedrop-queue', $container));
+
+	// Associating a preview container
+	// with the file, using jQuery's $.data():
+
+	$.data(file, $preview);
+}
 
 
-	framework.gallery.filedrop.createImage = function(file, $container){
+framework.gallery.filedrop.createVideo = function(file, $container){
 
-		var preview = $(framework.gallery.filedrop.template),
-		image = $('img', preview);
+	var $preview = $(framework.gallery.filedrop.template),
+	$image = $('img', $preview);
 
-		var reader = new FileReader();
+	var reader = new FileReader();
 
-		image.width = 100;
-		image.height = 100;
+	$image.replaceWith($('<video>').attr({width:300, height:200, controls:true}).html($('<source>')));
 
-		reader.onload = function(e){
+	reader.onload = function(e){
 
-			// e.target.result holds the DataURL which
-			// can be used as a source of the image:
+		// e.target.result holds the DataURL which
+		// can be used as a source of the image:
 
-			image.attr('src',e.target.result);
-		};
+		$image.find('source').attr('src',e.target.result).attr('type', file.type);
+	};
 
-		// Reading the file as a DataURL. When finished,
-		// this will trigger the onload function above:
-		reader.readAsDataURL(file);
+	// Reading the file as a DataURL. When finished,
+	// this will trigger the onload function above:
+	reader.readAsDataURL(file);
 
-		$('.filedrop-message', $container).hide();
-		preview.appendTo($('.filedrop', $container));
+	$preview.appendTo($('.gallery-filedrop-queue', $container));
 
-		// Associating a preview container
-		// with the file, using jQuery's $.data():
+	// Associating a preview container
+	// with the file, using jQuery's $.data():
 
-		$.data(file,preview);
-	}
+	$.data(file, $preview);
+}
 
-	framework.gallery.filedrop.createPlaceholder = function(file, $filedrop){
 
-		var preview = $(framework.gallery.filedrop.template),
-		image = $('img', preview);
 
-		var reader = new FileReader();
+framework.gallery.filedrop.createAudio = function(file, $container){
 
-		image.width = 100;
-		image.height = 100;
+	var $preview = $(framework.gallery.filedrop.template),
+	$image = $('img', $preview);
+
+	var reader = new FileReader();
+
+	$image.replaceWith($('<audio>').attr({controls:true}).html($('<source>')));
+
+	reader.onload = function(e){
+
+		// e.target.result holds the DataURL which
+		// can be used as a source of the image:
+
+		$image.find('source').attr('src',e.target.result).attr('type', file.type);
+	};
+
+	// Reading the file as a DataURL. When finished,
+	// this will trigger the onload function above:
+	reader.readAsDataURL(file);
+
+	$preview.appendTo($('.gallery-filedrop-queue', $container));
+
+	// Associating a preview container
+	// with the file, using jQuery's $.data():
+
+	$.data(file, $preview);
+}
+
+
+framework.gallery.filedrop.createPlaceholder = function(file, $filedrop){
+
+	var $preview = $(framework.gallery.filedrop.template),
+	$image = $('img', $preview);
+
+	var reader = new FileReader();
+
+	$image.width(300);
 			
-		image.attr('src', elgg.get_site_url() + 'mod/hypeFramework/graphics/filedrop/background_tile_1.jpg');
+	$image.attr('src', elgg.get_site_url() + 'mod/hypeGallery/graphics/placeholder.png');
 
-		reader.readAsDataURL(file);
+	reader.readAsDataURL(file);
 
-		$('.filedrop-message', $filedrop).hide();
-		preview.appendTo($('.filedrop', $filedrop));
+	$preview.appendTo($('.gallery-filedrop-queue', $filedrop));
 
-		$.data(file, preview);
-	}
+	$.data(file, $preview);
+}
 
-	elgg.register_hook_handler('init', 'system', framework.gallery.filedrop.init);
+elgg.register_hook_handler('init', 'system', framework.gallery.filedrop.init);
 
 <?php if (FALSE) : ?></script><?php
 endif;

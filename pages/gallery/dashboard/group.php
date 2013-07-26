@@ -18,7 +18,7 @@ $layout = elgg_view_layout('content', array(
 	'filter' => false,
 	'content' => $content,
 	'sidebar' => $sidebar,
-	'class' => 'hj-gallery-dashboard'
+	'class' => 'gallery-dashboard'
 ));
 
 echo elgg_view_page($title, $layout);

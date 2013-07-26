@@ -7,44 +7,47 @@ if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
 	return true;
 }
 
-$title = elgg_view('object/hjalbumimage/elements/title', $vars);
+$subtitle = elgg_view('object/hjalbum/meta', array(
+	'entity' => $entity,
+	'full_view' => true
+		));
 
-$details .= elgg_view('object/hjalbumimage/elements/tags', $vars);
-
-	if (HYPEGALLERY_CATEGORIES) {
-		$details .= elgg_view('object/hjalbumimage/elements/categories', $vars);
-	}
-	if (HYPEGALLERY_COPYRIGHTS) {
-		$details .= elgg_view('object/hjalbumimage/elements/copyright', $vars);
-	}
-	if (HYPEGALLERY_INTERFACE_LOCATION) {
-		$details .= elgg_view('object/hjalbumimage/elements/location', $vars);
-	}
-	if (HYPEGALLERY_INTERFACE_CALENDAR) {
-		$details .= elgg_view('object/hjalbumimage/elements/date', $vars);
-	}
+$metadata = elgg_view_menu('entity', array(
+	'entity' => $entity,
+	'class' => 'elgg-menu-hz',
+	'sort_by' => 'priority'
+		));
 
 if ($full) {
 
-	elgg_push_context('image-full-view');
+	$body .= '<div class="gallery-media-full-view">';
+	$body .= elgg_view_entity_icon($entity, 'master', array(
+		'href' => false,
+		'img_class' => 'taggable'
+			));
+	$body .= '</div>';
 
-	if (HYPEGALLERY_TAGGING) {
-		$image = elgg_view('framework/gallery/phototag/image', $vars);
-	} else {
-		$vars['size'] = 'master';
-		$image = elgg_view('object/hjalbumimage/elements/icon', $vars);
-	}
-	
-	$description = elgg_view('object/hjalbumimage/elements/description', $vars);
+	$body .= elgg_view('framework/gallery/tools/tagger', $vars);
 
-	$comments = elgg_view('object/hjalbumimage/elements/comments', $vars);
-	echo elgg_view_module('main', '', $description . $image . $details, array(
-		'footer' => $comments
-	));
-	elgg_pop_context();
+	$summary = elgg_view('object/hjalbumimage/meta', $vars);
+
+	$comments = elgg_view_comments($entity);
+
+	echo '<div class="gallery-media-full">';
+	echo "$body$summary$comments";
+	echo '</div>';
 } else {
-	$vars['size'] = 'medium';
-	$cover = elgg_view('object/hjalbumimage/elements/icon', $vars);
-	$briefdescription = elgg_view('object/hjalbumimage/elements/briefdescription', $vars);
-	echo elgg_view_image_block($cover, $title . $briefdescription . $details);
+
+	$icon = elgg_view_entity_icon($entity, 'medium');
+
+	$params = array(
+		'entity' => $entity,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'content' => elgg_get_excerpt(strip_tags($entity->description))
+	);
+	$params = $params + $vars;
+	$list_body = elgg_view('object/elements/summary', $params);
+
+	echo elgg_view_image_block($icon, $list_body);
 }

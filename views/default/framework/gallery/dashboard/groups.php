@@ -1,7 +1,11 @@
 <?php
 
-$stream = get_input('photostream', false);
 $page_owner = elgg_get_page_owner_entity();
+
+if (!elgg_instanceof($page_owner, 'user')
+		|| !$page_owner->canEdit()) {
+	return;
+}
 
 $groups = elgg_get_entities_from_relationship(array(
 	'types' => 'group',
@@ -19,38 +23,52 @@ foreach ($groups as $group) {
 	$group_guids[] = $group->guid;
 }
 
-$getter_options['types'] = 'object';
 
-$list_id = "gr$page_owner->guid";
 
-if (!$stream) {
+$display = get_input('display', 'albums');
 
-	$getter_options['subtypes'] = array('hjalbum');
-	$getter_options['container_guids'] = $group_guids;
+echo '<div id="gallery-dashboard-groups">';
 
-	$params = array(
-		'list_id' => $list_id,
-		'getter_options' => $getter_options
-	);
+switch ($display) {
 
-	echo elgg_view('framework/gallery/list/albums', $params);
-} else {
+	default :
+	case 'albums' :
+		echo elgg_list_entities(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbum'),
+			'container_guids' => $group_guids,
+			'full_view' => false,
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-albums', 0),
+			'offset_key' => 'offset-albums'
+		));
+		break;
 
-	if (!get_input("__ord_$list_id", false)) {
-		set_input("__ord_$list_id", 'e.time_created');
-		set_input("__dir_$list_id", 'DESC');
-	}
+	case 'photostream' :
 
-	$getter_options['subtypes'] = array('hjalbumimage');
-	$container_guids_in = implode(',', $group_guids);
-	$dbprefix = elgg_get_config('dbprefix');
-	$getter_options['joins'][] = "JOIN {$dbprefix}entities albcont ON e.container_guid = albcont.guid";
-	$getter_options['wheres'][] = "(albcont.container_guid IN ($container_guids_in))";
+		$dbprefix = elgg_get_config('dbprefix');
+		$container_guids_in = implode(',', $group_guids);
 
-	$params = array(
-		'list_id' => $list_id,
-		'getter_options' => $getter_options
-	);
-
-	echo elgg_view('framework/gallery/list/images', $params);
+		echo elgg_list_entities(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbumimage'),
+			'owner_guids' => $page_owner->guid,
+			'joins' => array("JOIN {$dbprefix}entities albcont ON e.container_guid = albcont.guid"),
+			'wheres' => "(albcont.container_guid IN ($container_guids_in))",
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'full_view' => false,
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-photostream', 0),
+			'offset_key' => 'offset-photostream'
+		));
+		break;
 }
+
+echo '</div>';

@@ -2,7 +2,6 @@
 
 $path = elgg_get_plugins_path() . 'hypeGallery/actions/';
 
-// Actions
 elgg_register_action('edit/object/hjalbum', $path . 'edit/object/hjalbum.php');
 elgg_register_action('edit/object/hjalbumimage', $path . 'edit/object/hjalbumimage.php');
 
@@ -11,6 +10,9 @@ elgg_register_action('gallery/delete/object', $path . 'delete/object.php');
 elgg_register_action('gallery/order/images', $path . 'order/images.php');
 
 elgg_register_action('gallery/upload', $path . 'upload/upload.php');
+elgg_register_action('gallery/upload/filedrop', $path . 'upload/filedrop.php');
+elgg_register_action('gallery/upload/handle', $path . 'upload/handle.php');
+elgg_register_action('gallery/upload/describe', $path . 'upload/describe.php');
 
 elgg_register_action('gallery/approve/image', $path . 'approve/image.php');
 

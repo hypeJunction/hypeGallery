@@ -10,7 +10,7 @@
  * @copyright Copyrigh (c) 2011-2013, Ismayil Khayredinov
  */
 
-define('HYPEGALLERY_RELEASE', 1369646725);
+define('HYPEGALLERY_RELEASE', 1374851653);
 
 define('HYPEGALLERY_ALBUM_RIVER', elgg_get_plugin_setting('album_river', 'hypeGallery'));
 define('HYPEGALLERY_FAVORITES', elgg_get_plugin_setting('favorites', 'hypeGallery'));
@@ -24,14 +24,14 @@ define('HYPEGALLERY_AVATARS', elgg_get_plugin_setting('avatars', 'hypeGallery'))
 define('HYPEGALLERY_TAGGING', elgg_get_plugin_setting('tagging', 'hypeGallery'));
 define('HYPEGALLERY_DOWNLOADS', elgg_get_plugin_setting('downloads', 'hypeGallery'));
 
-elgg_set_config('gallery_icon_sizes', array(
-	'cover' => array('w' => 1000, 'h' => 1000, 'square' => false, 'upscale' => false)
-));
+define('HYPEGALLERY_TILELAYER_URI', elgg_get_plugin_setting('leaflet_layer_uri', 'hypeGallery'));
+define('HYPEGALLERY_TILELAYER_ATTR', elgg_get_plugin_setting('leaflet_layer_attribution', 'hypeGallery'));
 
-/** @todo: Add quota logic */
-//define('HYPEGALLERY_SITE_ALBUMS_QUOTA', elgg_get_plugin_setting('site_albums_quota', 'hypeGallery'));
-//define('HYPEGALLERY_SITE_ALBUMS_QUOTA_VALUE', elgg_get_plugin_setting('site_albums_quota_value', 'hypeGallery'));
-//define('HYPEGALLERY_IMAGES_MAX', elgg_get_plugin_setting('images_max', 'hypeGallery'));
+define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
+
+elgg_set_config('gallery_icon_sizes', array());
+elgg_set_config('gallery_allowed_dynamic_width', array('auto', 325, 800));
+elgg_set_config('gallery_allowed_dynamic_height', array(0, 200));
 
 elgg_register_event_handler('init', 'system', 'hj_gallery_init');
 
@@ -40,10 +40,11 @@ function hj_gallery_init() {
 	elgg_register_classes(elgg_get_plugins_path() . 'hypeGallery/classes/');
 
 	// Libraries
+
+	elgg_register_library('gallery:vendors:wideimage', elgg_get_plugins_path() . 'hypeGallery/vendors/wideimage/WideImage.php');
+	
 	$libraries = array(
 		'base',
-		'file',
-		'forms',
 		'page_handlers',
 		'actions',
 		'assets',
@@ -69,9 +70,10 @@ function hj_gallery_init() {
 		add_group_tool_option('albums', elgg_echo('hj:gallery:groupoption:enable'), true);
 		elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
 	}
-}
 
-elgg_register_event_handler('upgrade', 'system', 'hj_gallery_check_release');
+	elgg_register_event_handler('upgrade', 'system', 'hj_gallery_check_release');
+
+}
 
 function hj_gallery_check_release($event, $type, $params) {
 

@@ -2,37 +2,46 @@
 
 $page_owner = elgg_get_page_owner_entity();
 
-$list_id = "fav$page_owner->guid";
+$display = get_input('display', 'albums');
 
-set_input('photostream', true);
-set_input('details', 'summary');
-set_input("__list_type_$list_id", 'gallery');
+echo '<div id="gallery-dashboard-favorites">';
 
-$getter_options = array(
-	'types' => 'object',
-	'subtypes' => array('hjalbumimage'),
-	'annotation_names' => array('likes'),
-	'annotation_owner_guids' => $page_owner->guid
-);
+switch ($display) {
 
-$filter_vars = array_merge($vars, $filter_vars);
+	default :
+	case 'albums' :
+		echo elgg_list_entities_from_annotations(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbum'),
+			'annotation_names' => array('likes'),
+			'annotation_owner_guids' => $page_owner->guid,
+			'full_view' => false,
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-albums', 0),
+			'offset_key' => 'offset-albums'
+		));
+		break;
 
-$list_options = array(
-	'list_type' => $list_type,
-	'list_class' => $list_class,
-	'pagination' => true,
-);
-
-$viewer_options = array(
-	'full_view' => false,
-	'list_type' => 'gallery'
-);
-
-if (!get_input("__ord_$list_id", false)) {
-	set_input("__ord_$list_id", 'e.time_created');
-	set_input("__dir_$list_id", 'DESC');
+	case 'photostream' :
+		echo elgg_list_entities_from_annotations(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbumimage'),
+			'annotation_names' => array('likes'),
+			'annotation_owner_guids' => $page_owner->guid,
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'full_view' => false,
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-photostream', 0),
+			'offset_key' => 'offset-photostream'
+		));
+		break;
 }
 
-$content = elgg_list_entities_from_annotations(array_merge($getter_options, $list_options, $viewer_options));
-
-echo elgg_view_module('gallery', '', $content);
+echo '</div>';

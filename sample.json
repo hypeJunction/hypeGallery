@@ -1,0 +1,22 @@
+[{
+		"place_id":"1142793",
+		"licence":"Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http:\/\/www.openstreetmap.org\/copyright",
+		"osm_type":"node",
+		"osm_id":"296534646",
+		"boundingbox":["50.0737152099609","50.0737190246582","14.4457082748413","14.4457092285156"],
+		"lat":"50.0737182",
+		"lon":"14.4457086",
+		"display_name":"1366\/9, Chodsk\u00e1, Vinohrady, Prague, Praha, Hlavn\u00ed m\u011bsto Praha, Praha, 12000, Czech Republic",
+		"class":"place",
+		"type":"house",
+		"importance":0.401
+	},
+	{
+		"place_id":"16158837",
+		"licence":"Data \u00a9 OpenStreetMap contributors, ODbL 1.0. http:\/\/www.openstreetmap.org\/copyright",
+		"osm_type":"node",
+		"osm_id":"1434680186",
+		"boundingbox":["50.1677474975586","50.1677513122559","14.7665910720825","14.7665920257568"],
+		"lat":"50.1677488",
+		"lon":"14.7665913",
+		"display_name":"357\/9, Chodsk\u00e1, \u010cel\u00e1kovice, okres Praha-v\u00fdchod, St\u0159edo\u010desk\u00fd kraj, St\u0159edn\u00ed \u010cechy, 25088, Czech Republic, European Union","class":"place","type":"house","importance":0.401}]

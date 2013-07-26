@@ -6,6 +6,8 @@ if (!$file || !$file instanceof ElggFile) {
     exit;
 }
 
+$file->downloads++;
+
 $mime = $file->getMimeType();
 if (!$mime) {
 	$mime = "application/octet-stream";

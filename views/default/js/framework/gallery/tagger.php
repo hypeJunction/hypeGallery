@@ -7,231 +7,199 @@ if (FALSE) :
 	?>
 	<script type="text/javascript">
 <?php endif; ?>
+
+elgg.provide('framework');
+elgg.provide('framework.gallery');
 	
-elgg.provide('framework.gallery.tagger');
-	
-framework.gallery.tagger.init = function() {
+framework.gallery.tagger = function() {
 
-	$('.elgg-menu-item-starttagging')
-	.live('click', framework.gallery.tagger.startTagging);
+	var $template = $('.tagger-float-template').eq(0).clone(true);
+	framework.gallery.taggerFloat = $('<div>').appendTo('body').addClass('tagger-float').html($template.html());
 
-	$('.elgg-menu-item-stoptagging')
-	.live('click', framework.gallery.tagger.stopTagging)
+	$('.gallery-tag')
+	.live('mouseenter', function(e) {
+		var x = $(this).data('x');
+		var y = $(this).data('y');
 
-	$('.hj-gallery-tag-save')
-	.live('submit', framework.gallery.tagger.saveTag);
+		var $img = $(this).closest('.gallery-media-full').find('img.taggable').eq(0);
 
-	$('ul.hj-gallery-tags-list > li')
-	.live('mouseover mouseout', function(event) {
-		if (event.type == 'mouseover') {
-			var link = $('.hj-gallery-tags-map li[data-uid="' + $(this).eq(0).data('uid') + '"]');
-			link.find('a').show().addClass('hj-gallery-tag-hover').find('span').show().addClass('hj-gallery-tag-selected');
+		var position = $img.position();
+		if ($(this).data('tagger-tag')) {
+			var $circle = $(this).data('tagger-tag');
 		} else {
-			var link = $('.hj-gallery-tags-map li[data-uid="' + $(this).eq(0).data('uid') + '"]');
-			link.find('a').hide().removeClass('hj-gallery-tag-hover').find('span').hide().removeClass('hj-gallery-tag-selected');
+			var $circle = $('<div>').addClass('tagger-tag').insertAfter($img);
+			$circle.css({ position: 'absolute', left : position.left + x - 25 , top : position.top + y - 25});
 		}
-	});
+		$circle.show();
+		$(this).data('tagger-tag', $circle);
+	})
+	.live('mouseleave', function() {
+		$(this).data('tagger-tag').hide();
+	})
 
-//	$('.hj-gallery-tagger-wrapper')
-//	.live('mouseover mouseout', function(event) {
-//		if (event.type == 'mouseover') {
-//			$('.hj-gallery-tags-map > li a').show();
-//		} else {
-//			$('.hj-gallery-tags-map > li a').hide();
-//		}
-//	});
-	
-	$('.hj-gallery-tags-map > li')
-	.live('mouseover mouseout', function(event) {
-		if (event.type == 'mouseover') {
-			$(this).find('span').show();
+
+	$('.elgg-button-gallery-tagger')
+	.live('click', function(e) {
+		e.preventDefault();
+		if ($(this).is('.elgg-state-active')) {
+			
+			$(this)
+			.removeClass('elgg-state-active')
+			.attr('title', elgg.echo('hj:gallery:tools:tagger:start'))
+			.closest('.gallery-media-full')
+			.unbind('mousemove', framework.gallery.mouseMove);
+			
 		} else {
-			$(this).find('span').hide();
+			
+			$(this)
+			.addClass('elgg-state-active')
+			.attr('title', elgg.echo('hj:gallery:tools:tagger:stop'))
+			.closest('.gallery-media-full')
+			.bind('mousemove', framework.gallery.mouseMove);
+			
 		}
-	});
+	})
 
-	framework.gallery.tagger.mapTags();
-}
+	$('.elgg-button-gallery-tag-delete')
+	.live('click', function(e) {
 
-framework.gallery.tagger.mapTags = function() {
+		var confirmText = elgg.echo('question:areyousure');
+		if (!confirm(confirmText)) {
+			return false;
+		}
 
-	$('.hj-gallery-tags-map')
+		e.preventDefault();
+
+		var $elem = $(this);
+
+		elgg.action($elem.attr('href'), {
+			beforeSend : function() {
+				$elem.addClass('elgg-state-loading');
+			},
+			complete : function() {
+				$elem.removeClass('elgg-state-loading');
+			},
+			success : function(response) {
+				if (response.status >= 0) {
+					$('[id="elgg-object-' + response.output.guid + '"]').fadeOut();
+				}
+			}
+		})
+	})
+
+
+	$('.gallery-friend-autocomplete')
 	.each(function() {
 
-		$map = $(this);
-		$img = $(this).closest('.hj-gallery-tagger-wrapper').find('img.elgg-state-taggable').eq(0);
+		var $input = $(this);
 
-		$img.load(function() {
-		
-			$map.css({
-				'width' : $img.width(),
-				'height' : $img.height(),
-				'position' : 'absolute',
-				'margin' : '0 auto',
-				'left' : 0,
-				'right' : 0,
-				'top' : 0
-			});
-
-			var ratio = $img.width() / $img.data('originalwidth');
-
-			$(this)
-			.children('li')
-			.each(function() {
-				var elem = $(this).find('a').eq(0);
-				if (!elem.data('dimensions')) {
-					var origin_dim = {
-						'top' : elem.css('top'),
-						'left' : elem.css('left'),
-						'width' : elem.css('width'),
-						'height' : elem.css('height')
-					};
-					elem.data('dimensions', origin_dim);
-				}
-				elem.css({
-					'top' : Math.round(parseInt(elem.data('dimensions').top, 10) * ratio),
-					'left' : Math.round(parseInt(elem.data('dimensions').left, 10) * ratio),
-					'width' : Math.round(parseInt(elem.data('dimensions').width, 10) * ratio),
-					'height' : Math.round(parseInt(elem.data('dimensions').height, 10) * ratio)
-				});
-			});
-		});
-	})
-}
-
-framework.gallery.tagger.startTagging = function(event) {
-
-	event.preventDefault();
-
-	elgg.system_message(elgg.echo('hj:gallery:tagger:instructions'));
-
-	$(this)
-	.addClass('hidden');
-		
-	$('.elgg-menu-item-stoptagging')
-	.removeClass('hidden');
-		
-	framework.gallery.tagger.uid = $('a', $(this)).eq(0).data('uid');
-
-	var $form = $('form.hj-gallery-tag-save[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-	var $image = $('img.elgg-state-taggable[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-
-	framework.gallery.tagger.options = $image.data();
-
-	$image.imgAreaSelect({
-		disable: false,
-		handles: true,
-		keys: { arrows: 15, shift: 5 },
-		fadeSpeed: 200,
-		imageWidth: framework.gallery.tagger.options.originalwidth,
-		imageHeight: framework.gallery.tagger.options.originalheight,
-		onSelectEnd: function(img, selection){
-			$('input[name="x1"]', $form).val(selection.x1);
-			$('input[name="y1"]', $form).val(selection.y1);
-			$('input[name="x2"]', $form).val(selection.x2);
-			$('input[name="y2"]', $form).val(selection.y2);
-			$('input[name="w"]', $form).val(selection.width);
-			$('input[name="h"]', $form).val(selection.height);
-			$form.css('left', selection.x1);
-			$form.css('top', selection.y2);
-			$form.removeClass("hidden");
-			if (selection.width == 0 && selection.height == 0) {
-				$form.addClass("hidden");
+		$(this).autocomplete({
+			minLength: 0,
+			source: elgg.get_site_url() + 'gallery/livesearch/friend',
+			focus: function( event, ui ) {
+				$input.val( ui.item.label );
+				return false;
+			},
+			select: function( event, ui ) {
+				$input.siblings('.tagged-user-preview').attr('src',  ui.item.icon );
+				$input.val( ui.item.label );
+				$input.next('[name="relationship_guid"]').val( ui.item.value );
+				return false;
 			}
-			$('.hj-gallery-tags-map').show();
-		},
-		onSelectChange: function(img, selection){
-			$('input[type="text"]', $form).each(function() {
-				$(this).val('');
-			});
-			$form.addClass('hidden');
-		},
-		onSelectStart: function(img, selection){
-			$('input[type="text"]', $form).each(function() {
-				$(this).val('');
-			});
-			$form.addClass('hidden');
-		},
-		onInit : function () {
-			$('.hj-gallery-tagger-wrapper')
-			.live('mouseover mouseout', function(event) {
-				if (event.type == 'mouseover') {
-					$('.hj-gallery-tags-map', $(this)).hide();
-				} else {
-					$('.hj-gallery-tags-map', $(this)).show();
-				}
-			})
-		}
-	});
+		})
+
+	})
+
+	$('.gallery-tag-autocomplete').autocomplete({
+		minLength: 3,
+		source: elgg.get_site_url() + 'gallery/livesearch/tag'
+	})
+
 }
 
-framework.gallery.tagger.stopTagging = function(event) {
-	event.preventDefault();
-	event.stopPropagation();
-	$(this)
-	.addClass('hidden');
+framework.gallery.mouseMove = function(e) {
 
-	$('.elgg-menu-item-starttagging')
-	.removeClass('hidden');
+	var $elem = $(this), $tagger = framework.gallery.taggerFloat;
 
-	$('#hj-gallery-tag-save')
-	.addClass('hidden');
+	var $src = $(e.srcElement);
 
-	framework.gallery.tagger.uid = $(this).find('a').data('uid');
-	
-	var $form = $('form.hj-gallery-tag-save[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-	var $image = $('img.elgg-state-taggable[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-
-	$image.imgAreaSelect({
-		disable: true,
-		hide: true
-	});
-}
-
-
-framework.gallery.tagger.saveTag = function(event) {
-	event.preventDefault();
-
-	var $form = $(this);
-	var uid = $form.data('uid');
-
-	var params = {
-		dataType : 'json',
-		data : $form.serialize(),
-		beforeSend : function() {
-			elgg.system_message(elgg.echo('hj:framework:ajax:saving'));
-			$('input[type="text"]', $form).addClass('hj-input-processing');
-		},
-		complete : function() {
-			$('input[type="text"]', $form).removeClass('hj-input-processing');
-			$('input[type="text"]', $form).each(function() {
-				$(this).val('');
-			});
-
-			$form.addClass('hidden');
-
-			$('input[type="text"]', $form).removeClass('hj-input-processing');
-
-			var $image = $('img.elgg-state-taggable[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-			$image.imgAreaSelect({
-				hide: true
-			});
-		},
-		success : function(response) {
-			var $list = $('.hj-gallery-tags-list[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-			var $map = $('.hj-gallery-tags-map[data-uid="' + framework.gallery.tagger.uid + '"]').eq(0);
-
-			$list.append($(response.output.list));
-			$map.append($(response.output.map));
-
-			framework.gallery.tagger.mapTags();
-		}
-	};
+	if ($src.is('.taggable') || $src.is($tagger)) {
 		
-	elgg.action($(this).attr('action'), params);
-}
+		var w = $src.width(), h = $src.height();
+		var x1 = $src.offset().left, y1 = $src.offset().top;
+		var x2 = x1 + w, y2 = y1 + h;
+		if (x1 < e.pageX && x2 > e.pageX && y1 < e.pageY && y2 > e.pageY) {
+			$tagger.show().offset({ top: e.pageY - 25, left: e.pageX - 25});
+			$tagger.unbind('click').bind('click', function(e2) {
 
-elgg.register_hook_handler('init', 'system', framework.gallery.tagger.init);
+				$elem.unbind('mousemove');
+					
+				var $form = $tagger.find('form').show();
+				$('[name="x1"]', $form).val(e.pageX - x1 - 25);
+				$('[name="y1"]', $form).val(e.pageY - y1 - 25);
+				$('[name="x2"]', $form).val(e.pageX + 50);
+				$('[name="y2"]', $form).val(e.pageY + 50);
+				$('[name="w"]', $form).val(50);
+				$('[name="h"]', $form).val(50);
+
+				$tagger
+				.find('.tagger-close')
+				.show()
+				.bind('click', function(e3) {
+					$(this).hide();
+					$tagger.unbind('click').hide();
+					$form.hide().resetForm();
+					$('.tagged-user-preview').attr('src', '');
+					$elem.bind('mousemove', framework.gallery.mouseMove)
+				});
+
+				$form
+				.unbind('submit')
+				.bind('submit', function(e) {
+					e.preventDefault();
+
+					var data = {};
+					data['X-Requested-With'] = 'XMLHttpRequest';
+					data['X-PlainText-Response'] = true;
+					$form.ajaxSubmit({
+						dataType : 'json',
+						data : data,
+						iframe : false,
+						beforeSend : function() {
+							$tagger.addClass('elgg-state-loading');
+						},
+						success : function(response) {
+							$tagger.removeClass('elgg-state-loading');
+							if (response.status >= 0) {
+								$tagger
+								.find('.tagger-close')
+								.trigger('click');
+							}
+							$('.gallery-tags-list', $elem).append(response.output);
+							
+							if (response.system_messages.success) {
+								elgg.system_message(response.system_messages.success);
+							}
+							if (response.system_messages.error) {
+								elgg.register_error(response.system_messages.error);
+							}
+						},
+						error : function() {
+							$tagger.removeClass('elgg-state-loading')
+						}
+					})
+					return false;
+				})
+			})
+		} else {
+			$tagger.hide();
+		}
+
+	} else {
+		$tagger.hide();
+	}
+}
+elgg.register_hook_handler('init', 'system', framework.gallery.tagger);
 
 <?php if (FALSE) : ?>
 	</script>

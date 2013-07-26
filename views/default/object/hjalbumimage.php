@@ -1,21 +1,18 @@
 <?php
 
 elgg_load_css('gallery.base.css');
-elgg_load_js('gallery.base.js');
-elgg_load_js('gallery.popup.js');
 
 $entity = elgg_extract('entity', $vars, false);
 
 if (!$entity) {
-	return true;
+	return;
 }
-
 
 $list_type = elgg_extract('list_type', $vars, 'gallery');
 
 if (elgg_in_context('activity') || elgg_in_context('main')) {
 	echo elgg_view('object/hjalbumimage/river', $vars);
-	return true;
+	return;
 }
 
 $view = "object/hjalbumimage/$list_type";

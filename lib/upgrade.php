@@ -11,6 +11,7 @@ run_function_once('hj_gallery_1361394670');
 run_function_once('hj_gallery_1361396953');
 run_function_once('hj_gallery_1361394680');
 run_function_once('hj_gallery_1369646725');
+run_function_once('hj_gallery_1374851653');
 
 elgg_set_ignore_access($ia);
 access_show_hidden_entities($ha);
@@ -63,7 +64,7 @@ function hj_gallery_1361394670() {
 		unset($imagehandler->image);
 
 		if ($imagehandler->save()) {
-			hj_framework_generate_entity_icons($imagehandler);
+			hj_gallery_generate_entity_icons($imagehandler);
 		}
 
 		$temp->delete();
@@ -79,7 +80,7 @@ function hj_gallery_1361396953() {
 
 	$files = elgg_get_entities(array(
 		'types' => 'object',
-		'subtypes' => 'ElggFile',
+		'subtypes' => 'hjfile',
 		'joins' => array(
 			"JOIN {$dbprefix}entities ce"
 		),
@@ -124,7 +125,7 @@ function hj_gallery_1361396953() {
 		unset($imagehandler->image);
 
 		if ($imagehandler->save()) {
-			hj_framework_generate_entity_icons($imagehandler);
+			hj_gallery_generate_entity_icons($imagehandler);
 		}
 
 		$temp->delete();
@@ -167,4 +168,22 @@ function hj_gallery_1369646725() {
 		create_metadata($row->guid, 'icontime', $row->time_created, '', $row->owner_guid, ACCESS_PUBLIC);
 	}
 	
+}
+
+function hj_gallery_1374851653() {
+	$dbprefix = elgg_get_config('dbprefix');
+
+	add_subtype('object', 'hjimagetag');
+
+	$subtypeIdTag = get_subtype_id('object', 'hjimagetag');
+	$subtypeIdAnnotation = get_subtype_id('object', 'hjannotation');
+
+	$query = "	UPDATE {$dbprefix}entities e
+				JOIN {$dbprefix}metadata md ON md.entity_guid = e.guid
+				JOIN {$dbprefix}metastrings msn ON msn.id = md.name_id
+				JOIN {$dbprefix}metastrings msv ON msv.id = md.value_id
+				SET e.subtype = $subtypeIdTag
+				WHERE e.subtype = $subtypeIdAnnotation AND msn.string = 'handler' AND msv.string = 'hjimagetag'	";
+
+	update_data($query);
 }

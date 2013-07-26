@@ -1,7 +1,6 @@
 <?php
 
 elgg_load_css('gallery.base.css');
-elgg_load_js('gallery.base.js');
 
 $entity = elgg_extract('entity', $vars, false);
 

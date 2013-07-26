@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Creates drag&drop file uploader
  * In non-html5 browsers falls back to regular file input
@@ -16,22 +15,50 @@ $entity = elgg_extract('entity', $vars);
 $time = elgg_extract('batch_upload_time', $vars);
 $types = htmlentities(json_encode(array('image/jpeg', 'image/jpg', 'image/png', 'image/gif')));
 
-echo '<div class="filedrop-wrap">';
-echo "<div id=\"gallery-filedrop\" data-allowedfiletypes=\"$types\" data-container-guid=\"$entity->guid\" data-batch-time=\"$time\">";
-echo '<div class="filedrop">';
-echo '<span class="filedrop-message">' . elgg_echo('hj:gallery:filedrop:instructions') . '</span>';
-echo elgg_view('input/file', array(
-	'id' => 'gallery-filedrop-input',
-	'name' => 'gallery_files',
-	'multiple' => true,
-	'class' => 'hidden',
+$attr = elgg_format_attributes(array(
+	'id' => 'gallery-filedrop',
+	'class' => 'gallery-filedrop-container',
+	'data-filetypes' => $types,
+	'data-container-guid' => $entity->guid,
+	'data-batch-time' => $time
+		));
+
+$fallback_link = elgg_view('output/url', array(
+	'text' => elgg_echo('hj:gallery:filedrop:fallback'),
+	'href' => '#gallery-filedrop',
+	'class' => 'gallery-filedrop-fallback-trigger'
 ));
-echo elgg_view('input/file', array(
+
+$instructions = elgg_echo('hj:gallery:filedrop:instructions', array($fallback_link));
+
+$fallback = elgg_view('input/file', array(
 	'id' => 'gallery-filedrop-fallback',
 	'name' => 'gallery_files[]',
 	'multiple' => true,
 	'class' => 'hidden',
 ));
-echo '</div>';
-echo '</div>';
-echo '</div>';
+
+echo <<<__HTML
+<div class="gallery-filedrop-wrap">
+	<div $attr>
+		<div class="gallery-filedrop">
+			<span class="gallery-filedrop-message">$instructions</span>
+			$fallback
+		</div>
+		<div class="gallery-filedrop-queue">
+		</div>
+		<div class="gallery-template hidden">
+			<div class="gallery-media-summary">
+				<div class="gallery-album-image-placeholder">
+					<img />
+					<span class="elgg-state-uploaded"></span>
+					<span class="elgg-state-failed"></span>
+				</div>
+				<div class="gallery-filedrop-progressholder">
+					<div class="gallery-filedrop-progress"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+__HTML;

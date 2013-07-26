@@ -3,11 +3,11 @@
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-if (!elgg_instanceof($entity)) {
+if (!elgg_instanceof($entity) || !$entity->canEdit()) {
 	return false;
 }
 
-$ancestry = hj_framework_get_ancestry($entity->guid);
+$ancestry = hj_gallery_get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
 	if (elgg_instanceof($ancestor, 'site')) {
@@ -23,11 +23,14 @@ foreach ($ancestry as $ancestor) {
 $type = $entity->getType();
 $subtype = $entity->getSubtype();
 
-$title = elgg_echo('hj:framework:edit:object', array(elgg_echo("item:$type:$subtype")));
+$title = elgg_echo("hj:gallery:edit:$type:$subtype");
 
+elgg_push_breadcrumb($entity->title, $entity->getURL());
 elgg_push_breadcrumb($title);
 
-$content = hj_framework_view_form("edit:$type:$subtype", array(
+$content = elgg_view_form("edit/$type/$subtype", array(
+	'enctype' => 'multipart/form-data',
+), array(
 	'entity' => $entity,
 		));
 

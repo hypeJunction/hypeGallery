@@ -36,7 +36,6 @@ if (!$time) {
 }
 
 $body = "<p class=\"mbn\">$title</p>$description";
-$body .= elgg_view('object/hjalbum/elements/image_count', $vars);
 
 if ($extra_info) {
 	$body .= "<p class=\"elgg-subtext\">$extra_info</p>";

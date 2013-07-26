@@ -12,11 +12,11 @@
 	 */
 	framework.gallery.cropper.init = function() {
 		var params = {
-			selectionOpacity: 0,
+			handles: 'corners',
+			selectionOpacity: 0.3,
 			aspectRatio: '1:1',
 			onSelectEnd: framework.gallery.cropper.selectChange,
-			onSelectChange: framework.gallery.cropper.preview,
-			parent: $('#hj-image-cropper').closest('div#hj-image-master')
+			onSelectChange: framework.gallery.cropper.preview
 		};
 
 		if ($('input[name=x2]').val()) {
@@ -26,12 +26,12 @@
 			params.y2 = $('input[name=y2]').val();
 		}
 
-		$('#hj-image-cropper').imgAreaSelect(params);
+		$('#gallery-crop-master').imgAreaSelect(params);
 
 		if ($('input[name=x2]').val()) {
-			var ias = $('#hj-image-cropper').imgAreaSelect({instance: true});
+			var ias = $('#gallery-crop-master').imgAreaSelect({instance: true});
 			var selection = ias.getSelection();
-			framework.gallery.cropper.preview($('#hj-image-cropper'), selection);
+			framework.gallery.cropper.preview($('#gallery-crop-master'), selection);
 		}
 	};
 
@@ -48,11 +48,11 @@
 			return;
 		}
 
-		var origWidth = $("#hj-image-cropper").width();
-		var origHeight = $("#hj-image-cropper").height();
+		var origWidth = $("#gallery-crop-master").width();
+		var origHeight = $("#gallery-crop-master").height();
 		var scaleX = 100 / selection.width;
 		var scaleY = 100 / selection.height;
-		$('#hj-image-preview > img').css({
+		$('#gallery-crop-preview > img').css({
 			width: Math.round(scaleX * origWidth) + 'px',
 			height: Math.round(scaleY * origHeight) + 'px',
 			marginLeft: '-' + Math.round(scaleX * selection.x1) + 'px',

@@ -9,6 +9,10 @@ echo elgg_view('input/gallery/filedrop', array(
 ));
 
 echo '<div class="elgg-foot">';
+echo elgg_view('input/submit', array(
+	'value' => elgg_echo('save'),
+	'class' => 'elgg-button elgg-button-submit float-alt'
+));
 echo elgg_view('input/hidden', array(
 	'name' => 'batch_upload_time',
 	'value' => $time

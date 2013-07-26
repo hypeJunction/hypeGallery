@@ -9,8 +9,14 @@ $river_time = "river_$posted";
 $subject = $item->getSubjectEntity();
 $object = $item->getObjectEntity();
 
-$subject_link = elgg_view('framework/bootstrap/user/elements/name', array('entity' => $subject));
-$object_link = elgg_view('framework/bootstrap/object/elements/title', array('entity' => $object));
+$subject_link = elgg_view('output/url', array(
+	'text' => $subject->name,
+	'href' => $subject->getURL()
+));
+$object_link = elgg_view('output/url', array(
+	'text' => $object->title,
+	'href' => $object->getURL()
+));
 
 $key = "river:update:object:hjalbum";
 $image_count = $object->countImages();
@@ -20,6 +26,10 @@ foreach ($image_guids_new as $guid) {
 	if (get_entity($guid)) {
 		$image_count_new++;
 	}
+}
+
+if (!$image_count_new) {
+	$image_count_new = elgg_echo('hj:gallery:new');
 }
 
 $summary = elgg_echo($key, array($subject_link, $image_count_new, $object_link, $image_count));

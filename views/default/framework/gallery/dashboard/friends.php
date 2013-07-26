@@ -1,7 +1,11 @@
 <?php
 
-$stream = get_input('photostream', false);
 $page_owner = elgg_get_page_owner_entity();
+
+if (!elgg_instanceof($page_owner, 'user') 
+		|| !$page_owner->canEdit()) {
+	return;
+}
 
 $friends = elgg_get_entities_from_relationship(array(
 	'types' => 'user',
@@ -20,31 +24,45 @@ foreach ($friends as $friend) {
 	$owner_guids[] = $friend->guid;
 }
 
-$list_id = "fr$page_owner->guid";
 
-if (!$stream) {
+$display = get_input('display', 'albums');
 
-	$params = array(
-		'list_id' => $list_id,
-		'container_guids' => ELGG_ENTITIES_ANY_VALUE,
-		'subtypes' => array('hjalbum'),
-		'owner_guids' => $owner_guids
-	);
+echo '<div id="gallery-dashboard-friends">';
 
-	echo elgg_view('framework/gallery/list/albums', $params);
-} else {
+switch ($display) {
 
-	if (!get_input("__ord_$list_id", false)) {
-		set_input("__ord_$list_id", 'e.time_created');
-		set_input("__dir_$list_id", 'DESC');
-	}
+	default :
+	case 'albums' :
+		echo elgg_list_entities(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbum'),
+			'owner_guids' => $owner_guids,
+			'full_view' => false,
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-albums', 0),
+			'offset_key' => 'offset-albums'
+		));
+		break;
 
-	$params = array(
-		'list_id' => $list_id,
-		'container_guids' => ELGG_ENTITIES_ANY_VALUE,
-		'subtypes' => array('hjalbumimage'),
-		'owner_guids' => $owner_guids
-	);
-
-	echo elgg_view('framework/gallery/list/images', $params);
+	case 'photostream' :
+		echo elgg_list_entities(array(
+			'types' => 'object',
+			'subtypes' => array('hjalbumimage'),
+			'owner_guids' => $owner_guids,
+			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
+			'gallery_class' => 'gallery-photostream',
+			'full_view' => false,
+			'pagination' => true,
+			'limit' => get_input('limit', 20),
+			'offset' => get_input('offset-photostream', 0),
+			'offset_key' => 'offset-photostream'
+		));
+		break;
 }
+
+echo '</div>';

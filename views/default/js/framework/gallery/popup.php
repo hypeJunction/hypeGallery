@@ -5,93 +5,176 @@
 elgg.provide('framework');
 elgg.provide('framework.gallery');
 
-framework.gallery.loader = $('<div>').addClass('hj-ajax-loader').addClass('hj-loader-circle').hide();
-framework.gallery.dialog = $('<div id="gallery-dialog">');
-
 framework.gallery.popup = function() {
 
-	$('.hj-gallery-popup').live('click', framework.gallery.popupTrigger);
+	$('.gallery-popup').live('click', framework.gallery.popupTrigger);
 
 }
 
 framework.gallery.popupTrigger = function(e) {
 
-	$element = $(this);
-	$dialog = framework.gallery.dialog;
+	var guid = $(this).data('guid');
+	var $slideshow = $('<div>').attr('id', 'slideshow' + guid);
+	$(window).resize(function() {
+		$slideshow
+		.dialog({
+			position : { my: "center", at: "center", of: window },
+			width : $(window).width() - 25,
+			height : $(window).height() - 25
+		});
+	});
+	
+	$('.gallery-slideshow .gallery-preview-item')
+	.live('click', function(e) {
+		e.preventDefault();
+		$('.gallery-slideshow .master-view')
+		.html($('<img>').addClass('taggable').attr('src', $(this).data('master')));
+		$('.gallery-slideshow .master-view')
+		.append($('<div>')
+		.addClass('meta-title')
+		.attr({
+			'data-guid' : $(this).data('guid')
+		}).text($(this).data('title')))
 
-	e.preventDefault;
+		var $parent = $(this).parent();
+		$parent.addClass('elgg-state-selected').siblings().removeClass('elgg-state-selected');
 
-	elgg.post($element.attr('href'), {
-		data : {
-			guid : $element.data('uid'),
-			view : 'xhr',
-			endpoint : 'content'
-		},
+		var pos = $parent.prevAll().andSelf().length;
+		var total = $parent.siblings().andSelf().length;
 
-		beforeSend : function() {
-			$dialog
-			.html(framework.gallery.loader.show())
-			.dialog({
-				modal : true,
-				dialogClass: 'hj-framework-dialog',
-				title : elgg.echo('hj:framework:ajax:loading'),
-				minWidth : 500,
-				minHeight : 500,
-				autoResize : true
-			})
-		},
-		complete : function() {
+		var elemWidth = $(this).parent().outerWidth(true);
+		var prevWidth =  pos * elemWidth;
+		var paneWidth = $parent.closest('.preview-pane').innerWidth();
 
-		},
-		success : function(response) {
-			$dialog.dialog({ title : response.output.title });
-			$img = $('img:first', $(response.output.body.content));
+		var margin = paneWidth / 2 - prevWidth;
+		
+		$parent.parent().css('margin-left' , paneWidth / 2 - prevWidth + elemWidth*1.5);
 
-			$img.load(function() {
-				$dialog
-				.html($img)
-				.dialog({
-					height: $img.height() + 140,
-					width : $img.width() + 50,
-					position : {
-						my : "center"
-					}
-				});
-			})
+		$('.gallery-slideshow .controls .pager').text(elgg.echo('hj:gallery:slideshow:pager', [ pos, total ]));
 
-			var buttons = new Array();
-			var $set = $('.hj-gallery-popup');
-			var index = $set.index($element);
+		if ($parent.prev().length) {
+			$('.gallery-slideshow .controls .prev').removeClass('hidden').data('elem', $parent.prev());
+		} else {
+			$('.gallery-slideshow .controls .prev').addClass('hidden').data('elem', null);
+		}
 
-			buttons.push({
-				text: elgg.echo('hj:gallery:goto:full'),
-				click : function() {
-					window.location.replace($set.eq(index).attr('href'))
+		if ($parent.next().length) {
+			$('.gallery-slideshow .controls .next').removeClass('hidden').data('elem', $parent.next());
+		} else {
+			$('.gallery-slideshow .controls .next').addClass('hidden').data('elem', null);
+		}
+	})
+
+	$('.gallery-slideshow .meta-title')
+	.live('click', function(e) {
+		var $elem = $(this);
+		$elem.toggleClass('elgg-state-active');
+		var $desc = $elem.closest('.gallery-slideshow').find('.meta-description');
+
+		if ($elem.hasClass('elgg-state-active')) {
+			elgg.ajax("ajax/view/object/hjalbumimage/ajaxmeta?guid=" + $elem.data('guid'), {
+				cache : true,
+				beforeSend : function() {
+					$desc.html($('<div>').addClass('elgg-ajax-loader')).show();
+				},
+				success : function(output) {
+					$desc.html(output)
+				},
+				error : function() {
+					$desc.hide();
 				}
 			})
-			if (index > 0) {
-				buttons.push({
-					text : elgg.echo('previous'),
-					click : function() {
-						$set.eq(index-1).trigger('click');
-					}
+		} else {
+			$desc.hide();
+		}
+	})
+
+	$('*').live('click', function(e) {
+		if ($('.gallery-slideshow .meta-title:first').hasClass('elgg-state-active')
+			&& !$(e.target).closest('.meta-title,.meta-description').length) {
+			$('.gallery-slideshow .meta-title').removeClass('elgg-state-active');
+			$('.gallery-slideshow .meta-description').hide();
+		}
+	})
+
+	$('.gallery-slideshow .controls .prev, .gallery-slideshow .controls .next').live('click', function(e) {
+		e.preventDefault();
+		$(this).data('elem').find('img').trigger('click');
+	})
+
+	elgg.getJSON('ajax/view/object/hjalbum/slideshow', {
+		beforeSend : function() {
+			$slideshow.html($('<div>').addClass('elgg-ajax-loader'));
+			$slideshow.dialog({
+				title : elgg.echo('hj:gallery:slideshow:loading'),
+				dialogClass : 'gallery-slideshow',
+				width : $(window).width() - 25,
+				height : $(window).height() - 25,
+				modal : true,
+				close : function() {
+					$(this).dialog('destroy').remove();
+				}
+			});
+		},
+		data : {
+			guid : guid
+		},
+		success : function(data) {
+
+			var $preview = $('<div>').addClass('preview-pane');
+
+			var $master = $('<div>').addClass('master-view');
+			var $controls = $('<div>').addClass('controls');
+			$controls.append($('<span>').addClass('prev'));
+			$controls.append($('<span>').addClass('pager'));
+			$controls.append($('<span>').addClass('next'));
+			var $masterpane = $('<div>').addClass('master-pane').append($master).append($controls);
+			$masterpane.append($('<div>').addClass('meta-description'));
+
+			var $view = $('<ul>');
+
+			$.each(data.output.img, function(key, opts) {
+				var $img = $('<img>')
+				.addClass('gallery-preview-item')
+				.attr({
+					'data-guid' : opts.guid,
+					'src' : elgg.get_site_url() + 'gallery/icon/' + opts.guid + '/medium',
+					'alt' : opts.title + ': ' + opts.description
 				})
-			}
-			if (index < $set.length -1 ) {
-				buttons.push({
-					text : elgg.echo('next'),
-					click : function() {
-						$set.eq(index+1).trigger('click');
-					}
+				.data({
+					'title' : opts.title,
+					'description' : opts.description,
+					'master' : elgg.get_site_url() + 'gallery/icon/' + opts.guid + '/master'
 				})
+
+				$view.append($img);
+
+			});
+
+			$('img', $view).wrap('<li>');
+
+			$slideshow.html($masterpane);
+			$view.appendTo($preview);
+			$preview.appendTo($slideshow);
+			$slideshow.dialog({
+				title : data.output.album_title
+			})
+
+			if ($('.gallery-preview-item[data-guid="' + guid + '"]').length) {
+				$('.gallery-preview-item[data-guid="' + guid + '"]').trigger('click')
+			} else {
+				$('.gallery-preview-item:first').trigger('click');
 			}
-			$dialog.dialog('option', 'buttons', buttons);
+			
+		},
+		error : function() {
+			$slideshow.dialog('destroy');
 		}
 	})
 
 	return false;
 }
-		
+
 elgg.register_hook_handler('init', 'system', framework.gallery.popup);
 		
 <?php if (FALSE) : ?>

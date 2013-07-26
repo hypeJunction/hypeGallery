@@ -28,7 +28,7 @@ $content = elgg_list_entities($options);
 elgg_pop_context();
 
 if (!$content) {
-	$content = '<p>' . elgg_echo('hj:framework:list:empty') . '</p>';
+	$content = '<p>' . elgg_echo('hj:gallery:list:empty') . '</p>';
 }
 
 $new_link = elgg_view('output/url', array(

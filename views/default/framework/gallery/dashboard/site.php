@@ -13,11 +13,12 @@ switch ($display) {
 			'subtypes' => array('hjalbum'),
 			'full_view' => false,
 			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
 			'gallery_class' => 'gallery-photostream',
 			'pagination' => true,
 			'limit' => get_input('limit', 20),
-			'offset' => get_input('offset_albums', 0),
-			'offset_key' => 'offset_albums'
+			'offset' => get_input('offset-albums', 0),
+			'offset_key' => 'offset-albums'
 		));
 		break;
 
@@ -26,12 +27,13 @@ switch ($display) {
 			'types' => 'object',
 			'subtypes' => array('hjalbumimage'),
 			'list_type' => get_input('list_type', 'gallery'),
+			'list_type_toggle' => true,
 			'gallery_class' => 'gallery-photostream',
 			'full_view' => false,
 			'pagination' => true,
 			'limit' => get_input('limit', 20),
-			'offset' => get_input('offset_photostream', 0),
-			'offset_key' => 'offset_photostream'
+			'offset' => get_input('offset-photostream', 0),
+			'offset_key' => 'offset-photostream'
 		));
 		break;
 }

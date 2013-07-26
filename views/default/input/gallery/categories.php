@@ -1,7 +1,7 @@
 <?php
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-?>
+if (elgg_view_exists('input/category')) {
+	echo elgg_view('input/category', $vars);
+} else {
+	echo elgg_view('input/tags', $vars);
+}
