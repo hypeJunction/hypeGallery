@@ -25,11 +25,10 @@ Extremely user friendly and hype image gallery for Elgg.
 
 ## Screenshots ##
 
-Inline-style:
 ![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/cropper.png "Cropping Tool")
 ![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/managealbum.jpg "Manage Album")
 ![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/photoopts.jpg "Manage Photo")
 ![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/river.png "River")
 ![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/slideshow.jpg "Slideshow")
-![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/tagging.png "Photo Tagging")
-![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/upload.png "Upload")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/tagging.jpg "Photo Tagging")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/upload.jpg "Upload")
