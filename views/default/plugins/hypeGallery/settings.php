@@ -19,7 +19,7 @@ $settings = array(
 
 foreach ($settings as $s) {
 	echo '<div>';
-	echo '<label>' . elgg_echo("edit:plugin:hypegallery:$s") . '</label>';
+	echo '<label>' . elgg_echo("edit:plugin:hypegallery:params[$s]") . '</label>';
 	echo elgg_view('input/dropdown', array(
 		'name' => "params[$s]",
 		'options_values' => array(
