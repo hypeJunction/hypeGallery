@@ -24,9 +24,6 @@ define('HYPEGALLERY_AVATARS', elgg_get_plugin_setting('avatars', 'hypeGallery'))
 define('HYPEGALLERY_TAGGING', elgg_get_plugin_setting('tagging', 'hypeGallery'));
 define('HYPEGALLERY_DOWNLOADS', elgg_get_plugin_setting('downloads', 'hypeGallery'));
 
-define('HYPEGALLERY_TILELAYER_URI', elgg_get_plugin_setting('leaflet_layer_uri', 'hypeGallery'));
-define('HYPEGALLERY_TILELAYER_ATTR', elgg_get_plugin_setting('leaflet_layer_attribution', 'hypeGallery'));
-
 define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
 
 elgg_set_config('gallery_icon_sizes', array());

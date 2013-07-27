@@ -32,17 +32,3 @@ elgg_register_js('gallery.filedrop.js', elgg_get_simplecache_url('js', 'framewor
 
 elgg_register_simplecache_view('css/framework/gallery/filedrop');
 elgg_register_css('gallery.filedrop.css', elgg_get_simplecache_url('css', 'framework/gallery/filedrop'));
-
-
-// LEAFLET
-elgg_register_js('leaflet.js', '/mod/hypeGallery/vendors/leaflet/leaflet.js', 'footer');
-elgg_register_js('leaflet.awesome-markers.js', '/mod/hypeGallery/vendors/leaflet/awesome-markers/leaflet.awesome-markers.min.js', 'footer');
-
-elgg_register_css('leaflet.css', '/mod/hypeGallery/vendors/leaflet/leaflet.css');
-elgg_register_css('leaflet.awesome-markers.css', '/mod/hypeGallery/vendors/leaflet/awesome-markers/leaflet.awesome-markers.css');
-
-elgg_register_simplecache_view('js/framework/gallery/leaflet');
-elgg_register_js('gallery.leaflet.js', elgg_get_simplecache_url('js', 'framework/gallery/leaflet'), 'footer');
-
-elgg_register_simplecache_view('css/framework/gallery/leaflet');
-elgg_register_css('gallery.leaflet.css', elgg_get_simplecache_url('css', 'framework/gallery/leaflet'));

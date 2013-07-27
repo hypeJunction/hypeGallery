@@ -31,19 +31,3 @@ foreach ($settings as $s) {
 	echo '<span class="elgg-text-help">' . elgg_echo("edit:plugin:hypegallery:hint:$s") . '</span>';
 	echo '</div>';
 }
-
-echo '<div>';
-echo '<label>' . elgg_echo("edit:plugin:hypegallery:leaflet_layer_uri") . '</label>';
-echo elgg_view('input/text', array(
-	'name' => "params[leaflet_layer_uri]",
-	'value' => $entity->leaflet_layer_uri
-));
-echo '<span class="elgg-text-help">' . elgg_echo("edit:plugin:hypegallery:hint:leaflet_layer_uri") . '</span>';
-echo '</div>';
-
-echo '<div>';
-echo '<label>' . elgg_echo("edit:plugin:hypegallery:leaflet_layer_attribution") . '</label>';
-echo elgg_view('input/text', array(
-	'name' => "params[leaflet_layer_attribution]",
-	'value' => $entity->leaflet_layer_attribution
-));

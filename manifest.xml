@@ -14,28 +14,4 @@
 		<type>elgg_version</type>
 		<version>2013051700</version>
 	</requires>
-	<screenshot>
-		<description>Upload workflow</description>
-		<path>screenshots/upload.jpg</path>
-	</screenshot>
-	<screenshot>
-		<description>Album management workflow</description>
-		<path>screenshots/managealbum.jpg</path>
-	</screenshot>
-	<screenshot>
-		<description>Activity stream entry</description>
-		<path>screenshots/river.png</path>
-	</screenshot>
-	<screenshot>
-		<description>Slideshow/description>
-		<path>screenshots/slideshow.jpg</path>
-	</screenshot>
-	<screenshot>
-		<description>Thumbnail cropping</description>
-		<path>screenshots/tagger.png</path>
-	</screenshot>
-	<screenshot>
-		<description>Photo tagging</description>
-		<path>screenshots/tagging.jpg</path>
-	</screenshot>
 </plugin_manifest>
