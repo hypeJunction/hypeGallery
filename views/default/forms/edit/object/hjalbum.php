@@ -98,6 +98,11 @@ echo $details;
 echo '</div>';
 
 echo elgg_view('input/hidden', array(
+	'name' => 'guid',
+	'value' => $entity->guid
+));
+
+echo elgg_view('input/hidden', array(
 	'name' => 'container_guid',
 	'value' => $container->guid
 ));
