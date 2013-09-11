@@ -298,8 +298,7 @@ function hj_gallery_get_image_tags($entity) {
 }
 
 function hj_gallery_handle_uploaded_files($entity) {
-
-	return $images;
+	return false;
 }
 
 function hj_gallery_get_ancestry($guid) {
