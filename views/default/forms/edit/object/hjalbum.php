@@ -38,7 +38,8 @@ if (HYPEGALLERY_COLLABORATIVE_ALBUMS) {
 $main .= '<div class="elgg-col elgg-col-1of2">';
 $main .= '<label>' . elgg_echo('hj:label:hjalbum:access_id') . '</label>';
 $main .= elgg_view('input/access', array(
-	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : $entity->access_id
+	'entity' => $entity,
+	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : ACCESS_DEFAULT
 		));
 $main .= '</div>';
 $main .= '</div>';
