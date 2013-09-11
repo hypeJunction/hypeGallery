@@ -19,6 +19,9 @@ access_show_hidden_entities($ha);
 function hj_gallery_1361394670() {
 
 	$subtypeId = get_subtype_id('object', 'hjalbumimage');
+	if (!$subtypeId) {
+		return true;
+	}
 	$dbprefix = elgg_get_config('dbprefix');
 
 	$query = "	SELECT guid, msv.string AS file_guid FROM {$dbprefix}entities e
@@ -75,7 +78,9 @@ function hj_gallery_1361394670() {
 function hj_gallery_1361396953() {
 
 	$subtypeIdImage = get_subtype_id('object', 'hjalbumimage');
-
+	if (!$subtypeIdImage) {
+		return true;
+	}
 	$dbprefix = elgg_get_config('dbprefix');
 
 	$files = elgg_get_entities(array(
@@ -86,7 +91,7 @@ function hj_gallery_1361396953() {
 		),
 		'wheres' => array("(ce.guid = e.container_guid AND ce.subtype = $subtypeIdImage)"),
 		'limit' => 0
-			));
+	));
 
 	foreach ($files as $filehandler) {
 
@@ -136,12 +141,14 @@ function hj_gallery_1361396953() {
 function hj_gallery_1361379980() {
 
 	// set priority metadata on images
-	$subtype = get_subtype_id('object', 'hjalbumimage');
-
+	$subtypeId = get_subtype_id('object', 'hjalbumimage');
+	if (!$subtypeId) {
+		return true;
+	}
 	$dbprefix = elgg_get_config('dbprefix');
 	$query = "SELECT guid, owner_guid
 				FROM {$dbprefix}entities e
-				WHERE e.subtype IN ($subtype)";
+				WHERE e.subtype IN ($subtypeId)";
 
 	$data = get_data($query);
 
@@ -152,7 +159,10 @@ function hj_gallery_1361379980() {
 
 function hj_gallery_1369646725() {
 
-	$subtype = get_subtype_id('object', 'hjalbumimage');
+	$subtypeId = get_subtype_id('object', 'hjalbumimage');
+	if (!$subtypeId) {
+		return true;
+	}
 
 	$dbprefix = elgg_get_config('dbprefix');
 	$query = "	SELECT guid, owner_guid, time_created FROM {$dbprefix}entities e
@@ -160,23 +170,25 @@ function hj_gallery_1369646725() {
 						SELECT 1 FROM {$dbprefix}metadata md
 						WHERE md.entity_guid = e.guid
 							AND md.name_id = 'icontime'
-								) AND e.subtype = $subtype";
+								) AND e.subtype = $subtypeId";
 
 	$rows = get_data($query);
 
 	foreach ($rows as $row) {
 		create_metadata($row->guid, 'icontime', $row->time_created, '', $row->owner_guid, ACCESS_PUBLIC);
 	}
-	
 }
 
 function hj_gallery_1374851653() {
 	$dbprefix = elgg_get_config('dbprefix');
 
-	add_subtype('object', 'hjimagetag');
-
-	$subtypeIdTag = get_subtype_id('object', 'hjimagetag');
 	$subtypeIdAnnotation = get_subtype_id('object', 'hjannotation');
+	if (!$subtypeIdAnnotation) {
+		return true;
+	}
+
+	add_subtype('object', 'hjimagetag');
+	$subtypeIdTag = get_subtype_id('object', 'hjimagetag');
 
 	$query = "	UPDATE {$dbprefix}entities e
 				JOIN {$dbprefix}metadata md ON md.entity_guid = e.guid
