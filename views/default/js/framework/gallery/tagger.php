@@ -119,9 +119,12 @@ framework.gallery.tagger = function() {
 
 framework.gallery.mouseMove = function(e) {
 
-	var $elem = $(this), $tagger = framework.gallery.taggerFloat;
+	var $elem = $(this), $tagger = framework.gallery.taggerFloat, $src;
 
-	var $src = $(e.srcElement);
+	if (e.target) $src = $(e.target);
+    else if (e.srcElement) $src = e.srcElement;
+    if ($src.nodeType == 3) // defeat Safari bug
+        $src = $src.parentNode;
 
 	if ($src.is('.taggable') || $src.is($tagger)) {
 		
