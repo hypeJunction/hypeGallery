@@ -1,6 +1,6 @@
 <?php
 
-$entity = elgg_extract('entity', $params);
+$entity = elgg_extract('entity', $vars);
 
 $settings = array(
 	'album_river',
