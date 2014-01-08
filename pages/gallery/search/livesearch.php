@@ -24,18 +24,18 @@ switch ($search_type) {
 
 	case 'friend' :
 
-		$user = elgg_get_logged_in_user_entity();
+		$logged_in = elgg_get_logged_in_user_entity();
 
 		$users = elgg_get_entities(array(
 			'types' => 'user',
 			'limit' => 20,
 			'joins' => array(
-				"JOIN {$dbprefix}entity_relationships er ON e.guid = er.guid_one",
-				"JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid"
+				"JOIN {$dbprefix}entity_relationships er ON e.guid = er.guid_two",
+				"JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid",
 			),
 			'wheres' => array(
-				"(er.relationship = 'friend' AND er.guid_two = $user->guid) OR ue.guid = $user->guid",
-				"ue.name LIKE '$term%'"
+				"((er.relationship = 'friend' AND er.guid_one = $logged_in->guid) OR ue.guid = $logged_in->guid)",
+				"ue.name LIKE '%$term%'"
 			)
 				));
 

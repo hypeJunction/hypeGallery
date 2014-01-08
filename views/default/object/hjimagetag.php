@@ -9,7 +9,7 @@ $image = $tag->getContainerEntity();
 $image_owner = $image->getOwnerEntity();
 $tagged_user = $tag->getOwnerEntity();
 
-if ($tagged_user->guid != $image_owner->guid) {
+if ($tagged_user->guid != $image_owner->guid || empty($tag->title)) {
 	$text = elgg_view('output/img', array(
 				'src' => $tagged_user->getIconURL('tiny')
 			)) . $tagged_user->name;

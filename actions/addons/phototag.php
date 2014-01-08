@@ -1,21 +1,30 @@
 <?php
 
+$logged_in = elgg_get_logged_in_user_entity();
+
 $guid = get_input('container_guid', false);
 $image = get_entity($guid);
 
 $user_guid = get_input('relationship_guid', false);
 $user = get_entity($user_guid);
 
+$title = get_input('title', false);
+
 if (!$image) {
+	register_error(elgg_echo('hj:gallery:phototag:error'));
+	forward(REFERER);
+}
+
+if (!$title && !$user) {
 	register_error(elgg_echo('hj:gallery:phototag:error'));
 	forward(REFERER);
 }
 
 $tag = new ElggObject();
 $tag->subtype = 'hjimagetag';
-$tag->owner_guid = ($user) ? ($user->guid) : elgg_get_logged_in_user_guid(); // tagged user is owner, so can delete the tag
+$tag->owner_guid = ($user) ? ($user->guid) : $logged_in->guid; // tagged user is owner, so can delete the tag
 $tag->container_guid = $image->guid; // image owner will be able to manage tags via container
-$tag->title = get_input('title');
+$tag->title = $title;
 $tag->description = '';
 $tag->width = get_input('w');
 $tag->height = get_input('h');
@@ -25,28 +34,32 @@ $tag->y1 = get_input('y1');
 $tag->y2 = get_input('y2');
 $tag->access_id = get_input('access_id');
 
-if ($tag->save(false)) {
+// need to bypass the access system so that we can save the tag with the tagged user being the owner
+$ia = elgg_set_ignore_access();
 
-	if ($user) {
+if ($tag->save()) {
+
+	if ($user && $user->guid != $logged_in->guid) { // don't notify self
+
 		$to = $user->guid;
-		$from = elgg_get_logged_in_user_guid();
+		$from = $logged_in->guid;
+
 		$subject = elgg_echo('hj:gallery:user:tagged');
 
-		$album_link = elgg_view('output/url', array(
-			'text' => $tag->title,
-			'href' => $tag->getContainerEntity()->getURL(),
+		$image_link = elgg_view('output/url', array(
+			'href' => $image->getURL(),
 			'is_trusted' => true
-				));
+		));
 
 		$message = elgg_echo('hj:gallery:user:tagged:message', array(
-			$album_link
-				));
+			$image_link
+		));
 
 		notify_user($to, $from, $subject, $message);
 	}
 
 	add_to_river('framework/river/stream/phototag', 'stream:phototag', elgg_get_logged_in_user_guid(), $tag->guid, $tag->access_id, time(), -1);
-	
+
 	system_message(elgg_echo('hj:gallery:phototag:success'));
 
 	$html = elgg_view_entity($tag);
@@ -54,10 +67,10 @@ if ($tag->save(false)) {
 	if (elgg_is_xhr()) {
 		print $html;
 	}
-
-	forward(REFERER);
 } else {
 
 	register_error(elgg_echo('hj:gallery:phototag:error'));
-	forward(REFERER);
 }
+
+elgg_set_ignore_access($ia);
+forward(REFERER);
