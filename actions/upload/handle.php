@@ -56,8 +56,7 @@ if ($guids) {
 		}
 
 		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
-		$image->title = $album->title;
-		$image->description = $album->description;
+		$image->title = $image->originalfilename;
 		$image->access_id = $album->access_id;
 
 		foreach ($metadata as $md) {

@@ -16,14 +16,14 @@ if (!elgg_instanceof($image, 'object', 'hjalbumimage')) {
 	$image->delete();
 } else {
 
+	$image->title = $image->originalfilename;
+
 	if ($album) {
 		$metadata = elgg_get_metadata(array(
 			'guid' => $album->guid,
 			'limit' => 0
 				));
 
-		$image->title = $album->title;
-		$image->description = $album->description;
 		$image->access_id = $album->access_id;
 
 		foreach ($metadata as $md) {

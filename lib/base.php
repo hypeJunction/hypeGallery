@@ -319,3 +319,13 @@ function hj_gallery_get_ancestry($guid) {
 
 	return $ancestry;
 }
+
+function hj_gallery_apply_exif_tags($image) {
+
+	if (!is_callable('exif_read_data')) {
+		return;
+	}
+
+	
+
+}
