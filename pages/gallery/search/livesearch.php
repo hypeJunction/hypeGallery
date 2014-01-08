@@ -34,7 +34,7 @@ switch ($search_type) {
 				"JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid"
 			),
 			'wheres' => array(
-				"er.relationship = 'friend' AND er.guid_two = $user->guid",
+				"(er.relationship = 'friend' AND er.guid_two = $user->guid) OR ue.guid = $user->guid",
 				"ue.name LIKE '$term%'"
 			)
 				));
