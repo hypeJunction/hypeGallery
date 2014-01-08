@@ -424,16 +424,14 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 		padding: 0;
 		background: #eee;
 		border-top: 5px solid #fff;
-		width:100%;
-		overflow:hidden;
-		height:35px;
+		width: 100%;
+		overflow: hidden;
+		height: 140px;
 	}
 	.ui-dialog.gallery-slideshow .preview-pane:hover,
 	.ui-dialog.gallery-slideshow .preview-pane:active {
-		height:140px;
-
-		transition: height 0.5s ease-in;
-		-webkit-transition: height 0.5s ease-in;
+		transition: 0.5s ease-in;
+		-webkit-transition: 0.5s ease-in;
 	}
 	.ui-dialog.gallery-slideshow .preview-pane ul {
 		position:relative;
@@ -488,7 +486,7 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 	.ui-dialog.gallery-slideshow .master-view {
 		position: absolute;
 		top: 0;
-		bottom: 35px;
+		bottom: 140px;
 		width: 100%;
 		height: auto;
 		right: 0;
