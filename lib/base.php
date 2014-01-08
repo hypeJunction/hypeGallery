@@ -3,9 +3,11 @@
 /**
  * Process uploaded files
  *
- * @param mixed $files		Uploaded files
- * @param mixed $entity		Guid of an hjAlbumImage to write the uploaded files into
- * @return void
+ * @param string $name			Name of the HTML file input
+ * @param string $subtype		Object subtype to be assigned to newly created objects
+ * @param type $guid			GUID of an existing object
+ * @param type $container_guid	GUID of the container entity
+ * @return array				An associative array of original file names and guids (or false) of created object
  */
 function hj_gallery_process_file_upload($name, $subtype = 'hjalbumimage', $guid = null, $container_guid = null) {
 
@@ -22,6 +24,7 @@ function hj_gallery_process_file_upload($name, $subtype = 'hjalbumimage', $guid 
 		if (!is_array($file) || $file['error']) {
 			continue;
 		}
+
 		$filehandler = new ElggFile($guid);
 		$prefix = 'hjfile/';
 
@@ -105,6 +108,7 @@ function hj_gallery_process_file_upload($name, $subtype = 'hjalbumimage', $guid 
 
 /**
  * Normalize $_FILES global
+ *
  * @param array $_files
  * @param bool $top
  * @return array
@@ -282,6 +286,12 @@ function hj_gallery_get_files($options = array()) {
 	return elgg_get_entities_from_metadata($options);
 }
 
+/**
+ * Get tag objects attached to a given image
+ *
+ * @param ElggEntity $entity
+ * @return array|false
+ */
 function hj_gallery_get_image_tags($entity) {
 
 	$tag_params = array(
@@ -297,10 +307,22 @@ function hj_gallery_get_image_tags($entity) {
 	return $tags;
 }
 
-function hj_gallery_handle_uploaded_files($entity) {
+/**
+ * Deprecated function
+ * 
+ * @param type $entity
+ * @return boolean
+ */
+function hj_gallery_handle_uploaded_files() {
 	return false;
 }
 
+/**
+ * Get ancestry for a given entity guid
+ *
+ * @param int $guid
+ * @return boolean|array
+ */
 function hj_gallery_get_ancestry($guid) {
 
 	$entity = get_entity($guid);
@@ -318,14 +340,4 @@ function hj_gallery_get_ancestry($guid) {
 	}
 
 	return $ancestry;
-}
-
-function hj_gallery_apply_exif_tags($image) {
-
-	if (!is_callable('exif_read_data')) {
-		return;
-	}
-
-	
-
 }

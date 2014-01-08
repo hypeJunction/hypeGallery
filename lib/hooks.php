@@ -1,13 +1,14 @@
 <?php
 
-// Allow users to use albums as container entities
-elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'hj_gallery_container_permissions_check');
-
-// Allow users to create tags owned by other users
-elgg_register_plugin_hook_handler('permissions_check', 'object', 'hj_gallery_permissions_check');
-
 /**
- * Bypass default permission to allow users to add images to albums
+ * Bypass default access controls
+ * - Allow users to add images to shared albums
+ *
+ * @param string $hook			Equals 'container_permissions_check'
+ * @param string $type			Equals 'object'
+ * @param boolean $return		Current permission
+ * @param array $params			Additional params
+ * @return boolean				Updated permission
  */
 function hj_gallery_container_permissions_check($hook, $type, $return, $params) {
 
@@ -15,8 +16,9 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 	$user = elgg_extract('user', $params, false);
 	$subtype = elgg_extract('subtype', $params, false);
 
-	if (!$container || !$user || !$subtype)
+	if (!elgg_instanceof($container) || !elgg_instanceof($user, 'user') || !$subtype) {
 		return $return;
+	}
 
 	switch ($container->getSubtype()) {
 
@@ -39,7 +41,7 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 					}
 
 					$owner = $container->getOwnerEntity();
-					$group = $container->getContainerEntity();
+					$container = $container->getContainerEntity();
 
 					$permissions = $container->permissions;
 
@@ -59,8 +61,8 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 							break;
 
 						case 'group' :
-							if (elgg_instanceof($group, 'group')) {
-								return $group->isMember($user);
+							if (elgg_instanceof($container, 'group')) {
+								return $container->isMember($user);
 							}
 							break;
 					}
@@ -73,12 +75,23 @@ function hj_gallery_container_permissions_check($hook, $type, $return, $params) 
 }
 
 /**
- * Bypass default permission to allow users to create and edit tags owned by others
+ * Bypass default editing permissions
+ * - Allow users to edit tags that have been added to photos they own
+ *
+ * @param string $hook		Equals 'permissions_check'
+ * @param string $type		Equals 'object'
+ * @param boolena $return	Current permission
+ * @param array $params		Additional params
+ * @return boolean			Updated permission
  */
 function hj_gallery_permissions_check($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params, false);
 	$user = elgg_extract('user', $params, false);
+
+	if (!elgg_instanceof($entity, 'object') || !elgg_instanceof($user, 'user')) {
+		return $return;
+	}
 
 	switch ($entity->getSubtype()) {
 
@@ -88,10 +101,11 @@ function hj_gallery_permissions_check($hook, $type, $return, $params) {
 
 		case 'hjimagetag' :
 
-			$container = $entity->getContainerEntity();
-			if ($container->owner_guid == $user->guid) {
+			$image = $entity->getContainerEntity();
+			if ($image->owner_guid == $user->guid) {
 				return true;
 			}
+			return $return;
 			break;
 	}
 }

@@ -1,21 +1,21 @@
 <?php
 
-// Site menu
-elgg_register_menu_item('site', array(
-	'name' => 'gallery',
-	'text' => elgg_echo('gallery'),
-	'href' => 'gallery/dashboard/site',
-));
-
-elgg_register_plugin_hook_handler('register', 'menu:entity', 'hj_gallery_entity_menu');
-elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'hj_gallery_owner_block_menu');
-
+/**
+ * Update entity menus
+ *
+ * @param string $hook			Equals 'register'
+ * @param string $type			Equals 'menu:entity'
+ * @param array $return			Current menu array
+ * @param array $params			Additional params
+ * @return array				Updated menu
+ */
 function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params, false);
 
-	if (!elgg_instanceof($entity))
+	if (!elgg_instanceof($entity)) {
 		return $return;
+	}
 
 	switch ($entity->getSubtype()) {
 
@@ -25,6 +25,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 		case 'hjalbum' :
 
+			// Add images
 			if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
 				$items['upload'] = array(
 					'text' => '<i class="gallery-icon-upload"></i><span>' . elgg_echo('hj:gallery:upload') . '</span>',
@@ -36,6 +37,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			// Manage album
 			if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
 				$items['manage'] = array(
 					'text' => '<i class="gallery-icon-manage"></i><span>' . elgg_echo('hj:gallery:manage:album') . '</span>',
@@ -45,6 +47,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 				);
 			}
 
+			// Edit and/or Delete
 			if ($entity->canEdit()) {
 				$items['edit'] = array(
 					'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
@@ -68,8 +71,9 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 
 		case 'hjalbumimage' :
 
-			// Item is pending approval
+			// Is item is pending approval?
 			if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
+				// Approve
 				$items['approve'] = array(
 					'text' => '<i class="gallery-icon-approve"></i><span>' . elgg_echo('hj:gallery:approve') . '</span>',
 					'title' => elgg_echo('hj:gallery:approve'),
@@ -79,7 +83,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 					'data-guid' => $entity->guid,
 					'priority' => 990
 				);
-
+				// Delete
 				$items['delete'] = array(
 					'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 					'title' => elgg_echo('delete'),
@@ -91,6 +95,8 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 			} else {
 
 				if ($entity->canEdit()) {
+
+					// Edit
 					$items['edit'] = array(
 						'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
 						'title' => elgg_echo('edit'),
@@ -99,6 +105,8 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 						'data-guid' => $entity->guid,
 						'priority' => 995
 					);
+
+					// Delete
 					$items['delete'] = array(
 						'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 						'title' => elgg_echo('delete'),
@@ -108,6 +116,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 						'priority' => 1000
 					);
 
+					// Use this image as avatar
 					$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
 						'text' => '<i class="gallery-icon-makeavatar"></i><span>' . elgg_echo('hj:gallery:image:makeavatar') . '</span>',
 						'title' => elgg_echo('hj:gallery:image:makeavatar'),
@@ -116,6 +125,7 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 						'priority' => 100,
 							) : NULL;
 
+					// Crop
 					$items['cropper'] = array(
 						'text' => '<i class="gallery-icon-cropper"></i><span>' . elgg_echo('hj:gallery:image:cropper') . '</span>',
 						'title' => elgg_echo('hj:gallery:image:cropper'),
@@ -124,44 +134,49 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 						'class' => 'elgg-button-gallery-cropper',
 						'priority' => 990,
 					);
+				}
 
-					if ($entity->getContainerEntity()->canEdit()) {
+				if ($entity->getContainerEntity()->canEdit()) {
 
-						$items['drag'] = array(
-							'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('hj:gallery:image:reorder') . '</span>',
-							'title' => elgg_echo('hj:gallery:image:reorder'),
-							'href' => "#elgg-object-$entity->guid",
-							'class' => 'elgg-button-gallery-drag',
-							'priority' => 10,
-							'section' => 'drag'
-						);
+					// Reorder drag handle
+					$items['drag'] = array(
+						'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('hj:gallery:image:reorder') . '</span>',
+						'title' => elgg_echo('hj:gallery:image:reorder'),
+						'href' => "#elgg-object-$entity->guid",
+						'class' => 'elgg-button-gallery-drag',
+						'priority' => 10,
+						'section' => 'drag'
+					);
 
-						$items['position'] = array(
-							'text' => elgg_view('input/text', array(
-								'name' => "files[$entity->guid][priority]",
-								'value' => $entity->priority
-							)),
-							'title' => elgg_echo('hj:gallery:image:priority'),
-							'href' => false,
-							'class' => '',
-							'priority' => 20,
-							'section' => 'drag'
-						);
+					// Reorder input
+					$items['position'] = array(
+						'text' => elgg_view('input/text', array(
+							'name' => "files[$entity->guid][priority]",
+							'value' => $entity->priority
+						)),
+						'title' => elgg_echo('hj:gallery:image:priority'),
+						'href' => false,
+						'class' => '',
+						'priority' => 20,
+						'section' => 'drag'
+					);
 
-						$items['makecover'] = array(
-							'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('hj:gallery:image:makecover') . '</span>',
-							'title' => elgg_echo('hj:gallery:image:makecover'),
-							'href' => "action/gallery/makecover?e=$entity->guid",
-							'is_action' => true,
-							'class' => 'elgg-button-gallery-makecover',
-							'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
-							'data-guid' => $entity->guid,
-							'priority' => 980,
-						);
-					}
+					// Make is image an album cover
+					$items['makecover'] = array(
+						'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('hj:gallery:image:makecover') . '</span>',
+						'title' => elgg_echo('hj:gallery:image:makecover'),
+						'href' => "action/gallery/makecover?e=$entity->guid",
+						'is_action' => true,
+						'class' => 'elgg-button-gallery-makecover',
+						'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
+						'data-guid' => $entity->guid,
+						'priority' => 980,
+					);
 				}
 
 				if (elgg_is_logged_in()) {
+
+					// Download if allowed
 					$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
 						'text' => '<i class="gallery-icon-download"></i><span>' . elgg_echo('hj:gallery:image:download') . '</span>',
 						'title' => elgg_echo('hj:gallery:image:download'),
@@ -206,6 +221,43 @@ function hj_gallery_entity_menu($hook, $type, $return, $params) {
 	return $return;
 }
 
+/**
+ * Add gallery related items to owner block menu
+ *
+ * @param string $hook		Equals 'register'
+ * @param string $type		Equals 'menu:owner_block'
+ * @param array $return		Current menu items
+ * @param array $params		Additional params
+ * @return array			Updated menu
+ */
+function hj_gallery_owner_block_menu($hook, $type, $return, $params) {
+	
+	$entity = elgg_extract('entity', $params);
+
+	if (HYPEGALLERY_GROUP_ALBUMS && elgg_instanceof($entity, 'group') && $entity->albums_enable !== 'no') {
+		$return[] = ElggMenuItem::factory(array(
+					'name' => 'group:albums',
+					'text' => elgg_echo('hj:gallery:albums:groups'),
+					'href' => "gallery/group/$entity->guid"
+		));
+	} else if (elgg_instanceof($entity, 'user')) {
+		$return[] = ElggMenuItem::factory(array(
+					'name' => 'user:albums',
+					'text' => elgg_echo('hj:gallery:albums'),
+					'href' => "gallery/dashboard/owner/$entity->username"
+		));
+	}
+
+	return $return;
+}
+
+
+/**
+ * Register Album/Image title buttons
+ *
+ * @param ElggEntity $entity
+ * @return boolean
+ */
 function hj_gallery_register_entity_title_buttons($entity) {
 
 	if (!elgg_instanceof($entity))
@@ -306,6 +358,11 @@ function hj_gallery_register_entity_title_buttons($entity) {
 	return true;
 }
 
+/**
+ * Register Dashboard title menu items
+ *
+ * @param string $dashboard Dashboard filter context
+ */
 function hj_gallery_register_dashboard_title_buttons($dashboard = 'site') {
 
 	switch ($dashboard) {
@@ -342,24 +399,4 @@ function hj_gallery_register_dashboard_title_buttons($dashboard = 'site') {
 			}
 			break;
 	}
-}
-
-function hj_gallery_owner_block_menu($hook, $type, $return, $params) {
-	$entity = elgg_extract('entity', $params);
-
-	if (HYPEGALLERY_GROUP_ALBUMS && elgg_instanceof($entity, 'group') && $entity->albums_enable !== 'no') {
-		$return[] = ElggMenuItem::factory(array(
-					'name' => 'group:albums',
-					'text' => elgg_echo('hj:gallery:albums:groups'),
-					'href' => "gallery/group/$entity->guid"
-				));
-	} else if (elgg_instanceof($entity, 'user')) {
-		$return[] = ElggMenuItem::factory(array(
-					'name' => 'user:albums',
-					'text' => elgg_echo('hj:gallery:albums'),
-					'href' => "gallery/dashboard/owner/$entity->username"
-				));
-	}
-
-	return $return;
 }

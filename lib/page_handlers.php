@@ -1,8 +1,11 @@
 <?php
 
-// Page handler
-elgg_register_page_handler('gallery', 'hj_gallery_page_handler');
-
+/**
+ * 'gallery' page handler
+ *
+ * @param array $page URL segments
+ * @return boolean
+ */
 function hj_gallery_page_handler($page) {
 
 	$path = elgg_get_plugins_path() . 'hypeGallery/pages/gallery/';
@@ -28,7 +31,9 @@ function hj_gallery_page_handler($page) {
 				case 'friends' :
 				case 'groups' :
 				case 'favorites' :
+
 					gatekeeper();
+
 					if (isset($page[2])) {
 						$owner = get_user_by_username($page[2]);
 					}
@@ -164,11 +169,11 @@ function hj_gallery_page_handler($page) {
 			$title = elgg_echo('hj:gallery:image:editthumb');
 			$content = elgg_view('framework/gallery/tools/cropper', array(
 				'entity' => $entity
-					));
+			));
 
 			echo elgg_view_page($title, elgg_view_layout('one_column', array(
-						'title' => $title,
-						'content' => $content))
+				'title' => $title,
+				'content' => $content))
 			);
 			break;
 

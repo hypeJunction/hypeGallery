@@ -1,15 +1,15 @@
 <?php
 
-/* hypeGallery
+/**
+ * Image Galleries for Elgg
  *
- * User Gallery
  * @package hypeJunction
  * @subpackage hypeGallery
  *
  * @author Ismayil Khayredinov <ismayil.khayredinov@gmail.com>
- * @copyright Copyrigh (c) 2011-2013, Ismayil Khayredinov
+ * @copyright Copyright (c) 2011-2014, Ismayil Khayredinov
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2
  */
-
 define('HYPEGALLERY_RELEASE', 1374851653);
 
 define('HYPEGALLERY_ALBUM_RIVER', elgg_get_plugin_setting('album_river', 'hypeGallery'));
@@ -30,8 +30,9 @@ elgg_set_config('gallery_icon_sizes', array());
 elgg_set_config('gallery_allowed_dynamic_width', array('auto', 325, 800));
 elgg_set_config('gallery_allowed_dynamic_height', array(0, 200));
 
-elgg_register_event_handler('init', 'system', 'hj_gallery_init');
-
+/**
+ * Initialize the plugin on 'init','system'
+ */
 function hj_gallery_init() {
 
 	elgg_register_classes(elgg_get_plugins_path() . 'hypeGallery/classes/');
@@ -39,7 +40,7 @@ function hj_gallery_init() {
 	// Libraries
 
 	elgg_register_library('gallery:vendors:wideimage', elgg_get_plugins_path() . 'hypeGallery/vendors/wideimage/WideImage.php');
-	
+
 	$libraries = array(
 		'base',
 		'page_handlers',
@@ -58,21 +59,39 @@ function hj_gallery_init() {
 		}
 	}
 
+	// Page handler
+	elgg_register_page_handler('gallery', 'hj_gallery_page_handler');
+
+	// Permissions
+	elgg_register_plugin_hook_handler('permissions_check', 'object', 'hj_gallery_permissions_check');
+	elgg_register_plugin_hook_handler('container_permissions_check', 'object', 'hj_gallery_container_permissions_check');
+
+	// Site menu
+	elgg_register_menu_item('site', array(
+		'name' => 'gallery',
+		'text' => elgg_echo('gallery'),
+		'href' => 'gallery/dashboard/site',
+	));
+
+	// Menus
+	elgg_register_plugin_hook_handler('register', 'menu:entity', 'hj_gallery_entity_menu');
+	elgg_register_plugin_hook_handler('register', 'menu:owner_block', 'hj_gallery_owner_block_menu');
+
 	// Search
 	elgg_register_entity_type('object', 'hjalbum');
 	elgg_register_entity_type('object', 'hjalbumimage');
 
+	// Add group option
 	if (HYPEGALLERY_GROUP_ALBUMS) {
-		// Add group option
 		add_group_tool_option('albums', elgg_echo('hj:gallery:groupoption:enable'), true);
 		elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
 	}
-
-	elgg_register_event_handler('upgrade', 'system', 'hj_gallery_check_release');
-
 }
 
-function hj_gallery_check_release($event, $type, $params) {
+/**
+ * Run upgrade scripts
+ */
+function hj_gallery_check_release() {
 
 	if (!elgg_is_admin_logged_in()) {
 		return true;
@@ -91,3 +110,7 @@ function hj_gallery_check_release($event, $type, $params) {
 
 	return true;
 }
+
+// Register event handlers
+elgg_register_event_handler('init', 'system', 'hj_gallery_init');
+elgg_register_event_handler('upgrade', 'system', 'hj_gallery_check_release');
