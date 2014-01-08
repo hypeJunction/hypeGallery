@@ -35,10 +35,7 @@ elgg_set_config('gallery_allowed_dynamic_height', array(0, 200));
  */
 function hj_gallery_init() {
 
-	elgg_register_classes(elgg_get_plugins_path() . 'hypeGallery/classes/');
-
 	// Libraries
-
 	elgg_register_library('gallery:vendors:wideimage', elgg_get_plugins_path() . 'hypeGallery/vendors/wideimage/WideImage.php');
 
 	$libraries = array(
@@ -58,6 +55,9 @@ function hj_gallery_init() {
 			elgg_load_library("gallery:library:$lib");
 		}
 	}
+
+	// Register classes
+	elgg_register_classes(elgg_get_plugins_path() . 'hypeGallery/classes/');
 
 	// Page handler
 	elgg_register_page_handler('gallery', 'hj_gallery_page_handler');

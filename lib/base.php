@@ -163,7 +163,7 @@ function hj_gallery_generate_entity_icons($entity, $filehandler = null, $coords 
 		return false;
 
 	$prefix = "icons/" . $entity->getGUID();
-	
+
 	foreach ($icon_sizes as $size => $values) {
 
 		if (is_array($coords) && in_array($size, array('topbar', 'tiny', 'small', 'medium', 'large'))) {
@@ -340,4 +340,113 @@ function hj_gallery_get_ancestry($guid) {
 	}
 
 	return $ancestry;
+}
+
+/**
+ * Parse and format meaningful EXIF tags
+ *
+ * @param ElggFile $entity
+ * @return mixed
+ */
+function hj_gallery_get_exif($entity) {
+
+	if (!($entity instanceof ElggFile) || !is_callable('exif_read_data')) {
+		return false;
+	}
+
+	$exif = exif_read_data($entity->getFilenameOnFilestore());
+
+	$tags = array();
+
+		foreach ($exif as $key => $value) {
+
+			switch ($key) {
+				
+				default :
+					$tags[$key] = array(
+						'metadata_name' => 'description',
+						'label' => elgg_echo("exif:$key"),
+						'original_value' => $value,
+						'formatted_value' => $value,
+					);
+					break;
+
+				case 'Copyright' :
+					$tags[$key] = array(
+						'metadata_name' => 'copyright',
+						'label' => elgg_echo("exif:$key"),
+						'original_value' => $value,
+						'formatted_value' => $value,
+					);
+					break;
+
+				case 'ImageDescription' :
+					$tags[$key] = array(
+						'metadata_name' => 'description',
+						'label' => elgg_echo("exif:$key"),
+						'original_value' => $value,
+						'formatted_value' => $value,
+					);
+					break;
+
+				case 'GPSLongitudeRef' :
+				case 'GPSLatitudeRef' :
+					break;
+
+				case 'GPSLatitude' :
+					$tags[$key] = array(
+						'metadata_name' => 'geo:lat',
+						'label' => elgg_echo("exif:$key"),
+						'original_value' => $value,
+						'formatted_value' => hj_gallery_exif_getGps($value, $exif['GPSLatitudeRef']),
+					);
+					break;
+
+				case 'GPSLongitude' :
+					$tags[$key] = array(
+						'metadata_name' => 'geo:long',
+						'label' => elgg_echo("exif:$key"),
+						'original_value' => $value,
+						'formatted_value' => hj_gallery_exif_getGps($value, $exif['GPSLongitudeRef']),
+					);
+					break;
+
+
+			}
+		}
+
+	return elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity), $tags);
+}
+
+/**
+ * Helper function to convert exif GPS to proper coords
+ * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
+ */
+function hj_gallery_exif_getGps($exifCoord, $hemi) {
+
+    $degrees = count($exifCoord) > 0 ? hj_gallery_exif_gps2Num($exifCoord[0]) : 0;
+    $minutes = count($exifCoord) > 1 ? hj_gallery_exif_gps2Num($exifCoord[1]) : 0;
+    $seconds = count($exifCoord) > 2 ? hj_gallery_exif_gps2Num($exifCoord[2]) : 0;
+
+    $flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
+
+    return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
+
+}
+
+/**
+ * Helper function to convert exif GPS to proper coords
+ * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
+ */
+function hj_gallery_exif_gps2Num($coordPart) {
+
+    $parts = explode('/', $coordPart);
+
+    if (count($parts) <= 0)
+        return 0;
+
+    if (count($parts) == 1)
+        return $parts[0];
+
+    return floatval($parts[0]) / floatval($parts[1]);
 }

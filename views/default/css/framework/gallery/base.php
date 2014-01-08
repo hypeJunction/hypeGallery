@@ -728,7 +728,7 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 		padding-left: 90px;
 
 		box-shadow: 3px 1px 10px #666;
-}
+	}
 	.tagger-float form input,
 	.tagger-float form input:focus {
 		margin:5px 0 0 7px;
@@ -743,7 +743,7 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 		-moz-border-radius:0;
 		border-radius: 0;
 
-}
+	}
 
 	.tagger-float form input.ui-autocomplete-loading {
 		background-image:url(<?php echo $path ?>ajax-loader-transp.gif);
@@ -766,7 +766,7 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 		color: transparent;
 		font-size: 0;
 		border: 2px solid #000;
-}
+	}
 
 	.gallery-autocomplete {
 		position: relative;
@@ -817,7 +817,7 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 		background: #f4f4f4 url(<?php echo $path ?>icons/tag.png) 50% 50% no-repeat;
 		background-size:26px;
 		border: 1px solid #e8e8e8;
-}
+	}
 
 	.elgg-button-gallery-tagger.elgg-state-active {
 		background-color:yellow;
@@ -833,6 +833,24 @@ $path = elgg_get_site_url() . 'mod/hypeGallery/graphics/';
 	}
 	.gallery-tag a img {
 		margin: -8px 10px -8px -8px;
+	}
+
+	.elgg-module.hj-gallery-exif-module {
+		margin: 10px;
+	}
+	.gallery-media-exif-details {
+		margin: 10px 0;
+	}
+	.gallery-media-exif-details > li {
+		padding: 5px 10px;
+		border-bottom: 1px solid #e8e8e8;
+	}
+	.gallery-media-exif-details > li:last-child {
+		border-bottom: 0;
+	}
+	.gallery-media-exif-details > li label {
+		width: 30%;
+		display: inline-block;
 	}
 
 <?php if (FALSE) : ?></style><?php endif; ?>

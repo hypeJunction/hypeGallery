@@ -69,4 +69,8 @@ class hjAlbumImage extends ElggFile {
 		return parent::delete();
 	}
 
+	function getExif() {
+		return hj_gallery_get_exif($this);
+	}
+	
 }
