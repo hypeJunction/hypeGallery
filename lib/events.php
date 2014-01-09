@@ -20,17 +20,17 @@ function hj_gallery_apply_exif_tags($event, $type, $object) {
 
 		if (!$object->description) {
 			if (isset($exif['ImageDescription'])) {
-				$description = $exif['ImageDescription'];
+				$description = $exif['ImageDescription']['clean'];
 			}
 			if (isset($exif['UserComment'])) {
-				$description .= $exif['UserComment'];
+				$description .= $exif['UserComment']['clean'];
 			}
 			$object->description = $description;
 		}
 
 		if (!$object->copyright) {
 			if (isset($exif['Copyright'])) {
-				$object->copyright = $exif['Copyright'];
+				$object->copyright = $exif['Copyright']['clean'];
 			}
 		}
 
@@ -70,16 +70,16 @@ function hj_gallery_apply_exif_tags($event, $type, $object) {
 
 		if (!$object->date) {
 			if (isset($exif['DateTimeOriginal'])) {
-				$object->date = strtotime($exif['DateTimeOriginal']);
+				$object->date = strtotime($exif['DateTimeOriginal']['clean']);
 			}
 		}
 
 		if (!$object->tags) {
 			if (isset($exif['Model'])) {
-				$tags[] = $exif['Model'];
+				$tags[] = $exif['Model']['clean'];
 			}
 			if (isset($exif['LensModel'])) {
-				$tags[] = $exif['LensModel'];
+				$tags[] = $exif['LensModel']['clean'];
 			}
 			if ($tags) {
 				$object->tags = $tags;
