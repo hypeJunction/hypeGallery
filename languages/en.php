@@ -462,6 +462,13 @@ $english = array(
 	'exif.GPSLatitude' => 'Latitude',
 	'exif.GPSLongitude' => 'Longitude',
 	
+
+	// widgets
+	'hj:gallery:widget:gallery_images' => 'Gallery',
+	'hj:gallery:widget:gallery_images:desc' => 'A gallery of user images',
+	'hj:gallery:widget:more' => 'See all images',
+	'hj:gallery:widget:limit' => 'Number of images to show',
+	'hj:gallery:widget:none' => 'No items to display',
 	
 );
 

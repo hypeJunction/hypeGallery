@@ -96,6 +96,9 @@ function hj_gallery_init() {
 
 	// Apply certain EXIF tags to new files
 	elgg_register_event_handler('create', 'object', 'hj_gallery_apply_exif_tags');
+
+	// Add widgets
+	elgg_register_widget_type('gallery_images', elgg_echo("hj:gallery:widget:gallery_images"), elgg_echo("hj:gallery:widget:gallery_images:desc"));
 }
 
 /**
