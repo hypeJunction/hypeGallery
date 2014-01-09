@@ -13,10 +13,13 @@ Extremely user friendly and hype image gallery for Elgg.
 * Friend tagging
 * Group albums
 * Collaborative albums - allow your friends, fellow group members or all site members to add new photos to an album
+* EXIF tag parsing, incl. reverse geocoding of GPS tags view OpenStreetMaps
 
 ## Attributions / Credits ##
 
 * UI Icon by Glyphicons http://glyphicons.com/
+* Image manipulations using WideImage http://wideimage.sourceforge.net/
+* Reverse geocoding via OpenStreeMaps nominatim http://wiki.openstreetmap.org/wiki/Nominatim
 
 
 ## Notes ##
