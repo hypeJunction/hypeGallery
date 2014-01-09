@@ -217,6 +217,9 @@ $english = array(
 	'edit:plugin:hypegallery:params[downloads]' => 'Enable downloads',
 	'edit:plugin:hypegallery:hint:downloads' => 'Enabling this option will allow users to download images',
 
+	'edit:plugin:hypegallery:params[exif]' => 'Enable EXIF',
+	'edit:plugin:hypegallery:hint:exif' => 'Enabling EXIF tag parsing for qualifying images',
+
 	'hj:album:untitled' => 'Untitled',
 	'hj:gallery:filedrop:instructions' => 'Drag and Drop your files into this area or %s them from your computer',
 	'hj:gallery:filedrop:fallback' => 'select',

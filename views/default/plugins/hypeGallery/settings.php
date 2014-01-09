@@ -16,6 +16,9 @@ $settings = array(
 	'downloads',
 );
 
+if (is_callable('exif_read_data')) {
+	$settings[] = 'exif';
+}
 
 foreach ($settings as $s) {
 	echo '<div>';

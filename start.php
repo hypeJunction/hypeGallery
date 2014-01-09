@@ -23,6 +23,7 @@ define('HYPEGALLERY_GROUP_ALBUMS', elgg_get_plugin_setting('group_albums', 'hype
 define('HYPEGALLERY_AVATARS', elgg_get_plugin_setting('avatars', 'hypeGallery'));
 define('HYPEGALLERY_TAGGING', elgg_get_plugin_setting('tagging', 'hypeGallery'));
 define('HYPEGALLERY_DOWNLOADS', elgg_get_plugin_setting('downloads', 'hypeGallery'));
+define('HYPEGALLERY_EXIF', elgg_get_plugin_setting('exif', 'hypeGallery'));
 
 define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
 
@@ -40,6 +41,7 @@ function hj_gallery_init() {
 
 	$libraries = array(
 		'base',
+		'events',
 		'page_handlers',
 		'actions',
 		'assets',
@@ -86,6 +88,14 @@ function hj_gallery_init() {
 		add_group_tool_option('albums', elgg_echo('hj:gallery:groupoption:enable'), true);
 		elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
 	}
+
+	// Extend metatags with EXIF tags
+	if (HYPEGALLERY_EXIF) {
+		elgg_extend_view('object/hjalbumimage/meta', 'object/hjalbumimage/exif');
+	}
+
+	// Apply certain EXIF tags to new files
+	elgg_register_event_handler('create', 'object', 'hj_gallery_apply_exif_tags');
 }
 
 /**

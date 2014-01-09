@@ -30,7 +30,6 @@ if ($full) {
 	$body .= elgg_view('framework/gallery/tools/tagger', $vars);
 
 	$summary = elgg_view('object/hjalbumimage/meta', $vars);
-	$summary .= elgg_view('object/hjalbumimage/exif', $vars);
 
 	$comments = elgg_view_comments($entity);
 
