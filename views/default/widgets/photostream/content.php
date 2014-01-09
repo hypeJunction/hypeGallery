@@ -1,20 +1,20 @@
 <?php
 
 $entity = elgg_extract('entity', $vars);
+$owner = $entity->getOwnerEntity();
 
 $options = array(
 	'types' => 'object',
 	'subtypes' => array('hjalbumimage'),
-	//'owner_guids' => $entity->owner_guid,
+	'owner_guids' => (!elgg_in_context('dashboard')) ? $owner->guid : null,
 	'limit' => $entity->num_display,
 	'count' => true,
 	'list_type' => get_input('list_type', 'gallery'),
 	'gallery_class' => 'gallery-photostream',
 	'full_view' => false,
 	'pagination' => false,
-	'size' => 'small',
+	'size' => '125',
 	'item_class' => 'elgg-photo mas',
-	'order_by' => 'e.time_created ASC'
 );
 
 elgg_push_context('activity');
@@ -24,7 +24,11 @@ elgg_pop_context();
 echo $content;
 
 if ($content) {
-	$url = "gallery/dahsboard/owner/" . $entity->getOwnerEntity()->username . "?display=photostream";
+	if (elgg_in_context('dashboard')) {
+		$url = "gallery";
+	} else {
+		$url = "gallery/dahsboard/owner/" . $owner->username . "?display=photostream";
+	}
 	$more_link = elgg_view('output/url', array(
 		'href' => $url,
 		'text' => elgg_echo('hj:gallery:widget:more'),

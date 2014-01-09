@@ -18,6 +18,10 @@ $metadata = elgg_view_menu('entity', array(
 	'sort_by' => 'priority'
 		));
 
+if (elgg_in_context('widgets')) {
+	$metadata = '';
+}
+
 if ($full) {
 
 	$summary = elgg_view('object/hjalbum/gallery', array(

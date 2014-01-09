@@ -28,7 +28,7 @@ define('HYPEGALLERY_EXIF', elgg_get_plugin_setting('exif', 'hypeGallery'));
 define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
 
 elgg_set_config('gallery_icon_sizes', array());
-elgg_set_config('gallery_allowed_dynamic_width', array('auto', 325, 800));
+elgg_set_config('gallery_allowed_dynamic_width', array('auto', 125, 325, 800));
 elgg_set_config('gallery_allowed_dynamic_height', array(0, 200));
 
 /**
@@ -98,7 +98,8 @@ function hj_gallery_init() {
 	elgg_register_event_handler('create', 'object', 'hj_gallery_apply_exif_tags');
 
 	// Add widgets
-	elgg_register_widget_type('gallery_images', elgg_echo("hj:gallery:widget:gallery_images"), elgg_echo("hj:gallery:widget:gallery_images:desc"));
+	elgg_register_widget_type('photostream', elgg_echo("hj:gallery:widget:photostream"), elgg_echo("hj:gallery:widget:photostream:desc"));
+	elgg_register_widget_type('albums', elgg_echo("hj:gallery:widget:albums"), elgg_echo("hj:gallery:widget:albums:desc"));
 }
 
 /**

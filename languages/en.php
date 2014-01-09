@@ -464,9 +464,11 @@ $english = array(
 	
 
 	// widgets
-	'hj:gallery:widget:gallery_images' => 'Gallery',
-	'hj:gallery:widget:gallery_images:desc' => 'A gallery of user images',
-	'hj:gallery:widget:more' => 'See all images',
+	'hj:gallery:widget:photostream' => 'Photo Stream',
+	'hj:gallery:widget:photostream:desc' => 'A stream of latest photos',
+	'hj:gallery:widget:albums' => 'Albums',
+	'hj:gallery:widget:albums:desc' => 'A list of latest albums',
+	'hj:gallery:widget:more' => 'See all',
 	'hj:gallery:widget:limit' => 'Number of images to show',
 	'hj:gallery:widget:none' => 'No items to display',
 	
