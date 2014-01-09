@@ -354,68 +354,147 @@ function hj_gallery_get_exif($entity) {
 		return false;
 	}
 
-	$exif = exif_read_data($entity->getFilenameOnFilestore());
+	$exif = exif_read_data($entity->getFilenameOnFilestore(), NULL, true);
 
 	$tags = array();
 
-		foreach ($exif as $key => $value) {
+	foreach ($exif as $section => $data) {
+		
+		foreach ($data as $key => $value) {
+
+			if (is_string($value) && !trim($value)) {
+				continue;
+			}
 
 			switch ($key) {
-				
-				default :
-					$tags[$key] = array(
-						'metadata_name' => 'description',
-						'label' => elgg_echo("exif:$key"),
-						'original_value' => $value,
-						'formatted_value' => $value,
-					);
-					break;
 
+				case 'Model' :
+				case 'LensInfo' :
+				case 'LensModel' :
+				case 'LensSerialNumber' :
+				case 'XResolution' :
+				case 'YResolution' :
 				case 'Copyright' :
-					$tags[$key] = array(
-						'metadata_name' => 'copyright',
-						'label' => elgg_echo("exif:$key"),
-						'original_value' => $value,
-						'formatted_value' => $value,
-					);
-					break;
-
 				case 'ImageDescription' :
+				case 'Software' :
+				case 'ModifyDate' :
+				case 'FNumber' :
+				case 'ExposureTime' :
+				case 'ISO' :
+				case 'ISOSpeedRatings' :
+				case 'SensitivityType' :
+				case 'SpectralSensitivity' :
+				case 'RecommendedExposureIndex' :
+				case 'DateTimeOriginal' :
+				case 'DateTimeDigitized' :
+				case 'CompressedBitsPerPixel' :
+				case 'ShutterSpeedValue' :
+				case 'ApertureValue' :
+				case 'BrightnessValue' :
+				case 'ExposureBiasValue' :
+				case 'MaxApertureValue' :
+				case 'SubjectDistance' :
+				case 'FocalLength' :
+				case 'UserComment' :
+				case 'SubsecTime' :
+				case 'SubsecTimeOriginal' :
+				case 'SubsecTimeDigitized' :
+				case 'Color Space' :
+				case 'PixelXDimension' :
+				case 'PixelYDimension' :
+				case 'FlashEnergy' :
+				case 'SpatialFrequencyResponse' :
+				case 'FocalPlaneXResolution' :
+				case 'FocalPlaneYResolution' :
+				case 'ExposureIndex' :
+				case 'SceneType' :
+				case 'DigitalZoomRatio' :
+				case 'FocalLengthIn35mmFilm' :
+				case 'DeviceSettingDescription' :
+				case 'ImageUniqueID' :
+				case 'GPSAltitude' :
 					$tags[$key] = array(
-						'metadata_name' => 'description',
-						'label' => elgg_echo("exif:$key"),
-						'original_value' => $value,
-						'formatted_value' => $value,
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => $value,
 					);
 					break;
 
-				case 'GPSLongitudeRef' :
-				case 'GPSLatitudeRef' :
+				case 'ExifVersion' :
+				case 'FlashpixVersion' :
+					$tags[$key] = array(
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => number_format((int) $value / 100, 2),
+					);
+					break;
+
+				case 'ExposureProgram' :
+				case 'ComponentsConfiguration' :
+				case 'MeteringMode' :
+				case 'LightSource' :
+				case 'Flash' :
+				case 'Resolution Unit' :
+				case 'FocalPlaneResolutionUnit' :
+				case 'SensingMethod' :
+				case 'CFAPattern' :
+				case 'CustomRendered' :
+				case 'ExposureMode' :
+				case 'WhiteBalance' :
+				case 'SceneCaptureType' :
+				case 'GainControl' :
+				case 'Contrast' :
+				case 'Saturation' :
+				case 'Sharpness' :
+				case 'SubjectDistanceRange' :
+				case 'GPSAltitudeRef' :
+					if (is_numeric($value)) {
+						$tags[$key] = array(
+							'label' => elgg_echo("exif.$key"),
+							'raw' => $value,
+							'clean' => elgg_echo("exif.$key.$value"),
+						);
+					}
+					break;
+
+				case 'SubjectArea' :
+				case 'SubjectLocation' :
+					$tags[$key] = array(
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => (is_array($value)) ? implode(' ', $value) : $value,
+					);
+					break;
+
+				case 'GPSVersionID' :
+					$tags[$key] = array(
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => (is_array($value)) ? implode('.', $value) : $value,
+					);
 					break;
 
 				case 'GPSLatitude' :
 					$tags[$key] = array(
-						'metadata_name' => 'geo:lat',
-						'label' => elgg_echo("exif:$key"),
-						'original_value' => $value,
-						'formatted_value' => hj_gallery_exif_getGps($value, $exif['GPSLatitudeRef']),
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => hj_gallery_exif_getGps($value, $data['GPSLatitudeRef']),
 					);
 					break;
 
 				case 'GPSLongitude' :
 					$tags[$key] = array(
-						'metadata_name' => 'geo:long',
-						'label' => elgg_echo("exif:$key"),
-						'original_value' => $value,
-						'formatted_value' => hj_gallery_exif_getGps($value, $exif['GPSLongitudeRef']),
+						'label' => elgg_echo("exif.$key"),
+						'raw' => $value,
+						'clean' => hj_gallery_exif_getGps($value, $data['GPSLongitudeRef']),
 					);
 					break;
 
-
 			}
 		}
+	}
 
-	return elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity), $tags);
+	return elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity, 'exif' => $exif), $tags);
 }
 
 /**
@@ -424,14 +503,13 @@ function hj_gallery_get_exif($entity) {
  */
 function hj_gallery_exif_getGps($exifCoord, $hemi) {
 
-    $degrees = count($exifCoord) > 0 ? hj_gallery_exif_gps2Num($exifCoord[0]) : 0;
-    $minutes = count($exifCoord) > 1 ? hj_gallery_exif_gps2Num($exifCoord[1]) : 0;
-    $seconds = count($exifCoord) > 2 ? hj_gallery_exif_gps2Num($exifCoord[2]) : 0;
+	$degrees = count($exifCoord) > 0 ? hj_gallery_exif_gps2Num($exifCoord[0]) : 0;
+	$minutes = count($exifCoord) > 1 ? hj_gallery_exif_gps2Num($exifCoord[1]) : 0;
+	$seconds = count($exifCoord) > 2 ? hj_gallery_exif_gps2Num($exifCoord[2]) : 0;
 
-    $flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
+	$flip = ($hemi == 'W' or $hemi == 'S') ? -1 : 1;
 
-    return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
-
+	return $flip * ($degrees + $minutes / 60 + $seconds / 3600);
 }
 
 /**
@@ -440,13 +518,13 @@ function hj_gallery_exif_getGps($exifCoord, $hemi) {
  */
 function hj_gallery_exif_gps2Num($coordPart) {
 
-    $parts = explode('/', $coordPart);
+	$parts = explode('/', $coordPart);
 
-    if (count($parts) <= 0)
-        return 0;
+	if (count($parts) <= 0)
+		return 0;
 
-    if (count($parts) == 1)
-        return $parts[0];
+	if (count($parts) == 1)
+		return $parts[0];
 
-    return floatval($parts[0]) / floatval($parts[1]);
+	return floatval($parts[0]) / floatval($parts[1]);
 }
