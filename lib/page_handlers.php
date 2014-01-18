@@ -96,9 +96,9 @@ function hj_gallery_page_handler($page) {
 			break;
 
 		case 'edit' :
-		case 'view' :
 			gatekeeper();
-
+			
+		case 'view' :
 			list($action, $guid) = $page;
 
 			set_input('guid', $guid);
