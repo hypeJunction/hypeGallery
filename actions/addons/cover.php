@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $image_guid = get_input('e');
 $image = get_entity($image_guid);
 

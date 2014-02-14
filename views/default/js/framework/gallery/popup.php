@@ -12,14 +12,13 @@
 		$('.gallery-slideshow .gallery-preview-item')
 				.live('click', function(e) {
 					e.preventDefault();
-					$('.gallery-slideshow .master-view')
-							.html($('<img>').addClass('taggable').attr('src', $(this).data('master')));
-					$('.gallery-slideshow .master-view')
-							.append($('<div>')
-									.addClass('meta-title')
-									.attr({
-										'data-guid': $(this).data('guid')
-									}).text($(this).data('title')))
+					$('.gallery-slideshow .master-view').html($('<img>').addClass('gallery-state-loading taggable').attr('src', $(this).data('master')));
+
+					$('.gallery-slideshow .master-view').append($('<div>')
+							.addClass('meta-title')
+							.attr({
+								'data-guid': $(this).data('guid')
+							}).text($(this).data('title')));
 
 					var $parent = $(this).parent();
 					$parent.addClass('elgg-state-selected').siblings().removeClass('elgg-state-selected');
@@ -60,13 +59,16 @@
 						elgg.ajax("ajax/view/object/hjalbumimage/ajaxmeta?guid=" + $elem.data('guid'), {
 							cache: true,
 							beforeSend: function() {
-								$desc.html($('<div>').addClass('elgg-ajax-loader')).show();
+								$('body').addClass('gallery-state-loading');
 							},
 							success: function(output) {
-								$desc.html(output)
+								$desc.html(output).show();
 							},
 							error: function() {
 								$desc.hide();
+							},
+							complete: function() {
+								$('body').removeClass('gallery-state-loading');
 							}
 						})
 					} else {
@@ -97,29 +99,30 @@
 			$slideshow
 					.dialog({
 						position: {my: "center", at: "center", of: window},
-						width: $(window).width() - 25,
-						height: $(window).height() - 25
+						width: $(window).width() - 150,
+						height: $(window).height() - 150
 					});
 		});
 
 		elgg.getJSON('ajax/view/object/hjalbum/slideshow', {
 			beforeSend: function() {
-				$slideshow.html($('<div>').addClass('elgg-ajax-loader'));
-				$slideshow.dialog({
-					title: elgg.echo('gallery:slideshow:loading'),
-					dialogClass: 'gallery-slideshow',
-					width: $(window).width() - 25,
-					height: $(window).height() - 25,
-					modal: true,
-					close: function() {
-						$(this).dialog('destroy').remove();
-					}
-				});
+				$('body').addClass('gallery-state-loading');
 			},
 			data: {
 				guid: guid
 			},
 			success: function(data) {
+
+				$slideshow.dialog({
+					title: elgg.echo('gallery:slideshow:loading'),
+					dialogClass: 'gallery-slideshow',
+					width: $(window).width() - 150,
+					height: $(window).height() - 150,
+					modal: true,
+					close: function() {
+						$(this).dialog('destroy').remove();
+					}
+				});
 
 				var $preview = $('<div>').addClass('preview-pane');
 
@@ -145,7 +148,7 @@
 								'title': opts.title,
 								'description': opts.description,
 								'master': elgg.get_site_url() + 'gallery/icon/' + opts.guid + '/master'
-							})
+							});
 
 					$view.append($img);
 
@@ -158,7 +161,7 @@
 				$preview.appendTo($slideshow);
 				$slideshow.dialog({
 					title: data.output.album_title
-				})
+				});
 
 				if ($('.gallery-preview-item[data-guid="' + guid + '"]').length) {
 					$('.gallery-preview-item[data-guid="' + guid + '"]').trigger('click')
@@ -169,11 +172,15 @@
 			},
 			error: function() {
 				$slideshow.dialog('destroy');
+			},
+			complete: function() {
+				$('body').removeClass('gallery-state-loading');
 			}
-		})
+
+		});
 
 		return false;
-	}
+	};
 
 	elgg.register_hook_handler('init', 'system', framework.gallery.popup);
 

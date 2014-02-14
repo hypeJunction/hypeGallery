@@ -1,4 +1,7 @@
 <?php
+
+namespace hypeJunction\Gallery;
+
 gatekeeper();
 
 $file_guid = get_input('e');
@@ -13,7 +16,7 @@ $icon_sizes = elgg_get_config('icon_sizes');
 // so we can do clean up if one fails.
 $files = array();
 foreach ($icon_sizes as $name => $size_info) {
-	$resized = get_resized_image_from_existing_file($filename, $size_info['w'], $size_info['h'], $size_info['square'], 0,0,0,0, $size_info['upscale']);
+	$resized = get_resized_image_from_existing_file($filename, $size_info['w'], $size_info['h'], $size_info['square'], 0, 0, 0, 0, $size_info['upscale']);
 
 	if ($resized) {
 		//@todo Make these actual entities.  See exts #348.

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $files = get_input('files', array());
 
 foreach ($files as $guid => $details) {

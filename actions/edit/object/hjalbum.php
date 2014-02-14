@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 elgg_make_sticky_form('edit:object:hjalbum');
 
 // Attributes

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $ha = access_get_show_hidden_status();
 access_show_hidden_entities(true);
 
@@ -18,7 +20,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 			'guid' => $entity->container_guid,
 			'metadata_names' => $river_posted,
 			'limit' => 1
-				));
+		));
 
 		if ($md) {
 			$meta = $md[0];
@@ -33,11 +35,11 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 					'text' => $entity->getContainerEntity()->title,
 					'href' => $entity->getContainerEntity()->getURL(),
 					'is_trusted' => true
-						));
+				));
 
 				$message = elgg_echo('gallery:upload:approved:message', array(
 					$album_link
-						));
+				));
 
 				notify_user($to, $from, $subject, $message);
 			}

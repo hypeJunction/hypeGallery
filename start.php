@@ -13,7 +13,7 @@
 
 namespace hypeJunction\Gallery;
 
-const PLUGIN_ID = PLUGIN_ID;
+const PLUGIN_ID = 'hypeGallery';
 const PAGEHANDLER = 'gallery';
 
 // Composer autoload
@@ -23,6 +23,8 @@ require_once __DIR__ . '/vendors/autoload.php';
 if (!class_exists('hypeJunction\\Filestore\\UploadHandler')) {
 	elgg_register_class('hypeJunction\\Filestore\\UploadHandler', __DIR__ . '/classes/hypeJunction/Filestore/UploadHandler.php');
 }
+elgg_register_class('hypeJunction\\Gallery\\hjAlbum', __DIR__ . '/classes/hypeJunction/Gallery/hjAlbum.php');
+elgg_register_class('hypeJunction\\Gallery\\hjAlbumImage', __DIR__ . '/classes/hypeJunction/Gallery/hjAlbumImage.php');
 
 // Load Gallery libraries
 require_once __DIR__ . '/lib/functions.php';
@@ -64,8 +66,6 @@ function init() {
 	/**
 	 * Register entities
 	 */
-	elgg_register_class('hypeJunction\\Gallery\\hjAlbum', __DIR__ . '/classes/hypeJunction/Filestore/hjAlbum.php');
-	elgg_register_class('hypeJunction\\Gallery\\hjAlbumImage', __DIR__ . '/classes/hypeJunction/Filestore/hjAlbumImage.php');
 	elgg_register_entity_type('object', 'hjalbum');
 	elgg_register_entity_type('object', 'hjalbumimage');
 
@@ -108,7 +108,7 @@ function init() {
 	elgg_register_plugin_hook_handler('container_permissions_check', 'object', __NAMESPACE__ . '\\container_permissions_check');
 
 	// Menus
-	elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\\entity_menu_setup');
+	elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\\entity_menu_setup', 900);
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', __NAMESPACE__ . '\\owner_block_menu_setup');
 
 	/**

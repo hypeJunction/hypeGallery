@@ -3,6 +3,7 @@
 namespace hypeJunction\Gallery;
 
 use ElggFile;
+use WideImage\WideImage;
 
 $ha = access_get_show_hidden_status();
 access_show_hidden_entities(true);
@@ -67,41 +68,39 @@ if (array_key_exists($requested_size, $config)) {
 	}
 }
 
-//if (!$contents) {
-//
-//	$filehandler = $entity;
-//
-//	elgg_load_library('gallery:vendors:wideimage');
-//
-//	$image = WideImage::load($filehandler->getFilenameOnFilestore());
-//	if ($requested_w && $requested_h) {
-//		if ($requested_h > $requested_w) {
-//			$resized = $image->resize(null, $requested_h, $fit, $scale);
-//		} else {
-//			$resized = $image->resize($requested_w, null, $fit, $scale);
-//		}
-//		$resized = $resized->crop('center', 'center', $requested_w, $requested_h);
-//	} else {
-//		$resized = $image->resize($requested_w, $requested_h, $fit, $scale);
-//	}
-//	switch ($entity->mimetype) {
-//		default :
-//		case 'image/jpeg' :
-//			$mime = 'image/jpeg';
-//			$contents = $resized->asString('jpg', 80);
-//			break;
-//
-//		case 'image/gif' :
-//			$mime = 'image/gif';
-//			$contents = $resized->asString('gif');
-//			break;
-//
-//		case 'image/png' :
-//			$mime = 'image/png';
-//			$contents = $resized->asString('png');
-//			break;
-//	}
-//}
+if (!$contents) {
+
+	$filehandler = $entity;
+
+	$image = WideImage::load($filehandler->getFilenameOnFilestore());
+	if ($requested_w && $requested_h) {
+		if ($requested_h > $requested_w) {
+			$resized = $image->resize(null, $requested_h, $fit, $scale);
+		} else {
+			$resized = $image->resize($requested_w, null, $fit, $scale);
+		}
+		$resized = $resized->crop('center', 'center', $requested_w, $requested_h);
+	} else {
+		$resized = $image->resize($requested_w, $requested_h, $fit, $scale);
+	}
+	switch ($entity->mimetype) {
+		default :
+		case 'image/jpeg' :
+			$mime = 'image/jpeg';
+			$contents = $resized->asString('jpg', 80);
+			break;
+
+		case 'image/gif' :
+			$mime = 'image/gif';
+			$contents = $resized->asString('gif');
+			break;
+
+		case 'image/png' :
+			$mime = 'image/png';
+			$contents = $resized->asString('png');
+			break;
+	}
+}
 
 access_show_hidden_entities($ha);
 

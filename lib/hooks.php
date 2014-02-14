@@ -2,6 +2,8 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggMenuItem;
+
 /**
  * Bypass default access controls
  * - Allow users to add images to shared albums
@@ -248,7 +250,8 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					);
 				}
 
-				if ($entity->getContainerEntity()->canEdit()) {
+				$container = $entity->getContainerEntity();
+				if ($container && $container->canEdit()) {
 
 					// Reorder drag handle
 					$items['drag'] = array(
@@ -329,7 +332,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 			$return[$name] = ElggMenuItem::factory($item);
 		}
 	}
-
+	
 	return $return;
 }
 

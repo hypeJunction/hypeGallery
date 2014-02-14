@@ -12,6 +12,6 @@
 		"vendor-dir": "vendors"
 	},
 	"require": {
-		"imagine/imagine": "v0.5.0"
+		"smottt/wideimage": "dev-master"
 	}
 }

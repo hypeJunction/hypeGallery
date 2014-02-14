@@ -1,10 +1,8 @@
 <?php
 
-namespace hypeJunction\Gallery;
-
 $subtypes = array(
-	'hjalbum' => __NAMESPACE__ . '\\hjAlbum',
-	'hjalbumimage' => __NAMESPACE__ . '\\hjAlbumImage',
+	'hjalbum' => 'hypeJunction\\Gallery\\hjAlbum',
+	'hjalbumimage' => 'hypeJunction\\Gallery\\hjAlbumImage',
 	'hjimagetag' => ''
 );
 

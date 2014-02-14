@@ -160,6 +160,7 @@ $english = array(
 
 	'gallery:upload:imagesuploaded' => '%s files were successfully uploaded',
 	'gallery:upload:error' => 'An error occurred while uploading your files',
+	'gallery:upload:success' => 'File has been successfully uploaded',
 	'gallery:upload:unsupportedtype' => '%s files could not be uploaded (unsupported type or other errors)',
 	'gallery:upload:pending' => '%s files are pending approval',
 	'gallery:upload:pending:message' => '

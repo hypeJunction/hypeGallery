@@ -26,8 +26,8 @@ https://github.com/hypeJunction/elgg_dropzone
 
 ## Attributions / Credits ##
 
-* Image manipulations relies on Imagine
-http://imagine.readthedocs.org/
+* Image manipulations relies on WideImage
+https://github.com/smottt/WideImage
 
 * Reverse geocoding is performed via Nominatim
 http://wiki.openstreetmap.org/wiki/Nominatim

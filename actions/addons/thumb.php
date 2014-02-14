@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
@@ -22,10 +24,10 @@ $coords = array(
 $result = generate_entity_icons($entity, $master, $coords);
 
 if ($result) {
-	foreach($coords as $coord => $value) {
+	foreach ($coords as $coord => $value) {
 		$entity->$coord = $value;
 	}
-	
+
 	system_message(elgg_echo('gallery:tools:crop:success'));
 } else {
 	register_error(elgg_echo('gallery:tools:crop:error'));

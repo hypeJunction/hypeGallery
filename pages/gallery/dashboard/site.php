@@ -8,22 +8,25 @@ $title = elgg_echo('gallery:albums:all');
 
 elgg_push_breadcrumb($title);
 
-elgg_register_menu_item('photostream', array(
-	'name' => 'albums',
-	'text' => elgg_echo('gallery:switch:albums'),
-	'href' => 'gallery/dashboard/site?display=albums',
-	'selected' => (get_input('display', 'albums') == 'albums'),
-	'priority' => 100
-));
-
-elgg_register_menu_item('photostream', array(
-	'name' => 'photostream',
-	'text' => elgg_echo('gallery:switch:photostream'),
-	'href' => 'gallery/dashboard/site?display=photostream',
-	'selected' => (get_input('display', 'albums') == 'photostream'),
-	'priority' => 200
-));
-
+if (get_input('display', 'albums') == 'albums') {
+	elgg_register_menu_item('extras', array(
+		'name' => 'photostream',
+		'text' => '<span class="gallery-icon-photostream"></span>',
+		'title' => elgg_echo('gallery:switch:photostream'),
+		'href' => 'gallery/dashboard/site?display=photostream',
+		'selected' => (get_input('display', 'albums') == 'photostream'),
+		'priority' => 200
+	));
+} else {
+	elgg_register_menu_item('extras', array(
+		'name' => 'albums',
+		'text' => '<span class="gallery-icon-albums"></span>',
+		'title' => elgg_echo('gallery:switch:albums'),
+		'href' => 'gallery/dashboard/site?display=albums',
+		'selected' => (get_input('display', 'albums') == 'albums'),
+		'priority' => 100
+	));
+}
 
 $filter = elgg_view('framework/gallery/dashboard/filter', array(
 	'filter_context' => 'site'

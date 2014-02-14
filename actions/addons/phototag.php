@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $logged_in = elgg_get_logged_in_user_entity();
 
 $guid = get_input('container_guid', false);
@@ -40,7 +42,6 @@ $ia = elgg_set_ignore_access();
 if ($tag->save()) {
 
 	if ($user && $user->guid != $logged_in->guid) { // don't notify self
-
 		$to = $user->guid;
 		$from = $logged_in->guid;
 

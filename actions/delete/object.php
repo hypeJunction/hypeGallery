@@ -6,6 +6,9 @@
  * @uses $guid	guid of an entity to be deleted
  * @return str json encoded string
  */
+
+namespace hypeJunction\Gallery;
+
 $guid = get_input('guid');
 $entity = get_entity($guid);
 

@@ -61,6 +61,7 @@
 		display: block;
 		.ui-icon-closethick {
 			text-indent: 0;
+			color: transparent;
 			position: relative;
 			@include icon;
 			background: none;
@@ -171,5 +172,16 @@
 		margin-right: -14px;
 		margin-top: 0;
 		z-index: 5;
+	}
+}
+
+@mixin photo($border-width: 1px, $border-color: $border-color, $box-shadow: none, $box-shadow-hover: 0 0 6px 1px rgba($primary-color,0.5)) {
+	display: inline-block;
+	border: solid $border-width $border-color;
+	@include box-shadow($box-shadow);
+	&:hover,
+	&:focus,
+	&.elgg-state-selected {
+		@include box-shadow($box-shadow-hover);
 	}
 }

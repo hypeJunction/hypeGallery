@@ -85,3 +85,7 @@ $html = <<<__HTML
 __HTML;
 
 echo $html;
+echo elgg_view('input/hidden', array(
+	'name' => 'filedrop_guids[]',
+	'value' => $guid,
+));

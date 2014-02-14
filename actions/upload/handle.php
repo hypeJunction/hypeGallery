@@ -1,10 +1,11 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
-if (!elgg_instanceof($album, 'object', 'hjalbum')
-		|| !$album->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+if (!elgg_instanceof($album, 'object', 'hjalbum') || !$album->canWriteToContainer(0, 'object', 'hjalbumimage')) {
 	register_error('gallery:upload:error:noalbum');
 	forward(REFERER);
 }
@@ -48,8 +49,7 @@ if ($guids) {
 
 		$image = get_entity($guid);
 
-		if (!elgg_instanceof($image, 'object', 'hjalbumimage')
-				|| $image->simpletype != 'image') {
+		if (!elgg_instanceof($image, 'object', 'hjalbumimage') || $image->simpletype != 'image') {
 			$failed[] = $image->getGUID();
 			$image->delete();
 			continue;
@@ -114,17 +114,17 @@ if (count($images_pending)) {
 		'text' => $album->title,
 		'href' => $album->getURL(),
 		'is_trusted' => true
-			));
+	));
 
 	$manage_link = elgg_view('output/url', array(
 		'text' => elgg_echo('gallery:manage:album'),
 		'href' => "gallery/manage/$album->guid",
 		'is_trusted' => true
-			));
+	));
 
 	$message = elgg_echo('gallery:upload:pending:message', array(
 		count($images_pending), $album_link, $manage_link,
-			));
+	));
 
 	notify_user($to, $from, $subject, $message);
 }

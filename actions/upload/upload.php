@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 // Attributes
 $guid = get_input('container_guid', null);
 $album = get_entity($guid);

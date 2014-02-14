@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $priorities = get_input('elgg-object');
 
 $i = 0;
