@@ -15,16 +15,26 @@ Extremely user friendly and hype image gallery for Elgg.
 * Collaborative albums - allow your friends, fellow group members or all site members to add new photos to an album
 * EXIF tag parsing, incl. reverse geocoding of GPS tags view OpenStreetMaps
 
+
+## Dependencies
+
+* If downloading from Github, run ```composer install``` to download the dependencies
+
+* For drag&drop uploads, please install elgg_dropzone plugin
+https://github.com/hypeJunction/elgg_dropzone
+
+
 ## Attributions / Credits ##
 
-* UI Icon by Glyphicons http://glyphicons.com/
-* Image manipulations using WideImage http://wideimage.sourceforge.net/
-* Reverse geocoding via OpenStreeMaps nominatim http://wiki.openstreetmap.org/wiki/Nominatim
+* Image manipulations relies on Imagine
+http://imagine.readthedocs.org/
 
+* Reverse geocoding is performed via Nominatim
+http://wiki.openstreetmap.org/wiki/Nominatim
 
-## Notes ##
+* As always, best in kind FontAwesome
+http://fontawesome.io/
 
-* hypeFramework is not required
 
 ## Screenshots ##
 

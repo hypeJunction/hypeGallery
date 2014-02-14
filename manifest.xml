@@ -18,7 +18,10 @@
         <type>elgg_release</type>
 		<version>1.8</version>
     </requires>
-	
+	<suggests>
+		<type>plugin</type>
+		<name>elgg_dropzone</name>
+	</suggests>
 	<suggests>
 		<type>php_extension</type>
 		<name>exif</name>

@@ -10,6 +10,9 @@
  * @copyright Copyright (c) 2011-2014, Ismayil Khayredinov
  * @license http://www.gnu.org/licenses/gpl-2.0.html GNU General Public License v2
  */
+
+namespace hypeJunction\Gallery;
+
 define('HYPEGALLERY_RELEASE', 1374851653);
 
 define('HYPEGALLERY_ALBUM_RIVER', elgg_get_plugin_setting('album_river', 'hypeGallery'));

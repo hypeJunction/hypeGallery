@@ -1,0 +1,17 @@
+{
+	"name": "hypeJunction/Gallery",
+	"description": "Image galleries for Elgg",
+	"homepage": "http://hypejunction.com",
+	"authors": [
+		{
+			"name": "Ismayil Khayredinov",
+			"email": "ismayil.khayredinov@gmail.com"
+		}
+	],
+	"config": {
+		"vendor-dir": "vendors"
+	},
+	"require": {
+		"imagine/imagine": "v0.5.0"
+	}
+}
