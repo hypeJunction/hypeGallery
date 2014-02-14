@@ -1,10 +1,12 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 elgg_push_context('groups');
 
-hj_gallery_register_dashboard_title_buttons('groups');
+register_dashboard_title_buttons('groups');
 
-$title = elgg_echo('hj:gallery:albums:groups');
+$title = elgg_echo('gallery:albums:groups');
 
 elgg_push_breadcrumb($title);
 

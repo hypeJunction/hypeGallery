@@ -1,10 +1,7 @@
 <?php
 
-$subtypes = array(
-	'hjalbum' => 'hjAlbum',
-	'hjalbumimage' => 'hjAlbumImage'
-);
+$subtypes = array('hjalbum', 'hjalbumimage');
 
-foreach ($subtypes as $subtype => $class) {
+foreach ($subtypes as $subtype) {
 	update_subtype('object', $subtype);
 }

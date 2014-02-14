@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $search_type = get_input('search_type');
 $term = sanitize_string(get_input('term'));
 
@@ -37,7 +39,7 @@ switch ($search_type) {
 				"((er.relationship = 'friend' AND er.guid_one = $logged_in->guid) OR ue.guid = $logged_in->guid)",
 				"ue.name LIKE '%$term%'"
 			)
-				));
+		));
 
 		if ($users) {
 			foreach ($users as $user) {

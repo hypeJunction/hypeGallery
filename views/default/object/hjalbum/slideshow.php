@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 if (!elgg_is_xhr()) {
 	forward(REFERER);
 }
@@ -24,5 +26,5 @@ print(json_encode(array(
 			'img' => $data,
 			'album_guid' => $album->guid,
 			'album_title' => $album->title
-		)));
+)));
 forward();

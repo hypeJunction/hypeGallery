@@ -1,5 +1,11 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
+if (!HYPEGALLERY_EXIF) {
+	return;
+}
+
 $entity = elgg_extract('entity', $vars);
 
 if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
@@ -11,7 +17,7 @@ if (!$exif) {
 	return;
 }
 
-$exif_title = elgg_echo('hj:gallery:exif');
+$exif_title = elgg_echo('gallery:exif');
 
 $exif_body .= '<ul class="gallery-media-exif-details">';
 foreach ($exif as $key => $values) {

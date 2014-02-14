@@ -1,5 +1,41 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
+/**
+ * Add some menu items during page setup
+ */
+function pagesetup() {
+
+	elgg_register_menu_item('site', array(
+		'name' => 'gallery',
+		'text' => elgg_echo('gallery'),
+		'href' => 'gallery/dashboard/site',
+	));
+	
+}
+
+/**
+ * Run upgrade scripts
+ */
+function upgrade() {
+
+	if (!elgg_is_admin_logged_in()) {
+		return true;
+	}
+
+	$release = HYPEGALLERY_RELEASE;
+	$old_release = elgg_get_plugin_setting('release', PLUGIN_ID);
+
+	if ($release > $old_release) {
+
+		include_once dirname(dirname(__FILE__)) . '/lib/upgrade.php';
+		elgg_set_plugin_setting('release', $release, PLUGIN_ID);
+	}
+
+	return true;
+}
+
 /**
  * Apply EXIF tags to newly created image files
  * 
@@ -8,13 +44,13 @@
  * @param ElggFile $object		New file
  * @return boolean
  */
-function hj_gallery_apply_exif_tags($event, $type, $object) {
+function apply_exif_tags($event, $type, $object) {
 
 	if (!$object instanceof ElggFile) {
 		return true;
 	}
 
-	$exif = hj_gallery_get_exif($object);
+	$exif = get_exif($object);
 
 	if ($exif) {
 

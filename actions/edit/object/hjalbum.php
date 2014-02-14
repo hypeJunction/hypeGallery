@@ -6,7 +6,7 @@ elgg_make_sticky_form('edit:object:hjalbum');
 $guid = get_input('guid', null);
 $owner_guid = get_input('owner_guid', elgg_get_logged_in_user_guid());
 $container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
-$title = get_input('title', elgg_echo('hj:album:untitled'));
+$title = get_input('title', elgg_echo('album:untitled'));
 $description = get_input('description', '');
 $access_id = get_input('access_id', get_default_access());
 
@@ -27,10 +27,10 @@ $album->description = $description;
 $album->access_id = $access_id;
 
 if (!$album->save()) {
-	register_error(elgg_echo('hj:gallery:save:error'));
+	register_error(elgg_echo('gallery:save:error'));
 	forward(REFERER);
 } else {
-	system_message(elgg_echo('hj:gallery:save:success'));
+	system_message(elgg_echo('gallery:save:success'));
 }
 
 if ($location) {

@@ -1,9 +1,14 @@
 <?php
-$file_guid = (int)get_input("guid");
+
+namespace hypeJunction\Gallery;
+
+use ElggFile;
+
+$file_guid = (int) get_input("guid");
 $file = get_entity($file_guid);
 
 if (!$file || !$file instanceof ElggFile) {
-    exit;
+	exit;
 }
 
 $file->downloads++;

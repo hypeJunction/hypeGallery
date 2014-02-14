@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 if (!HYPEGALLERY_TAGGING) {
 	return;
 }
@@ -16,7 +18,7 @@ echo '<div class="gallery-media-tags">';
 if ($entity->canEdit()) {
 	echo elgg_view('output/url', array(
 		'text' => '<i class="icon-tags"></i>',
-		'title' => elgg_echo('hj:gallery:tools:tagger:start'),
+		'title' => elgg_echo('gallery:tools:tagger:start'),
 		'href' => '#',
 		'class' => 'elgg-button-gallery-tagger'
 	));
@@ -31,9 +33,9 @@ if ($entity->canEdit()) {
 }
 
 echo "<div class=\"elgg-gallery gallery-tags-list\" data-guid=\"$entity->guid\">";
-$tags = hj_gallery_get_image_tags($entity);
+$tags = get_image_tags($entity);
 if ($tags) {
-	echo '<label>' . elgg_echo('hj:gallery:inthisphoto') . '</label>';
+	echo '<label>' . elgg_echo('gallery:inthisphoto') . '</label>';
 	foreach ($tags as $tag) {
 		echo elgg_view_entity($tag);
 	}

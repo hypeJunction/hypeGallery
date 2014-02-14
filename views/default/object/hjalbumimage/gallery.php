@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 $size = elgg_extract('size', $vars, '325');
@@ -14,11 +16,11 @@ if (!elgg_in_context('gallery-manage')) {
 	elgg_load_js('gallery.popup.js');
 	$cover .= elgg_view('output/url', array(
 		'text' => '<i class="gallery-icon-slideshow gallery-icon-small"></i>',
-		'title' => elgg_echo('hj:gallery:slideshow'),
+		'title' => elgg_echo('gallery:slideshow'),
 		'class' => 'gallery-popup',
 		'href' => '#',
 		'data-guid' => $entity->guid
-			));
+	));
 }
 
 $title = elgg_view('output/url', array(
@@ -48,7 +50,7 @@ if (elgg_in_context('gallery-manage')) {
 	$info .= elgg_view('output/longtext', array(
 		'value' => $entity->description,
 		'class' => 'pam'
-			));
+	));
 }
 
 
@@ -60,7 +62,7 @@ if ($owner) {
 		)),
 		'href' => $owner->getURL(),
 		'title' => $owner->name
-			));
+	));
 }
 
 $container = get_entity($entity->container_guid);

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 elgg_load_js('jquery.form');
 
 elgg_load_js('jquery.imgareaselect');
@@ -17,7 +19,7 @@ $summary = elgg_view('object/hjalbum/gallery', array(
 
 if ($entity->owner_guid != elgg_get_logged_in_user_guid()) {
 	$summary .= '<div class="gallery-manage-instructions">';
-	$summary .= elgg_echo('hj:gallery:manage:instructions');
+	$summary .= elgg_echo('gallery:manage:instructions');
 	$summary .= '</div>';
 }
 
@@ -51,32 +53,32 @@ $images = elgg_get_entities_from_metadata($options);
 $ha = access_get_show_hidden_status();
 
 $body = elgg_view_entity_list($images, array(
-			'list_type' => 'gallery',
-			'gallery_class' => 'gallery-photostream gallery-manage-album',
-			'full_view' => true,
-			'pagination' => true,
-			'offset_key' => "offset-images-$entity->guid",
-				));
+	'list_type' => 'gallery',
+	'gallery_class' => 'gallery-photostream gallery-manage-album',
+	'full_view' => true,
+	'pagination' => true,
+	'offset_key' => "offset-images-$entity->guid",
+		));
 
 $body .= elgg_view('navigation/pagination', array(
 	'limit' => $limit,
 	'offset' => $offset,
 	'offset_key' => "offset-images-$entity->guid",
 	'count' => $count
-));
+		));
 
 $body .= '<div class="elgg-foot">';
 $body .= elgg_view('input/submit', array(
 	'value' => elgg_echo('save'),
 	'class' => 'elgg-button elgg-button-submit float-alt'
-));
+		));
 $body .= '</div>';
 
 $form = elgg_view('input/form', array(
 	'action' => 'action/gallery/upload/describe',
 	'body' => $body,
 	'class' => 'elgg-form-gallery-manage'
-));
+		));
 
 echo '<div class="gallery-full">';
 echo "$summary$form";

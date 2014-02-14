@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Default view for an entity returned in a search
  *
@@ -12,6 +13,8 @@
  *
  * @uses $vars['entity'] Entity returned in a search
  */
+
+namespace hypeJunction\Gallery;
 
 $entity = $vars['entity'];
 

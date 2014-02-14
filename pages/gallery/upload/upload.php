@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $guid = get_input('container_guid');
 $entity = get_entity($guid);
 
@@ -8,7 +10,7 @@ if (!$entity instanceof hjAlbum) {
 }
 
 
-$ancestry = hj_gallery_get_ancestry($entity->guid);
+$ancestry = get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
 	if (elgg_instanceof($ancestor, 'site')) {
@@ -21,9 +23,9 @@ foreach ($ancestry as $ancestor) {
 	}
 }
 
-hj_gallery_register_entity_title_buttons($entity);
+register_entity_title_buttons($entity);
 
-$title = elgg_echo('hj:gallery:upload:toalbum');
+$title = elgg_echo('gallery:upload:toalbum');
 
 
 elgg_push_breadcrumb($entity->title, $entity->getURL());
@@ -34,7 +36,7 @@ elgg_push_context('gallery-upload');
 
 $content = elgg_view_form("gallery/upload", array(
 	'enctype' => 'multipart/form-data'
-), array(
+		), array(
 	'entity' => $entity,
 		));
 

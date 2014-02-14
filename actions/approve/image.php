@@ -6,7 +6,7 @@ access_show_hidden_entities(true);
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-$error = elgg_echo('hj:gallery:approve:error');
+$error = elgg_echo('gallery:approve:error');
 
 if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 	if ($entity->enable()) {
@@ -27,7 +27,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 
 				$to = $entity->owner_guid;
 				$from = elgg_get_logged_in_user_guid();
-				$subject = elgg_echo('hj:gallery:upload:approved');
+				$subject = elgg_echo('gallery:upload:approved');
 
 				$album_link = elgg_view('output/url', array(
 					'text' => $entity->getContainerEntity()->title,
@@ -35,7 +35,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 					'is_trusted' => true
 						));
 
-				$message = elgg_echo('hj:gallery:upload:approved:message', array(
+				$message = elgg_echo('gallery:upload:approved:message', array(
 					$album_link
 						));
 
@@ -45,7 +45,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 
 		$error = false;
 
-		$success = elgg_echo('hj:gallery:approve:success');
+		$success = elgg_echo('gallery:approve:success');
 	}
 }
 

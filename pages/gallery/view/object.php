@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
@@ -9,7 +11,7 @@ if (!elgg_instanceof($entity)) {
 
 $entity->views++;
 
-$ancestry = hj_gallery_get_ancestry($entity->guid);
+$ancestry = get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
 	if (elgg_instanceof($ancestor, 'site')) {
@@ -26,16 +28,16 @@ $title = $entity->title;
 
 elgg_push_breadcrumb($title);
 
-hj_gallery_register_entity_title_buttons($entity);
+register_entity_title_buttons($entity);
 
 $sidebar = elgg_view('framework/gallery/sidebar', array(
 	'entity' => $entity
-));
+		));
 
 $content = elgg_view_entity($entity, array(
 	'full_view' => true,
 	'list_type' => 'list'
-));
+		));
 
 $layout = elgg_view_layout('content', array(
 	'title' => $title,

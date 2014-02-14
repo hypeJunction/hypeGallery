@@ -1,6 +1,6 @@
 <?php
 
-elgg_load_css('gallery.base.css');
+namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars, false);
 

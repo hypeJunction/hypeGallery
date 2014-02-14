@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars);
 
 $requested_size = $size = elgg_extract('size', $vars);

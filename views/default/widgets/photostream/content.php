@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars);
 $owner = $entity->getOwnerEntity();
 
@@ -31,10 +33,10 @@ if ($content) {
 	}
 	$more_link = elgg_view('output/url', array(
 		'href' => $url,
-		'text' => elgg_echo('hj:gallery:widget:more'),
+		'text' => elgg_echo('gallery:widget:more'),
 		'is_trusted' => true,
 	));
 	echo "<span class=\"elgg-widget-more\">$more_link</span>";
 } else {
-	echo elgg_echo('hj:gallery:widget:none');
+	echo elgg_echo('gallery:widget:none');
 }

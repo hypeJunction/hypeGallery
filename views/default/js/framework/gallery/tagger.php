@@ -45,7 +45,7 @@ framework.gallery.tagger = function() {
 			
 			$(this)
 			.removeClass('elgg-state-active')
-			.attr('title', elgg.echo('hj:gallery:tools:tagger:start'))
+			.attr('title', elgg.echo('gallery:tools:tagger:start'))
 			.closest('.gallery-media-full')
 			.unbind('mousemove', framework.gallery.mouseMove);
 			
@@ -53,7 +53,7 @@ framework.gallery.tagger = function() {
 			
 			$(this)
 			.addClass('elgg-state-active')
-			.attr('title', elgg.echo('hj:gallery:tools:tagger:stop'))
+			.attr('title', elgg.echo('gallery:tools:tagger:stop'))
 			.closest('.gallery-media-full')
 			.bind('mousemove', framework.gallery.mouseMove);
 			

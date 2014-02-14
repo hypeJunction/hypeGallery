@@ -1,16 +1,18 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 /**
- * 'gallery' page handler
+ * Page handler
  *
  * @param array $page URL segments
  * @return boolean
  */
-function hj_gallery_page_handler($page) {
+function page_handler($page) {
 
-	$path = elgg_get_plugins_path() . 'hypeGallery/pages/gallery/';
+	$path = dirname(dirname(__FILE__)) . '/pages/gallery/';
 
-	elgg_push_breadcrumb(elgg_echo('gallery'), 'gallery/dashboard/site');
+	elgg_push_breadcrumb(elgg_echo('gallery'), PAGEHANDLER . '/dashboard/site');
 
 	switch ($page[0]) {
 
@@ -97,7 +99,7 @@ function hj_gallery_page_handler($page) {
 
 		case 'edit' :
 			gatekeeper();
-			
+
 		case 'view' :
 			list($action, $guid) = $page;
 
@@ -139,8 +141,9 @@ function hj_gallery_page_handler($page) {
 
 			$entity = get_entity($page[1]);
 
-			if (!$entity)
+			if (!$entity) {
 				return false;
+			}
 
 			if (!$entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
 				return false;
@@ -163,10 +166,11 @@ function hj_gallery_page_handler($page) {
 			}
 			$entity = get_entity($page[1]);
 
-			if (!$entity || !$entity->canEdit())
+			if (!$entity || !$entity->canEdit()) {
 				return false;
+			}
 
-			$title = elgg_echo('hj:gallery:image:editthumb');
+			$title = elgg_echo('gallery:image:editthumb');
 			$content = elgg_view('framework/gallery/tools/cropper', array(
 				'entity' => $entity
 			));

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars);
 
 if (!elgg_instanceof($entity))
@@ -11,7 +13,7 @@ $owner_link = elgg_view('output/url', array(
 	'text' => $owner->name,
 	'is_trusted' => true,
 		));
-$meta[] = elgg_echo('hj:gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
+$meta[] = elgg_echo('gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
 
 if (HYPEGALLERY_CATEGORIES) {
 	$meta[] = elgg_view('output/gallery/categories', array('value' => $entity->categories));

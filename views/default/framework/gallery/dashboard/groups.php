@@ -1,9 +1,10 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $page_owner = elgg_get_page_owner_entity();
 
-if (!elgg_instanceof($page_owner, 'user')
-		|| !$page_owner->canEdit()) {
+if (!elgg_instanceof($page_owner, 'user') || !$page_owner->canEdit()) {
 	return;
 }
 
@@ -15,7 +16,7 @@ $groups = elgg_get_entities_from_relationship(array(
 		));
 
 if (!$groups) {
-	echo '<p>' . elgg_echo('hj:gallery:nogroups') . '</p>';
+	echo '<p>' . elgg_echo('gallery:nogroups') . '</p>';
 	return true;
 }
 

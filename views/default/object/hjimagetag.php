@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $tag = elgg_extract('entity', $vars);
 if (!elgg_instanceof($tag)) {
 	return;

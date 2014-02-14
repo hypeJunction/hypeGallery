@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 
@@ -28,7 +30,7 @@ if ($full) {
 		'size' => '800x200',
 		'full_view' => true,
 		'entity' => $entity
-			));
+	));
 
 	$limit = get_input('limit', 20);
 	$offset = get_input("offset-images-$entity->guid", 0);
@@ -48,14 +50,13 @@ if ($full) {
 		'offset_key' => "offset-images-$entity->guid",
 	);
 
-	
+
 	$body = elgg_list_entities_from_metadata($options);
 	$comments = elgg_view_comments($entity);
 
 	echo '<div class="gallery-full">';
 	echo "$summary$body$comments";
 	echo '</div>';
-	
 } else {
 
 	$icon = elgg_view_entity_icon($entity, 'medium');

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $container_guid = get_input('container_guid');
 $container = get_entity($container_guid);
 
@@ -7,7 +9,7 @@ if (!elgg_instanceof($container) || !$container->canWriteToContainer(0, 'object'
 	return false;
 }
 
-$title = elgg_echo('hj:gallery:create:album');
+$title = elgg_echo('gallery:create:album');
 
 elgg_push_breadcrumb($container->title, $container->getURL());
 elgg_push_breadcrumb($title);

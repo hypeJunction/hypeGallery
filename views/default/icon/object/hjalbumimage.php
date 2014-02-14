@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 elgg_load_js('gallery.popup.js');
 
 $entity = elgg_extract('entity', $vars);

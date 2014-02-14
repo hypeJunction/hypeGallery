@@ -35,7 +35,7 @@
 
 					$parent.parent().css('margin-left', paneWidth / 2 - prevWidth + elemWidth * 1.5);
 
-					$('.gallery-slideshow .controls .pager').text(elgg.echo('hj:gallery:slideshow:pager', [pos, total]));
+					$('.gallery-slideshow .controls .pager').text(elgg.echo('gallery:slideshow:pager', [pos, total]));
 
 					if ($parent.prev().length) {
 						$('.gallery-slideshow .controls .prev').removeClass('hidden').data('elem', $parent.prev());
@@ -106,7 +106,7 @@
 			beforeSend: function() {
 				$slideshow.html($('<div>').addClass('elgg-ajax-loader'));
 				$slideshow.dialog({
-					title: elgg.echo('hj:gallery:slideshow:loading'),
+					title: elgg.echo('gallery:slideshow:loading'),
 					dialogClass: 'gallery-slideshow',
 					width: $(window).width() - 25,
 					height: $(window).height() - 25,

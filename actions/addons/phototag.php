@@ -11,12 +11,12 @@ $user = get_entity($user_guid);
 $title = get_input('title', false);
 
 if (!$image) {
-	register_error(elgg_echo('hj:gallery:phototag:error'));
+	register_error(elgg_echo('gallery:phototag:error'));
 	forward(REFERER);
 }
 
 if (!$title && !$user) {
-	register_error(elgg_echo('hj:gallery:phototag:error'));
+	register_error(elgg_echo('gallery:phototag:error'));
 	forward(REFERER);
 }
 
@@ -44,14 +44,14 @@ if ($tag->save()) {
 		$to = $user->guid;
 		$from = $logged_in->guid;
 
-		$subject = elgg_echo('hj:gallery:user:tagged');
+		$subject = elgg_echo('gallery:user:tagged');
 
 		$image_link = elgg_view('output/url', array(
 			'href' => $image->getURL(),
 			'is_trusted' => true
 		));
 
-		$message = elgg_echo('hj:gallery:user:tagged:message', array(
+		$message = elgg_echo('gallery:user:tagged:message', array(
 			$image_link
 		));
 
@@ -60,7 +60,7 @@ if ($tag->save()) {
 
 	add_to_river('framework/river/stream/phototag', 'stream:phototag', elgg_get_logged_in_user_guid(), $tag->guid, $tag->access_id, time(), -1);
 
-	system_message(elgg_echo('hj:gallery:phototag:success'));
+	system_message(elgg_echo('gallery:phototag:success'));
 
 	$html = elgg_view_entity($tag);
 
@@ -69,7 +69,7 @@ if ($tag->save()) {
 	}
 } else {
 
-	register_error(elgg_echo('hj:gallery:phototag:error'));
+	register_error(elgg_echo('gallery:phototag:error'));
 }
 
 elgg_set_ignore_access($ia);

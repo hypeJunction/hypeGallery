@@ -58,19 +58,19 @@
 						switch (err) {
 							case 'BrowserNotSupported':
 								$('#gallery-filedrop-fallback').show().unbind('change');
-								elgg.register_error(elgg.echo('hj:gallery:filedrop:browsernotsupported'));
+								elgg.register_error(elgg.echo('gallery:filedrop:browsernotsupported'));
 								break;
 
 							case 'TooManyFiles':
-								elgg.register_error(elgg.echo('hj:gallery:filedrop:toomanyfiles'));
+								elgg.register_error(elgg.echo('gallery:filedrop:toomanyfiles'));
 								break;
 
 							case 'FileTooLarge':
-								elgg.register_error(elgg.echo('hj:gallery:filedrop:filetoolarge'));
+								elgg.register_error(elgg.echo('gallery:filedrop:filetoolarge'));
 								break;
 
 							case 'FileTypeNotAllowed':
-								elgg.register_error(elgg.echo('hj:gallery:filedrop:filetypenotallowed'));
+								elgg.register_error(elgg.echo('gallery:filedrop:filetypenotallowed'));
 								break;
 
 							default:

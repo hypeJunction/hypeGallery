@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $filter_context = elgg_extract('filter_context', $vars, 'site');
 
 $viewer = elgg_get_page_owner_entity();
@@ -10,33 +12,33 @@ if (!elgg_instanceof($viewer, 'user')) {
 if (elgg_is_logged_in()) {
 	$tabs = array(
 		'mine' => array(
-			'text' => elgg_echo('hj:gallery:albums:mine'),
+			'text' => elgg_echo('gallery:albums:mine'),
 			'href' => "gallery/dashboard/owner/$viewer->username",
 			'selected' => ($filter_context == 'owner'),
 			'priority' => 200,
 		),
 		'friends' => array(
-			'text' => elgg_echo('hj:gallery:albums:friends'),
+			'text' => elgg_echo('gallery:albums:friends'),
 			'href' => "gallery/dashboard/friends/$viewer->username",
 			'selected' => ($filter_context == 'friends'),
 			'priority' => 300,
 		),
 		'groups' => (HYPEGALLERY_GROUP_ALBUMS) ? array(
-			'text' => elgg_echo('hj:gallery:albums:groups'),
+			'text' => elgg_echo('gallery:albums:groups'),
 			'href' => "gallery/dashboard/groups/$viewer->username",
 			'selected' => ($filter_context == 'groups'),
 			'priority' => 400,
-		) : NULL,
+				) : NULL,
 		'favorites' => (HYPEGALLERY_FAVORITES) ? array(
-			'text' => elgg_echo('hj:gallery:albums:favorites'),
+			'text' => elgg_echo('gallery:albums:favorites'),
 			'href' => "gallery/dashboard/favorites/$viewer->username",
 			'selected' => ($filter_context == 'favorites'),
 			'priority' => 500,
-		) : NULL,
+				) : NULL,
 	);
 }
 $tabs['site'] = array(
-	'text' => elgg_echo('hj:gallery:albums:all'),
+	'text' => elgg_echo('gallery:albums:all'),
 	'href' => 'gallery/dashboard/site',
 	'selected' => ($filter_context == 'site'),
 	'priority' => 100,

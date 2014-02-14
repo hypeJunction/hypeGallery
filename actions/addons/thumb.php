@@ -4,7 +4,7 @@ $guid = get_input('guid');
 $entity = get_entity($guid);
 
 if (!$entity || !$entity->canEdit()) {
-	register_error(elgg_echo('hj:gallery:tools:crop:error'));
+	register_error(elgg_echo('gallery:tools:crop:error'));
 	forward(REFERER);
 }
 
@@ -19,16 +19,16 @@ $coords = array(
 	'y2' => (int) get_input('y2', 0),
 );
 
-$result = hj_gallery_generate_entity_icons($entity, $master, $coords);
+$result = generate_entity_icons($entity, $master, $coords);
 
 if ($result) {
 	foreach($coords as $coord => $value) {
 		$entity->$coord = $value;
 	}
 	
-	system_message(elgg_echo('hj:gallery:tools:crop:success'));
+	system_message(elgg_echo('gallery:tools:crop:success'));
 } else {
-	register_error(elgg_echo('hj:gallery:tools:crop:error'));
+	register_error(elgg_echo('gallery:tools:crop:error'));
 }
 
 if (elgg_is_xhr) {

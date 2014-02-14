@@ -120,7 +120,7 @@
 					beforeSend : function() {
 						$thumbeditor.html($('<div>').addClass('elgg-ajax-loader'));
 						$thumbeditor.dialog({
-							title : elgg.echo('hj:gallery:tools:crop:loading'),
+							title : elgg.echo('gallery:tools:crop:loading'),
 							dialogClass : 'gallery-slideshow',
 							width : $(window).width() - 25,
 							height : $(window).height() - 25,
@@ -133,7 +133,7 @@
 					},
 					success : function(data) {
 						$thumbeditor.html(data).dialog({
-							'title' : elgg.echo('hj:gallery:tools:crop:ready')
+							'title' : elgg.echo('gallery:tools:crop:ready')
 						});
 						
 						elgg.trigger_hook('cropper', 'framework:gallery');

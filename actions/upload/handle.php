@@ -5,7 +5,7 @@ $album = get_entity($album_guid);
 
 if (!elgg_instanceof($album, 'object', 'hjalbum')
 		|| !$album->canWriteToContainer(0, 'object', 'hjalbumimage')) {
-	register_error('hj:gallery:upload:error:noalbum');
+	register_error('gallery:upload:error:noalbum');
 	forward(REFERER);
 }
 
@@ -20,7 +20,7 @@ if (!$album->canEdit()) {
 // guids of files uploaded using filedrop
 $filedrop_guids = get_input('filedrop_guids', array());
 // files being uploaded via $_FILES
-$guids = hj_gallery_process_file_upload('gallery_files', 'hjalbumimage', null, $album->guid);
+$guids = process_file_upload('gallery_files', 'hjalbumimage', null, $album->guid);
 if ($guids) {
 	foreach ($guids as $name => $guid) {
 		if (!$guid) {
@@ -82,15 +82,15 @@ if ($guids) {
 }
 
 if (count($images)) {
-	system_message(elgg_echo('hj:gallery:upload:imagesuploaded', array(count($images))));
+	system_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
 }
 
 if (count($failed)) {
-	system_message(elgg_echo('hj:gallery:upload:unsupportedtype', array(count($failed))));
+	system_message(elgg_echo('gallery:upload:unsupportedtype', array(count($failed))));
 }
 
 if (count($images_pending)) {
-	system_message(elgg_echo('hj:gallery:upload:pending', array(count($images_pending))));
+	system_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
 }
 
 $metadata_id = create_metadata($album->guid, "river_$posted", serialize($images), '', $album->owner_guid, $album->access_id, true);
@@ -108,7 +108,7 @@ if (count($images) && !$requires_approval) {
 if (count($images_pending)) {
 	$to = $album->owner_guid;
 	$from = elgg_get_logged_in_user_guid();
-	$subject = elgg_echo('hj:gallery:upload:pending', array(count($images_pending)));
+	$subject = elgg_echo('gallery:upload:pending', array(count($images_pending)));
 
 	$album_link = elgg_view('output/url', array(
 		'text' => $album->title,
@@ -117,12 +117,12 @@ if (count($images_pending)) {
 			));
 
 	$manage_link = elgg_view('output/url', array(
-		'text' => elgg_echo('hj:gallery:manage:album'),
+		'text' => elgg_echo('gallery:manage:album'),
 		'href' => "gallery/manage/$album->guid",
 		'is_trusted' => true
 			));
 
-	$message = elgg_echo('hj:gallery:upload:pending:message', array(
+	$message = elgg_echo('gallery:upload:pending:message', array(
 		count($images_pending), $album_link, $manage_link,
 			));
 

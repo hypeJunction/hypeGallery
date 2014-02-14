@@ -10,7 +10,7 @@ $guid = get_input('guid');
 $entity = get_entity($guid);
 
 if (!elgg_instanceof($entity)) {
-	register_error(elgg_echo('hj:gallery:delete:error:notentity'));
+	register_error(elgg_echo('gallery:delete:error:notentity'));
 	forward(REFERER);
 }
 
@@ -19,9 +19,9 @@ if ($entity->canEdit() && $entity->delete()) {
 	if (elgg_is_xhr()) {
 		print json_encode(array('guid' => $guid));
 	}
-	system_message(elgg_echo('hj:gallery:delete:success'));
+	system_message(elgg_echo('gallery:delete:success'));
 	forward($container->getURL(), 'action');
 } else {
-	register_error(elgg_echo('hj:gallery:delete:error:unknown'));
+	register_error(elgg_echo('gallery:delete:error:unknown'));
 	forward(REFERER, 'action');
 }

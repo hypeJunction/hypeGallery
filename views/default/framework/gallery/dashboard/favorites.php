@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $page_owner = elgg_get_page_owner_entity();
 
 $display = get_input('display', 'albums');

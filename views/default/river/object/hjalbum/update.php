@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 elgg_push_context('activity');
 
 $item = elgg_extract('item', $vars);
@@ -12,11 +14,11 @@ $object = $item->getObjectEntity();
 $subject_link = elgg_view('output/url', array(
 	'text' => $subject->name,
 	'href' => $subject->getURL()
-));
+		));
 $object_link = elgg_view('output/url', array(
 	'text' => $object->title,
 	'href' => $object->getURL()
-));
+		));
 
 $key = "river:update:object:hjalbum";
 $image_count = $object->countImages();
@@ -29,14 +31,14 @@ foreach ($image_guids_new as $guid) {
 }
 
 if (!$image_count_new) {
-	$image_count_new = elgg_echo('hj:gallery:new');
+	$image_count_new = elgg_echo('gallery:new');
 }
 
 $summary = elgg_echo($key, array($subject_link, $image_count_new, $object_link, $image_count));
 
 $attachments = elgg_view_entity($object, array(
 	'river_time' => $river_time
-));
+		));
 
 echo elgg_view('river/item', array(
 	'item' => $item,

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $display = get_input('display', 'albums');
 
 echo '<div id="gallery-dashboard">';

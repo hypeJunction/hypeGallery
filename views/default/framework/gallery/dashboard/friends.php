@@ -1,9 +1,10 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $page_owner = elgg_get_page_owner_entity();
 
-if (!elgg_instanceof($page_owner, 'user') 
-		|| !$page_owner->canEdit()) {
+if (!elgg_instanceof($page_owner, 'user') || !$page_owner->canEdit()) {
 	return;
 }
 
@@ -13,10 +14,10 @@ $friends = elgg_get_entities_from_relationship(array(
 	'relationship_guid' => $page_owner->guid,
 	'inverse_relationship' => true,
 	'limit' => 0
-));
+		));
 
 if (!$friends) {
-	echo '<p>' . elgg_echo('hj:gallery:nofriends') . '</p>';
+	echo '<p>' . elgg_echo('gallery:nofriends') . '</p>';
 	return true;
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars);
 $river_time = elgg_extract('river_time', $vars);
 
@@ -15,7 +17,6 @@ if (!$entity->$river_time) {
 		'item_class' => 'elgg-photo mas',
 		'pagination' => false
 	));
-
 } else {
 
 	$guids = unserialize($entity->$river_time);

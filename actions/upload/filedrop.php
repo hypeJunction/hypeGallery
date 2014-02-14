@@ -3,7 +3,7 @@
 $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
-$guids = hj_gallery_process_file_upload('filedrop_files', 'hjalbumimage', null, $album->guid);
+$guids = process_file_upload('filedrop_files', 'hjalbumimage', null, $album->guid);
 
 $guid = reset($guids);
 
@@ -36,7 +36,7 @@ if (!elgg_instanceof($image, 'object', 'hjalbumimage')) {
 			$image->$name = $album->$name;
 		}
 	} else {
-		$image->title = elgg_echo('hj:album:untitled');
+		$image->title = elgg_echo('album:untitled');
 		$image->access_id = ACCESS_PRIVATE;
 	}
 
@@ -44,9 +44,9 @@ if (!elgg_instanceof($image, 'object', 'hjalbumimage')) {
 }
 
 if (!$failed) {
-	system_message(elgg_echo('hj:gallery:upload:success'));
+	system_message(elgg_echo('gallery:upload:success'));
 } else {
-	register_error(elgg_echo('hj:gallery:upload:error'));
+	register_error(elgg_echo('gallery:upload:error'));
 	forward(REFERER);
 }
 

@@ -1,5 +1,7 @@
 <?php
 
+namespace hypeJunction\Gallery;
+
 $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 
@@ -24,7 +26,7 @@ if ($full) {
 	$body .= elgg_view_entity_icon($entity, 'master', array(
 		'href' => false,
 		'img_class' => 'taggable'
-			));
+	));
 	$body .= '</div>';
 
 	$body .= elgg_view('framework/gallery/tools/tagger', $vars);
