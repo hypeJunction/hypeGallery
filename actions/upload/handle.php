@@ -87,7 +87,7 @@ if ($guids) {
 				if ($size !== 'master') {
 					$resized = $img->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
 				} else {
-					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'any');
+					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'up');
 				}
 
 				switch ($image->mimetype) {

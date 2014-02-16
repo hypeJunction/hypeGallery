@@ -33,12 +33,12 @@ if ($entity->mimetype == 'image/png') {
 
 $etag = md5($filehandler->icontime . $size);
 
-$filehandler = new ElggFile();
-$filehandler->owner_guid = $entity->owner_guid;
-$filehandler->setFilename($filename);
-$filehandler->open('read');
-$contents = $filehandler->grabFile();
-$filehandler->close();
+//$filehandler = new ElggFile();
+//$filehandler->owner_guid = $entity->owner_guid;
+//$filehandler->setFilename($filename);
+//$filehandler->open('read');
+//$contents = $filehandler->grabFile();
+//$filehandler->close();
 
 if (!$contents) {
 	if (array_key_exists($requested_size, $config)) {
@@ -47,6 +47,10 @@ if (!$contents) {
 		$square = $config[$size]['square'];
 	} else {
 		list($requested_w, $requested_h) = explode('x', $requested_size);
+		if (($requested_w &&!in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width')))
+				|| ($requested_h &&!in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height')))) {
+			exit;
+		}
 	}
 
 	$requested_w = (int) $requested_w;
@@ -59,8 +63,7 @@ if (!$contents) {
 	$crop_w = ($requested_w) ? $requested_w : '100%';
 	$crop_h = ($requested_h) ? $requested_h : '100%';
 
-	if ((!$requested_w && !$requested_h) || ($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width')) || ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height'))))
-	) {
+	if (!$requested_w && !$requested_h) {
 		$requested_w = $config['master']['w'];
 		$requested_h = $config['master']['h'];
 	} else if ($requested_w && !$requested_h) {
