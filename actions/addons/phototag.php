@@ -2,6 +2,8 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggObject;
+
 $logged_in = elgg_get_logged_in_user_entity();
 
 $guid = get_input('container_guid', false);

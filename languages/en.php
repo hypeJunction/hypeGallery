@@ -96,7 +96,7 @@ $english = array(
 	'gallery:image:tag' => 'Tag',
 
 	'gallery:tools:crop:success' => 'Thumbnails were successfully created',
-	'gallery:tools:crop:error' => 'Thumbnails could not be created created',
+	'gallery:tools:crop:error' => 'Thumbnails could not be created',
 	'gallery:tools:crop' => 'Create a thumbnail',
 	'gallery:tools:crop:preview' => 'New Thumbnail',
 	'gallery:tools:crop:current' => 'Current Thumbnail',

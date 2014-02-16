@@ -118,22 +118,20 @@
 						guid : guid
 					},
 					beforeSend : function() {
-						$thumbeditor.html($('<div>').addClass('elgg-ajax-loader'));
+						$('body').addClass('gallery-state-loading');
+					},
+					success : function(data) {
+						$thumbeditor.html(data);
 						$thumbeditor.dialog({
-							title : elgg.echo('gallery:tools:crop:loading'),
+							title : elgg.echo('gallery:tools:crop:ready'),
 							dialogClass : 'gallery-slideshow',
-							width : $(window).width() - 25,
-							height : $(window).height() - 25,
+							width : $(window).width() - 150,
+							height : $(window).height() - 150,
 							modal : true,
 							close : function() {
 								$('#gallery-crop-master').imgAreaSelect({remove:true});
 								$(this).dialog('destroy').remove();
 							}
-						});
-					},
-					success : function(data) {
-						$thumbeditor.html(data).dialog({
-							'title' : elgg.echo('gallery:tools:crop:ready')
 						});
 						
 						elgg.trigger_hook('cropper', 'framework:gallery');
@@ -153,9 +151,9 @@
 								data : data,
 								iframe : false,
 								beforeSend : function() {
-									$form.hide();
+									$form.find('[type="submit"]').addClass('elgg-state-disabled').prop('disabled', true);
 									$('#gallery-crop-master').imgAreaSelect({remove:true});
-									$form.after($('<div>').addClass('elgg-ajax-loader'));
+									$('body').addClass('gallery-state-loading');
 								},
 								success : function(response) {
 									if (response.status >= 0) {
@@ -170,9 +168,11 @@
 									$thumbeditor.dialog('close');
 								},
 								error : function() {
-									$form.show();
 									elgg.trigger_hook('cropper', 'framework:gallery');
-									$form.next('.elgg-ajax-loader').remove();
+								},
+								complete : function() {
+									$form.find('[type="submit"]').removeClass('elgg-state-disabled').prop('disabled', false);
+									$('body').removeClass('gallery-state-loading');
 								}
 							})
 							
@@ -181,6 +181,9 @@
 					},
 					error : function() {
 						$thumbeditor.dialog('close');
+					},
+					complete : function() {
+						$('body').removeClass('gallery-state-loading');
 					}
 				})
 			})

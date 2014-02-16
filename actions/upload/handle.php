@@ -2,6 +2,13 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggFile;
+use hypeJunction\Filestore\UploadHandler;
+use WideImage\Exception\Exception;
+use WideImage\WideImage;
+
+$failed = 0;
+
 $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
@@ -20,14 +27,18 @@ if (!$album->canEdit()) {
 
 // guids of files uploaded using filedrop
 $filedrop_guids = get_input('filedrop_guids', array());
+
 // files being uploaded via $_FILES
-$guids = process_file_upload('gallery_files', 'hjalbumimage', null, $album->guid);
-if ($guids) {
-	foreach ($guids as $name => $guid) {
-		if (!$guid) {
-			// upload has failed
-			$failed[] = $name;
-			unset($guids['name']);
+$uploads = UploadHandler::handle('gallery_files', array(
+			'subtype' => 'hjalbumimage',
+			'container_guid' => $album->guid));
+
+if ($uploads && count($uploads)) {
+	foreach ($uploads as $upload) {
+		if ($upload->guid) {
+			$guids[] = $upload->guid;
+		} else {
+			$failed++;
 		}
 	}
 }
@@ -49,14 +60,78 @@ if ($guids) {
 
 		$image = get_entity($guid);
 
+		if (!elgg_instanceof($image)) {
+			$failed++;
+			continue;
+		}
+
 		if (!elgg_instanceof($image, 'object', 'hjalbumimage') || $image->simpletype != 'image') {
-			$failed[] = $image->getGUID();
+			$failed++;
 			$image->delete();
 			continue;
 		}
 
+		// delete automatically generated thumbs and create new ones
+		$icon_sizes = elgg_get_config('icon_sizes');
+		$img = WideImage::load($image->getFilenameOnFilestore());
+
+		foreach ($icon_sizes as $size => $thumb) {
+
+			$old_thumb = new ElggFile();
+			$old_thumb->owner_guid = $image->owner_guid;
+			$old_thumb->setFilename("icons/" . $image->guid . $size . ".jpg");
+			$old_thumb->open('write');
+			$old_thumb->close();
+
+			try {
+				if ($size !== 'master') {
+					$resized = $img->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
+				} else {
+					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'any');
+				}
+
+				switch ($image->mimetype) {
+					default :
+					case 'image/jpeg' :
+						$mime = 'image/jpeg';
+						$contents = $resized->asString('jpg', 80);
+						$filename = "icons/" . $image->getGUID() . $size . ".jpg";
+						break;
+
+					case 'image/gif' :
+						$mime = 'image/gif';
+						$old_thumb = new ElggFile();
+						$old_thumb->owner_guid = $image->owner_guid;
+						$filename = "icons/" . $image->getGUID() . $size . ".gif";
+						$contents = $resized->asString('gif');
+						break;
+
+					case 'image/png' :
+						$mime = 'image/png';
+						$contents = $resized->asString('png');
+						$filename = "icons/" . $image->getGUID() . $size . ".png";
+						break;
+				}
+
+				$new_thumb = new ElggFile();
+				$new_thumb->owner_guid = $image->owner_guid;
+				$new_thumb->setFilename($filename);
+				$new_thumb->open('write');
+				$new_thumb->write($contents);
+				$new_thumb->close();
+			} catch (Exception $e) {
+				$exceptions[] = $e->getMessage();
+			}
+
+			if ($new_thumb) {
+				$old_thumb->delete();
+			}
+		}
+
 		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
-		$image->title = $image->originalfilename;
+		if (!$image->title) {
+			$image->title = $image->originalfilename;
+		}
 		$image->access_id = $album->access_id;
 
 		foreach ($metadata as $md) {
@@ -85,8 +160,8 @@ if (count($images)) {
 	system_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
 }
 
-if (count($failed)) {
-	system_message(elgg_echo('gallery:upload:unsupportedtype', array(count($failed))));
+if ($failed) {
+	system_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
 }
 
 if (count($images_pending)) {

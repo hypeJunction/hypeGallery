@@ -28,22 +28,21 @@ body {
 	@include photo;
 	width: 337px;
 }
+
 .gallery-full {
-	border: 1px solid $border-color;
 	.gallery-album-cover {
 		padding: 0;
 		margin: 0;
 		width: 100%;
 		min-height: 250px;
 		margin-bottom: 20px;
-		border: 0;
 		overflow: hidden;
 		.gallery-album-meta {
 			margin:20px;
 		}
 	}
-
 }
+
 .gallery-album-cover-placeholder {
 	background: #f4f4f4;
 	text-align: center;
@@ -144,6 +143,7 @@ body {
 	display: block;
 	padding: 3px 0 3px 10px;
 }
+
 .gallery-media-extras {
 	.elgg-menu-entity {
 		float: none;
@@ -319,16 +319,17 @@ body {
 	margin-top: 3px;
 	padding: 5px 10px;
 	background: #eee;
-	font-size: 12px;
 	line-height: 14px;
-	.elgg-dropzone & > * {
+	.elgg-dropzone & * {
 		text-align: left;
+		font-size: 12px;
+
 	}
-}
-.gallery-item-in-bulk .gallery-media-extras {
-	margin-top: 5px;
-	padding-top: 5px;
-	border-top: 1px solid #fff;
+	.gallery-media-extras {
+		margin-top: 5px;
+		padding-top: 5px;
+		border-top: 1px solid #fff;
+	}
 }
 
 .gallery-manage-album .gallery-media-cover > .gallery-media-menu {
@@ -563,7 +564,7 @@ body {
 		background: #FFF;
 		@include border-radius(1000px);
 		background: #eee;
-		border: 1px solid #ccc;
+		border: 1px solid #fff;
 		z-index: 400;
 		left: -16px;
 		top: 50%;

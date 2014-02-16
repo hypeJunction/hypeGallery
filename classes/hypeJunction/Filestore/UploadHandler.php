@@ -129,7 +129,7 @@ class UploadHandler {
 			} else if (!is_array($coords)) {
 				$thumb_resized = get_resized_image_from_existing_file($source, $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
 			} else {
-				$thumb_resized = false;
+				continue;
 			}
 
 			if ($thumb_resized) {

@@ -306,11 +306,18 @@ function entity_menu_setup($hook, $type, $return, $params) {
 	}
 
 	if (elgg_in_context('gallery-manage')) {
-		unset($items['access']);
-		unset($items['makeavatar']);
-		unset($items['download']);
-		unset($items['edit']);
-		unset($items['manage']);
+		$return = array(
+			'drag' => $items['drag'],
+			'position' => $items['position'],
+			'delete' => $items['delete'],
+			'cropper' => $items['cropper'],
+			'makecover' => $items['makecover']
+		);
+		foreach ($return as $name => $item) {
+			$item['name'] = $name;
+			$return[$name] = ElggMenuItem::factory($item);
+		}
+		return $return;
 	} else {
 		unset($items['drag']);
 		unset($items['position']);
@@ -318,6 +325,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 		unset($items['cropper']);
 		unset($items['makecover']);
 	}
+	
 	if ($items) {
 		foreach ($items as $name => $item) {
 			foreach ($return as $key => $val) {

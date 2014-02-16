@@ -2,6 +2,8 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggFile;
+
 gatekeeper();
 
 $file_guid = get_input('e');

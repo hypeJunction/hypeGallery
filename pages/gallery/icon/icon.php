@@ -11,42 +11,54 @@ access_show_hidden_entities(true);
 $entity_guid = get_input('guid');
 $entity = get_entity($entity_guid);
 
+if (!$entity) {
+	return false;
+}
+
 $requested_size = $size = strtolower(get_input('size', 'master'));
 
 $config = elgg_get_config('icon_sizes');
+
 $gallery_config = elgg_get_config('gallery_icon_sizes');
 
-$config = array_merge($config, $gallery_config);
+$config = array_merge_recursive($config, $gallery_config);
 
-if (array_key_exists($requested_size, $config)) {
+if ($entity->mimetype == 'image/png') {
+	$filename = "icons/" . $entity->guid . $size . ".png";
+} else if ($entity->mimetype == 'image/gif') {
+	$filename = "icons/" . $entity->guid . $size . ".gif";
+} else {
+	$filename = "icons/" . $entity->guid . $size . ".jpg";
+}
 
-	$filename = "icons/" . $entity->getGUID() . $size . ".jpg";
-	$filehandler = new ElggFile();
-	$filehandler->owner_guid = $entity->owner_guid;
-	$filehandler->setFilename($filename);
-	$filehandler->open('read');
-	$contents = $filehandler->read($filehandler->size());
+$etag = md5($filehandler->icontime . $size);
 
-	if (!$contents) {
+$filehandler = new ElggFile();
+$filehandler->owner_guid = $entity->owner_guid;
+$filehandler->setFilename($filename);
+$filehandler->open('read');
+$contents = $filehandler->grabFile();
+$filehandler->close();
+
+if (!$contents) {
+	if (array_key_exists($requested_size, $config)) {
 		$requested_w = $config[$size]['w'];
 		$requested_h = $config[$size]['h'];
 		$square = $config[$size]['square'];
+	} else {
+		list($requested_w, $requested_h) = explode('x', $requested_size);
 	}
-
-	$etag = md5($filehandler->icontime . $size);
-} else {
-	$fit = get_input('fit', 'inside');
-	$scale = get_input('scale', 'any');
-	list($requested_w, $requested_h) = explode('x', $requested_size);
 
 	$requested_w = (int) $requested_w;
 	$requested_h = (int) $requested_h;
 
-	$etag = md5($filehandler->icontime . $requested_w . $requested_h . $fit . $scale);
-
 	if (!is_numeric($requested_w)) {
 		$requested_w = null;
 	}
+
+	$crop_w = ($requested_w) ? $requested_w : '100%';
+	$crop_h = ($requested_h) ? $requested_h : '100%';
+
 	if ((!$requested_w && !$requested_h) || ($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width')) || ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height'))))
 	) {
 		$requested_w = $config['master']['w'];
@@ -65,24 +77,25 @@ if (array_key_exists($requested_size, $config)) {
 		} else {
 			$requested_w = null;
 		}
+	} else if ($requested_w > $requested_h) {
+		$requested_h = null;
+	} else if ($requested_h > $requested_w) {
+		$requested_w = null;
 	}
-}
 
-if (!$contents) {
+	$image = WideImage::load($entity->getFilenameOnFilestore());
+	$resized = $image;
 
-	$filehandler = $entity;
+//	if (array_key_exists($size, $config) && $entity->x1 && $entity->y1 && $entity->x2 && $entity->y2) {
+//		$resized = $resized->crop($entity->x1, $entity->y1, $entity->x2 - $entity->x1, $entity->y2 - $entity->y1);
+//	}
 
-	$image = WideImage::load($filehandler->getFilenameOnFilestore());
-	if ($requested_w && $requested_h) {
-		if ($requested_h > $requested_w) {
-			$resized = $image->resize(null, $requested_h, $fit, $scale);
-		} else {
-			$resized = $image->resize($requested_w, null, $fit, $scale);
-		}
-		$resized = $resized->crop('center', 'center', $requested_w, $requested_h);
+	if ($size !== 'master') {
+		$resized = $resized->resize($requested_w, $requested_h, 'outside', 'any')->crop('center', 'center', $crop_w, $crop_h);
 	} else {
-		$resized = $image->resize($requested_w, $requested_h, $fit, $scale);
+		$resized = $resized->resize($requested_w, $requested_h, 'inside', 'up');
 	}
+
 	switch ($entity->mimetype) {
 		default :
 		case 'image/jpeg' :
@@ -100,6 +113,15 @@ if (!$contents) {
 			$contents = $resized->asString('png');
 			break;
 	}
+
+	// save the thumb
+	$thumb = new ElggFile();
+	$thumb->owner_guid = $entity->owner_guid;
+	$thumb->setMimeType($mimetype);
+	$thumb->setFilename($filename);
+	$thumb->open('write');
+	$thumb->write($contents);
+	$thumb->close();
 }
 
 access_show_hidden_entities($ha);
