@@ -1247,6 +1247,6 @@ body.gallery-state-loading:before {
   padding: 0;
   border: 0;
 }
-.taggable {
+.gallery-media-full .taggable {
 	width:100%!important;
 }
