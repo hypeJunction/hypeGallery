@@ -11,12 +11,9 @@ body {
 }
 
 .gallery-photostream {
-	@include column-count(2);
 	* {
+		max-width: 100%;
 		@include box-sizing(border-box);
-	}
-	& > li {
-		vertical-align: top;
 	}
 }
 
@@ -24,9 +21,17 @@ body {
 .gallery-media-cover {
 	position: relative;
 	padding: 5px;
-	margin: 10px;
+	margin: 10px auto;
 	@include photo;
-	width: 337px;
+	width: 100%;
+	a {
+		text-align: center;
+		overflow: hidden;
+		img {
+			width: 100%;
+			height: auto;
+		}
+	}
 }
 
 .gallery-full {
@@ -38,7 +43,7 @@ body {
 		margin-bottom: 20px;
 		overflow: hidden;
 		.gallery-album-meta {
-			margin:20px;
+			margin: 20px;
 		}
 	}
 }
@@ -62,21 +67,6 @@ body {
 	}
 }
 
-.gallery-album-author{
-	position: absolute;
-	top: 190px;
-	right: 10px;
-	border: 1px solid #fff;
-	padding: 0px;
-	background: #000;
-	height: 30px;
-	width: 30px;
-	img  {
-		width: 30px;
-		height: 30px;
-	}
-}
-
 .gallery-media-author {
 	position: absolute;
 	top: -15px;
@@ -90,6 +80,34 @@ body {
 	}
 }
 
+.gallery-album-meta {
+	position: relative;
+	.gallery-album-count {
+		position: absolute;
+		top: -20px;
+		right: 55px;
+		background: #000;
+		color: #fff;
+		font-weight: bold;
+		border: 1px solid #fff;
+		min-width: 40px;
+		text-align: center;
+		line-height: 40px;
+		@include box-sizing(content-box);
+	}
+	.gallery-album-author {
+		position: absolute;
+		top: -20px;
+		right: 10px;
+		border: 1px solid #fff;
+		padding: 0px;
+		background: #000;
+		height: 40px;
+		width: 40px;
+		@include box-sizing(content-box);
+	}
+}
+
 .gallery-album-title {
 	padding: 8px 0px 5px 10px;
 	font-weight: bold;
@@ -98,16 +116,6 @@ body {
 	display: inline-block;
 }
 
-.gallery-album-count {
-	position: absolute;
-	top: 190px;
-	right: 45px;
-	background: #000;
-	color: #fff;
-	padding: 6px 10px 7px;
-	font-weight: bold;
-	border:1px solid #fff;
-}
 .gallery-album-info-link {
 	display: inline-block;
 	margin: 5px;
@@ -116,7 +124,6 @@ body {
 	padding: 3px;
 	border: 1px solid $border-color;
 	margin: 10px;
-	width:325px;
 }
 .gallery-media-title {
 	padding: 8px 0 5px 10px;
@@ -395,7 +402,7 @@ body {
 	}
 }
 
-.gallery-slideshow {
+.ui-dialog.gallery-slideshow {
 	@include modal;
 	.ui-dialog-titlebar {
 		background: #eee;
@@ -406,12 +413,17 @@ body {
 			height: 45px;
 			line-height: 45px;
 			font-size: 20px;
+			outline: 0;
 		}
+	}
+	.ui-dialog-content {
+		padding: 0;
 	}
 	.master-pane {
 		position: relative;
 		height: 100%;
 		width: 100%;
+		overflow: hidden;
 	}
 	.preview-pane {
 		position: absolute;
@@ -535,9 +547,11 @@ body {
 	height: 80%;
 	font-weight: bold;
 	color: #fff;
-	border: 5px solid #444;
-	background: #444;
-	background: rgba(68,68,68,0.8);
+	border: 2px solid #444;
+	background: #f4f4f4;
+	heigth: auto;
+	max-height: 500px;
+	overflow: auto;
 	display: none;
 	overflow-x: hidden;
 	overflow-y: auto;
@@ -546,9 +560,6 @@ body {
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
-	a {
-		color: #fff;
-	}
 }
 
 .gallery-slideshow .controls {
@@ -566,7 +577,7 @@ body {
 		background: #eee;
 		border: 1px solid #fff;
 		z-index: 400;
-		left: -16px;
+		left: 20px;
 		top: 50%;
 		height: 28px;
 		width: 28px;
@@ -577,6 +588,7 @@ body {
 		text-align: center;
 		cursor: pointer;
 		padding: 10px;
+		@include box-sizing(content-box);
 		&.hidden {
 			display: none;
 		}
@@ -598,7 +610,7 @@ body {
 		border: 1px solid #fff;
 		z-index: 400;
 		left: auto;
-		right: -16px;
+		right: 20px;
 		top: 50%;
 		height: 28px;
 		width: 28px;
@@ -609,6 +621,7 @@ body {
 		cursor: pointer;
 		text-align: center;
 		padding: 10px;
+		@include box-sizing(content-box);
 		&.hidden {
 			display: none;
 		}
@@ -883,4 +896,41 @@ body {
 .gallery-media-exif-details > li label {
 	width: 30%;
 	display: inline-block;
+}
+
+.gallery-photostream > li {
+	width: 100%;
+	margin: 0;
+}
+@media only screen and (min-width: 40.063em) {
+	.gallery-photostream {
+		display: block;
+		padding: 0;
+		margin: 0 -0.625rem;
+		*zoom: 1;
+	}
+	.gallery-photostream:before, .gallery-photostream:after {
+		content: " ";
+		display: table;
+	}
+	.gallery-photostream:after {
+		clear: both;
+	}
+	.gallery-photostream > li {
+		display: block;
+		height: auto;
+		float: left;
+		padding: 0 0.625rem 1.25rem;
+	}
+	.gallery-photostream > li {
+		width: 50%;
+		padding: 0 0.625rem 1.25rem;
+		list-style: none;
+	}
+	.gallery-photostream > li:nth-of-type(n) {
+		clear: none;
+	}
+	.gallery-photostream > li:nth-of-type(2n+1) {
+		clear: both;
+	}
 }

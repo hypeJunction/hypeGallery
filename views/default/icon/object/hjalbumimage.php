@@ -50,13 +50,11 @@ if ($url) {
 	} else {
 		$requested_w = "{$requested_w}px";
 	}
-	$loader = elgg_normalize_url('mod/hypeGallery/graphics/loader.gif');
 	$params = array(
 		'href' => $url,
 		'text' => $img,
 		'is_trusted' => true,
 		'data-guid' => $entity->guid,
-		'style' => "display:block;width:{$requested_w};height:{$requested_h};background:transparent url($loader) 50% 50% no-repeat;"
 	);
 	$class = elgg_extract('link_class', $vars, '');
 
