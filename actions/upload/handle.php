@@ -37,7 +37,7 @@ if ($uploads && count($uploads)) {
 	foreach ($uploads as $upload) {
 		if ($upload->guid) {
 			$guids[] = $upload->guid;
-		} else {
+		} else if ($upload->error && $upload->size) {
 			$failed++;
 		}
 	}
@@ -58,7 +58,31 @@ if ($guids) {
 
 	foreach ($guids as $guid) {
 
+		if (empty($guid)) {
+			continue;
+		}
+
 		$image = get_entity($guid);
+		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
+
+		if (!$image->title) {
+			$image->title = $image->originalfilename;
+		}
+		$image->access_id = $album->access_id;
+
+		foreach ($metadata as $md) {
+			$names[] = $md->name;
+		}
+
+		$names = array_unique($names);
+
+		foreach ($names as $name) {
+			$image->$name = $album->$name;
+		}
+
+		if ($image->save()) {
+			$images[] = $image->getGUID();
+		}
 
 		if (!elgg_instanceof($image)) {
 			$failed++;
@@ -87,7 +111,7 @@ if ($guids) {
 				if ($size !== 'master') {
 					$resized = $img->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
 				} else {
-					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'up');
+					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'down');
 				}
 
 				switch ($image->mimetype) {
@@ -123,29 +147,9 @@ if ($guids) {
 				$exceptions[] = $e->getMessage();
 			}
 
-			if ($new_thumb) {
+			if ($new_thumb->getFilenameOnFilestore() !== $old_thumb->getFilenameOnFilestore()) {
 				$old_thumb->delete();
 			}
-		}
-
-		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
-		if (!$image->title) {
-			$image->title = $image->originalfilename;
-		}
-		$image->access_id = $album->access_id;
-
-		foreach ($metadata as $md) {
-			$names[] = $md->name;
-		}
-
-		$names = array_unique($names);
-
-		foreach ($names as $name) {
-			$image->$name = $album->$name;
-		}
-
-		if ($image->save()) {
-			$images[] = $image->getGUID();
 		}
 
 		if ($requires_approval) {

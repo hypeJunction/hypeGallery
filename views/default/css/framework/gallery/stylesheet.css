@@ -574,7 +574,10 @@ body.gallery-state-loading:before {
   height: 45px;
   line-height: 45px;
   font-size: 20px;
-  outline: 0;
+  outline: none;
+}
+.ui-dialog.gallery-slideshow .ui-dialog-titlebar button {
+  outline: none;
 }
 .ui-dialog.gallery-slideshow .ui-dialog-content {
   padding: 0;
@@ -890,10 +893,9 @@ body.gallery-state-loading:before {
 
 /* CROPPER */
 .elgg-form-gallery-thumb {
-  padding: 10px;
-  margin: 10px 0;
-  border: 1px solid #cccccc;
-  background: #f4f4f4;
+  position: relative;
+  background: #fff;
+  z-index: 5000;
 }
 
 .elgg-form-gallery-thumb .gallery-crop-master-wrapper,
@@ -929,6 +931,12 @@ body.gallery-state-loading:before {
   width: 100px;
   overflow: hidden;
 }
+.elgg-form-gallery-thumb #gallery-crop-preview img,
+.elgg-form-gallery-thumb #gallery-crop-current img {
+  width: initial;
+  height: auto;
+  max-width: initial;
+}
 
 .elgg-form-gallery-thumb .elgg-foot {
   margin: 10px;
@@ -958,14 +966,16 @@ body.gallery-state-loading:before {
 }
 
 .tagger-circle, .tagger-tag {
-  width: 76px;
-  height: 76px;
+  width: 80px;
+  height: 80px;
   border: 4px dotted #fff;
   display: block;
-  box-shadow: 0 0 12px #eee;
-  -webkit-border-radius: 71px;
-  -moz-border-radius: 71px;
-  border-radius: 71px;
+  box-shadow: 0 0 30px #000;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  border-radius: 1000px;
 }
 
 .tagger-circle.ui-draggable {
@@ -991,11 +1001,12 @@ body.gallery-state-loading:before {
   border-radius: 10px;
   position: absolute;
   top: -10px;
-  right: -237px;
+  right: -40px;
   z-index: 5001;
 }
 .tagger-close:before {
   content: "\f00d";
+  text-shadow: 1px 1px 0 #fff;
 }
 
 .tagger-float form {
@@ -1134,32 +1145,6 @@ body.gallery-state-loading:before {
   vertical-align: top;
 }
 
-.elgg-button-gallery-tagger {
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  background: #f4f4f4 50% 50% no-repeat;
-  background-size: 26px;
-  border: 1px solid #cccccc;
-  display: inline-block;
-  font-family: FontAwesome;
-  font-style: normal;
-  font-weight: normal;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.elgg-button-gallery-tagger:before {
-  content: "\f02b";
-  font-size: 25px;
-  padding: 10px;
-  line-height: 40px;
-}
-
-.elgg-button-gallery-tagger.elgg-state-active {
-  background-color: yellow;
-}
-
 .gallery-tag a {
   color: #666;
   text-decoration: none;
@@ -1237,4 +1222,27 @@ body.gallery-state-loading:before {
   .gallery-photostream > li:nth-of-type(2n+1) {
     clear: both;
   }
+}
+.gallery-tagger-area-preview {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  width: 80px;
+  height: 80px;
+  -webkit-border-radius: 1000px;
+  -moz-border-radius: 1000px;
+  -ms-border-radius: 1000px;
+  -o-border-radius: 1000px;
+  border-radius: 1000px;
+  border: 2px solid #cccccc;
+}
+.gallery-tagger-area-preview img {
+  width: initial;
+  height: auto;
+  max-width: initial;
+}
+
+.elgg-form-gallery-phototag fieldset {
+  padding: 0;
+  border: 0;
 }

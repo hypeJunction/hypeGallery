@@ -184,13 +184,10 @@ function page_handler($page) {
 		case 'icon':
 			$guid = elgg_extract(1, $page, 0);
 			$size = elgg_extract(2, $page, 'medium');
-			$fit = elgg_extract(3, $page, 'inside');
-			$scale = elgg_extract(4, $page, 'any');
 
 			set_input('guid', $guid);
 			set_input('size', $size);
-			set_input('fit', $fit);
-			set_input('scale', $scale);
+
 			include "{$path}icon/icon.php";
 			break;
 

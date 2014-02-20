@@ -234,7 +234,13 @@ $english = array(
 	'gallery:slideshow:pager' => '%s of %s',
 
 	'gallery:list:empty' => 'There are no items to show',
-	'gallery:inthisphoto' => 'In this photo:',
+	'gallery:inthisphoto' => 'In this photo',
+	'gallery:image:tag:create' => 'Add tags',
+	'gallery:image:tag:instructions' => 'To create a new tag, select an area on the photo, fill out the form below and click Save',
+	'gallery:image:tag:keyword' => 'Keywords',
+	'gallery:image:tag:friend' => 'Friend',
+	
+	'gallery:inthisphoto:none' => 'No tags on this photo yet',
 
 	'gallery:user:tagged' => 'You have been tagged in a photo',
 	'gallery:user:tagged:message' => 'You have been tagged in a photo. You can see the photo and remove it here: %s',

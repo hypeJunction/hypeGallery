@@ -165,7 +165,6 @@
 									if (response.system_messages.error) {
 										elgg.register_error(response.system_messages.error);
 									}
-									$thumbeditor.dialog('close');
 								},
 								error : function() {
 									elgg.trigger_hook('cropper', 'framework:gallery');

@@ -164,6 +164,8 @@ function init() {
 	// Add widgets
 	elgg_register_widget_type('photostream', elgg_echo("gallery:widget:photostream"), elgg_echo("gallery:widget:photostream:desc"));
 	elgg_register_widget_type('albums', elgg_echo("gallery:widget:albums"), elgg_echo("gallery:widget:albums:desc"));
+
+	elgg_extend_view('framework/gallery/sidebar', 'framework/gallery/tools/tagger');
 }
 
 /**

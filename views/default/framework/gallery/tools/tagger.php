@@ -12,33 +12,46 @@ elgg_load_js('gallery.tagger.js');
 
 $entity = elgg_extract('entity', $vars);
 
+if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+	return;
+}
 
-echo '<div class="gallery-media-tags">';
+$mod .= '<div class="gallery-media-tags">';
+
+$title = elgg_echo('gallery:inthisphoto');
 
 if ($entity->canEdit()) {
-	echo elgg_view('output/url', array(
-		'text' => '<i class="icon-tags"></i>',
-		'title' => elgg_echo('gallery:tools:tagger:start'),
-		'href' => '#',
-		'class' => 'elgg-button-gallery-tagger'
-	));
 
-	echo '<div class="tagger-float-template hidden">';
-	echo '<div class="tagger-circle"></div>';
-	echo '<div class="tagger-close hidden"></div>';
-	echo elgg_view_form('gallery/phototag', array(), array(
-		'entity' => $entity
+	$mod .= '<div class="tagger-float-template hidden">';
+	$mod .= '<div class="tagger-circle"></div>';
+	$mod .= '<div class="tagger-close hidden"></div>';
+	$mod .= '</div>';
+
+	$form = elgg_view_form('gallery/phototag', array(
+		'id' => 'gallery-tagger',
+			), array(
+		'entity' => $entity,
 	));
-	echo '</div>';
+	$form .= '<a class="elgg-button-gallery-tagger"></a>';
 }
 
-echo "<div class=\"elgg-gallery gallery-tags-list\" data-guid=\"$entity->guid\">";
+$mod .= "<div class=\"elgg-gallery gallery-tags-list\" data-guid=\"$entity->guid\">";
 $tags = get_image_tags($entity);
 if ($tags) {
-	echo '<label>' . elgg_echo('gallery:inthisphoto') . '</label>';
 	foreach ($tags as $tag) {
-		echo elgg_view_entity($tag);
+		$mod .= elgg_view_entity($tag);
+	}
+} else {
+	$mod .= '<p class="placeholder">' . elgg_echo('gallery:inthisphoto:none') . '</p>';
+	foreach ($tags as $tag) {
+		$mod .= elgg_view_entity($tag);
 	}
 }
-echo '</div>';
-echo '</div>';
+$mod .= '</div>';
+$mod .= '</div>';
+
+if ($form) {
+	echo elgg_view_module('aside', elgg_echo('gallery:image:tag:create'), $form);
+}
+
+echo elgg_view_module('aside', $title, $mod);

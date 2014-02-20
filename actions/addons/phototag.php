@@ -10,14 +10,21 @@ $guid = get_input('container_guid', false);
 $image = get_entity($guid);
 
 $user_guid = get_input('relationship_guid', false);
-$user = get_entity($user_guid);
 
 $title = get_input('title', false);
 
-if (!$image) {
+if (!elgg_instanceof($image) || !$image->canEdit()) {
 	register_error(elgg_echo('gallery:phototag:error'));
 	forward(REFERER);
 }
+
+if (is_array($title)) {
+	$title = implode(', ', $title);
+}
+if (is_array($user_guid)) {
+	$user_guid = $user_guid[0];
+}
+$user = get_entity($user_guid);
 
 if (!$title && !$user) {
 	register_error(elgg_echo('gallery:phototag:error'));
@@ -61,6 +68,11 @@ if ($tag->save()) {
 		notify_user($to, $from, $subject, $message);
 	}
 
+	$tags = string_to_tag_array($title);
+	foreach ($tags as $t) {
+		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
+	}
+
 	add_to_river('framework/river/stream/phototag', 'stream:phototag', elgg_get_logged_in_user_guid(), $tag->guid, $tag->access_id, time(), -1);
 
 	system_message(elgg_echo('gallery:phototag:success'));
@@ -68,7 +80,7 @@ if ($tag->save()) {
 	$html = elgg_view_entity($tag);
 
 	if (elgg_is_xhr()) {
-		print $html;
+		echo $html;
 	}
 } else {
 

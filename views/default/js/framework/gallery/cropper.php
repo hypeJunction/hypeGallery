@@ -16,7 +16,8 @@
 			selectionOpacity: 0.3,
 			aspectRatio: '1:1',
 			onSelectEnd: framework.gallery.cropper.selectChange,
-			onSelectChange: framework.gallery.cropper.preview
+			onSelectChange: framework.gallery.cropper.preview,
+			parent: '.elgg-form-gallery-thumb'
 		};
 
 		if ($('input[name=x2]').val()) {

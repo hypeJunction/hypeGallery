@@ -3,37 +3,80 @@
 namespace hypeJunction\Gallery;
 
 use ElggFile;
+use WideImage\Exception\Exception;
+use WideImage\WideImage;
 
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-if (!$entity || !$entity->canEdit()) {
-	register_error(elgg_echo('gallery:thumb:reset:error'));
+if (!$entity instanceof ElggFile || !$entity->canEdit()) {
+	register_error(elgg_echo('gallery:tools:crop:error'));
 	forward(REFERER);
 }
 
-$master = new ElggFile();
-$master->owner_guid = $entity->owner_guid;
-$master->setFilename("icons/{$entity->guid}master.jpg");
+$icon_sizes = elgg_get_config('icon_sizes');
+unset($icon_sizes['master']);
 
-$coords = array(
-	'x1' => (int) get_input('x1', 0),
-	'y1' => (int) get_input('y1', 0),
-	'x2' => (int) get_input('x2', 0),
-	'y2' => (int) get_input('y2', 0),
-);
+try {
+	$master = new ElggFile();
+	$master->owner_guid = $entity->owner_guid;
+	if ($entity->mimetype == 'image/png') {
+		$filename = "icons/" . $entity->getGUID() . "master.png";
+	} else if ($entity->mimetype == 'image/gif') {
+		$filename = "icons/" . $entity->getGUID() . "master.gif";
+	} else {
+		$filename = "icons/" . $entity->getGUID() . "master.jpg";
+	}
+	$master->setFilename($filename);
 
-$result = generate_entity_icons($entity, $master, $coords);
+	$image = WideImage::load($master->getFilenameOnFilestore());
 
-if ($result) {
+	foreach ($icon_sizes as $size => $thumb) {
+
+		$resized = $image->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
+
+		switch ($entity->mimetype) {
+			default :
+			case 'image/jpeg' :
+				$mime = 'image/jpeg';
+				$contents = $resized->asString('jpg', 80);
+				$filename = "icons/" . $entity->getGUID() . $size . ".jpg";
+				break;
+
+			case 'image/gif' :
+				$mime = 'image/gif';
+				$filename = "icons/" . $entity->getGUID() . $size . ".gif";
+				$contents = $resized->asString('gif');
+				break;
+
+			case 'image/png' :
+				$mime = 'image/png';
+				$contents = $resized->asString('png');
+				$filename = "icons/" . $entity->getGUID() . $size . ".png";
+				break;
+		}
+
+		$new_thumb = new ElggFile();
+		$new_thumb->owner_guid = $entity->owner_guid;
+		$new_thumb->setFilename($filename);
+		$new_thumb->open('write');
+		$new_thumb->write($contents);
+		$new_thumb->close();
+	}
+} catch (Exception $e) {
+	$exception = $e->getMessage();
+}
+
+if ($exception) {
+	register_error($exception);
+} else {
 	foreach ($coords as $coord => $value) {
 		$entity->$coord = $value;
 	}
-
-	system_message(elgg_echo('gallery:thumb:reset:success'));
-} else {
-	register_error(elgg_echo('gallery:thumb:reset:error'));
+	$entity->icontime = time();
+	system_message(elgg_echo('gallery:tools:crop:success'));
 }
+
 if (elgg_is_xhr) {
 	print(json_encode($coords));
 }

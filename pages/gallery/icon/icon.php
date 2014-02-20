@@ -33,12 +33,12 @@ if ($entity->mimetype == 'image/png') {
 
 $etag = md5($filehandler->icontime . $size);
 
-//$filehandler = new ElggFile();
-//$filehandler->owner_guid = $entity->owner_guid;
-//$filehandler->setFilename($filename);
-//$filehandler->open('read');
-//$contents = $filehandler->grabFile();
-//$filehandler->close();
+$filehandler = new ElggFile();
+$filehandler->owner_guid = $entity->owner_guid;
+$filehandler->setFilename($filename);
+$filehandler->open('read');
+$contents = $filehandler->grabFile();
+$filehandler->close();
 
 if (!$contents) {
 	if (array_key_exists($requested_size, $config)) {
@@ -96,7 +96,7 @@ if (!$contents) {
 	if ($size !== 'master') {
 		$resized = $resized->resize($requested_w, $requested_h, 'outside', 'any')->crop('center', 'center', $crop_w, $crop_h);
 	} else {
-		$resized = $resized->resize($requested_w, $requested_h, 'inside', 'up');
+		$resized = $resized->resize($requested_w, $requested_h, 'inside', 'down');
 	}
 
 	switch ($entity->mimetype) {

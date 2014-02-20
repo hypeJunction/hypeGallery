@@ -23,20 +23,41 @@ $form_body .= elgg_view('input/hidden', array(
 	'value' => $entity->access_id
 		));
 
-$form_body .= '<div class="gallery-autocomplete"><i class="gallery-icon-tag"></i><span>' . elgg_view('input/text', array(
-			'maxlength' => '50',
-			'name' => 'title',
-			'class' => 'gallery-tag-autocomplete'
-		)) . '</span></div>';
+$form_body .= '<label>' . elgg_echo('gallery:image:tag:keyword') . '</label>';
+if (elgg_is_active_plugin('elgg_tokeninput')) {
+	$form_body .= elgg_view('input/tokeninput', array(
+		'strict' => false,
+		'multiple' => true,
+		'callback' => 'elgg_tokeninput_search_tags',
+		'name' => 'title',
+	));
+} else {
+	$form_body .= elgg_view('input/tags', array(
+		'name' => 'title',
+	));
+}
 
+$form_body .= '<label>' . elgg_echo('gallery:image:tag:friend') . '</label>';
+if (elgg_is_active_plugin('elgg_tokeninput')) {
+	$form_body .= elgg_view('input/tokeninput', array(
+		'callback' => 'elgg_tokeninput_search_friends',
+		'name' => 'relationship_guid',
+	));
+} else {
+	$form_body .= elgg_view('input/tokeninput', array(
+		'match_one' => 'friends',
+		'name' => 'relationship_guid',
+	));
+}
 
-$form_body .= '<div class="gallery-autocomplete"><i class="gallery-icon-friend"></i><span><img class="tagged-user-preview"/>' . elgg_view('input/text', array(
-			'maxlength' => '50',
-			'class' => 'gallery-friend-autocomplete',
-		)) . elgg_view('input/hidden', array(
-			'name' => 'relationship_guid',
-		)) . '</span></div>';
+$icon_sizes = elgg_get_config('icon_sizes');
+$preview_img = elgg_view('output/img', array(
+	'src' => $entity->getIconURL('master'),
+	'width' => $icon_sizes['master']['w']
+		));
 
-$form_body .= elgg_view('input/submit', array('value' => elgg_echo('gallery:image:tag:create')));
-
+$area_tagger_preview = '<div class="gallery-tagger-area-preview">' . $preview_img . '</div>';
+$help = '<span class="elgg-text-help">' . elgg_echo('gallery:image:tag:instructions') . '</span>';
+echo elgg_view_image_block($area_tagger_preview, $help);
 echo $form_body;
+echo elgg_view('input/submit', array('value' => elgg_echo('save')));
