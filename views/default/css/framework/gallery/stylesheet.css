@@ -231,6 +231,7 @@ body.gallery-state-loading:before {
 
 .gallery-media-full {
   border: 1px solid #cccccc;
+  padding: 5px;
   position: relative;
 }
 .gallery-media-full .gallery-media-meta-details {
@@ -240,7 +241,7 @@ body.gallery-state-loading:before {
 .gallery-media-full-view {
   margin: 0 auto;
   position: relative;
-  line-height: 550px;
+  line-height: 100%;
   text-align: center;
 }
 .gallery-media-full-view img {
@@ -1245,4 +1246,7 @@ body.gallery-state-loading:before {
 .elgg-form-gallery-phototag fieldset {
   padding: 0;
   border: 0;
+}
+.taggable {
+	width:100%!important;
 }
