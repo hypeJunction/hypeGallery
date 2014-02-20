@@ -38,4 +38,7 @@ http://fontawesome.io/
 
 ## Screenshots ##
 
-![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/cropper.png "Cropping Tool")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/manage.png "Album management")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/uploads.png "Upload workflow")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/tagging.png "Tagging workflow")
+![alt text](https://raw.github.com/hypeJunction/hypeGallery/master/screenshots/slideshow.png "Slideshow")

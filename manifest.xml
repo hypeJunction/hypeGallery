@@ -29,26 +29,19 @@
 
 	<screenshot>
 		<description>Upload workflow</description>
-		<path>screenshots/upload.jpg</path>
+		<path>screenshots/uploads.png</path>
 	</screenshot>
 	<screenshot>
 		<description>Album management workflow</description>
-		<path>screenshots/managealbum.jpg</path>
-	</screenshot>
-	<screenshot>
-		<description>Activity stream entry</description>
-		<path>screenshots/river.png</path>
+		<path>screenshots/manage.png</path>
 	</screenshot>
 	<screenshot>
 		<description>Slideshow</description>
-		<path>screenshots/slideshow.jpg</path>
+		<path>screenshots/slideshow.png</path>
 	</screenshot>
 	<screenshot>
-		<description>Thumbnail cropping</description>
-		<path>screenshots/tagger.png</path>
+		<description>Tagging</description>
+		<path>screenshots/tagging.png</path>
 	</screenshot>
-	<screenshot>
-		<description>Photo tagging</description>
-		<path>screenshots/tagging.jpg</path>
-	</screenshot>
+	
 </plugin_manifest>
