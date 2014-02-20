@@ -5,3 +5,6 @@ robots.txt
 /nbproject/
 composer.lock
 /vendors/
+/sass/
+config.rb
+/.sass-cache/
