@@ -69,7 +69,7 @@ function hj_gallery_1361394670() {
 		unset($imagehandler->image);
 
 		if ($imagehandler->save()) {
-			hj_gallery_generate_entity_icons($imagehandler);
+			\hypeJunction\Gallery\generate_entity_icons($imagehandler);
 		}
 
 		$temp->delete();
@@ -132,7 +132,7 @@ function hj_gallery_1361396953() {
 		unset($imagehandler->image);
 
 		if ($imagehandler->save()) {
-			hj_gallery_generate_entity_icons($imagehandler);
+			\hypeJunction\Gallery\generate_entity_icons($imagehandler);
 		}
 
 		$temp->delete();
