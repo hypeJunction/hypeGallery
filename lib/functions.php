@@ -69,7 +69,7 @@ function register_entity_title_buttons($entity) {
 				'priority' => 50,
 					) : NULL;
 
-			$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
+			$items['makeavatar'] = (HYPEGALLERY_AVATARS && elgg_is_logged_in()) ? array(
 				'text' => elgg_echo('gallery:image:makeavatar'),
 				'href' => "action/gallery/makeavatar?e=$entity->guid",
 				'is_action' => true,

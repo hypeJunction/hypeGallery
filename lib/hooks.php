@@ -231,7 +231,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					);
 
 					// Use this image as avatar
-					$items['makeavatar'] = (HYPEGALLERY_AVATARS) ? array(
+					$items['makeavatar'] = (HYPEGALLERY_AVATARS && elgg_is_logged_in()) ? array(
 						'text' => '<i class="gallery-icon-makeavatar"></i><span>' . elgg_echo('gallery:image:makeavatar') . '</span>',
 						'title' => elgg_echo('gallery:image:makeavatar'),
 						'href' => "action/gallery/makeavatar?e=$entity->guid",
