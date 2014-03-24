@@ -41,7 +41,8 @@ $main .= '<div class="elgg-col elgg-col-1of2">';
 $main .= '<label>' . elgg_echo('label:hjalbum:access_id') . '</label>';
 $main .= elgg_view('input/access', array(
 	'entity' => $entity,
-	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : ACCESS_DEFAULT
+	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : $entity->access_id,
+	'name' => 'access_id',
 		));
 $main .= '</div>';
 $main .= '</div>';
