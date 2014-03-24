@@ -292,7 +292,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 				if (elgg_is_logged_in()) {
 
 					// Download if allowed
-					$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
+					$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC_DOWNLOADS)) ? array(
 						'text' => '<i class="gallery-icon-download"></i><span>' . elgg_echo('gallery:image:download') . '</span>',
 						'title' => elgg_echo('gallery:image:download'),
 						'href' => $entity->getURL('download'),

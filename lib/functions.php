@@ -62,7 +62,7 @@ function register_entity_title_buttons($entity) {
 
 		case 'hjalbumimage' :
 
-			$items['download'] = (HYPEGALLERY_DOWNLOADS) ? array(
+			$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC)) ? array(
 				'text' => elgg_echo('gallery:image:download'),
 				'href' => $entity->getURL('download'),
 				'class' => 'elgg-button elgg-button-action',

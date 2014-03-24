@@ -192,6 +192,17 @@ function page_handler($page) {
 			break;
 
 		case 'download':
+
+			if (!HYPEGALLERY_DOWNLOADS) {
+				register_error(elgg_echo('gallery:download:error:disabled'));
+				forward('', '403');
+			}
+
+			if (!elgg_is_logged_in() && !HYPEGALLERY_PUBLIC_DOWNLOADS) {
+				register_error(elgg_echo('gallery:download:error:disabled_public'));
+				forward('', '403');
+			}
+
 			set_input('guid', $page[1]);
 			include "{$path}file/download.php";
 			break;

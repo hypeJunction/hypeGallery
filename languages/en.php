@@ -218,6 +218,9 @@ $english = array(
 	'edit:plugin:hypegallery:params[downloads]' => 'Enable downloads',
 	'edit:plugin:hypegallery:hint:downloads' => 'Enabling this option will allow users to download images',
 
+	'edit:plugin:hypegallery:params[public_downloads]' => 'Enable public downloads',
+	'edit:plugin:hypegallery:hint:public_downloads' => 'Enabling this option will allow logged out users to download images (only if downloads are enabled)',
+
 	'edit:plugin:hypegallery:params[exif]' => 'Enable EXIF',
 	'edit:plugin:hypegallery:hint:exif' => 'Enabling EXIF tag parsing for qualifying images',
 
@@ -478,8 +481,12 @@ $english = array(
 	'gallery:widget:more' => 'See all',
 	'gallery:widget:limit' => 'Number of images to show',
 	'gallery:widget:none' => 'No items to display',
+
+
+	// downloads
+	'gallery:download:error:disabled' => 'Downloads have been disabled by site administrator',
+	'gallery:download:error:disabled_public' => 'Public downloads have been disabled. Please login',
 	
 );
 
 add_translation("en", $english);
-?>

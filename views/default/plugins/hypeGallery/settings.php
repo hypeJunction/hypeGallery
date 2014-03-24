@@ -16,6 +16,7 @@ $settings = array(
 	'avatars',
 	'tagging',
 	'downloads',
+	'public_downloads'
 );
 
 if (is_callable('exif_read_data')) {
