@@ -487,6 +487,9 @@ $english = array(
 	'gallery:download:error:disabled' => 'Downloads have been disabled by site administrator',
 	'gallery:download:error:disabled_public' => 'Public downloads have been disabled. Please login',
 	
+	// embeds
+	'embed:albumimages' => 'Album Images',
+	
 );
 
 add_translation("en", $english);
