@@ -317,7 +317,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 			$item['name'] = $name;
 			$return[$name] = ElggMenuItem::factory($item);
 		}
-		return $return;
+		return array_filter($return);
 	} else {
 		unset($items['drag']);
 		unset($items['position']);
@@ -341,7 +341,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 		}
 	}
 	
-	return $return;
+	return array_filter($return);
 }
 
 /**
