@@ -19,7 +19,7 @@ $location = get_input('location', '');
 $categories = get_input('categories', '');
 $date = get_input('date', '');
 $tags = get_input('tags', '');
-$permissions = get_input('permissions', 'private');
+$permission = get_input('permission', 'private');
 
 $album = new hjAlbum($guid);
 if (!$guid) {
@@ -62,7 +62,7 @@ if ($location) {
 $album->date = $date;
 $album->categories = string_to_tag_array($categories);
 $album->tags = string_to_tag_array($tags);
-$album->permission = $permissions;
+$album->permission = $permission;
 
 $album->save();
 

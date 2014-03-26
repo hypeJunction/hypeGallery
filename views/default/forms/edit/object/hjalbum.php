@@ -27,12 +27,12 @@ $main .= elgg_view('input/gallery/filedrop', array(
 $main .= '<div class="clearfix">';
 if (HYPEGALLERY_COLLABORATIVE_ALBUMS) {
 	$main .= '<div class="elgg-col elgg-col-1of2">';
-	$main .= '<label>' . elgg_echo('label:hjalbum:permissions') . '</label>';
+	$main .= '<label>' . elgg_echo('label:hjalbum:permission') . '</label>';
 	$main .= elgg_view('input/dropdown', array(
-		'name' => "permissions",
+		'name' => "permission",
 		'required' => true,
 		'options_values' => get_permissions_options($container),
-		'value' => (isset($sticky_values['permissions'])) ? $sticky_values['permissions'] : $entity->permissions
+		'value' => (isset($sticky_values['permission'])) ? $sticky_values['permission'] : $entity->permission
 			));
 	$main .= '</div>';
 }

@@ -47,9 +47,9 @@ function container_permissions_check($hook, $type, $return, $params) {
 					$owner = $container->getOwnerEntity();
 					$container = $container->getContainerEntity();
 
-					$permissions = $container->permissions;
+					$permission = $container->permission;
 
-					switch ($permissions) {
+					switch ($permission) {
 
 						default :
 						case 'private' :
