@@ -70,6 +70,33 @@ class hjAlbumImage extends ElggFile {
 			$thumb->delete();
 		}
 
+		// Tidypics Imported Images
+		$thumbnail = $this->thumbnail;
+		$smallthumb = $this->smallthumb;
+		$largethumb = $this->largethumb;
+
+		//delete standard thumbnail image
+		if ($thumbnail) {
+			$delfile = new ElggFile();
+			$delfile->owner_guid = $this->getOwnerGUID();
+			$delfile->setFilename($thumbnail);
+			$delfile->delete();
+		}
+		//delete small thumbnail image
+		if ($smallthumb) {
+			$delfile = new ElggFile();
+			$delfile->owner_guid = $this->getOwnerGUID();
+			$delfile->setFilename($smallthumb);
+			$delfile->delete();
+		}
+		//delete large thumbnail image
+		if ($largethumb) {
+			$delfile = new ElggFile();
+			$delfile->owner_guid = $this->getOwnerGUID();
+			$delfile->setFilename($largethumb);
+			$delfile->delete();
+		}
+		
 		return parent::delete();
 	}
 

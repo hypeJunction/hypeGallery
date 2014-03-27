@@ -69,8 +69,10 @@ if ($tag->save()) {
 	}
 
 	$tags = string_to_tag_array($title);
-	foreach ($tags as $t) {
-		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
+	if (count($tags)) {
+		foreach ($tags as $t) {
+			create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
+		}
 	}
 
 	add_to_river('framework/river/stream/phototag', 'stream:phototag', elgg_get_logged_in_user_guid(), $tag->guid, $tag->access_id, time(), -1);

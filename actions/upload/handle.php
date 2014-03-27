@@ -108,7 +108,7 @@ if ($guids) {
 			$old_thumb->close();
 
 			try {
-				if ($size !== 'master') {
+				if ($size !== 'master' && $size !== 'taggable') {
 					$resized = $img->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
 				} else {
 					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'down');

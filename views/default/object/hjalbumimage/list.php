@@ -23,7 +23,7 @@ $metadata = elgg_view_menu('entity', array(
 if ($full) {
 
 	$body .= '<div class="gallery-media-full-view">';
-	$body .= elgg_view_entity_icon($entity, 'master', array(
+	$body .= elgg_view_entity_icon($entity, 'taggable', array(
 		'href' => false,
 		'img_class' => 'taggable'
 	));

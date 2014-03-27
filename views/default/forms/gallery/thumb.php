@@ -6,7 +6,7 @@ $entity = elgg_extract('entity', $vars);
 
 echo '<div class="gallery-crop-master-wrapper">';
 echo elgg_view('output/img', array(
-	'src' => $entity->getIconUrl('master'),
+	'src' => $entity->getIconUrl('taggable'),
 	'id' => "gallery-crop-master"
 ));
 echo '</div>';
@@ -18,7 +18,7 @@ echo '<div class="elgg-col elgg-col-1of2">';
 echo '<label>' . elgg_echo('gallery:tools:crop:preview') . '</label>';
 echo '<div id="gallery-crop-preview">';
 echo elgg_view('output/img', array(
-	'src' => $entity->getIconUrl('master')
+	'src' => $entity->getIconUrl('taggable')
 ));
 echo '</div>';
 echo '</div>';

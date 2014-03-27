@@ -15,6 +15,8 @@ run_function_once('hj_gallery_1361394680');
 run_function_once('hj_gallery_1369646725');
 run_function_once('hj_gallery_1374851653');
 
+run_function_once('hj_gallery_tidypics_albums');
+
 elgg_set_ignore_access($ia);
 access_show_hidden_entities($ha);
 

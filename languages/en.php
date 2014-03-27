@@ -248,6 +248,7 @@ $english = array(
 	'gallery:user:tagged' => 'You have been tagged in a photo',
 	'gallery:user:tagged:message' => 'You have been tagged in a photo. You can see the photo and remove it here: %s',
 	'gallery:phototag:river' => '%s tagged %s in %s',
+	'hj:gallery:phototag:river' => '%s tagged %s in %s', // legacy
 
 	'gallery:exif' => 'EXIF image headers',
 	'gallery:exif:resolution' => '%s dpi',

@@ -93,7 +93,7 @@ if (!$contents) {
 //		$resized = $resized->crop($entity->x1, $entity->y1, $entity->x2 - $entity->x1, $entity->y2 - $entity->y1);
 //	}
 
-	if ($size !== 'master') {
+	if ($size !== 'master' && $size !== 'taggable') {
 		$resized = $resized->resize($requested_w, $requested_h, 'outside', 'any')->crop('center', 'center', $crop_w, $crop_h);
 	} else {
 		$resized = $resized->resize($requested_w, $requested_h, 'inside', 'down');

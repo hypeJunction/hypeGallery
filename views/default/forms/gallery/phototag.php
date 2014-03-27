@@ -44,16 +44,15 @@ if (elgg_is_active_plugin('elgg_tokeninput')) {
 		'name' => 'relationship_guid',
 	));
 } else {
-	$form_body .= elgg_view('input/tokeninput', array(
-		'match_one' => 'friends',
+	$form_body .= elgg_view('input/autocomplete', array(
+		'match_on' => 'friends',
 		'name' => 'relationship_guid',
 	));
 }
 
-$icon_sizes = elgg_get_config('icon_sizes');
 $preview_img = elgg_view('output/img', array(
-	'src' => $entity->getIconURL('master'),
-	'width' => $icon_sizes['master']['w']
+	'src' => $entity->getIconURL('taggable'),
+	'width' => 550
 		));
 
 $area_tagger_preview = '<div class="gallery-tagger-area-preview">' . $preview_img . '</div>';

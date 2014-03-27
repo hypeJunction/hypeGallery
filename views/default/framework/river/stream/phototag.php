@@ -12,7 +12,6 @@ $subject_link = elgg_view('output/url', array(
 	'href' => $subject->getURL()
 		));
 
-
 $image = $object->getContainerEntity();
 $image_owner = $image->getOwnerEntity();
 $tagged_user = $object->getOwnerEntity();
