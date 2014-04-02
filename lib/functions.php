@@ -10,8 +10,9 @@ namespace hypeJunction\Gallery;
  */
 function register_entity_title_buttons($entity) {
 
-	if (!elgg_instanceof($entity))
-		return true;
+	if (!elgg_instanceof($entity)) {
+		return;
+	}
 
 	switch ($entity->getSubtype()) {
 
