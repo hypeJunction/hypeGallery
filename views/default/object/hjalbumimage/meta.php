@@ -14,7 +14,9 @@ $owner_link = elgg_view('output/url', array(
 	'is_trusted' => true,
 		));
 $meta[] = elgg_echo('gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
+if ($entity->description) {
 $meta[] = elgg_view('output/longtext', array('value' => $entity->description));
+}
 if (HYPEGALLERY_CATEGORIES) {
 	$meta[] = elgg_view('output/gallery/categories', array('value' => $entity->categories));
 }
