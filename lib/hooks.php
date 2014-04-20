@@ -205,107 +205,107 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					'data-guid' => $entity->guid,
 					'priority' => 1000
 				);
-			} else {
-
-				if ($entity->canEdit()) {
-
-					// Edit
-					$items['edit'] = array(
-						'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
-						'title' => elgg_echo('edit'),
-						'href' => $entity->getURL('edit'),
-						'class' => 'elgg-button-edit-entity',
-						'data-guid' => $entity->guid,
-						'priority' => 995
-					);
-
-					// Delete
-					$items['delete'] = array(
-						'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
-						'title' => elgg_echo('delete'),
-						'href' => $entity->getURL('delete'),
-						'class' => 'elgg-button-gallery-delete',
-						'data-guid' => $entity->guid,
-						'priority' => 1000
-					);
-
-					// Use this image as avatar
-					$items['makeavatar'] = (HYPEGALLERY_AVATARS && elgg_is_logged_in()) ? array(
-						'text' => '<i class="gallery-icon-makeavatar"></i><span>' . elgg_echo('gallery:image:makeavatar') . '</span>',
-						'title' => elgg_echo('gallery:image:makeavatar'),
-						'href' => "action/gallery/makeavatar?e=$entity->guid",
-						'is_action' => true,
-						'priority' => 100,
-							) : NULL;
-
-					// Crop
-					$items['cropper'] = array(
-						'text' => '<i class="gallery-icon-cropper"></i><span>' . elgg_echo('gallery:image:cropper') . '</span>',
-						'title' => elgg_echo('gallery:image:cropper'),
-						'href' => "gallery/thumb/$entity->guid",
-						'data-guid' => $entity->guid,
-						'class' => 'elgg-button-gallery-cropper',
-						'priority' => 990,
-					);
-				}
-
-				$container = $entity->getContainerEntity();
-				if ($container && $container->canEdit()) {
-
-					// Reorder drag handle
-					$items['drag'] = array(
-						'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
-						'title' => elgg_echo('gallery:image:reorder'),
-						'href' => "#elgg-object-$entity->guid",
-						'class' => 'elgg-button-gallery-drag',
-						'priority' => 10,
-						'section' => 'drag'
-					);
-
-					// Reorder input
-					$items['position'] = array(
-						'text' => elgg_view('input/text', array(
-							'name' => "files[$entity->guid][priority]",
-							'value' => $entity->priority
-						)),
-						'title' => elgg_echo('gallery:image:priority'),
-						'href' => false,
-						'class' => '',
-						'priority' => 20,
-						'section' => 'drag'
-					);
-
-					// Make is image an album cover
-					$items['makecover'] = array(
-						'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('gallery:image:makecover') . '</span>',
-						'title' => elgg_echo('gallery:image:makecover'),
-						'href' => "action/gallery/makecover?e=$entity->guid",
-						'is_action' => true,
-						'class' => 'elgg-button-gallery-makecover',
-						'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
-						'data-guid' => $entity->guid,
-						'priority' => 980,
-					);
-				}
-
-				if (elgg_is_logged_in()) {
-
-					// Download if allowed
-					$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC_DOWNLOADS)) ? array(
-						'text' => '<i class="gallery-icon-download"></i><span>' . elgg_echo('gallery:image:download') . '</span>',
-						'title' => elgg_echo('gallery:image:download'),
-						'href' => $entity->getURL('download'),
-						'priority' => 150,
-							) : NULL;
-				}
 			}
 
+
+			if ($entity->canEdit()) {
+
+				// Edit
+				$items['edit'] = array(
+					'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
+					'title' => elgg_echo('edit'),
+					'href' => $entity->getURL('edit'),
+					'class' => 'elgg-button-edit-entity',
+					'data-guid' => $entity->guid,
+					'priority' => 995
+				);
+
+				// Delete
+				$items['delete'] = array(
+					'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
+					'title' => elgg_echo('delete'),
+					'href' => $entity->getURL('delete'),
+					'class' => 'elgg-button-gallery-delete',
+					'data-guid' => $entity->guid,
+					'priority' => 1000
+				);
+
+				// Use this image as avatar
+				$items['makeavatar'] = (HYPEGALLERY_AVATARS && elgg_is_logged_in()) ? array(
+					'text' => '<i class="gallery-icon-makeavatar"></i><span>' . elgg_echo('gallery:image:makeavatar') . '</span>',
+					'title' => elgg_echo('gallery:image:makeavatar'),
+					'href' => "action/gallery/makeavatar?e=$entity->guid",
+					'is_action' => true,
+					'priority' => 100,
+						) : NULL;
+
+				// Crop
+				$items['cropper'] = array(
+					'text' => '<i class="gallery-icon-cropper"></i><span>' . elgg_echo('gallery:image:cropper') . '</span>',
+					'title' => elgg_echo('gallery:image:cropper'),
+					'href' => "gallery/thumb/$entity->guid",
+					'data-guid' => $entity->guid,
+					'class' => 'elgg-button-gallery-cropper',
+					'priority' => 990,
+				);
+			}
+
+			$container = $entity->getContainerEntity();
+			if ($container && $container->canEdit()) {
+
+				// Reorder drag handle
+				$items['drag'] = array(
+					'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
+					'title' => elgg_echo('gallery:image:reorder'),
+					'href' => "#elgg-object-$entity->guid",
+					'class' => 'elgg-button-gallery-drag',
+					'priority' => 10,
+					'section' => 'drag'
+				);
+
+				// Reorder input
+				$items['position'] = array(
+					'text' => elgg_view('input/text', array(
+						'name' => "files[$entity->guid][priority]",
+						'value' => $entity->priority
+					)),
+					'title' => elgg_echo('gallery:image:priority'),
+					'href' => false,
+					'class' => '',
+					'priority' => 20,
+					'section' => 'drag'
+				);
+
+				// Make is image an album cover
+				$items['makecover'] = array(
+					'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('gallery:image:makecover') . '</span>',
+					'title' => elgg_echo('gallery:image:makecover'),
+					'href' => "action/gallery/makecover?e=$entity->guid",
+					'is_action' => true,
+					'class' => 'elgg-button-gallery-makecover',
+					'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
+					'data-guid' => $entity->guid,
+					'priority' => 980,
+				);
+			}
+
+			if (elgg_is_logged_in()) {
+
+				// Download if allowed
+				$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC_DOWNLOADS)) ? array(
+					'text' => '<i class="gallery-icon-download"></i><span>' . elgg_echo('gallery:image:download') . '</span>',
+					'title' => elgg_echo('gallery:image:download'),
+					'href' => $entity->getURL('download'),
+					'priority' => 150,
+						) : NULL;
+			}
 
 			break;
 	}
 
 	if (elgg_in_context('gallery-manage')) {
 		$return = array(
+			'approve' => $items['approve'],
 			'drag' => $items['drag'],
 			'position' => $items['position'],
 			'delete' => $items['delete'],
@@ -324,7 +324,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 		unset($items['cropper']);
 		unset($items['makecover']);
 	}
-	
+
 	if ($items) {
 		foreach ($items as $name => $item) {
 			foreach ($return as $key => $val) {
@@ -339,7 +339,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 			$return[$name] = ElggMenuItem::factory($item);
 		}
 	}
-	
+
 	return array_filter($return);
 }
 

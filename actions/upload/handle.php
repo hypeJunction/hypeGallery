@@ -26,7 +26,10 @@ if (!$album->canEdit()) {
 }
 
 // guids of files uploaded using filedrop
-$filedrop_guids = get_input('filedrop_guids', array());
+$guids = get_input('filedrop_guids', array());
+if (!is_array($guids)) {
+	$guids = array();
+}
 
 // files being uploaded via $_FILES
 $uploads = UploadHandler::handle('gallery_files', array(
@@ -43,12 +46,6 @@ if ($uploads && count($uploads)) {
 	}
 }
 
-if (is_array($guids)) {
-	$guids = array_merge($guids, $filedrop_guids);
-} else {
-	$guids = $filedrop_guids;
-}
-
 $metadata = elgg_get_metadata(array(
 	'guid' => $album->guid,
 	'limit' => 0
@@ -58,11 +55,12 @@ if ($guids) {
 
 	foreach ($guids as $guid) {
 
-		if (empty($guid)) {
+		$image = get_entity($guid);
+		
+		if (!elgg_instanceof($image)) {
 			continue;
 		}
-
-		$image = get_entity($guid);
+		
 		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
 
 		if (!$image->title) {
