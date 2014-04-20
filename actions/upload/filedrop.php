@@ -15,7 +15,7 @@ $uploads = UploadHandler::handle('dropzone', array(
 if (elgg_is_xhr()) {
 	$errors = $success = array();
 
-	$name = get_input('input_name');
+	$input_name = get_input('input_name');
 	foreach ($uploads as $upload) {
 		if ($upload->error) {
 			register_error($uploader->error);
