@@ -41,7 +41,7 @@ $english = array(
 
 	'gallery:create:album' => 'Create an album',
 	'gallery:manage:album' => 'Manage Album',
-	'gallery:manage:instructions' => 'This is a collaborative album and you are allows upload images to it. Below you will only see files uploaded by you',
+	'gallery:manage:instructions' => 'This is a collaborative album and you are allowed to upload images to it. Below you will only see files uploaded by you',
 	
     /**
      * Labels

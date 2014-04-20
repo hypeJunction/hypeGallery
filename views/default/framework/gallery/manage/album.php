@@ -17,7 +17,9 @@ $summary = elgg_view('object/hjalbum/gallery', array(
 	'entity' => $entity
 		));
 
+$collab_album = false;
 if ($entity->owner_guid != elgg_get_logged_in_user_guid()) {
+	$collab_album = true;
 	$summary .= '<div class="gallery-manage-instructions">';
 	$summary .= elgg_echo('gallery:manage:instructions');
 	$summary .= '</div>';
@@ -29,6 +31,7 @@ $offset = get_input("offset-images-$entity->guid", 0);
 $options = array(
 	'types' => 'object',
 	'subtypes' => array('hjalbumimage'),
+	'owner_guids' => ($collab_album) ? elgg_get_logged_in_user_guid() : ELGG_ENTITIES_ANY_VALUE,
 	'container_guids' => $entity->guid,
 	'limit' => $limit,
 	'offset' => $offset,
@@ -74,11 +77,13 @@ $body .= elgg_view('input/submit', array(
 		));
 $body .= '</div>';
 
-$form = elgg_view('input/form', array(
-	'action' => 'action/gallery/upload/describe',
-	'body' => $body,
-	'class' => 'elgg-form-gallery-manage'
-		));
+if ($count) {
+	$form = elgg_view('input/form', array(
+		'action' => 'action/gallery/upload/describe',
+		'body' => $body,
+		'class' => 'elgg-form-gallery-manage'
+	));
+}
 
 echo '<div class="gallery-full">';
 echo "$summary$form";
