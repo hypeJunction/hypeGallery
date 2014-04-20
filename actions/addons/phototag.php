@@ -24,7 +24,13 @@ if (is_array($title)) {
 if (is_array($user_guid)) {
 	$user_guid = $user_guid[0];
 }
-$user = get_entity($user_guid);
+
+if (is_numeric($user_guid)) {
+	$user = get_entity($user_guid);
+} else {
+	// fallback for default userpicker
+	$user = get_user_by_username($user_guid);
+}
 
 if (!$title && !$user) {
 	register_error(elgg_echo('gallery:phototag:error'));
