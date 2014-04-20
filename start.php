@@ -135,7 +135,8 @@ function init() {
 	elgg_register_plugin_hook_handler('container_permissions_check', 'object', __NAMESPACE__ . '\\container_permissions_check');
 
 	// Menus
-	elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\\entity_menu_setup', 900);
+	elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\\entity_menu_setup');
+	elgg_register_plugin_hook_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\\manage_album_image_menu_setup');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', __NAMESPACE__ . '\\owner_block_menu_setup');
 
 	/**

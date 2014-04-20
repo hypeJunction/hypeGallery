@@ -4,16 +4,9 @@ namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars);
 
-if (!elgg_instanceof($entity))
+if (!elgg_instanceof($entity)) {
 	return;
-
-$owner = $entity->getOwnerEntity();
-$owner_link = elgg_view('output/url', array(
-	'href' => $owner->getURL(),
-	'text' => $owner->name,
-	'is_trusted' => true,
-		));
-$meta[] = elgg_echo('gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
+}
 
 if (HYPEGALLERY_CATEGORIES) {
 	$meta[] = elgg_view('output/gallery/categories', array('value' => $entity->categories));

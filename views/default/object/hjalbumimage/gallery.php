@@ -39,29 +39,46 @@ $info_link = elgg_view('output/url', array(
 $menu = elgg_view_menu('entity', array(
 	'entity' => $entity,
 	'sort_by' => 'priority',
-	'class' => 'gallery-media-menu',
 		));
-
-if (elgg_in_context('gallery-manage')) {
-	$info .= elgg_view('forms/edit/object/hjalbumimage', $vars);
-	$alt_menu = $menu;
-} else {
-	$info .= elgg_view('object/hjalbum/meta', $vars);
-	$info .= elgg_view('output/longtext', array(
-		'value' => $entity->description,
-		'class' => 'pam'
-	));
-}
 
 
 $owner = get_entity($entity->owner_guid);
 if ($owner) {
-	$author = elgg_view('output/url', array(
+	$owner_icon = elgg_view('output/url', array(
 		'text' => elgg_view('output/img', array(
 			'src' => $owner->getIconURL('small'),
 		)),
 		'href' => $owner->getURL(),
 		'title' => $owner->name
+	));
+	$owner_link = elgg_view('output/url', array(
+		'href' => $owner->getURL(),
+		'text' => $owner->name,
+		'is_trusted' => true,
+	));
+}
+
+if (elgg_in_context('gallery-manage')) {
+	$summary = elgg_view('forms/edit/object/hjalbumimage', $vars);
+	$alt_menu = elgg_view_menu('manage_album_image', array(
+		'entity' => $entity,
+		'sort_by' => 'priority',
+		'class' => 'gallery-media-menu',
+	));
+} else {
+	$info = elgg_view('object/hjalbum/meta', $vars);
+	$info .= elgg_view('output/longtext', array(
+		'value' => $entity->description,
+		'class' => 'gallery-description'
+	));
+
+	$subtitle = elgg_echo('gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
+
+	$summary = elgg_view('object/elements/summary', array(
+		'entity' => $entity,
+		'title' => false,
+		'content' => $info,
+		'subtitle' => $subtitle,
 	));
 }
 
@@ -70,19 +87,19 @@ if (elgg_instanceof($container, 'object', 'hjalbum')) {
 	$album = elgg_view_entity_icon($container, 'small');
 }
 if (!$full) {
+
 	$html = <<<__HTML
 	<div class="gallery-media-cover">
 		$alt_menu$cover
 		<div class="gallery-media-meta">
 			<div class="gallery-media-album">$album</div>
-			<div class="gallery-media-author">$author</div>
-			<div class="gallery-media-title">$title</div>
-			<div class="gallery-media-info-link">$info_link</div>
-
+			<div class="gallery-media-author">$owner_icon</div>
+			<div class="gallery-media-title">$title$info_link</div>
 		</div>
 		<div id="gallery-info-$entity->guid" class="gallery-media-extras hidden">
-			$info$menu
+			$summary
 		</div>
+		$menu
 	</div>
 __HTML;
 } else {
@@ -91,9 +108,9 @@ __HTML;
 		$alt_menu$cover
 		<div class="gallery-media-meta">
 			<div class="gallery-media-album">$album</div>
-			<div class="gallery-media-author">$author</div>
+			<div class="gallery-media-author">$owner_icon</div>
 			<div class="gallery-media-title">$title</div>
-			$info
+			$summary$menu
 		</div>
 	</div>
 __HTML;

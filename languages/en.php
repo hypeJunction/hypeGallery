@@ -32,6 +32,7 @@ $english = array(
 	'gallery:albums:favorites' => 'Favorites',
 	'gallery:albums:favorites:mine' => 'My Favorites',
 	'gallery:albums:favorites:owner' => '%s\'s Favorites',
+	'gallery:edit:more' => 'Add info',
 
 	'gallery:albums:friends:none' => 'You do not have any friends yet',
 

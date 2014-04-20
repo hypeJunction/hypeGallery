@@ -19,7 +19,7 @@ $title = elgg_view('input/text', array(
 		));
 
 $info_link = elgg_view('output/url', array(
-	'text' => '<i class="gallery-icon-info icon-small"></i>',
+	'text' => elgg_echo('gallery:edit:more'),
 	'href' => "#gallery-info-$entity->guid",
 	'rel' => 'toggle'
 		));
@@ -76,8 +76,8 @@ if (HYPEGALLERY_INTERFACE_CALENDAR) {
 
 $html = <<<__HTML
 	<div class="gallery-item-in-bulk">
-		<div class="gallery-media-title">$title</div>
-		<div class="gallery-media-info-link">$info_link</div>
+		<div class="gallery-media-form-title">$title</div>
+		<div class="gallery-media-form-info-link">$info_link</div>
 		<div id="gallery-info-$entity->guid" class="gallery-media-extras hidden">
 			$info
 		</div>
