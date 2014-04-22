@@ -7,3 +7,4 @@ composer.lock
 /sass/
 config.rb
 /.sass-cache/
+/vendors/.git #Ignoring composer package git rules
