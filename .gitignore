@@ -7,4 +7,6 @@ composer.lock
 /sass/
 config.rb
 /.sass-cache/
+
 vendors/.git
+vendors/**/.git
