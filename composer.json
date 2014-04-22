@@ -5,7 +5,9 @@
 	"description": "Image galleries for Elgg",
 	"homepage": "http://hypejunction.com",
 	"minimum-stability": "stable",
-	"keywords": ["elgg", "plugin", "gallery", "images"],
+	"keywords": [
+		"elgg", "plugin", "gallery", "images"
+	],
 	"license": "GPL 2",
 	"authors": [
 		{
@@ -14,8 +16,8 @@
 		}
 	],
 	"extra": {
-        "installer-name": "hypeGallery"
-    },
+		"installer-name": "hypeGallery"
+	},
 	"config": {
 		"vendor-dir": "vendors",
 		"preferred-install": "dist"
