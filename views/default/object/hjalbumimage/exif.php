@@ -17,9 +17,13 @@ if (!$exif) {
 	return;
 }
 
-$exif_title = elgg_echo('gallery:exif');
+$exif_title = elgg_view('output/url', array(
+    'text' => elgg_echo('gallery:exif') . '&nbsp;<i class="gallery-icon-info icon-small"></i>',
+    'href' => "#viewexif",
+    'rel' => 'toggle'
+        ));
 
-$exif_body .= '<ul class="gallery-media-exif-details">';
+$exif_body .= '<ul class="gallery-media-exif-details" id="viewexif" style="display:none">';
 foreach ($exif as $key => $values) {
 	$exif_body .= '<li>';
 	$exif_body .= '<label>' . $values['label'] . '</label>';
