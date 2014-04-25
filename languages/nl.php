@@ -1,18 +1,18 @@
 <?php
 
 /**
- *	Hype Gallery
+ *  Hype Gallery
  *  Dutch/Flemish language
  *  Translation by: Dries de Krom (dries@daltonstudio.be)
  */
  
 $dutch = array(
 
-    /**
-     *  Gallery UI elements
-     */
-    'gallery' => 'Galerij',
-    'gallery:menu:owner_block' => 'Galerij',
+    	/**
+     	*  Gallery UI elements
+     	*/
+    	'gallery' => 'Galerij',
+    	'gallery:menu:owner_block' => 'Galerij',
 
 	'item:object:hjalbum' => 'Album',
 	'items:object:hjalbum' => 'Albums',
@@ -21,17 +21,17 @@ $dutch = array(
 	'item:object:hjalbumimage' => 'Media',
 	'items:object:hjalbumimage' => 'Media',
 
-    'gallery:album:owner' => "Album van %s",
-    'gallery:albums:owner' => "Albums van %s",
+    	'gallery:album:owner' => "Album van %s",
+    	'gallery:albums:owner' => "Albums van %s",
 	'gallery:albums:friends' => "Albums van vrienden",
 	'gallery:albums:friends:owner' => "%s\s bevriende albums",
 	'gallery:album:author' => 'door %s',
 	'gallery:albums:all' => 'Alle albums',
 	'gallery:albums:group' => 'Albums van %s',
 	'gallery:albums:groups' => 'Groepsalbums',
-    'gallery:addnew' => 'Album maken',
-    'gallery:addimage' => 'Bestanden opladen',
-    'gallery:noalbums' => 'Er zijn nog geen albums',
+	'gallery:addnew' => 'Album maken',
+    	'gallery:addimage' => 'Bestanden opladen',
+    	'gallery:noalbums' => 'Er zijn nog geen albums',
 	'gallery:allalbums' => 'Alle albums',
 	'gallery:albums:mine' => 'Mijn albums',
 	'gallery:album:edit' => 'Bewerk %s',
@@ -50,25 +50,25 @@ $dutch = array(
 	'gallery:manage:album' => 'Album beheren',
 	'gallery:manage:instructions' => 'Dit is een gezamenlijk album en u kan er afbeeldingen in opladen. Hieronder ziet u de bestanden enkel opgeladen door u',
 	
-    /**
-     * Labels
-     */
-  	'label:form:new:hypeGallery:gallery:create' => 'Maak nieuwe galerij',
-    'label:form:edit:hypeGallery:gallery:create' => 'Bewerk uw galerij',
-    'label:form:new:hypeGallery:album' => 'Voeg nieuw album toe',
-    'label:form:edit:hypeGallery:album' => 'Wijzig Album',
-    'label:form:new:hypeGallery:album:image' => 'Afbeelding toevoegen',
-    'label:form:edit:hypeGallery:album:image' => 'Afbeelding bewerken',
+    	/**
+	 * Labels
+	 */
+	'label:form:new:hypeGallery:gallery:create' => 'Maak nieuwe galerij',
+    	'label:form:edit:hypeGallery:gallery:create' => 'Bewerk uw galerij',
+    	'label:form:new:hypeGallery:album' => 'Voeg nieuw album toe',
+    	'label:form:edit:hypeGallery:album' => 'Wijzig Album',
+    	'label:form:new:hypeGallery:album:image' => 'Afbeelding toevoegen',
+    	'label:form:edit:hypeGallery:album:image' => 'Afbeelding bewerken',
 
-    'label:hjalbum:title' => 'Album naam',
-    'label:hjalbum:description' => 'Beschrijving',
-    'label:hjalbum:location' => 'Album locatie',
-    'label:hjalbum:date' => 'Album datum',
-    'label:hjalbum:friend_tags' => 'Vrienden in dit album',
-    'framework:relationship_tags:notagged_in' => 'U hebt nog geen vrienden',
-    'label:hjalbum:tags' => 'Tags',
-    'label:hjalbum:copyright' => 'Auteursrechten',
-    'label:hjalbum:access_id' => 'Zichtbaarheid',
+    	'label:hjalbum:title' => 'Album naam',
+    	'label:hjalbum:description' => 'Beschrijving',
+    	'label:hjalbum:location' => 'Album locatie',
+    	'label:hjalbum:date' => 'Album datum',
+    	'label:hjalbum:friend_tags' => 'Vrienden in dit album',
+    	'framework:relationship_tags:notagged_in' => 'U hebt nog geen vrienden',
+    	'label:hjalbum:tags' => 'Tags',
+    	'label:hjalbum:copyright' => 'Auteursrechten',
+    	'label:hjalbum:access_id' => 'Zichtbaarheid',
 	'label:hjalbum:upload' => "Foto's uploaden",
 	'label:hjalbum:category' => 'Categorieën',
 	'label:hjalbum:permissions' => "Wie kan foto's toevoegen aan dit album?",
@@ -76,15 +76,15 @@ $dutch = array(
 	'label:hjalbum:last_action' => 'Laatst bijgewerkt',
 	'label:hjalbum:owner' => 'Eigenaar',
 
-    'label:hjalbumimage:image' => 'Afbeelding opladen',
-    'label:hjalbumimage:title' => 'Titel',
-    'label:hjalbumimage:description' => 'Beschrijving',
-    'label:hjalbumimage:location' => 'Locatie',
-    'label:hjalbumimage:date' => 'Datum',
-    'label:hjalbumimage:friend_tags' => 'Vrienden in deze foto',
-    'label:hjalbumimage:tags' => 'Tags',
-    'label:hjalbumimage:copyright' => 'Auteursrechten',
-    'label:hjalbumimage:access_id' => 'Zichtbaarheid',
+    	'label:hjalbumimage:image' => 'Afbeelding opladen',
+    	'label:hjalbumimage:title' => 'Titel',
+    	'label:hjalbumimage:description' => 'Beschrijving',
+    	'label:hjalbumimage:location' => 'Locatie',
+    	'label:hjalbumimage:date' => 'Datum',
+    	'label:hjalbumimage:friend_tags' => 'Vrienden in deze foto',
+    	'label:hjalbumimage:tags' => 'Tags',
+    	'label:hjalbumimage:copyright' => 'Auteursrechten',
+    	'label:hjalbumimage:access_id' => 'Zichtbaarheid',
 	'label:hjalbumimage:time_created' => 'Geüpload',
 	'label:hjalbumimage:owner' => 'Toegevoegd door',
 	'label:hjalbumimage:category' => 'Categorieën',
@@ -114,19 +114,19 @@ $dutch = array(
 	'gallery:byline' => 'Gepubliceerd door %s %s',
 	'gallery:published' => 'Gepubliceerd op %s',
 
-    /**
-     * Actions
-     */
-    'gallery:save:success' => 'Item werd met succes opgeslagen',
-    'gallery:save:error' => 'Item kon niet worden opgeslagen',
-    'gallery:delete:success' => 'Item is verwijderd',
-    'gallery:delete:error' => 'Item kon niet worden verwijderd',
+    	/**
+	 * Actions
+	 */
+    	'gallery:save:success' => 'Item werd met succes opgeslagen',
+	'gallery:save:error' => 'Item kon niet worden opgeslagen',
+    	'gallery:delete:success' => 'Item is verwijderd',
+    	'gallery:delete:error' => 'Item kon niet worden verwijderd',
 
 	'gallery:upload:error:noalbum' => 'Album bestaat niet of u hebt geen machtigingen om er bestanden aan toe te voegen',
 	
 	/**
-     * River
-     */
+     	* River
+     	*/
 	'river:create:object:hjalbumimage' => '%s plaatste een nieuwe afbeelding %s',
 	'river:update:object:hjalbumimage' => '%s werkte een afbeelding bij %s',
 
@@ -312,8 +312,8 @@ $dutch = array(
 	'exif.MeteringMode.2' => 'CenterWeightedAverage',
 	'exif.MeteringMode.3' => 'Spot',
 	'exif.MeteringMode.4' => 'MultiSpot',
-	'exif.MeteringMode.5' => 'Pattern',
-	'exif.MeteringMode.6' => 'Partial',
+	'exif.MeteringMode.5' => 'Patroon',
+	'exif.MeteringMode.6' => 'Gedeeltelijk',
 	'exif.MeteringMode.255' => 'Ander',
 
 	'exif.LightSource' => 'Lichtbron',
@@ -378,7 +378,7 @@ $dutch = array(
 
 	'exif.SensitivityType' => 'Type gevoeligheid',
 	'exif.SpectralSensitivity' => 'Spectrum gevoeligheid',
-	'exif.RecommendedExposureIndex' => 'Aangeraden belichting Index',
+	'exif.RecommendedExposureIndex' => 'Aangeraden belichtings Index',
 	'exif.ExifVersion' => 'EXIF versie',
 	'exif.FlashpixVersion' => 'Flashpix versie',
 
@@ -386,19 +386,19 @@ $dutch = array(
 	'exif.DateTimeOriginal' => 'Datum en tijd (Origineel)',
 	'exif.DateTimeDigitized' => 'Datum en tijd (Digitized)',
 	'exif.SubsecTime' => 'Sub Sec Time of Date and Time value',
-	'exif.SubsecTimeOriginal' => 'Sub Sec Time of Date and Time (Original) value',
-	'exif.SubsecTimeDigitized' => 'Sub Sec Time of Date and Time (Digitized) value',
+	'exif.SubsecTimeOriginal' => 'Sub Sec Tijd van datum en tijd (Origineel) waarde',
+	'exif.SubsecTimeDigitized' => 'Sub Sec Tijd van datum en tijd (Digitized) waarde',
 
 	'exif.CompressedBitsPerPixel' => 'Gecompresseerde Bits per Pixel',
 	'exif.ShutterSpeedValue' => 'Sluitersnelheid',
 	'exif.FocalLength' => 'Focusafstand',
 	'exif.UserComment' => 'Comment',
 	'exif.ColorSpace' => 'Color Space',
-	'exif.PixelXDimension' => 'Pixel X-Dimension',
-	'exif.PixelYDimension' => 'Pixel Y-Dimension',
-	'exif.ExposureIndex' => 'Exposure Index',
+	'exif.PixelXDimension' => 'Pixel X-Dimensie',
+	'exif.PixelYDimension' => 'Pixel Y-Dimensie',
+	'exif.ExposureIndex' => 'Belichtings Index',
 
-	'exif.SensingMethod' => 'Sensing Method',
+	'exif.SensingMethod' => 'Sensor methode',
 	'exif.SensingMethod.1' => 'Niet gedefinieerd',
 	'exif.SensingMethod.2' => 'Enkele chip kleurgebied sensor',
 	'exif.SensingMethod.3' => 'Dubbele chip kleurgebied sensor',
@@ -434,7 +434,7 @@ $dutch = array(
 	'exif.DigitalZoomRatio' => 'Digitale zoom ratio',
 	'exif.FocalLengthIn35mmFilm' => 'Focusafstand in 35mm film equivalent',
 
-	'exif.SceneCaptureType' => 'Scene Capture Type',
+	'exif.SceneCaptureType' => 'Scene opname type',
 	'exif.SceneCaptureType.0' => 'Standaard',
 	'exif.SceneCaptureType.1' => 'Landschap',
 	'exif.SceneCaptureType.2' => 'Portret',
@@ -462,7 +462,7 @@ $dutch = array(
 	'exif.Sharpness.1' => 'zacht',
 	'exif.Sharpness.2' => 'Hard',
 
-	'exif.DeviceSettingDescription' => 'Device Setting Description',
+	'exif.DeviceSettingDescription' => 'Apparaat instelling omschrijving',
 
 	'exif.SubjectDistanceRange' => 'Subject Distance Range',
 	'exif.SubjectDistanceRange.0' => 'Niet gekend',
