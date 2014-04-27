@@ -26,22 +26,5 @@
 		<type>php_extension</type>
 		<name>exif</name>
 	</suggests>
-
-	<screenshot>
-		<description>Upload workflow</description>
-		<path>screenshots/uploads.png</path>
-	</screenshot>
-	<screenshot>
-		<description>Album management workflow</description>
-		<path>screenshots/manage.png</path>
-	</screenshot>
-	<screenshot>
-		<description>Slideshow</description>
-		<path>screenshots/slideshow.png</path>
-	</screenshot>
-	<screenshot>
-		<description>Tagging</description>
-		<path>screenshots/tagging.png</path>
-	</screenshot>
 	
 </plugin_manifest>
