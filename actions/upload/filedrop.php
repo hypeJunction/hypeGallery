@@ -12,69 +12,78 @@ $uploads = UploadHandler::handle('dropzone', array(
 			'container_guid' => $album->guid,
 		));
 
-if (elgg_is_xhr()) {
-	$errors = $success = array();
+$output = array();
 
-	$input_name = get_input('input_name');
+if (elgg_is_xhr()) {
+	$name = get_input('input_name');
 	foreach ($uploads as $upload) {
+
+		$messages = array();
+		$success = true;
+
 		if ($upload->error) {
-			register_error($upload->error);
-			$errors[] = $upload->error;
-			continue;
+			$messages[] = $upload->error;
+			$success = false;
+			$guid = false;
 		} else {
-			$success[] = elgg_echo('gallery:upload:success');
+			$messages[] = elgg_echo('gallery:upload:success');
 		}
 
 		$image = $upload->file;
 		if (!elgg_instanceof($image)) {
-			register_error($elgg_echo('gallery:upload:error'));
-			$errors[] = elgg_echo('gallery:upload:error');
-			continue;
-		}
-
-		if ($image->simpletype !== 'image') {
+			$messages[] = elgg_echo('gallery:upload:error');
+			$success = false;
+			$guid = false;
+		} else if ($image->simpletype !== 'image') {
 			$image->delete();
-			register_error($elgg_echo('gallery:upload:unsupportedtype'));
-			$errors[] = elgg_echo('gallery:upload:unsupportedtype');
-			continue;
+			$messages[] = elgg_echo('gallery:upload:unsupportedtype');
+			$success = false;
+			$guid = false;
 		}
-		
-		if ($album) {
-			$metadata = elgg_get_metadata(array(
-				'guid' => $album->guid,
-				'limit' => 0
-			));
 
-			$image->access_id = $album->access_id;
+		if ($success) {
+			if ($album) {
+				$metadata = elgg_get_metadata(array(
+					'guid' => $album->guid,
+					'limit' => 0
+				));
 
-			foreach ($metadata as $md) {
-				$names[] = $md->name;
+				$image->access_id = $album->access_id;
+
+				foreach ($metadata as $md) {
+					$names[] = $md->name;
+				}
+
+				$names = array_unique($names);
+
+				foreach ($names as $name) {
+					$image->$name = $album->$name;
+				}
+			} else {
+				$image->access_id = ACCESS_PRIVATE;
 			}
 
-			$names = array_unique($names);
-
-			foreach ($names as $name) {
-				$image->$name = $album->$name;
+			if ($image->save()) {
+				$guid = $image->getGUID();
+				$html = elgg_view('forms/edit/object/hjalbumimage', array(
+					'entity' => $image
+				));
 			}
-		} else {
-			$image->access_id = ACCESS_PRIVATE;
 		}
 
-		if ($image->save()) {
+		$file_output = array(
+			'messages' => $messages,
+			'success' => $success,
+			'guid' => $guid,
+			'html' => $html,
+		);
 
-			$guids[] = $image->getGUID();
-			$html .= elgg_view('forms/edit/object/hjalbumimage', array(
-				'entity' => $image
-			));
-		}
+		$output[] = elgg_trigger_plugin_hook('upload:after', 'dropzone', array(
+			'upload' => $upload,
+				), $file_output);
 	}
 
-	echo json_encode(array(
-		'guids' => $guids,
-		'html' => $html,
-		'error' => $errors,
-		'success' => $success
-	));
+	echo json_encode($output);
 }
 
 forward(REFERER);

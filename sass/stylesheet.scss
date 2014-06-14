@@ -327,9 +327,15 @@ body {
 	padding: 5px 10px;
 	background: #eee;
 	line-height: 14px;
-	.elgg-dropzone & * {
-		text-align: left;
-		font-size: 12px;
+	.elgg-dropzone & {
+		border: none;
+		margin-top: 0;
+		margin-left: 40px;
+		background: transparent;
+		* {
+			text-align: left;
+			font-size: 12px;
+		}
 
 	}
 	.gallery-media-extras {
@@ -688,11 +694,11 @@ body {
 	height: 100px;
 	width: 100px;
 	overflow: hidden;
-		img {
-			width: initial;
-			height: auto;
-			max-width: initial;
-		}
+	img {
+		width: initial;
+		height: auto;
+		max-width: initial;
+	}
 }
 .elgg-form-gallery-thumb .elgg-foot {
 	margin:10px;

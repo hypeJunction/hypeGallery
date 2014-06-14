@@ -75,6 +75,7 @@ if (HYPEGALLERY_INTERFACE_CALENDAR) {
 //			));
 
 $html = <<<__HTML
+	<div class="clearfix"></div>
 	<div class="gallery-item-in-bulk">
 		<div class="gallery-media-form-title">$title</div>
 		<div class="gallery-media-form-info-link">$info_link</div>

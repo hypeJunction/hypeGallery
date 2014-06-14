@@ -19,9 +19,9 @@ $requested_size = $size = strtolower(get_input('size', 'master'));
 
 $config = elgg_get_config('icon_sizes');
 
-$gallery_config = elgg_get_config('gallery_icon_sizes');
-
-$config = array_merge_recursive($config, $gallery_config);
+$config = elgg_trigger_plugin_hook('entity:icon:sizes', 'object', array(
+	'entity' => $entity,
+		), $config);
 
 if ($entity->mimetype == 'image/png') {
 	$filename = "icons/" . $entity->guid . $size . ".png";
@@ -47,8 +47,7 @@ if (!$contents) {
 		$square = $config[$size]['square'];
 	} else {
 		list($requested_w, $requested_h) = explode('x', $requested_size);
-		if (($requested_w &&!in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width')))
-				|| ($requested_h &&!in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height')))) {
+		if (($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width'))) || ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height')))) {
 			exit;
 		}
 	}
