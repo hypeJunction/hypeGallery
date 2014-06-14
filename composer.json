@@ -4,11 +4,10 @@
 	"repository": "hypeJunction/hypeGallery",
 	"description": "Image galleries for Elgg",
 	"homepage": "http://hypejunction.com",
-	"minimum-stability": "stable",
 	"keywords": [
 		"elgg", "plugin", "gallery", "images"
 	],
-	"license": "GPL 2",
+	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
@@ -28,6 +27,11 @@
 		"smottt/wideimage": "dev-master"
 		"smottt/wideimage": "dev-master",
 		"hypejunction/cmp-filestore": "1.0.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"hypeJunction\\": "classes/hypeJunction/"
+		}
 	}
 }
 

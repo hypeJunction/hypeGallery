@@ -19,13 +19,6 @@ const PAGEHANDLER = 'gallery';
 // Composer autoload
 require_once __DIR__ . '/vendors/autoload.php';
 
-// Dependency classes
-if (!class_exists('hypeJunction\\Filestore\\UploadHandler')) {
-	elgg_register_class('hypeJunction\\Filestore\\UploadHandler', __DIR__ . '/classes/hypeJunction/Filestore/UploadHandler.php');
-}
-elgg_register_class('hypeJunction\\Gallery\\hjAlbum', __DIR__ . '/classes/hypeJunction/Gallery/hjAlbum.php');
-elgg_register_class('hypeJunction\\Gallery\\hjAlbumImage', __DIR__ . '/classes/hypeJunction/Gallery/hjAlbumImage.php');
-
 // Load Gallery libraries
 require_once __DIR__ . '/lib/functions.php';
 require_once __DIR__ . '/lib/events.php';
