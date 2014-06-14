@@ -13,12 +13,10 @@ Extremely user friendly and hype image gallery for Elgg.
 * Friend tagging
 * Group albums
 * Collaborative albums - allow your friends, fellow group members or all site members to add new photos to an album
-* EXIF tag parsing, incl. reverse geocoding of GPS tags view OpenStreetMaps
+* EXIF tag parsing, incl. reverse geocoding of GPS tags via OpenStreetMaps
 
 
 ## Dependencies
-
-* If downloading from Github, run ```composer install``` to download the dependencies
 
 * For drag&drop uploads, please install elgg_dropzone plugin
 https://github.com/hypeJunction/elgg_dropzone
