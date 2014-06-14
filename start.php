@@ -162,8 +162,10 @@ function init() {
 	elgg_register_js('gallery.tagger.js', elgg_get_simplecache_url('js', 'framework/gallery/tagger'));
 
 	// Load fonts
-	elgg_extend_view('page/elements/head', 'framework/fonts/font-awesome');
-	elgg_extend_view('page/elements/head', 'framework/fonts/open-sans');
+	elgg_register_css('fonts.font-awesome', '/mod/' . PLUGIN_ID . '/vendors/fonts/font-awesome.css');
+	elgg_load_css('fonts.font-awesome');
+	elgg_register_css('fonts.open-sans', '/mod/' . PLUGIN_ID . '/vendors/fonts/open-sans.css');
+	elgg_load_css('fonts.open-sans');
 
 
 	// Extend metatags with EXIF tags
