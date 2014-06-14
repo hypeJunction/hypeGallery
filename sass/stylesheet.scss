@@ -15,6 +15,19 @@ body {
 		max-width: 100%;
 		@include box-sizing(border-box);
 	}
+
+	@media #{$medium} {
+		@include block-grid(2);
+	}
+	/*	@media #{$large} {
+		@include block-grid(3);
+	}*/
+	.elgg-menu-entity {
+		& > li {
+			display: inline-block;
+			margin-left: 10px;
+		}
+	}
 }
 
 .gallery-album-cover,
@@ -32,6 +45,14 @@ body {
 			height: auto;
 		}
 	}
+	.elgg-menu-entity {
+		margin: 10px;
+		position: relative;
+		& > li {
+			display: inline-block;
+			margin-left: 10px;
+		}
+	}
 }
 
 .gallery-full {
@@ -43,7 +64,7 @@ body {
 		margin-bottom: 20px;
 		overflow: hidden;
 		.gallery-album-meta {
-			margin: 20px;
+			margin: 10px 20px;
 		}
 	}
 }
@@ -324,7 +345,7 @@ body {
 .gallery-item-in-bulk {
 	border: 1px solid #fff;
 	margin-top: 3px;
-	padding: 5px 10px;
+	padding: 10px;
 	background: #eee;
 	line-height: 14px;
 	.elgg-dropzone & {
@@ -345,6 +366,11 @@ body {
 	}
 }
 
+.gallery-media-form-info-link {
+	text-align: right;
+	font-size: 12px;
+}
+
 .gallery-manage-album .gallery-media-cover > .gallery-media-menu {
 	position: absolute;
 	right: 0;
@@ -353,7 +379,7 @@ body {
 	display: none;
 	margin: 5px;
 }
-.gallery-manage-album .gallery-media-cover > .gallery-media-menu.elgg-menu-entity-drag {
+.gallery-manage-album .gallery-media-cover > .gallery-media-menu.elgg-menu-manage-album-image-drag {
 	right: auto;
 	left: 0;
 	top: 0;
@@ -888,43 +914,6 @@ body {
 .gallery-media-exif-details > li label {
 	width: 30%;
 	display: inline-block;
-}
-
-.gallery-photostream > li {
-	width: 100%;
-	margin: 0;
-}
-@media only screen and (min-width: 40.063em) {
-	.gallery-photostream {
-		display: block;
-		padding: 0;
-		margin: 0 -0.625rem;
-		*zoom: 1;
-	}
-	.gallery-photostream:before, .gallery-photostream:after {
-		content: " ";
-		display: table;
-	}
-	.gallery-photostream:after {
-		clear: both;
-	}
-	.gallery-photostream > li {
-		display: block;
-		height: auto;
-		float: left;
-		padding: 0 0.625rem 1.25rem;
-	}
-	.gallery-photostream > li {
-		width: 50%;
-		padding: 0 0.625rem 1.25rem;
-		list-style: none;
-	}
-	.gallery-photostream > li:nth-of-type(n) {
-		clear: none;
-	}
-	.gallery-photostream > li:nth-of-type(2n+1) {
-		clear: both;
-	}
 }
 
 .gallery-tagger-area-preview {

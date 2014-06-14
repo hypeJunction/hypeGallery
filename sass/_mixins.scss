@@ -185,3 +185,37 @@
 		@include box-shadow($box-shadow-hover);
 	}
 }
+
+@mixin block-grid($per-row:false, $spacing:10px, $include-spacing:true, $base-style:true) {
+
+	@if $base-style {
+		display: block;
+		padding: 0;
+		margin: 0 (-$spacing/2);
+		@include clearfix;
+
+		&>li {
+			display: block;
+			height: auto;
+			float: left;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+		}
+	}
+
+	@if $per-row {
+		& > li {
+			width: 100%/$per-row;
+			margin: 0;
+			@if $include-spacing {
+				padding: 0 ($spacing/2) $spacing;
+			}
+			list-style: none;
+
+			&:nth-of-type(n) { clear: none; }
+			&:nth-of-type(#{$per-row}n+1) { clear: both; }
+		}
+	}
+
+}

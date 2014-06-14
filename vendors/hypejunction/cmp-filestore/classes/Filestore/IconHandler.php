@@ -67,6 +67,8 @@ class IconHandler {
 				if (is_array($coords) && (in_array($size, self::$croppable) || elgg_extract('croppable', $thumb, false))) {
 					$resized = $img->resize($thumb_m['w'], $thumb_m['h'], 'inside', 'down');
 					$resized = $resized->crop($coords['x1'], $coords['y1'], $coords['x2'] - $coords['x1'], $coords['y2'] - $coords['y1']);
+				} else {
+					$resized = $img;
 				}
 
 				if (in_array($size, self::$croppable) || elgg_extract('croppable', $thumb, false)) {

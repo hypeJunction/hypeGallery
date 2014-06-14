@@ -16,7 +16,7 @@ $options = array(
 	'full_view' => false,
 	'pagination' => false,
 	'size' => '125',
-	'item_class' => 'elgg-photo mas',
+	//'item_class' => 'elgg-photo mas',
 );
 
 elgg_push_context('activity');
