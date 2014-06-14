@@ -2,10 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-use ElggFile;
 use hypeJunction\Filestore\UploadHandler;
-use WideImage\Exception\Exception;
-use WideImage\WideImage;
 
 $failed = 0;
 

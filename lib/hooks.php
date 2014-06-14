@@ -428,5 +428,5 @@ function entity_icon_sizes($hook, $type, $return, $params) {
 	}
 
 	$gallery_config = elgg_get_config('gallery_icon_sizes');
-	return (is_array($return)) ? array_merge_recursive($return, $gallery_config) : $gallery_config;
+	return (is_array($return)) ? array_merge($return, $gallery_config) : $gallery_config;
 }

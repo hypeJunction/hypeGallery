@@ -29,7 +29,7 @@ elgg_set_config('gallery_icon_sizes', array(
 	),
 	'125' => array(
 		'w' => 125,
-		'h' => null,
+		'h' => 125,
 		'square' => false,
 		'upscale' => true
 	),
