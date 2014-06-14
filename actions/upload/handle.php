@@ -93,63 +93,6 @@ if ($guids) {
 			continue;
 		}
 
-		// delete automatically generated thumbs and create new ones
-		$icon_sizes = elgg_get_config('icon_sizes');
-		$img = WideImage::load($image->getFilenameOnFilestore());
-
-		foreach ($icon_sizes as $size => $thumb) {
-
-			$old_thumb = new ElggFile();
-			$old_thumb->owner_guid = $image->owner_guid;
-			$old_thumb->setFilename("icons/" . $image->guid . $size . ".jpg");
-			$old_thumb->open('write');
-			$old_thumb->close();
-
-			try {
-				if ($size !== 'master' && $size !== 'taggable') {
-					$resized = $img->resize($thumb['w'], $thumb['h'], 'outside', 'any')->crop('center', 'center', $thumb['w'], $thumb['h']);
-				} else {
-					$resized = $img->resize($thumb['w'], $thumb['h'], 'inside', 'down');
-				}
-
-				switch ($image->mimetype) {
-					default :
-					case 'image/jpeg' :
-						$mime = 'image/jpeg';
-						$contents = $resized->asString('jpg', 80);
-						$filename = "icons/" . $image->getGUID() . $size . ".jpg";
-						break;
-
-					case 'image/gif' :
-						$mime = 'image/gif';
-						$old_thumb = new ElggFile();
-						$old_thumb->owner_guid = $image->owner_guid;
-						$filename = "icons/" . $image->getGUID() . $size . ".gif";
-						$contents = $resized->asString('gif');
-						break;
-
-					case 'image/png' :
-						$mime = 'image/png';
-						$contents = $resized->asString('png');
-						$filename = "icons/" . $image->getGUID() . $size . ".png";
-						break;
-				}
-
-				$new_thumb = new ElggFile();
-				$new_thumb->owner_guid = $image->owner_guid;
-				$new_thumb->setFilename($filename);
-				$new_thumb->open('write');
-				$new_thumb->write($contents);
-				$new_thumb->close();
-			} catch (Exception $e) {
-				$exceptions[] = $e->getMessage();
-			}
-
-			if ($new_thumb->getFilenameOnFilestore() !== $old_thumb->getFilenameOnFilestore()) {
-				$old_thumb->delete();
-			}
-		}
-
 		if ($requires_approval) {
 			$images_pending[] = $image->getGUID();
 			$image->posted = $posted;
