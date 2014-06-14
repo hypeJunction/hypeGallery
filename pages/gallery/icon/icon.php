@@ -17,11 +17,7 @@ if (!$entity) {
 
 $requested_size = $size = strtolower(get_input('size', 'master'));
 
-$config = elgg_get_config('icon_sizes');
-
-$config = elgg_trigger_plugin_hook('entity:icon:sizes', 'object', array(
-	'entity' => $entity,
-		), $config);
+$config = get_icon_sizes($entity);
 
 if ($entity->mimetype == 'image/png') {
 	$filename = "icons/" . $entity->guid . $size . ".png";

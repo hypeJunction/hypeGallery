@@ -84,6 +84,9 @@ function init() {
 	elgg_register_plugin_hook_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\\manage_album_image_menu_setup');
 	elgg_register_plugin_hook_handler('register', 'menu:owner_block', __NAMESPACE__ . '\\owner_block_menu_setup');
 
+	// Icon sizes
+	elgg_register_plugin_hook_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\\entity_icon_sizes');
+	
 	/**
 	 * JS, CSS and Views
 	 */

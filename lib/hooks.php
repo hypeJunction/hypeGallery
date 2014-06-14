@@ -409,3 +409,24 @@ function owner_block_menu_setup($hook, $type, $return, $params) {
 
 	return $return;
 }
+
+/**
+ * Icon size config
+ *
+ * @param string $hook		Equals 'entity:icon:sizes'
+ * @param string $type		Equals 'object'
+ * @param array $return		Current config
+ * @param array $params		Additional params
+ * @return array			Updated config
+ */
+function entity_icon_sizes($hook, $type, $return, $params) {
+
+	$entity = elgg_extract('entity', $params);
+
+	if (!$entity instanceof hjAlbumImage) {
+		return;
+	}
+
+	$gallery_config = elgg_get_config('gallery_icon_sizes');
+	return (is_array($return)) ? array_merge_recursive($return, $gallery_config) : $gallery_config;
+}

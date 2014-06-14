@@ -6,9 +6,7 @@ $entity = elgg_extract('entity', $vars);
 
 $requested_size = $size = elgg_extract('size', $vars);
 
-$config = elgg_get_config('icon_sizes');
-$gallery_config = elgg_get_config('gallery_icon_sizes');
-$gallery_config = array_merge($config, $gallery_config);
+$gallery_config = get_icon_sizes($entity);
 
 if (array_key_exists($requested_size, $gallery_config)) {
 	$values = elgg_extract($requested_size, $gallery_config);
