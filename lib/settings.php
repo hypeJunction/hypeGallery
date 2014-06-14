@@ -19,3 +19,33 @@ define('HYPEGALLERY_PUBLIC_DOWNLOADS', elgg_get_plugin_setting('public_downloads
 define('HYPEGALLERY_EXIF', elgg_get_plugin_setting('exif', PLUGIN_ID));
 
 define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
+
+elgg_set_config('gallery_icon_sizes', array(
+	'800x200' => array(
+		'w' => 800,
+		'h' => 200,
+		'square' => false,
+		'upscale' => true,
+	),
+	'125' => array(
+		'w' => 125,
+		'h' => null,
+		'square' => false,
+		'upscale' => true
+	),
+	'325x200' => array(
+		'w' => 325,
+		'h' => 200,
+		'square' => false,
+		'upscale' => true,
+	),
+	'taggable' => array(
+		'w' => 550,
+		'h' => 550,
+		'square' => false,
+		'upscale' => true,
+	)
+));
+
+elgg_set_config('gallery_allowed_dynamic_width', array('auto', 125, 325, 550, 800));
+elgg_set_config('gallery_allowed_dynamic_height', array(0, 200, 550));
