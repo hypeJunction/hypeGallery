@@ -24,9 +24,8 @@
 	"require": {
 		"php": ">=5.3.3",
 		"composer/installers": ">=1.0.8",
-		"smottt/wideimage": "dev-master"
 		"smottt/wideimage": "dev-master",
-		"hypejunction/cmp-filestore": "1.0.*"
+		"hypejunction/cmp-filestore": "dev-master"
 	},
 	"autoload": {
 		"psr-4": {

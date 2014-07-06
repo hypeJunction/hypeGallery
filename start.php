@@ -86,7 +86,7 @@ function init() {
 
 	// Icon sizes
 	elgg_register_plugin_hook_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\\entity_icon_sizes');
-	
+
 	/**
 	 * JS, CSS and Views
 	 */
