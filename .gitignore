@@ -11,3 +11,6 @@ config.rb
 vendors/.git
 vendors/**/.git
 /.sass-cache/
+
+vendors/.git
+vendors/**/.git
