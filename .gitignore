@@ -4,12 +4,6 @@
 robots.txt
 /nbproject/
 composer.lock
-/sass/
-config.rb
-/.sass-cache/
-
-vendors/.git
-vendors/**/.git
 /.sass-cache/
 
 vendors/.git
