@@ -48,7 +48,13 @@ class IconHandler {
 		$coords = elgg_extract('coords', $config, null);
 
 		if (!isset($config['icon_filestore_prefix'])) {
-			$prefix = "icons/";
+			if (elgg_instanceof($entity, 'user')) {
+				$prefix = "profile/";
+			} else if (elgg_instanceof($entity, 'group')) {
+				$prefix = "groups/";
+			} else {
+				$prefix = "icons/";
+			}
 		}
 		$prefix .= $entity->getGUID();
 
@@ -58,7 +64,6 @@ class IconHandler {
 			'w' => 550,
 			'h' => 550
 		));
-
 
 		foreach ($icon_sizes as $size => $thumb) {
 
@@ -89,8 +94,6 @@ class IconHandler {
 
 					case 'image/gif' :
 						$mime = 'image/gif';
-						$old_thumb = new ElggFile();
-						$old_thumb->owner_guid = $entity->owner_guid;
 						$filename = $prefix . $size . ".gif";
 						$contents = $resized->asString('gif');
 						break;
@@ -103,7 +106,11 @@ class IconHandler {
 				}
 
 				$new_thumb = new ElggFile();
-				$new_thumb->owner_guid = $entity->owner_guid;
+				if (elgg_instanceof($entity, 'user')) {
+					$new_thumb->owner_guid = $entity->guid;
+				} else {
+					$new_thumb->owner_guid = $entity->owner_guid;
+				}
 				$new_thumb->setFilename($filename);
 				$new_thumb->open('write');
 				$new_thumb->write($contents);
@@ -120,9 +127,22 @@ class IconHandler {
 		}
 
 		if (!$error) {
+			if (elgg_instanceof($entity, 'group')) {
+				$filehandler = new ElggFile();
+				$filehandler->owner_guid = $entity->owner_guid;
+				$filehandler->setFilename("groups/{$entity->guid}.jpg");
+				$filehandler->open("write");
+				$filehandler->close();
+				move_uploaded_file($source_file, $filehandler->getFilenameOnFilestore());
+			}
+
 			if (is_array('coords')) {
 				foreach ($coords as $coord => $value) {
 					$entity->$coord = $value;
+				}
+			} else {
+				foreach (array('x1', 'x2', 'y1', 'y2') as $coord) {
+					$entity->$coord = 0;
 				}
 			}
 			$entity->icontime = time();

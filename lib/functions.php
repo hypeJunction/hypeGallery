@@ -26,7 +26,7 @@ function register_entity_title_buttons($entity) {
 				$items['upload'] = array(
 					'text' => elgg_echo('gallery:upload'),
 					'href' => "gallery/upload/$entity->guid",
-					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
+					'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 400
 				);
@@ -36,7 +36,7 @@ function register_entity_title_buttons($entity) {
 				$items['manage'] = array(
 					'text' => elgg_echo('gallery:manage:album'),
 					'href' => "gallery/manage/$entity->guid",
-					'class' => 'elgg-button elgg-button-action',
+					'link_class' => 'elgg-button elgg-button-action',
 					'priority' => 400
 				);
 			}
@@ -45,7 +45,7 @@ function register_entity_title_buttons($entity) {
 				$items['edit'] = array(
 					'text' => elgg_echo('edit'),
 					'href' => $entity->getURL('edit'),
-					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
+					'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 995
 				);
@@ -53,7 +53,7 @@ function register_entity_title_buttons($entity) {
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
 					'href' => $entity->getURL('delete'),
-					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
+					'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 1000
 				);
@@ -66,7 +66,7 @@ function register_entity_title_buttons($entity) {
 			$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC)) ? array(
 				'text' => elgg_echo('gallery:image:download'),
 				'href' => $entity->getURL('download'),
-				'class' => 'elgg-button elgg-button-action',
+				'link_class' => 'elgg-button elgg-button-action',
 				'priority' => 50,
 					) : NULL;
 
@@ -74,7 +74,7 @@ function register_entity_title_buttons($entity) {
 				'text' => elgg_echo('gallery:image:makeavatar'),
 				'href' => "action/gallery/makeavatar?e=$entity->guid",
 				'is_action' => true,
-				'class' => 'elgg-button elgg-button-action',
+				'link_class' => 'elgg-button elgg-button-action',
 				'priority' => 100,
 					) : null;
 
@@ -82,7 +82,7 @@ function register_entity_title_buttons($entity) {
 				$items['edit'] = array(
 					'text' => elgg_echo('edit'),
 					'href' => $entity->getURL('edit'),
-					'class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
+					'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 995
 				);
@@ -90,7 +90,7 @@ function register_entity_title_buttons($entity) {
 				$items['delete'] = array(
 					'text' => elgg_echo('delete'),
 					'href' => $entity->getURL('delete'),
-					'class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation',
+					'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation',
 					'data-guid' => $entity->guid,
 					'priority' => 1000
 				);
@@ -127,7 +127,7 @@ function register_dashboard_title_buttons($dashboard = 'site') {
 					'name' => 'create:album',
 					'text' => elgg_echo('gallery:create:album'),
 					'href' => "gallery/create/album/$user->guid",
-					'class' => 'elgg-button elgg-button-action',
+					'link_class' => 'elgg-button elgg-button-action',
 					'priority' => 100
 				));
 			}
@@ -144,7 +144,7 @@ function register_dashboard_title_buttons($dashboard = 'site') {
 					'name' => 'create:album',
 					'text' => elgg_echo('gallery:create:album'),
 					'href' => "gallery/create/album/$group->guid",
-					'class' => 'elgg-button elgg-button-action',
+					'link_class' => 'elgg-button elgg-button-action',
 					'priority' => 100
 				));
 			}

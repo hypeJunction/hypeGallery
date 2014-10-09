@@ -144,7 +144,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					'text' => elgg_echo('gallery:upload'),
 					'title' => elgg_echo('gallery:upload'),
 					'href' => "gallery/upload/$entity->guid",
-					'class' => 'elgg-button-edit-entity',
+					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 400
 				);
@@ -166,7 +166,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					'text' => elgg_view_icon('edit'),
 					'title' => elgg_echo('edit'),
 					'href' => $entity->getURL('edit'),
-					'class' => 'elgg-button-edit-entity',
+					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 995
 				);
@@ -174,7 +174,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 					'text' => elgg_view_icon('delete'),
 					'title' => elgg_echo('delete'),
 					'href' => $entity->getURL('delete'),
-					'class' => 'elgg-button-delete-entity',
+					'link_class' => 'elgg-button-delete-entity',
 					'data-guid' => $entity->guid,
 					'priority' => 1000
 				);
@@ -212,7 +212,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 						'text' => elgg_view_icon('edit'),
 						'title' => elgg_echo('edit'),
 						'href' => $entity->getURL('edit'),
-						//'class' => 'elgg-button-edit-entity',
+						//'link_class' => 'elgg-button-edit-entity',
 						'data-guid' => $entity->guid,
 						'priority' => 995
 					);
@@ -222,7 +222,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 						'text' => elgg_view_icon('delete'),
 						'title' => elgg_echo('delete'),
 						'href' => $entity->getURL('delete'),
-						//'class' => 'elgg-button-gallery-delete',
+						//'link_class' => 'elgg-button-gallery-delete',
 						'data-guid' => $entity->guid,
 						'priority' => 1000
 					);
@@ -274,7 +274,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'title' => elgg_echo('gallery:approve'),
 			'href' => "action/gallery/approve/image?guid=$entity->guid",
 			'is_action' => true,
-			'class' => 'elgg-button-gallery-approve',
+			'link_class' => 'elgg-button-gallery-approve',
 			'data-guid' => $entity->guid,
 			'priority' => 990
 		);
@@ -283,7 +283,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 			'title' => elgg_echo('delete'),
 			'href' => $entity->getURL('delete'),
-			'class' => 'elgg-button-gallery-delete',
+			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
 			'priority' => 1000
 		);
@@ -297,7 +297,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 //			'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
 //			'title' => elgg_echo('edit'),
 //			'href' => $entity->getURL('edit'),
-//			'class' => 'elgg-button-edit-entity',
+//			'link_class' => 'elgg-button-edit-entity',
 //			'data-guid' => $entity->guid,
 //			'priority' => 995
 //		);
@@ -307,7 +307,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 			'title' => elgg_echo('delete'),
 			'href' => $entity->getURL('delete'),
-			'class' => 'elgg-button-gallery-delete',
+			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
 			'priority' => 1000
 		);
@@ -318,7 +318,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'title' => elgg_echo('gallery:image:cropper'),
 			'href' => "gallery/thumb/$entity->guid",
 			'data-guid' => $entity->guid,
-			'class' => 'elgg-button-gallery-cropper',
+			'link_class' => 'elgg-button-gallery-cropper',
 			'priority' => 990,
 		);
 	}
@@ -331,7 +331,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
 			'title' => elgg_echo('gallery:image:reorder'),
 			'href' => "#elgg-object-$entity->guid",
-			'class' => 'elgg-button-gallery-drag',
+			'link_class' => 'elgg-button-gallery-drag',
 			'priority' => 10,
 			'section' => 'drag'
 		);
@@ -344,7 +344,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			)),
 			'title' => elgg_echo('gallery:image:priority'),
 			'href' => false,
-			'class' => '',
+			'link_class' => '',
 			'priority' => 20,
 			'section' => 'drag'
 		);
@@ -355,7 +355,7 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'title' => elgg_echo('gallery:image:makecover'),
 			'href' => "action/gallery/makecover?e=$entity->guid",
 			'is_action' => true,
-			'class' => 'elgg-button-gallery-makecover',
+			'link_class' => 'elgg-button-gallery-makecover',
 			'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
 			'data-guid' => $entity->guid,
 			'priority' => 980,
