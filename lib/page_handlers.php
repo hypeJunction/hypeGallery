@@ -33,7 +33,6 @@ function page_handler($page) {
 				case 'friends' :
 				case 'groups' :
 				case 'favorites' :
-
 					gatekeeper();
 
 					if (isset($page[2])) {
@@ -69,6 +68,22 @@ function page_handler($page) {
 			elgg_set_page_owner_guid($group->guid);
 
 			include "{$path}dashboard/group.php";
+			break;
+
+		case 'container' :
+			$container_guid = elgg_extract(1, $page, false);
+			if (!$container_guid) {
+				return false;
+			}
+			$group = get_entity($container_guid);
+
+			if (!elgg_instanceof($container_guid)) {
+				return false;
+			}
+
+			elgg_set_page_owner_guid($group->guid);
+
+			include "{$path}dashboard/container.php";
 			break;
 
 		case 'create' :
