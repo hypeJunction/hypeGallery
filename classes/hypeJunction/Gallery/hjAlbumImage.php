@@ -7,7 +7,7 @@ use ElggFile;
 /**
  * Image entity class
  *
- * @package hypeJunction
+ * @package Elgg
  * @subpackage Gallery
  */
 class hjAlbumImage extends ElggFile {
@@ -128,7 +128,7 @@ class hjAlbumImage extends ElggFile {
 			$delfile->setFilename($largethumb);
 			$delfile->delete();
 		}
-		
+
 		return parent::delete();
 	}
 

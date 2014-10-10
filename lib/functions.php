@@ -109,7 +109,7 @@ function register_entity_title_buttons($entity) {
 /**
  * Register Dashboard title menu items
  *
- * @param string $dashboard	Dashboard filter context
+ * @param string $dashboard 	Dashboard filter context
  * @return void
  */
 function register_dashboard_title_buttons($dashboard = 'site') {
@@ -156,7 +156,7 @@ function register_dashboard_title_buttons($dashboard = 'site') {
  * @param string $name	Name of the HTML file input
  * @param string $subtype	Object subtype to be assigned to newly created objects
  * @param type $guid	GUID of an existing object
- * @param type $container_guid	GUID of the container entity
+ * @param type $container_guid		GUID of the container entity
  * @return array	An associative array of original file names and guids (or false) of created object
  */
 function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = null, $container_guid = null) {
@@ -260,7 +260,7 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
 /**
  * Normalize files global
  * 
- * @param array $_files	Global files array
+ * @param array $_files		Global files array
  * @param boolean $top	Top level?
  * @return array	Normalized files array
  */
@@ -294,9 +294,9 @@ function prepare_files_global(array $_files, $top = TRUE) {
 /**
  * Generate icons for an entity
  *
- * @param ElggEntity $entity Entity
- * @param ElggFile $filehandler	Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
- * @param array $coords	Coordinates for cropping
+ * @param ElggEntity $entity	Entity
+ * @param ElggFile $filehandler		Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
+ * @param array $coords 	Coordinates for cropping
  * @return boolean
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null) {
@@ -393,7 +393,7 @@ function get_simple_type($mimetype) {
 /**
  * Get album write permissions_array
  * 
- * @param ElggObject $container	Album
+ * @param ElggObject $container		Album
  * @return array
  */
 function get_permissions_options($container) {
@@ -467,7 +467,7 @@ function handle_uploaded_files() {
 /**
  * Get ancestry for a given entity guid
  *
- * @param int $guid	GUID of the child element
+ * @param int $guid		GUID of the child element
  * @return boolean|array
  */
 function get_ancestry($guid) {
@@ -492,7 +492,7 @@ function get_ancestry($guid) {
 /**
  * Parse and format meaningful EXIF tags
  *
- * @param ElggFile $entity
+ * @param ElggFile $entity	Entity
  * @return array|false
  */
 function get_exif($entity) {
@@ -650,11 +650,11 @@ function get_exif($entity) {
 
 /**
  * Helper function to convert exif GPS to proper coords
- *
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
- * @param array $exifCoord Exif coords
+ * 
+ * @param array $exifCoord	Exif coords
  * @param string $hemi	Hemisphere
- * @return float
+ * @return float 
  */
 function exif_getGps($exifCoord, $hemi) {
 
@@ -669,9 +669,9 @@ function exif_getGps($exifCoord, $hemi) {
 
 /**
  * Helper function to convert exif GPS to proper coords
- *
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
- * @param string $coordPart GPS coords
+ *
+ * @param string $coordPart		GPS coords
  * @return int
  */
 function exif_gps2Num($coordPart) {

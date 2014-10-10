@@ -7,8 +7,8 @@ use ElggObject;
 /**
  * Album Class
  *
- * @package hypeJunction
- * @subpackage Gallery
+ * @package Elgg
+ * @subpackage Gallery	
  */
 class hjAlbum extends ElggObject {
 
@@ -32,11 +32,11 @@ class hjAlbum extends ElggObject {
 	public function countImages() {
 
 		return elgg_get_entities(array(
-					'types' => 'object',
-					'subtypes' => array('hjalbumimage'),
-					'container_guids' => $this->guid,
-					'count' => true
-				));
+			'types' => 'object',
+			'subtypes' => array('hjalbumimage'),
+			'container_guids' => $this->guid,
+			'count' => true
+		));
 	}
 
 	/**
@@ -85,7 +85,7 @@ class hjAlbum extends ElggObject {
 
 		if ($this->cover) {
 			$cover_image = get_entity($this->cover);
-		} 
+		}
 		if (!$cover_image) {
 			$images = $this->getContainedFiles(array('limit' => 1));
 			$cover_image = $images[0];

@@ -11,7 +11,7 @@ use ElggMenuItem;
  * @param string $hook	Equals 'container_permissions_check'
  * @param string $type	Equals 'object'
  * @param boolean $return	Current permission
- * @param array $params	Additional params
+ * @param array $params		Additional params
  * @return boolean	Updated permission
  */
 function container_permissions_check($hook, $type, $return, $params) {
@@ -82,7 +82,7 @@ function container_permissions_check($hook, $type, $return, $params) {
  * @param string $hook	Equals 'permissions_check'
  * @param string $type	Equals 'object'
  * @param boolena $return	Current permission
- * @param array $params	Additional params
+ * @param array $params		Additional params
  * @return boolean	Updated permission
  */
 function permissions_check($hook, $type, $return, $params) {
@@ -115,7 +115,7 @@ function permissions_check($hook, $type, $return, $params) {
  * @param string $hook	'get_sql'
  * @param string $type	'access'
  * @param array $clauses	Current clauses
- * @param array $params	Additional params
+ * @param array $params		Additional params
  * @return array	Filtered clauses
  */
 function filter_access_sql($hook, $type, $clauses, $params) {
@@ -142,9 +142,9 @@ function filter_access_sql($hook, $type, $clauses, $params) {
  *
  * @param string $hook	Equals 'register'
  * @param string $type	Equals 'menu:entity'
- * @param array $return	Current menu array
- * @param array $params	Additional params
- * @return array	Updated menu
+ * @param array $return		Current menu array
+ * @param array $params		Additional params
+ * @return array 	Updated menu
  */
 function entity_menu_setup($hook, $type, $return, $params) {
 
@@ -278,8 +278,8 @@ function entity_menu_setup($hook, $type, $return, $params) {
  * 
  * @param string $hook	Equals 'register'
  * @param string $type	Equals 'menu:album:manage'
- * @param array $return	Current menu
- * @param array $params	Additional params
+ * @param array $return		Current menu
+ * @param array $params		Additional params
  * @return array	Filtered menu
  */
 function manage_album_image_menu_setup($hook, $type, $return, $params) {
@@ -409,8 +409,8 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
  *
  * @param string $hook	Equals 'register'
  * @param string $type	Equals 'menu:owner_block'
- * @param array $return	Current menu items
- * @param array $params	Additional params
+ * @param array $return		Current menu items
+ * @param array $params		Additional params
  * @return array	Updated menu
  */
 function owner_block_menu_setup($hook, $type, $return, $params) {
@@ -439,8 +439,8 @@ function owner_block_menu_setup($hook, $type, $return, $params) {
  *
  * @param string $hook	Equals 'entity:icon:sizes'
  * @param string $type	Equals 'object'
- * @param array $return	Current config
- * @param array $params	Additional params
+ * @param array $return		Current config
+ * @param array $params		Additional params
  * @return array	Updated config
  */
 function entity_icon_sizes($hook, $type, $return, $params) {
