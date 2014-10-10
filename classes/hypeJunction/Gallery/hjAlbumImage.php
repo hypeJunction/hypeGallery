@@ -6,9 +6,11 @@ use ElggFile;
 
 class hjAlbumImage extends ElggFile {
 
+	const SUBTYPE = 'hjalbumimage';
+
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
-		$this->attributes['subtype'] = 'hjalbumimage';
+		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
 	public function save() {

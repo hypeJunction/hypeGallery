@@ -6,9 +6,11 @@ use ElggObject;
 
 class hjAlbum extends ElggObject {
 
+	const SUBTYPE = 'hjalbum';
+
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
-		$this->attributes['subtype'] = 'hjalbum';
+		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
 	public function countImages() {
