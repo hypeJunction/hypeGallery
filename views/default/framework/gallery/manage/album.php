@@ -45,17 +45,19 @@ if ($entity->canEdit()) {
 
 $count = elgg_get_entities_from_metadata($options);
 $options['count'] = false;
-$images = elgg_get_entities_from_metadata($options);
 
 $ha = access_get_show_hidden_status();
 
-$body = elgg_view_entity_list($images, array(
+$images = elgg_get_entities_from_metadata($options);
+$list_options = array(
 	'list_type' => 'gallery',
 	'gallery_class' => 'gallery-photostream gallery-manage-album',
 	'full_view' => true,
 	'pagination' => true,
 	'offset_key' => "offset-images-$entity->guid",
-		));
+);
+
+$body = elgg_list_entities_from_metadata($options);
 
 $body .= elgg_view('navigation/pagination', array(
 	'limit' => $limit,
