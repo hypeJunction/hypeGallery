@@ -125,10 +125,12 @@ function filter_access_sql($hook, $type, $clauses, $params) {
 	}
 
 	$table_alias = elgg_extract('table_alias', $params);
+	$table_alias = ($table_alias) ? "{$table_alias}." : "";
+	
 	$and_clauses = elgg_extract('ands', $clauses, array());
 	if (is_array($and_clauses)) {
 		foreach ($and_clauses as $key => $clause) {
-			if ($clause == "{$table_alias}.enabled = 'yes'") {
+			if ($clause == "{$table_alias}enabled = 'yes'") {
 				unset($clauses['ands'][$key]);
 			}
 		}

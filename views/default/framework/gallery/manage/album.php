@@ -53,6 +53,7 @@ $list_options = array(
 	'offset_key' => "offset-images-$entity->guid",
 );
 
+$options = array_merge($options, $list_options);
 $body = elgg_list_entities_from_metadata($options);
 
 $body .= elgg_view('navigation/pagination', array(
