@@ -3,9 +3,9 @@
 namespace hypeJunction\Gallery;
 
 /**
- * Register Album/Image title buttons
+ * Register albums/image title buttons
  *
- * @param ElggEntity $entity
+ * @param ElggObject $entity	Album or image
  * @return boolean
  */
 function register_entity_title_buttons($entity) {
@@ -18,9 +18,8 @@ function register_entity_title_buttons($entity) {
 
 		default :
 			return true;
-			break;
 
-		case 'hjalbum' :
+		case hjAlbum::SUBTYPE :
 
 			if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage') && !elgg_in_context('gallery-upload')) {
 				$items['upload'] = array(
@@ -58,10 +57,9 @@ function register_entity_title_buttons($entity) {
 					'priority' => 1000
 				);
 			}
-
 			break;
 
-		case 'hjalbumimage' :
+		case hjAlbumImage::SUBTYPE :
 
 			$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC)) ? array(
 				'text' => elgg_echo('gallery:image:download'),
@@ -95,7 +93,6 @@ function register_entity_title_buttons($entity) {
 					'priority' => 1000
 				);
 			}
-
 			break;
 	}
 
@@ -113,6 +110,7 @@ function register_entity_title_buttons($entity) {
  * Register Dashboard title menu items
  *
  * @param string $dashboard Dashboard filter context
+ * @return void
  */
 function register_dashboard_title_buttons($dashboard = 'site') {
 
@@ -155,13 +153,13 @@ function register_dashboard_title_buttons($dashboard = 'site') {
 /**
  * Process uploaded files
  *
- * @param string $name			Name of the HTML file input
- * @param string $subtype		Object subtype to be assigned to newly created objects
- * @param type $guid			GUID of an existing object
+ * @param string $name	Name of the HTML file input
+ * @param string $subtype	Object subtype to be assigned to newly created objects
+ * @param type $guid	GUID of an existing object
  * @param type $container_guid	GUID of the container entity
- * @return array				An associative array of original file names and guids (or false) of created object
+ * @return array	An associative array of original file names and guids (or false) of created object
  */
-function process_file_upload($name, $subtype = 'hjalbumimage', $guid = null, $container_guid = null) {
+function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = null, $container_guid = null) {
 
 	// Normalize the $_FILES array
 	if (is_array($_FILES[$name]['name'])) {
@@ -242,7 +240,8 @@ function process_file_upload($name, $subtype = 'hjalbumimage', $guid = null, $co
 				if (elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
 					$icon_sizes = elgg_get_config('icon_sizes');
 					$values = $icon_sizes['master'];
-					$master = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
+					$master = get_resized_image_from_existing_file(
+							$filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
 					$filehandler->open('write');
 					$filehandler->write($master);
 					$filehandler->close();
@@ -259,11 +258,11 @@ function process_file_upload($name, $subtype = 'hjalbumimage', $guid = null, $co
 }
 
 /**
- * Normalize $_FILES global
- *
- * @param array $_files
- * @param bool $top
- * @return array
+ * Normalize files global
+ * 
+ * @param array $_files	Global files array
+ * @param boolean $top	Top level?
+ * @return array	Normalized files array
  */
 function prepare_files_global(array $_files, $top = TRUE) {
 
@@ -295,9 +294,9 @@ function prepare_files_global(array $_files, $top = TRUE) {
 /**
  * Generate icons for an entity
  *
- * @param ElggEntity $entity
- * @param ElggFile $filehandler		Valid $filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
- * @param array $coords				Coordinates for cropping
+ * @param ElggEntity $entity Entity
+ * @param ElggFile $filehandler	Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
+ * @param array $coords	Coordinates for cropping
  * @return boolean
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null) {
@@ -311,8 +310,9 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
 		$filehandler = $entity;
 	}
 
-	if (!$filehandler)
+	if (!$filehandler) {
 		return false;
+	}
 
 	$prefix = "icons/" . $entity->getGUID();
 
@@ -361,13 +361,10 @@ function get_simple_type($mimetype) {
 		case "application/msword":
 		case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
 			return "document";
-			break;
 		case "application/pdf":
 			return "document";
-			break;
 		case "application/ogg":
 			return "audio";
-			break;
 	}
 
 	if (substr_count($mimetype, 'text/')) {
@@ -498,7 +495,7 @@ function get_ancestry($guid) {
  * Parse and format meaningful EXIF tags
  *
  * @param ElggFile $entity
- * @return mixed
+ * @return array|false
  */
 function get_exif($entity) {
 
@@ -655,7 +652,11 @@ function get_exif($entity) {
 
 /**
  * Helper function to convert exif GPS to proper coords
+ *
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
+ * @param array $exifCoord
+ * @param string $hemi
+ * @return float
  */
 function exif_getGps($exifCoord, $hemi) {
 
@@ -670,24 +671,30 @@ function exif_getGps($exifCoord, $hemi) {
 
 /**
  * Helper function to convert exif GPS to proper coords
+ *
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
+ * @param string $coordPart GPS coords
+ * @return int
  */
 function exif_gps2Num($coordPart) {
 
 	$parts = explode('/', $coordPart);
 
-	if (count($parts) <= 0)
+	if (count($parts) <= 0) {
 		return 0;
+	}
 
-	if (count($parts) == 1)
+	if (count($parts) == 1) {
 		return $parts[0];
+	}
 
 	return floatval($parts[0]) / floatval($parts[1]);
 }
 
 /**
  * Get an array of icon sizes for this entity
- * @param ElggEntity $entity
+ * 
+ * @param ElggObject $entity	Entity
  * @return array
  */
 function get_icon_sizes($entity) {

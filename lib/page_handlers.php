@@ -160,7 +160,7 @@ function page_handler($page) {
 				return false;
 			}
 
-			if (!$entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+			if (!$entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 				return false;
 			}
 

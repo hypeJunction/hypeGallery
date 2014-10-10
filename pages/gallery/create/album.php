@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $container_guid = get_input('container_guid');
 $container = get_entity($container_guid);
 
-if (!elgg_instanceof($container) || !$container->canWriteToContainer(0, 'object', 'hjalbum')) {
+if (!elgg_instanceof($container) || !$container->canWriteToContainer(0, 'object', hjAlbum::SUBTYPE)) {
 	return false;
 }
 

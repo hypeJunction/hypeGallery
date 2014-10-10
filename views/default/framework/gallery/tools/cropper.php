@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars);
 
-if (!elgg_instanceof($entity, 'object', 'hjalbumimage') || !$entity->canEdit()) {
+if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE) || !$entity->canEdit()) {
 	return;
 }
 

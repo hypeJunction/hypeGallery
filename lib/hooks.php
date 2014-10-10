@@ -28,9 +28,8 @@ function container_permissions_check($hook, $type, $return, $params) {
 
 		default :
 			return $return;
-			break;
 
-		case 'hjalbum' :
+		case hjAlbum::SUBTYPE :
 
 			switch ($subtype) {
 
@@ -38,7 +37,7 @@ function container_permissions_check($hook, $type, $return, $params) {
 					return $return;
 					break;
 
-				case 'hjalbumimage' :
+				case hjAlbumImage::SUBTYPE :
 
 					if ($container->canEdit()) {
 						return true;
@@ -71,7 +70,6 @@ function container_permissions_check($hook, $type, $return, $params) {
 					}
 
 					return $return;
-					break;
 			}
 			break;
 	}
@@ -100,7 +98,6 @@ function permissions_check($hook, $type, $return, $params) {
 
 		default :
 			return $return;
-			break;
 
 		case 'hjimagetag' :
 
@@ -109,7 +106,6 @@ function permissions_check($hook, $type, $return, $params) {
 				return true;
 			}
 			return $return;
-			break;
 	}
 }
 
@@ -162,12 +158,11 @@ function entity_menu_setup($hook, $type, $return, $params) {
 
 		default :
 			return $return;
-			break;
 
-		case 'hjalbum' :
+		case hjAlbum::SUBTYPE :
 
 			// Add images
-			if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 				$items['upload'] = array(
 					'text' => elgg_echo('gallery:upload'),
 					'title' => elgg_echo('gallery:upload'),
@@ -179,7 +174,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 			}
 
 			// Manage album
-			if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 				$items['manage'] = array(
 					'text' => elgg_echo('gallery:manage:album'),
 					'title' => elgg_echo('gallery:manage:album'),
@@ -210,7 +205,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 
 			break;
 
-		case 'hjalbumimage' :
+		case hjAlbumImage::SUBTYPE :
 
 			if (elgg_in_context('gallery-manage')) {
 				$return = array();
@@ -281,16 +276,17 @@ function entity_menu_setup($hook, $type, $return, $params) {
 /**
  * Album/image manage menu items
  * 
- * @param string $hook		Equals 'register'
- * @param string $type		Equals 'menu:album:manage'
- * @param array $return		
- * @param array $params
+ * @param string $hook	Equals 'register'
+ * @param string $type	Equals 'menu:album:manage'
+ * @param array $return	Current menu
+ * @param array $params	Additional params
+ * @return array	Filtered menu
  */
 function manage_album_image_menu_setup($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params, false);
 
-	if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+	if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
 		return $return;
 	}
 
@@ -411,11 +407,11 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 /**
  * Add gallery related items to owner block menu
  *
- * @param string $hook		Equals 'register'
- * @param string $type		Equals 'menu:owner_block'
- * @param array $return		Current menu items
- * @param array $params		Additional params
- * @return array			Updated menu
+ * @param string $hook	Equals 'register'
+ * @param string $type	Equals 'menu:owner_block'
+ * @param array $return	Current menu items
+ * @param array $params	Additional params
+ * @return array	Updated menu
  */
 function owner_block_menu_setup($hook, $type, $return, $params) {
 
@@ -441,11 +437,11 @@ function owner_block_menu_setup($hook, $type, $return, $params) {
 /**
  * Icon size config
  *
- * @param string $hook		Equals 'entity:icon:sizes'
- * @param string $type		Equals 'object'
- * @param array $return		Current config
- * @param array $params		Additional params
- * @return array			Updated config
+ * @param string $hook	Equals 'entity:icon:sizes'
+ * @param string $type	Equals 'object'
+ * @param array $return	Current config
+ * @param array $params	Additional params
+ * @return array	Updated config
  */
 function entity_icon_sizes($hook, $type, $return, $params) {
 

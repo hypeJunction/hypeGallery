@@ -39,7 +39,7 @@ if (!$album->save()) {
 	if ($guid && $previous_access_id !== $album->access_id) {
 		$images = new ElggBatch('elgg_get_entities', array(
 			'types' => 'object',
-			'subtypes' => 'hjalbumimage',
+			'subtypes' => hjAlbumImage::SUBTYPE,
 			'container_guids' => $album->guid,
 			'limit' => 0
 		));

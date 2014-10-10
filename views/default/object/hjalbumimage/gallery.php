@@ -6,7 +6,7 @@ $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 $size = elgg_extract('size', $vars, '325x200');
 
-if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
 	return true;
 }
 
@@ -82,7 +82,7 @@ if (elgg_in_context('gallery-manage')) {
 }
 
 $container = get_entity($entity->container_guid);
-if (elgg_instanceof($container, 'object', 'hjalbum')) {
+if (elgg_instanceof($container, 'object', hjAlbum::SUBTYPE)) {
 	$album = elgg_view_entity_icon($container, 'small');
 }
 if (!$full) {

@@ -9,7 +9,7 @@ $failed = 0;
 $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
-if (!elgg_instanceof($album, 'object', 'hjalbum') || !$album->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+if (!elgg_instanceof($album, 'object', hjAlbum::SUBTYPE) || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 	register_error('gallery:upload:error:noalbum');
 	forward(REFERER);
 }
@@ -30,7 +30,7 @@ if (!is_array($guids)) {
 
 // files being uploaded via $_FILES
 $uploads = UploadHandler::handle('gallery_files', array(
-			'subtype' => 'hjalbumimage',
+			'subtype' => hjAlbumImage::SUBTYPE,
 			'container_guid' => $album->guid));
 
 if ($uploads && count($uploads)) {
@@ -84,7 +84,7 @@ if ($guids) {
 			continue;
 		}
 
-		if (!elgg_instanceof($image, 'object', 'hjalbumimage') || $image->simpletype != 'image') {
+		if (!elgg_instanceof($image, 'object', hjAlbumImage::SUBTYPE) || $image->simpletype != 'image') {
 			$failed++;
 			$image->delete();
 			continue;

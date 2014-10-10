@@ -24,7 +24,7 @@ $offset = get_input("offset-images-$entity->guid", 0);
 
 $options = array(
 	'types' => 'object',
-	'subtypes' => array('hjalbumimage'),
+	'subtypes' => array(hjAlbumImage::SUBTYPE),
 	'owner_guids' => ($collab_album) ? elgg_get_logged_in_user_guid() : ELGG_ENTITIES_ANY_VALUE,
 	'container_guids' => $entity->guid,
 	'limit' => $limit,
@@ -34,7 +34,7 @@ $options = array(
 );
 
 
-if (!$entity->canEdit() && $entity->canWriteToContainer(0, 'object', 'hjalbumimage')) {
+if (!$entity->canEdit() && $entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 	$options['owner_guids'] = elgg_get_logged_in_user_guid(); // for collaborative albums/only show images uploaded by the user
 }
 

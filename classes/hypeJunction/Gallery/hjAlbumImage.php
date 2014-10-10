@@ -4,15 +4,28 @@ namespace hypeJunction\Gallery;
 
 use ElggFile;
 
+/**
+ * Image entity class
+ */
 class hjAlbumImage extends ElggFile {
 
 	const SUBTYPE = 'hjalbumimage';
 
+	/**
+	 * Initialize attributes
+	 * Set subtype
+	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
+	/**
+	 * Save entity
+	 * Add default priority and update last action on an album
+	 *
+	 * @return integer|false
+	 */
 	public function save() {
 		update_entity_last_action($this->container_guid);
 		if (!isset($this->priority)) {
@@ -21,6 +34,12 @@ class hjAlbumImage extends ElggFile {
 		return parent::save();
 	}
 
+	/**
+	 * Get URL for a specific operation
+	 *
+	 * @param string $action
+	 * @return string
+	 */
 	public function getURL($action = 'view') {
 		switch ($action) {
 			default :
@@ -43,10 +62,21 @@ class hjAlbumImage extends ElggFile {
 		}
 	}
 
+	/**
+	 * Get icon URL
+	 *
+	 * @param string $size
+	 * @return string
+	 */
 	public function getIconURL($size = 'medium') {
 		return elgg_normalize_url("gallery/icon/$this->guid/$size");
 	}
 
+	/**
+	 * Delete image entity and clean up filestore
+	 * 
+	 * @return boolean
+	 */
 	public function delete() {
 
 		$icon_sizes = elgg_get_config('icon_sizes');
@@ -102,6 +132,11 @@ class hjAlbumImage extends ElggFile {
 		return parent::delete();
 	}
 
+	/**
+	 * Get EXIF data for this image
+	 *
+	 * @return array|false
+	 */
 	function getExif() {
 		return get_exif($this);
 	}

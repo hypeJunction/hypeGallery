@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 
-if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
+if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
 	return true;
 }
 

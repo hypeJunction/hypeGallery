@@ -21,7 +21,7 @@ function pagesetup() {
 		'data' => array(
 			'options' => array(
 				'type' => 'object',
-				'subtype' => 'hjalbumimage',
+				'subtype' => hjAlbumImage::SUBTYPE,
 			),
 		),
 	));

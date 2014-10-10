@@ -80,12 +80,15 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 
 			var $elem = $(this), $tagger = tagger.taggerFloat, $src;
 
-			if (e.target)
+			if (e.target) {
 				$src = $(e.target);
-			else if (e.srcElement)
+			} else if (e.srcElement) {
 				$src = e.srcElement;
-			if ($src.nodeType === 3) // defeat Safari bug
+			}
+			if ($src.nodeType === 3) {
+				// defeat Safari bug
 				$src = $src.parentNode;
+			}
 
 			if ($src.is('.taggable') || $src.is($tagger)) {
 

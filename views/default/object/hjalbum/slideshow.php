@@ -11,7 +11,7 @@ if (!elgg_is_xhr()) {
 
 $entity = elgg_extract('entity', $vars);
 
-if (elgg_instanceof($entity, 'object', 'hjalbum')) {
+if (elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
 	$album = $entity;
 	$current = false;
 } else {
@@ -23,7 +23,7 @@ $dbprefix = elgg_get_config('dbprefix');
 $images = new ElggBatch('elgg_get_entities', array(
 	'selects' => array('oe.title as title'),
 	'types' => 'object',
-	'subtypes' => 'hjalbumimage',
+	'subtypes' => hjAlbumImage::SUBTYPE,
 	'container_guids' => $album->guid,
 	'joins' => array(
 		"JOIN {$dbprefix}objects_entity oe ON oe.guid = e.guid",

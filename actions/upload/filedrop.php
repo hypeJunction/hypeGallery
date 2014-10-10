@@ -8,7 +8,7 @@ $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
 $uploads = UploadHandler::handle('dropzone', array(
-			'subtype' => 'hjalbumimage',
+			'subtype' => hjAlbumImage::SUBTYPE,
 			'container_guid' => $album->guid,
 		));
 

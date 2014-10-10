@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 
-if (!elgg_instanceof($entity, 'object', 'hjalbum')) {
+if (!elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
 	return true;
 }
 
@@ -37,7 +37,7 @@ if ($full) {
 
 	$options = array(
 		'types' => 'object',
-		'subtypes' => array('hjalbumimage'),
+		'subtypes' => array(hjAlbumImage::SUBTYPE),
 		'container_guids' => $entity->guid,
 		'limit' => $limit,
 		'offset' => $offset,

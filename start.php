@@ -33,6 +33,9 @@ elgg_register_event_handler('upgrade', 'system', __NAMESPACE__ . '\\upgrade');
 elgg_register_event_handler('pagesetup', 'system', __NAMESPACE__ . '\\pagesetup');
 elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\\apply_exif_tags');
 
+/**
+ * Initialize the plugin on 'init','system'
+ */
 function init() {
 
 	/**

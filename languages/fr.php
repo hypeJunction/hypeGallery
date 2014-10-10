@@ -35,7 +35,8 @@ $french = array(
 	'gallery:edit:details' => "Ajouter d'autres détails",
 	'gallery:create:album' => "Créer un album",
 	'gallery:manage:album' => "Gérer l'album",
-	'gallery:manage:instructions' => "Il s'agit d'un album collaboratif et vous pouvez y charger des images. Les images ci-dessous sont celles que vous avez chargées.",
+	'gallery:manage:instructions' => "Il s'agit d'un album collaboratif et vous pouvez y charger des images. "
+	. "Les images ci-dessous sont celles que vous avez chargées.",
 	/**
 	 * Labels
 	 */
@@ -88,7 +89,8 @@ $french = array(
 	'gallery:tools:crop' => "Créer une miniature",
 	'gallery:tools:crop:preview' => "Nouvelles miniature",
 	'gallery:tools:crop:current' => "Miniature courante",
-	'gallery:tools:crop:instructions' => "<b>&larr;</b>Click and drag a square on the left to match how you want the thumb cropped. A preview will appear in the box below. It may take some time for the changes to propogate, until browser cache is cleared",
+	'gallery:tools:crop:instructions' => "<b>&larr;</b>Click and drag a square on the left to match how you want the thumb cropped. "
+	. "A preview will appear in the box below. It may take some time for the changes to propogate, until browser cache is cleared",
 	'gallery:tools:crop:loading' => "Chargement de l'outil de coupe...",
 	'gallery:tools:crop:ready' => "Outil de coupe",
 	'gallery:byline' => "Publié par %s %s",
@@ -157,15 +159,18 @@ $french = array(
 	'edit:plugin:hypegallery:params[favorites]' => "Mettre l'onglet Favoris sur le tableau de bord",
 	'edit:plugin:hypegallery:hint:favorites' => "Enclencher cette option ajoutera un onglet Favoris pour les images que vous aimez",
 	'edit:plugin:hypegallery:params[interface_location]' => "Enclencher l'interface de localisation",
-	'edit:plugin:hypegallery:hint:interface_location' => "Enclencher cette option ajoutera les champs de localisation aux images, et une carte (si l'interface vers les cartes est enclenchée)",
+	'edit:plugin:hypegallery:hint:interface_location' => "Enclencher cette option ajoutera les champs de localisation aux images, "
+	. "et une carte (si l'interface vers les cartes est enclenchée)",
 	'edit:plugin:hypegallery:params[interface_calendar]' => "Enclencher les dates et l'heure",
-	'edit:plugin:hypegallery:hint:interface_calendar' => "Enclencher cette option ajoutera le champ de date aux images, et un calendrier (si l'interface vers le calendrier est enclenchée)",
+	'edit:plugin:hypegallery:hint:interface_calendar' => "Enclencher cette option ajoutera le champ de date aux images, "
+	. "et un calendrier (si l'interface vers le calendrier est enclenchée)",
 	'edit:plugin:hypegallery:params[copyrights]' => "Ajouter des informations sur les copyrights aux albums et images",
 	'edit:plugin:hypegallery:hint:copyrights' => "Enclencher cette option ajoutera les champs pour les copyrights aux images",
 	'edit:plugin:hypegallery:params[categories]' => "Enclencher les catégories",
 	'edit:plugin:hypegallery:hint:categories' => "Enclencher cette option ajoutera les champs de catégories aux images",
 	'edit:plugin:hypegallery:params[collaborative_albums]' => "Enclencher les albums collaboratifs",
-	'edit:plugin:hypegallery:hint:collaborative_albums' => "Enclencher cette option permettra aux utilisateurs de créer des albums collaboratifs; les autres utilisateurs seront invités à ajouter des images aux albums collaboratifs qui seront approuvés par le créateur de l'album",
+	'edit:plugin:hypegallery:hint:collaborative_albums' => "Enclencher cette option permettra aux utilisateurs de créer des albums collaboratifs; "
+	. "les autres utilisateurs seront invités à ajouter des images aux albums collaboratifs qui seront approuvés par le créateur de l'album",
 	'edit:plugin:hypegallery:params[group_albums]' => "Enclencher les albums de groupes",
 	'edit:plugin:hypegallery:hint:group_albums' => "Enclencher cette option ajoutera la possibilité de créer des albums dans les groupes",
 	'edit:plugin:hypegallery:params[avatars]' => "Les utilisateurs peuvent employer les images comme avatars",
@@ -173,9 +178,11 @@ $french = array(
 	'edit:plugin:hypegallery:params[tagging]' => "Permettre les étiquettes sur des zones d'images",
 	'edit:plugin:hypegallery:hint:tagging' => "Enclencher cette option permettra aux utilisateurs de placer des étiquettes sur des zones d'images",
 	'edit:plugin:hypegallery:params[downloads]' => "Permettre les téléchargements",
-	'edit:plugin:hypegallery:hint:downloads' => "Enclencher cette option permettra aux utilisateurs de télécharger les images sur leur ordinateur personnel",
+	'edit:plugin:hypegallery:hint:downloads' => "Enclencher cette option permettra aux utilisateurs de télécharger les images sur leur "
+	. "ordinateur personnel",
 	'edit:plugin:hypegallery:params[public_downloads]' => 'Permettre les téléchargements publics',
-	'edit:plugin:hypegallery:hint:public_downloads' => 'Si les téléchargements sont autorisés, accepter cette option permettra à tout le monde de télécharger vos photos.',
+	'edit:plugin:hypegallery:hint:public_downloads' => 'Si les téléchargements sont autorisés, accepter cette option permettra à tout le monde '
+	. 'de télécharger vos photos.',
 	'edit:plugin:hypegallery:params[exif]' => "Enclencher EXIF",
 	'edit:plugin:hypegallery:hint:exif' => "Enclencher cette option permettra l'analyse des informations EXIF des images le cas échéant",
 	'album:untitled' => "Sans titre",
@@ -190,7 +197,8 @@ $french = array(
 	'gallery:list:empty' => "Il n'y a rien à montrer",
 	'gallery:inthisphoto' => "Dans cette photo:",
 	'gallery:image:tag:create' => 'Ajouter des étiquettes',
-	'gallery:image:tag:instructions' => "Pour créer une nouvelle étiquette, définissez une zone sur l'image, remplissez le ou les champs Mots clés et Amis dans le formulaire, et presser Enregistrer.",
+	'gallery:image:tag:instructions' => "Pour créer une nouvelle étiquette, définissez une zone sur l'image, remplissez le ou les champs "
+	. "Mots clés et Amis dans le formulaire, et presser Enregistrer.",
 	'gallery:image:tag:keyword' => 'Mots clés',
 	'gallery:image:tag:friend' => 'Amis',
 	'gallery:inthisphoto:none' => 'Aucune étiquette sur cette photo',

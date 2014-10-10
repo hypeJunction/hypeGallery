@@ -123,8 +123,8 @@ define(['jquery', 'elgg'], function($, elgg) {
 				$thumbeditor.dialog({
 					title: elgg.echo('gallery:tools:crop:ready'),
 					dialogClass: 'gallery-slideshow',
-					width: $(window).width() - $(window).width()*0.1,
-					height: $(window).height() - $(window).height()*0.1,
+					width: $(window).width() - $(window).width() * 0.1,
+					height: $(window).height() - $(window).height() * 0.1,
 					modal: true,
 					close: function() {
 						$(this).dialog('destroy').remove();

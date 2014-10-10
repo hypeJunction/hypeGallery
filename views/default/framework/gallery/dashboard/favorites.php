@@ -8,7 +8,7 @@ echo '<div id="gallery-dashboard-favorites">';
 
 echo elgg_list_entities_from_annotations(array(
 	'types' => 'object',
-	'subtypes' => array('hjalbum', 'hjalbumimage'),
+	'subtypes' => array(hjAlbum::SUBTYPE, hjAlbumImage::SUBTYPE),
 	'annotation_names' => array('likes'),
 	'annotation_owner_guids' => $page_owner->guid,
 	'full_view' => false,

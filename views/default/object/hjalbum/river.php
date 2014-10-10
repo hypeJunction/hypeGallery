@@ -9,7 +9,7 @@ if (!$entity->$river_time) {
 
 	echo elgg_list_entities(array(
 		'types' => 'object',
-		'subtypes' => array('hjalbumimage'),
+		'subtypes' => array(hjAlbumImage::SUBTYPE),
 		'container_guid' => $entity->guid,
 		'limit' => 9,
 		'size' => 'medium',

@@ -40,7 +40,8 @@ $dutch = array(
 	'gallery:edit:details' => 'Andere details toevoegen',
 	'gallery:create:album' => 'Een album maken',
 	'gallery:manage:album' => 'Album beheren',
-	'gallery:manage:instructions' => 'Dit is een gezamenlijk album en u kan er afbeeldingen in opladen. Hieronder ziet u de bestanden enkel opgeladen door u',
+	'gallery:manage:instructions' => 'Dit is een gezamenlijk album en u kan er afbeeldingen in opladen. Hieronder ziet u de bestanden enkel '
+	. 'opgeladen door u',
 	/**
 	 * Labels
 	 */
@@ -93,7 +94,9 @@ $dutch = array(
 	'gallery:tools:crop' => 'Een miniatuur maken',
 	'gallery:tools:crop:preview' => 'Nieuwe miniatuur',
 	'gallery:tools:crop:current' => 'Huidige miniatuur',
-	'gallery:tools:crop:instructions' => '<b>&larr;</b>Klik en sleep een vierkantje om je miniatuur vorm te geven. Een voorvertoning wordt weergegeven in het onderstaande vak. Het is mogelijk dat je even moet wachten voor je de wijziging ziet tot je cache van je browser gewist is',
+	'gallery:tools:crop:instructions' => '<b>&larr;</b>Klik en sleep een vierkantje om je miniatuur vorm te geven. Een voorvertoning '
+	. 'wordt weergegeven in het onderstaande vak. Het is mogelijk dat je even moet wachten voor je de wijziging ziet tot je cache van '
+	. 'je browser gewist is',
 	'gallery:tools:crop:loading' => 'Laden bijsnijtool...',
 	'gallery:tools:crop:ready' => 'Bijsnijtool',
 	'gallery:byline' => 'Gepubliceerd door %s %s',
@@ -158,19 +161,24 @@ $dutch = array(
 	'gallery:thumb:reset:error' => 'Er was een fout bij het opnieuw instellen van de miniatuur',
 	'gallery:tagger:instructions' => 'U maakt een tag door een gebied van de afbeelding te selecteren',
 	'edit:plugin:hypegallery:params[album_river]' => 'Voeg album updates toe aan de activiteiten pagina',
-	'edit:plugin:hypegallery:hint:album_river' => 'Wanneer deze optie aan staat worden nieuwe afbeeldingen die worden geupload toegevoegd aan de activiteiten pagina',
+	'edit:plugin:hypegallery:hint:album_river' => 'Wanneer deze optie aan staat worden nieuwe afbeeldingen die worden geupload '
+	. 'toegevoegd aan de activiteiten pagina',
 	'edit:plugin:hypegallery:params[favorites]' => 'Voegt een favorieten tab toe aan het dashboard',
-	'edit:plugin:hypegallery:hint:favorites' => 'Wanneer deze optie aanstaat wordt er een favorieten tab toegevoegd die een lijst van afbeeldingen die de gebruikers leuk vinden',
+	'edit:plugin:hypegallery:hint:favorites' => 'Wanneer deze optie aanstaat wordt er een favorieten tab toegevoegd die een lijst '
+	. 'van afbeeldingen die de gebruikers leuk vinden',
 	'edit:plugin:hypegallery:params[interface_location]' => 'Zet locatie interface aan',
-	'edit:plugin:hypegallery:hint:interface_location' => 'Wanneer deze optie aanstaat, wordt er een verplicht locatieveld toegevoegd aan afbeeldingen en voegt een map toe (enkel als de map interface aan staat)',
+	'edit:plugin:hypegallery:hint:interface_location' => 'Wanneer deze optie aanstaat, wordt er een verplicht locatieveld toegevoegd '
+	. 'aan afbeeldingen en voegt een map toe (enkel als de map interface aan staat)',
 	'edit:plugin:hypegallery:params[interface_calendar]' => 'Zet de datum functie aan',
-	'edit:plugin:hypegallery:hint:interface_calendar' => 'Wanneer deze optie aanstaat, wordt er een verplicht datum veld toegevoegd aan afbeeldingen en voegt een kalender toe (enkel als de kalender interface aan staat)',
+	'edit:plugin:hypegallery:hint:interface_calendar' => 'Wanneer deze optie aanstaat, wordt er een verplicht datum veld toegevoegd '
+	. 'aan afbeeldingen en voegt een kalender toe (enkel als de kalender interface aan staat)',
 	'edit:plugin:hypegallery:params[copyrights]' => 'Voeg copyright informatie toe aan beelden en albums',
 	'edit:plugin:hypegallery:hint:copyrights' => 'Wanneer deze optie aanstaat, wordt er een verplicht copyright veld toegevoegd',
 	'edit:plugin:hypegallery:params[categories]' => 'Ze categorieën aan',
 	'edit:plugin:hypegallery:hint:categories' => 'Wanneer deze optie aanstaat, wordt er een categorie veld toegevoegd aan afbeeldingen',
 	'edit:plugin:hypegallery:params[collaborative_albums]' => 'Zet collaboratieve albums aan',
-	'edit:plugin:hypegallery:hint:collaborative_albums' => 'Deze optie laat gebruikers toe om collaboratieve albums aan te maken. Andere gebruikers kunnen dan afbeeldingen toevoegen aan het album die de originele eigenaar moet goedkeuren',
+	'edit:plugin:hypegallery:hint:collaborative_albums' => 'Deze optie laat gebruikers toe om collaboratieve albums aan te maken. '
+	. 'Andere gebruikers kunnen dan afbeeldingen toevoegen aan het album die de originele eigenaar moet goedkeuren',
 	'edit:plugin:hypegallery:params[group_albums]' => 'Zet groep albums aan',
 	'edit:plugin:hypegallery:hint:group_albums' => 'Deze optie voorziet een album interface voor groepen',
 	'edit:plugin:hypegallery:params[avatars]' => 'Gebruikers mogen afbeeldingen als profielfoto gebruiken',
@@ -180,7 +188,8 @@ $dutch = array(
 	'edit:plugin:hypegallery:params[downloads]' => 'Zet downloads aan',
 	'edit:plugin:hypegallery:hint:downloads' => 'Door deze optie aan te zetten sta je gebruikers toe om afbeeldingen te downloaden',
 	'edit:plugin:hypegallery:params[public_downloads]' => 'Zet publieke downloads aan',
-	'edit:plugin:hypegallery:hint:public_downloads' => 'Door deze optie aan te zetten sta je niet ingelogde gebruikers toe om afbeeldingen te downloaden (enkel wanneer de download optie aanstaat)',
+	'edit:plugin:hypegallery:hint:public_downloads' => 'Door deze optie aan te zetten sta je niet ingelogde gebruikers toe om afbeeldingen '
+	. 'te downloaden (enkel wanneer de download optie aanstaat)',
 	'edit:plugin:hypegallery:params[exif]' => 'Zet EXIF aan',
 	'edit:plugin:hypegallery:hint:exif' => 'Deze optie staat het toe om EXIF informatie weer te geven voor afbeeldingen die deze info bezitten',
 	'album:untitled' => 'Naamloos',
@@ -195,7 +204,8 @@ $dutch = array(
 	'gallery:list:empty' => 'Er zijn geen items om te laten zien',
 	'gallery:inthisphoto' => 'In deze afbeelding',
 	'gallery:image:tag:create' => 'Voeg tag toe',
-	'gallery:image:tag:instructions' => 'Om een nieuwe tag te creëren, selecteer een gebied op de afbeelding, vul het formulier in en klik op opslaan',
+	'gallery:image:tag:instructions' => 'Om een nieuwe tag te creëren, selecteer een gebied op de afbeelding, vul het formulier in en klik op '
+	. 'opslaan',
 	'gallery:image:tag:keyword' => 'Sleutelwoorden',
 	'gallery:image:tag:friend' => 'Vriend',
 	'gallery:inthisphoto:none' => 'Nog geen tags in deze afbeelding',

@@ -7,7 +7,7 @@ $owner = $entity->getOwnerEntity();
 
 $options = array(
 	'types' => 'object',
-	'subtypes' => array('hjalbumimage'),
+	'subtypes' => array(hjAlbumImage::SUBTYPE),
 	'owner_guids' => (!elgg_in_context('dashboard')) ? $owner->guid : null,
 	'limit' => $entity->num_display,
 	'count' => true,

@@ -11,8 +11,9 @@ $gallery_config = get_icon_sizes($entity);
 if (array_key_exists($requested_size, $gallery_config)) {
 	$values = elgg_extract($requested_size, $gallery_config);
 	$requested_w = $values['w'];
-	if ($values['square'])
+	if ($values['square']) {
 		$requested_h = $values['h'];
+	}
 } else {
 	list($requested_w, $requested_h) = explode('x', $requested_size);
 }

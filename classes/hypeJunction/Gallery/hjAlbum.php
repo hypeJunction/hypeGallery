@@ -4,15 +4,26 @@ namespace hypeJunction\Gallery;
 
 use ElggObject;
 
+/**
+ * Album Class
+ */
 class hjAlbum extends ElggObject {
 
 	const SUBTYPE = 'hjalbum';
 
+	/**
+	 * Initialize attributes
+	 * Set subtype
+	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
+	/**
+	 * Count images contained in an album
+	 * @return integer
+	 */
 	public function countImages() {
 
 		return elgg_get_entities(array(
@@ -23,6 +34,11 @@ class hjAlbum extends ElggObject {
 				));
 	}
 
+	/**
+	 * Get album URL
+	 * @param string $action
+	 * @return string
+	 */
 	public function getURL($action = 'view') {
 		switch ($action) {
 
@@ -30,27 +46,35 @@ class hjAlbum extends ElggObject {
 			case 'view' :
 				$friendly_title = elgg_get_friendly_title($this->title);
 				return "gallery/view/$this->guid/$friendly_title";
-				break;
 
 			case 'edit' :
 				return "gallery/edit/$this->guid";
-				break;
 
 			case 'delete' :
 				return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
-				break;
 
 			case 'manage' :
 				return "gallery/manage/$this->guid";
-				break;
 		}
 	}
 
+	/**
+	 * Get files contained in this album
+	 *
+	 * @param array $options
+	 * @return ElggObject[]|false
+	 */
 	public function getContainedFiles($options = array()) {
 		$options['container_guids'] = array($this->guid);
 		return get_files($options);
 	}
 
+	/**
+	 * Get icon URL
+	 *
+	 * @param string $size
+	 * @return string
+	 */
 	public function getIconURL($size = 'medium') {
 
 		if ($this->cover) {

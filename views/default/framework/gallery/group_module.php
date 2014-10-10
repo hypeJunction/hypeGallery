@@ -19,7 +19,7 @@ set_input('details', false);
 
 $options = array(
 	'types' => 'object',
-	'subtypes' => array('hjalbum'),
+	'subtypes' => array(hjAlbum::SUBTYPE),
 	'container_guids' => $group->guid,
 	'full_view' => false,
 	'pagination' => false,
