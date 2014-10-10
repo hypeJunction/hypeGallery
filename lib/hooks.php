@@ -8,11 +8,11 @@ use ElggMenuItem;
  * Bypass default access controls
  * - Allow users to add images to shared albums
  *
- * @param string	$hook	Equals 'container_permissions_check'
- * @param string	$type	Equals 'object'
- * @param boolean	$return	Current permission
- * @param array		$params	Additional params
- * @return boolean	Updated permission
+ * @param string  $hook   Equals 'container_permissions_check'
+ * @param string  $type   Equals 'object'
+ * @param boolean $return Current permission
+ * @param array   $params Additional params
+ * @return boolean Updated permission
  */
 function container_permissions_check($hook, $type, $return, $params) {
 
@@ -109,11 +109,11 @@ function permissions_check($hook, $type, $return, $params) {
 /**
  * Filter access sql to display disabled entities
  * 
- * @param string	$hook	 'get_sql'
- * @param string	$type	 'access'
- * @param array		$clauses Current clauses
- * @param array		$params	 Additional params
- * @return array	Filtered clauses
+ * @param string $hook    'get_sql'
+ * @param string $type    'access'
+ * @param array  $clauses Current clauses
+ * @param array  $params  Additional params
+ * @return array Filtered clauses
  */
 function filter_access_sql($hook, $type, $clauses, $params) {
 
@@ -139,11 +139,11 @@ function filter_access_sql($hook, $type, $clauses, $params) {
 /**
  * Update entity menus
  *
- * @param string	$hook	Equals 'register'
- * @param string	$type	Equals 'menu:entity'
- * @param array		$return Current menu array
- * @param array		$params	Additional params
- * @return array 	Updated menu
+ * @param string $hook   Equals 'register'
+ * @param string $type   Equals 'menu:entity'
+ * @param array  $return Current menu array
+ * @param array  $params Additional params
+ * @return array Updated menu
  */
 function entity_menu_setup($hook, $type, $return, $params) {
 
@@ -275,11 +275,11 @@ function entity_menu_setup($hook, $type, $return, $params) {
 /**
  * Album/image manage menu items
  * 
- * @param string	$hook	Equals 'register'
- * @param string	$type	Equals 'menu:album:manage'
- * @param array		$return	Current menu
- * @param array		$params	Additional params
- * @return array	Filtered menu
+ * @param string $hook   Equals 'register'
+ * @param string $type   Equals 'menu:album:manage'
+ * @param array  $return Current menu
+ * @param array  $params Additional params
+ * @return array Filtered menu
  */
 function manage_album_image_menu_setup($hook, $type, $return, $params) {
 
@@ -406,11 +406,11 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 /**
  * Add gallery related items to owner block menu
  *
- * @param string	$hook	Equals 'register'
- * @param string	$type	Equals 'menu:owner_block'
- * @param array		$return	Current menu items
- * @param array		$params	Additional params
- * @return array	Updated menu
+ * @param string $hook   Equals 'register'
+ * @param string $type   Equals 'menu:owner_block'
+ * @param array  $return Current menu items
+ * @param array  $params Additional params
+ * @return array Updated menu
  */
 function owner_block_menu_setup($hook, $type, $return, $params) {
 
@@ -436,11 +436,11 @@ function owner_block_menu_setup($hook, $type, $return, $params) {
 /**
  * Icon size config
  *
- * @param string	$hook	Equals 'entity:icon:sizes'
- * @param string	$type	Equals 'object'
- * @param array		$return	Current config
- * @param array		$params	Additional params
- * @return array	Updated config
+ * @param string $hook   Equals 'entity:icon:sizes'
+ * @param string $type   Equals 'object'
+ * @param array  $return Current config
+ * @param array  $params Additional params
+ * @return array Updated config
  */
 function entity_icon_sizes($hook, $type, $return, $params) {
 
