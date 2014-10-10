@@ -81,7 +81,15 @@ if ($tag->save()) {
 		}
 	}
 
-	add_to_river('framework/river/stream/phototag', 'stream:phototag', elgg_get_logged_in_user_guid(), $tag->guid, $tag->access_id, time(), -1);
+	elgg_create_river_item(array(
+		'view' => 'framework/river/stream/phototag',
+		'action_type' => 'stream:phototag',
+		'subject_guid' => elgg_get_logged_in_user_guid(),
+		'object_guid' => $tag->guid,
+		'target_guid' => $tag->container_guid,
+		'access_id' => $tag->access_id,
+		'annotation_id' => -1
+	));
 
 	system_message(elgg_echo('gallery:phototag:success'));
 
