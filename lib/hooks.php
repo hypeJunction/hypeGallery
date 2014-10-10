@@ -114,6 +114,34 @@ function permissions_check($hook, $type, $return, $params) {
 }
 
 /**
+ * Filter access sql to display disabled entities
+ * 
+ * @param string $hook		'get_sql'
+ * @param string $type		'access'
+ * @param array $clauses
+ * @param array $params
+ * @return array
+ */
+function filter_access_sql($hook, $type, $clauses, $params) {
+
+	if (!elgg_in_context('show_hidden_entities')) {
+		return $clauses;
+	}
+
+	$table_alias = elgg_extract('table_alias', $params);
+	$and_clauses = elgg_extract('ands', $clauses, array());
+	if (is_array($and_clauses)) {
+		foreach ($and_clauses as $key => $clause) {
+			if ($clause == "{$table_alias}enabled = 'yes'") {
+				unset($clauses['ands'][$key]);
+			}
+		}
+	}
+
+	return $clauses;
+}
+
+/**
  * Update entity menus
  *
  * @param string $hook			Equals 'register'

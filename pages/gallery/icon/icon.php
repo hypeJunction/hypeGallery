@@ -5,8 +5,7 @@ namespace hypeJunction\Gallery;
 use ElggFile;
 use WideImage\WideImage;
 
-$ha = access_get_show_hidden_status();
-access_show_hidden_entities(true);
+elgg_push_context('show_hidden_entities');
 
 $entity_guid = get_input('guid');
 $entity = get_entity($entity_guid);
@@ -122,7 +121,7 @@ if (!$contents) {
 	$thumb->close();
 }
 
-access_show_hidden_entities($ha);
+elgg_pop_context();
 
 header("Content-type: $mime");
 header("Etag: $etag");

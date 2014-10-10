@@ -2,8 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$ha = access_get_show_hidden_status();
-access_show_hidden_entities(true);
+elgg_push_context('show_hidden_entities');
 
 $guid = get_input('guid');
 $entity = get_entity($guid);
@@ -60,6 +59,6 @@ if ($error) {
 	}
 }
 
-access_show_hidden_entities($ha);
+elgg_pop_context();
 
 forward(REFERER);

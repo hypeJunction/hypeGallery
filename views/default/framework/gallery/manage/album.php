@@ -38,17 +38,17 @@ if (!$entity->canEdit() && $entity->canWriteToContainer(0, 'object', 'hjalbumima
 	$options['owner_guids'] = elgg_get_logged_in_user_guid(); // for collaborative albums/only show images uploaded by the user
 }
 
-$ha = access_get_show_hidden_status();
 if ($entity->canEdit()) {
-	access_show_hidden_entities(true);
+	elgg_push_context('show_hidden_entities');
+} else {
+	elgg_push_context('_tmp_');
 }
 
 $count = elgg_get_entities_from_metadata($options);
 $options['count'] = false;
 
-$ha = access_get_show_hidden_status();
+elgg_pop_context();
 
-$images = elgg_get_entities_from_metadata($options);
 $list_options = array(
 	'list_type' => 'gallery',
 	'gallery_class' => 'gallery-photostream gallery-manage-album',

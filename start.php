@@ -89,7 +89,7 @@ function init() {
 	// Permissions
 	elgg_register_plugin_hook_handler('permissions_check', 'object', __NAMESPACE__ . '\\permissions_check');
 	elgg_register_plugin_hook_handler('container_permissions_check', 'object', __NAMESPACE__ . '\\container_permissions_check');
-
+	elgg_register_plugin_hook_handler('get_sql', 'access', __NAMESPACE__ . '\\filter_access_sql');
 	// Menus
 	elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\\entity_menu_setup');
 	elgg_register_plugin_hook_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\\manage_album_image_menu_setup');

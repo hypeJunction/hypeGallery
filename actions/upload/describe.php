@@ -5,8 +5,7 @@ namespace hypeJunction\Gallery;
 $files = get_input('files', array());
 
 // show hidden entities that might be pending approval
-$ha = access_get_show_hidden_status();
-access_show_hidden_entities(true);
+elgg_push_context('show_hidden_entities');
 
 foreach ($files as $guid => $details) {
 
@@ -32,4 +31,4 @@ foreach ($files as $guid => $details) {
 	}
 }
 
-access_show_hidden_entities($ha);
+elgg_pop_context();
