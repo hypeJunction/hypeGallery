@@ -20,16 +20,13 @@ if (!$entity->$river_time) {
 } else {
 
 	$guids = unserialize($entity->$river_time);
-	foreach ($guids as $guid) {
-		if (get_entity($guid)) {
-			$images[] = get_entity($guid);
-		}
+	if (is_array($guids)) {
+		echo elgg_list_entities(array(
+			'guids' => $guids,
+			'size' => 'medium',
+			'list_type' => 'gallery',
+			'item_class' => 'elgg-photo mas',
+			'pagination' => false
+		));
 	}
-
-	echo elgg_view_entity_list($images, array(
-		'size' => 'medium',
-		'list_type' => 'gallery',
-		'item_class' => 'elgg-photo mas',
-		'pagination' => false
-	));
 }
