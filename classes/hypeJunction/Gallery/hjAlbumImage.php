@@ -7,7 +7,7 @@ use ElggFile;
 /**
  * Image entity class
  *
- * @package Elgg
+ * @package    Elgg
  * @subpackage Gallery
  */
 class hjAlbumImage extends ElggFile {
@@ -41,7 +41,7 @@ class hjAlbumImage extends ElggFile {
 	/**
 	 * Get URL for a specific operation
 	 *
-	 * @param string $action	Operation name
+	 * @param string $action Operation name
 	 * @return string
 	 */
 	public function getURL($action = 'view') {
@@ -65,7 +65,7 @@ class hjAlbumImage extends ElggFile {
 	/**
 	 * Get icon URL
 	 *
-	 * @param string $size	Icon size
+	 * @param string $size Icon size
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {

@@ -7,7 +7,7 @@ use ElggObject;
 /**
  * Album Class
  *
- * @package Elgg
+ * @package    Elgg
  * @subpackage Gallery	
  */
 class hjAlbum extends ElggObject {
@@ -17,6 +17,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Initialize attributes
 	 * Set subtype
+	 * 
 	 * @return void
 	 */
 	protected function initializeAttributes() {
@@ -42,7 +43,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Get album URL
 	 * 
-	 * @param string $action	Operation
+	 * @param string $action Operation
 	 * @return string
 	 */
 	public function getURL($action = 'view') {
@@ -67,7 +68,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Get files contained in this album
 	 *
-	 * @param array $options	Getter options
+	 * @param array $options Getter options
 	 * @return ElggObject[]|false
 	 */
 	public function getContainedFiles($options = array()) {
@@ -78,7 +79,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Get icon URL
 	 *
-	 * @param string $size	Icon size
+	 * @param string $size Icon size
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {

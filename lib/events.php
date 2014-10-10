@@ -56,7 +56,7 @@ function upgrade() {
  * Apply EXIF tags to newly created image files
  * 
  * @param string $event 	Equals 'create'
- * @param string $type	Equals 'object'
+ * @param string $type		Equals 'object'
  * @param ElggFile $object	New file
  * @return boolean
  */
