@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $container_guid = get_input('guid');
 
-action('gallery/upload/describe', false);
+require_once dirname(dirname(dirname(__FILE__))) . '/upload/describe.php';
 
 forward("gallery/view/$container_guid");
 
