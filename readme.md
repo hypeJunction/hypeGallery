@@ -1,6 +1,8 @@
 hypeGallery
 ===========
 
+[![Build Status](https://travis-ci.org/hypeJunction/hypeGallery.svg?branch=master)](https://travis-ci.org/hypeJunction/hypeGallery)
+
 Extremely user friendly and hype image gallery for Elgg.
 
 ## Features ##
