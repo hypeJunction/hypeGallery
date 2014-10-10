@@ -113,9 +113,16 @@ if (count($images_pending)) {
 $metadata_id = create_metadata($album->guid, "river_$posted", serialize($images), '', $album->owner_guid, $album->access_id, true);
 
 if (count($images) && !$requires_approval) {
-	add_to_river('river/object/hjalbum/update', 'update', elgg_get_logged_in_user_guid(), $album->guid, $album->access_id, $posted);
+	elgg_create_river_item(array(
+		'view' => 'river/object/hjalbum/update',
+		'action_type' => 'update',
+		'subject_guid' => elgg_get_logged_in_user_guid,
+		'object_guid' => $album->guid,
+		'access_id' => $album->access_id,
+		'posted' => $posted,
+	));
 } else {
-	$metadata = get_metadata($metadata_id);
+	$metadata = elgg_get_metadata_from_id($metadata_id);
 	// make sure we have sufficient privileges
 	$ia = elgg_set_ignore_access(true);
 	$metadata->disable();
