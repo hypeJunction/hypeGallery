@@ -156,7 +156,7 @@ class IconHandler {
 	 * Get icon size config
 	 * @param ElggEntity $entity
 	 * @param array $icon_sizes An array of predefined icon sizes
-	 * @return type
+	 * @return array
 	 */
 	protected static function getIconSizes($entity, $icon_sizes = array()) {
 
