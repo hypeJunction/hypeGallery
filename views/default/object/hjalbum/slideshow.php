@@ -2,6 +2,9 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggBatch;
+use stdClass;
+
 if (!elgg_is_xhr()) {
 	forward(REFERER);
 }
@@ -18,9 +21,27 @@ if (elgg_instanceof($entity, 'object', 'hjalbum')) {
 
 $dbprefix = elgg_get_config('dbprefix');
 $subtype_id = get_subtype_id('object', 'hjalbumimage');
-$access = _elgg_get_access_where_sql('e');
+$access = _elgg_get_access_where_sql(array('table_alias' => 'e'));
 
-$data = get_data("SELECT e.guid as guid, oe.title as title FROM {$dbprefix}entities e JOIN {$dbprefix}objects_entity oe ON e.guid = oe.guid WHERE e.subtype = $subtype_id AND e.container_guid = $album->guid AND $access");
+$images = new ElggBatch('elgg_get_entities', array(
+	'selects' => array('oe.title as title'),
+	'types' => 'object',
+	'subtypes' => 'hjalbumimage',
+	'container_guids' => $album->guid,
+	'joins' => array(
+		"JOIN {$dbprefix}objects_entity oe ON oe.guid = e.guid",
+	),
+	'limit' => 0,
+	'callback' => false,
+		));
+
+$data = array();
+foreach ($images as $img) {
+	$img_data = new stdClass();
+	$img_data->guid = $img->guid;
+	$img_data->title = $img->title;
+	$data[] = $img_data;
+}
 
 print(json_encode(array(
 			'img' => $data,
