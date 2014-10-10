@@ -1,7 +1,6 @@
 {
 	"name": "hypejunction/hypegallery",
 	"type": "elgg-plugin",
-	"repository": "hypeJunction/hypeGallery",
 	"description": "Image galleries for Elgg",
 	"homepage": "http://hypejunction.com",
 	"keywords": [
