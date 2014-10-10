@@ -24,7 +24,14 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 		if ($md) {
 			$meta = $md[0];
 			if ($meta->enable()) { // will return false if already enabled.. we want to perform this only once
-				add_to_river('river/object/hjalbum/update', 'update', $entity->owner_guid, $entity->container_guid, $entity->access_id, $posted);
+				elgg_create_river_item(array(
+					'view' => 'river/object/hjalbum/update',
+					'action_type' => 'update',
+					'subject_guid' => $entity->owner_guid,
+					'object_guid' => $entity->container_guid,
+					'access_id' => $entity->access_id,
+					'posted' => $posted
+				));
 
 				$to = $entity->owner_guid;
 				$from = elgg_get_logged_in_user_guid();
