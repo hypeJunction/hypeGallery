@@ -8,11 +8,11 @@ use ElggMenuItem;
  * Bypass default access controls
  * - Allow users to add images to shared albums
  *
- * @param string $hook			Equals 'container_permissions_check'
- * @param string $type			Equals 'object'
- * @param boolean $return		Current permission
- * @param array $params			Additional params
- * @return boolean				Updated permission
+ * @param string $hook	Equals 'container_permissions_check'
+ * @param string $type	Equals 'object'
+ * @param boolean $return	Current permission
+ * @param array $params	Additional params
+ * @return boolean	Updated permission
  */
 function container_permissions_check($hook, $type, $return, $params) {
 
@@ -79,11 +79,11 @@ function container_permissions_check($hook, $type, $return, $params) {
  * Bypass default editing permissions
  * - Allow users to edit tags that have been added to photos they own
  *
- * @param string $hook		Equals 'permissions_check'
- * @param string $type		Equals 'object'
+ * @param string $hook	Equals 'permissions_check'
+ * @param string $type	Equals 'object'
  * @param boolena $return	Current permission
- * @param array $params		Additional params
- * @return boolean			Updated permission
+ * @param array $params	Additional params
+ * @return boolean	Updated permission
  */
 function permissions_check($hook, $type, $return, $params) {
 
@@ -112,11 +112,11 @@ function permissions_check($hook, $type, $return, $params) {
 /**
  * Filter access sql to display disabled entities
  * 
- * @param string $hook		'get_sql'
- * @param string $type		'access'
- * @param array $clauses
- * @param array $params
- * @return array
+ * @param string $hook	'get_sql'
+ * @param string $type	'access'
+ * @param array $clauses	Current clauses
+ * @param array $params	Additional params
+ * @return array	Filtered clauses
  */
 function filter_access_sql($hook, $type, $clauses, $params) {
 
@@ -140,11 +140,11 @@ function filter_access_sql($hook, $type, $clauses, $params) {
 /**
  * Update entity menus
  *
- * @param string $hook			Equals 'register'
- * @param string $type			Equals 'menu:entity'
- * @param array $return			Current menu array
- * @param array $params			Additional params
- * @return array				Updated menu
+ * @param string $hook	Equals 'register'
+ * @param string $type	Equals 'menu:entity'
+ * @param array $return	Current menu array
+ * @param array $params	Additional params
+ * @return array	Updated menu
  */
 function entity_menu_setup($hook, $type, $return, $params) {
 
@@ -317,14 +317,14 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 	if ($entity->canEdit()) {
 
 		// Edit
-//		$items['edit'] = array(
-//			'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
-//			'title' => elgg_echo('edit'),
-//			'href' => $entity->getURL('edit'),
-//			'link_class' => 'elgg-button-edit-entity',
-//			'data-guid' => $entity->guid,
-//			'priority' => 995
-//		);
+		//$items['edit'] = array(
+		//	'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
+		//	'title' => elgg_echo('edit'),
+		//	'href' => $entity->getURL('edit'),
+		//	'link_class' => 'elgg-button-edit-entity',
+		//	'data-guid' => $entity->guid,
+		//	'priority' => 995
+		//);
 
 		// Delete
 		$items['delete'] = array(

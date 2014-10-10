@@ -109,7 +109,7 @@ function register_entity_title_buttons($entity) {
 /**
  * Register Dashboard title menu items
  *
- * @param string $dashboard Dashboard filter context
+ * @param string $dashboard	Dashboard filter context
  * @return void
  */
 function register_dashboard_title_buttons($dashboard = 'site') {
@@ -352,7 +352,7 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
  * Copy of file_get_simple_type()
  * Redefined in case file plugin is disabled
  *
- * @param string $mimetype
+ * @param string $mimetype	Mimetype
  * @return string
  */
 function get_simple_type($mimetype) {
@@ -393,9 +393,8 @@ function get_simple_type($mimetype) {
 /**
  * Get album write permissions_array
  * 
- * @param type $entity
- * @param type $container
- * @return boolean
+ * @param ElggObject $container	Album
+ * @return array
  */
 function get_permissions_options($container) {
 
@@ -416,8 +415,8 @@ function get_permissions_options($container) {
 /**
  * Get files ordered by priority
  * 
- * @param type $options
- * @return type
+ * @param array $options	Getter options
+ * @return ElggObect[]|false
  */
 function get_files($options = array()) {
 
@@ -438,7 +437,7 @@ function get_files($options = array()) {
 /**
  * Get tag objects attached to a given image
  *
- * @param ElggEntity $entity
+ * @param ElggEntity $entity	Image
  * @return array|false
  */
 function get_image_tags($entity) {
@@ -458,9 +457,8 @@ function get_image_tags($entity) {
 
 /**
  * Deprecated function
- * 
- * @param type $entity
  * @return boolean
+ * @deprecated since version 2.0.0
  */
 function handle_uploaded_files() {
 	return false;
@@ -469,7 +467,7 @@ function handle_uploaded_files() {
 /**
  * Get ancestry for a given entity guid
  *
- * @param int $guid
+ * @param int $guid	GUID of the child element
  * @return boolean|array
  */
 function get_ancestry($guid) {
@@ -654,8 +652,8 @@ function get_exif($entity) {
  * Helper function to convert exif GPS to proper coords
  *
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
- * @param array $exifCoord
- * @param string $hemi
+ * @param array $exifCoord Exif coords
+ * @param string $hemi	Hemisphere
  * @return float
  */
 function exif_getGps($exifCoord, $hemi) {

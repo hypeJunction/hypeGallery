@@ -6,6 +6,9 @@ use ElggFile;
 
 /**
  * Image entity class
+ *
+ * @package hypeJunction
+ * @subpackage Gallery
  */
 class hjAlbumImage extends ElggFile {
 
@@ -14,6 +17,7 @@ class hjAlbumImage extends ElggFile {
 	/**
 	 * Initialize attributes
 	 * Set subtype
+	 * @return void
 	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
@@ -37,7 +41,7 @@ class hjAlbumImage extends ElggFile {
 	/**
 	 * Get URL for a specific operation
 	 *
-	 * @param string $action
+	 * @param string $action	Operation name
 	 * @return string
 	 */
 	public function getURL($action = 'view') {
@@ -46,26 +50,22 @@ class hjAlbumImage extends ElggFile {
 			case 'view' :
 				$friendly_title = elgg_get_friendly_title($this->title);
 				return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
-				break;
 
 			case 'edit' :
 				return elgg_normalize_url("gallery/manage/$this->container_guid#elgg-object-$this->guid");
-				break;
 
 			case 'delete' :
 				return elgg_add_action_tokens_to_url(elgg_normalize_url("action/gallery/delete/object?guid=$this->guid"));
-				break;
 
 			case 'download' :
 				return elgg_normalize_url("gallery/download/$this->guid");
-				break;
 		}
 	}
 
 	/**
 	 * Get icon URL
 	 *
-	 * @param string $size
+	 * @param string $size	Icon size
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {

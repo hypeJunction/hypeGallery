@@ -6,6 +6,9 @@ use ElggObject;
 
 /**
  * Album Class
+ *
+ * @package hypeJunction
+ * @subpackage Gallery
  */
 class hjAlbum extends ElggObject {
 
@@ -14,6 +17,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Initialize attributes
 	 * Set subtype
+	 * @return void
 	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
@@ -22,6 +26,7 @@ class hjAlbum extends ElggObject {
 
 	/**
 	 * Count images contained in an album
+	 * 
 	 * @return integer
 	 */
 	public function countImages() {
@@ -36,7 +41,8 @@ class hjAlbum extends ElggObject {
 
 	/**
 	 * Get album URL
-	 * @param string $action
+	 * 
+	 * @param string $action	Operation
 	 * @return string
 	 */
 	public function getURL($action = 'view') {
@@ -61,7 +67,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Get files contained in this album
 	 *
-	 * @param array $options
+	 * @param array $options	Getter options
 	 * @return ElggObject[]|false
 	 */
 	public function getContainedFiles($options = array()) {
@@ -72,7 +78,7 @@ class hjAlbum extends ElggObject {
 	/**
 	 * Get icon URL
 	 *
-	 * @param string $size
+	 * @param string $size	Icon size
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {

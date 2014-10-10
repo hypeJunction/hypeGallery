@@ -35,6 +35,7 @@ elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\\apply_exif_ta
 
 /**
  * Initialize the plugin on 'init','system'
+ * @return void
  */
 function init() {
 
@@ -54,7 +55,6 @@ function init() {
 	 */
 	elgg_register_entity_type('object', 'hjalbum');
 	elgg_register_entity_type('object', 'hjalbumimage');
-
 
 	/**
 	 * Register page handlers

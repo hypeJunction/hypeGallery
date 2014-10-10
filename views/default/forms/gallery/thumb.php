@@ -55,7 +55,10 @@ echo '</div>';
 	<?php
 	$coords = array('x1', 'x2', 'y1', 'y2');
 	foreach ($coords as $coord) {
-		echo elgg_view('input/hidden', array('name' => $coord, 'value' => $vars['entity']->$coord));
+		echo elgg_view('input/hidden', array(
+			'name' => $coord,
+			'value' => $vars['entity']->$coord
+		));
 	}
 
 	echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $entity->guid));

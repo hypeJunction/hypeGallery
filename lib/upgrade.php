@@ -19,6 +19,10 @@ run_function_once('hj_gallery_tidypics_albums');
 elgg_set_ignore_access($ia);
 elgg_pop_context();
 
+/**
+ * Migrate images
+ * @return boolean
+ */
 function hj_gallery_1361394670() {
 
 	$subtypeId = get_subtype_id('object', 'hjalbumimage');
@@ -76,8 +80,13 @@ function hj_gallery_1361394670() {
 		$temp->delete();
 		$filehandler->delete();
 	}
+	return true;
 }
 
+/**
+ * Migrate images
+ * @return boolean
+ */
 function hj_gallery_1361396953() {
 
 	$subtypeIdImage = get_subtype_id('object', 'hjalbumimage');
@@ -139,8 +148,14 @@ function hj_gallery_1361396953() {
 		$temp->delete();
 		$filehandler->delete();
 	}
+
+	return true;
 }
 
+/**
+ * Add priority metadata
+ * @return boolean
+ */
 function hj_gallery_1361379980() {
 
 	// set priority metadata on images
@@ -158,8 +173,13 @@ function hj_gallery_1361379980() {
 	foreach ($data as $e) {
 		create_metadata($e->guid, 'priority', 0, '', $e->owner_guid, ACCESS_PUBLIC);
 	}
+	return true;
 }
 
+/**
+ * Add icontime metadata
+ * @return boolean
+ */
 function hj_gallery_1369646725() {
 
 	$subtypeId = get_subtype_id('object', 'hjalbumimage');
@@ -182,6 +202,10 @@ function hj_gallery_1369646725() {
 	}
 }
 
+/**
+ * Migrate tags
+ * @return boolean
+ */
 function hj_gallery_1374851653() {
 	$dbprefix = elgg_get_config('dbprefix');
 

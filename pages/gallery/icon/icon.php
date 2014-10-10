@@ -85,9 +85,9 @@ if (!$contents) {
 	$image = WideImage::load($entity->getFilenameOnFilestore());
 	$resized = $image;
 
-//	if (array_key_exists($size, $config) && $entity->x1 && $entity->y1 && $entity->x2 && $entity->y2) {
-//		$resized = $resized->crop($entity->x1, $entity->y1, $entity->x2 - $entity->x1, $entity->y2 - $entity->y1);
-//	}
+	//if (array_key_exists($size, $config) && $entity->x1 && $entity->y1 && $entity->x2 && $entity->y2) {
+	//	$resized = $resized->crop($entity->x1, $entity->y1, $entity->x2 - $entity->x1, $entity->y2 - $entity->y1);
+	//}
 
 	if ($size !== 'master' && $size !== 'taggable') {
 		$resized = $resized->resize($requested_w, $requested_h, 'outside', 'any')->crop('center', 'center', $crop_w, $crop_h);

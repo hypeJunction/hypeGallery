@@ -4,6 +4,7 @@ namespace hypeJunction\Gallery;
 
 /**
  * Add some menu items during page setup
+ * @return void
  */
 function pagesetup() {
 
@@ -29,6 +30,7 @@ function pagesetup() {
 
 /**
  * Run upgrade scripts
+ * @return void
  */
 function upgrade() {
 
@@ -51,9 +53,9 @@ function upgrade() {
 /**
  * Apply EXIF tags to newly created image files
  * 
- * @param string $event			Equals 'create'
- * @param string $type			Equals 'object'
- * @param ElggFile $object		New file
+ * @param string $event	Equals 'create'
+ * @param string $type	Equals 'object'
+ * @param ElggFile $object	New file
  * @return boolean
  */
 function apply_exif_tags($event, $type, $object) {
