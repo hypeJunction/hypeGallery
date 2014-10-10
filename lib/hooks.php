@@ -52,15 +52,12 @@ function container_permissions_check($hook, $type, $return, $params) {
 						default :
 						case 'private' :
 							return $return;
-							break;
 
 						case 'friends' :
 							return $owner->isFriendsWith($user->guid);
-							break;
 
 						case 'public' :
 							return true;
-							break;
 
 						case 'group' :
 							if (elgg_instanceof($container, 'group')) {
@@ -79,11 +76,11 @@ function container_permissions_check($hook, $type, $return, $params) {
  * Bypass default editing permissions
  * - Allow users to edit tags that have been added to photos they own
  *
- * @param string	$hook	Equals 'permissions_check'
- * @param string	$type	Equals 'object'
- * @param boolena	$return	Current permission
- * @param array		$params	Additional params
- * @return boolean	Updated permission
+ * @param string  $hook   Equals 'permissions_check'
+ * @param string  $type   Equals 'object'
+ * @param boolena $return Current permission
+ * @param array   $params Additional params
+ * @return boolean Updated permission
  */
 function permissions_check($hook, $type, $return, $params) {
 
