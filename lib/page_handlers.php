@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 /**
  * Page handler
  *
- * @param array $page URL segments
+ * @param array		$page URL segments
  * @return boolean
  */
 function page_handler($page) {
