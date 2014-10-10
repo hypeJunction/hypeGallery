@@ -307,7 +307,7 @@ body {
 	content: $fa-var-table;
 }
 
-.elgg-state-loading [class*="gallery-icon-"],
+li.elgg-state-loading [class*="gallery-icon-"],
 [class*="gallery-icon-"].elgg-state-loading	{
 	&:before {
 		content: $fa-var-spinner;

@@ -6,10 +6,6 @@ if (!HYPEGALLERY_TAGGING) {
 	return;
 }
 
-elgg_load_js('jquery.form');
-elgg_load_js('gallery.tagger.js');
-
-
 $entity = elgg_extract('entity', $vars);
 
 if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {

@@ -2,8 +2,6 @@
 
 namespace hypeJunction\Gallery;
 
-elgg_load_js('gallery.popup.js');
-
 $entity = elgg_extract('entity', $vars);
 
 $requested_size = $size = elgg_extract('size', $vars);

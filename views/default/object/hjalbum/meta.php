@@ -8,6 +8,7 @@ if (!elgg_instanceof($entity)) {
 	return;
 }
 
+$meta = array();
 if (HYPEGALLERY_CATEGORIES) {
 	$meta[] = elgg_view('output/gallery/categories', array('value' => $entity->categories));
 }

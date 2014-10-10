@@ -491,6 +491,8 @@ $english = array(
 	
 	// embeds
 	'embed:albumimages' => 'Album Images',
+
+	'gallery:image:editthumb' => 'Edit Thumbnails',
 	
 );
 

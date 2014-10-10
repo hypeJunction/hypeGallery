@@ -13,7 +13,6 @@ if (!elgg_instanceof($entity, 'object', 'hjalbumimage')) {
 $cover = elgg_view_entity_icon($entity, $size);
 
 if (!elgg_in_context('gallery-manage')) {
-	elgg_load_js('gallery.popup.js');
 	$cover .= elgg_view('output/url', array(
 		'text' => '<i class="gallery-icon-slideshow gallery-icon-small"></i>',
 		'title' => elgg_echo('gallery:slideshow'),

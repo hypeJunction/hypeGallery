@@ -6,5 +6,6 @@ robots.txt
 composer.lock
 /.sass-cache/
 
+vendors/jquery
 vendors/.git
 vendors/**/.git

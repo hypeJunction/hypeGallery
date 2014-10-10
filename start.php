@@ -36,6 +36,17 @@ elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\\apply_exif_ta
 function init() {
 
 	/**
+	 * JS/CSS
+	 */
+	elgg_register_css('cropper', '/mod/' . PLUGIN_ID . '/vendors/cropper/dist/cropper.min.css');
+	elgg_define_js('cropper', array(
+		'src' => '/mod/' . PLUGIN_ID . '/vendors/cropper/dist/cropper.min.js',
+		'deps' => array('jquery')
+	));
+
+	elgg_require_js('framework/gallery/init');
+	
+	/**
 	 * Register entities
 	 */
 	elgg_register_entity_type('object', 'hjalbum');

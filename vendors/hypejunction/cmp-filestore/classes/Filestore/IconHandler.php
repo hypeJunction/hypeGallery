@@ -136,7 +136,7 @@ class IconHandler {
 				move_uploaded_file($source_file, $filehandler->getFilenameOnFilestore());
 			}
 
-			if (is_array('coords')) {
+			if (is_array($coords)) {
 				foreach ($coords as $coord => $value) {
 					$entity->$coord = $value;
 				}

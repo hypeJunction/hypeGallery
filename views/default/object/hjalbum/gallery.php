@@ -20,7 +20,6 @@ $title = elgg_view('output/url', array(
 $count = $entity->getContainedFiles(array('count' => true));
 if ($count) {
 	$cover = elgg_view_entity_icon($entity, $size);
-	elgg_load_js('gallery.popup.js');
 	$cover .= elgg_view('output/url', array(
 		'text' => '<i class="gallery-icon-slideshow gallery-icon-small"></i>',
 		'title' => elgg_echo('gallery:slideshow'),

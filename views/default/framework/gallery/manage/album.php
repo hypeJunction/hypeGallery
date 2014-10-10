@@ -2,13 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-elgg_load_js('jquery.form');
-
-elgg_load_js('jquery.imgareaselect');
-elgg_load_css('jquery.imgareaselect');
-
-elgg_load_js('gallery.manage.js');
-elgg_load_js('gallery.cropper.js');
+elgg_load_css('cropper');
 
 $entity = elgg_extract('entity', $vars);
 $summary = elgg_view('object/hjalbum/gallery', array(

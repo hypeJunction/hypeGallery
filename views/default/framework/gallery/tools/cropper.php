@@ -8,8 +8,6 @@ if (!elgg_instanceof($entity, 'object', 'hjalbumimage') || !$entity->canEdit()) 
 	return;
 }
 
-elgg_load_css('jquery.imgareaselect');
-elgg_load_js('jquery.imgareaselect');
-elgg_load_js('gallery.cropper.js');
+elgg_load_css('cropper');
 
 echo elgg_view_form('gallery/thumb', array(), $vars);
