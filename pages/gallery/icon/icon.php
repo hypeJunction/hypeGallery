@@ -42,7 +42,9 @@ if (!$contents) {
 		$square = $config[$size]['square'];
 	} else {
 		list($requested_w, $requested_h) = explode('x', $requested_size);
-		if (($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width'))) || ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height')))) {
+		if ($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width'))) {
+			exit;
+		} else if ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height'))) {
 			exit;
 		}
 	}
