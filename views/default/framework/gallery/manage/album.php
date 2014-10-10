@@ -40,14 +40,10 @@ if (!$entity->canEdit() && $entity->canWriteToContainer(0, 'object', hjAlbumImag
 
 if ($entity->canEdit()) {
 	elgg_push_context('show_hidden_entities');
-} else {
-	elgg_push_context('_tmp_');
 }
 
 $count = elgg_get_entities_from_metadata($options);
 $options['count'] = false;
-
-elgg_pop_context();
 
 $list_options = array(
 	'list_type' => 'gallery',
@@ -84,3 +80,7 @@ if ($count) {
 echo '<div class="gallery-full">';
 echo "$summary$form";
 echo '</div>';
+
+if ($entity->canEdit()) {
+	elgg_pop_context();
+}
