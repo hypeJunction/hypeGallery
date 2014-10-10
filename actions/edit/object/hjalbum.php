@@ -53,7 +53,7 @@ if (!$album->save()) {
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = elgg_geocode_location($location);
+	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $location));
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}

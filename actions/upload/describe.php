@@ -21,7 +21,7 @@ foreach ($files as $guid => $details) {
 		}
 		$image->$name = $value;
 		if ($name == 'location') {
-			$coordinates = elgg_geocode_location($value);
+			$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $value));
 			if ($coordinates) {
 				$image->setLatLong($coordinates['lat'], $coordinates['long']);
 			}
