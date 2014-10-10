@@ -49,28 +49,27 @@ echo '</div>';
 echo '</div>';
 
 echo '</div>';
-?>
 
-<div class="elgg-foot">
-	<?php
-	$coords = array('x1', 'x2', 'y1', 'y2');
-	foreach ($coords as $coord) {
-		echo elgg_view('input/hidden', array(
-			'name' => $coord,
-			'value' => $vars['entity']->$coord
-		));
-	}
+echo '<div class="elgg-foot">';
 
-	echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $entity->guid));
-
-	echo elgg_view('input/submit', array('value' => elgg_echo('gallery:tools:crop')));
-
-	echo elgg_view('output/url', array(
-		'text' => elgg_echo('gallery:image:thumb:reset'),
-		'href' => "action/gallery/thumb_reset?guid=$entity->guid",
-		'is_action' => true,
-		'is_trusted' => true,
-		'class' => 'elgg-button elgg-button-action elgg-button-gallery-reset-thumb',
+$coords = array('x1', 'x2', 'y1', 'y2');
+foreach ($coords as $coord) {
+	echo elgg_view('input/hidden', array(
+		'name' => $coord,
+		'value' => $vars['entity']->$coord
 	));
-	?>
-</div>
+}
+
+echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $entity->guid));
+
+echo elgg_view('input/submit', array('value' => elgg_echo('gallery:tools:crop')));
+
+echo elgg_view('output/url', array(
+	'text' => elgg_echo('gallery:image:thumb:reset'),
+	'href' => "action/gallery/thumb_reset?guid=$entity->guid",
+	'is_action' => true,
+	'is_trusted' => true,
+	'class' => 'elgg-button elgg-button-action elgg-button-gallery-reset-thumb',
+));
+
+echo '</div>';

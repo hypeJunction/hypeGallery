@@ -318,12 +318,22 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
 
 	foreach ($icon_sizes as $size => $values) {
 
+		$w = elgg_extract('w', $values, 200);
+		$h = elgg_extract('h', $values, 200);
+		$square = elgg_extract('square', $values, true);
+		$upscale = elgg_extract('upscale', $values, false);
+		$filepath = $filehandler->getFilenameOnFilestore();
+
 		if (is_array($coords) && in_array($size, array('topbar', 'tiny', 'small', 'medium', 'large'))) {
-			$thumb_resized = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], $coords['x1'], $coords['y1'], $coords['x2'], $coords['y2'], $values['upscale']);
+			$x1 = elgg_extract('x1', $coords, 0);
+			$y1 = elgg_extract('y1', $coords, 0);
+			$x2 = elgg_extract('x2', $coords, 0);
+			$y2 = elgg_extract('y2', $coords, 0);
+			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, $x1, $y1, $x2, $y2, $upscale);
 		} else if (!is_array($coords)) {
-			$thumb_resized = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
+			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, 0, 0, 0, 0, $upscale);
 		} else {
-			$thumb_resized = false;
+			continue;
 		}
 
 		if ($thumb_resized) {
