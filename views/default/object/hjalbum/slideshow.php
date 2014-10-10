@@ -21,7 +21,6 @@ if (elgg_instanceof($entity, 'object', 'hjalbum')) {
 
 $dbprefix = elgg_get_config('dbprefix');
 $subtype_id = get_subtype_id('object', 'hjalbumimage');
-$access = _elgg_get_access_where_sql(array('table_alias' => 'e'));
 
 $images = new ElggBatch('elgg_get_entities', array(
 	'selects' => array('oe.title as title'),
