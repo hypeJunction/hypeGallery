@@ -138,6 +138,8 @@ function init() {
 	elgg_register_widget_type('albums', elgg_echo("gallery:widget:albums"), elgg_echo("gallery:widget:albums:desc"));
 
 	elgg_extend_view('framework/gallery/sidebar', 'framework/gallery/tools/tagger');
+
+	elgg_register_plugin_hook_handler('unit_test', 'system', __NAMESPACE__ . '\\unit_test');
 }
 
 /**
@@ -150,4 +152,22 @@ function init_groups() {
 	}
 	add_group_tool_option('albums', elgg_echo('gallery:groupoption:enable'), true);
 	elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
+}
+
+/**
+ * Run unit tests
+ *
+ * @param string $hook   Equals 'unit_test'
+ * @param string $type   Equals 'system'
+ * @param array  $value  An array of unit test locations
+ * @param array  $params Additional params
+ * @return array Updated array of unit test locations
+ */
+function unit_test($hook, $type, $value, $params) {
+
+	$path = elgg_get_plugins_path();
+	$value[] = $path . PLUGIN_ID . '/tests/entities.php';
+	$value[] = $path . PLUGIN_ID . '/tests/permissions.php';
+
+	return $value;
 }

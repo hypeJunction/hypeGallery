@@ -26,32 +26,17 @@ function container_permissions_check($hook, $type, $return, $params) {
 
 	switch ($container->getSubtype()) {
 
-		default :
-			return $return;
-
 		case hjAlbum::SUBTYPE :
 
 			switch ($subtype) {
 
-				default :
-					return $return;
-					break;
-
 				case hjAlbumImage::SUBTYPE :
-
-					if ($container->canEdit()) {
-						return true;
-					}
 
 					$owner = $container->getOwnerEntity();
 
 					$permission = $container->permission;
 
 					switch ($permission) {
-
-						default :
-						case 'private' :
-							return $return;
 
 						case 'friends' :
 							return $owner->isFriendsWith($user->guid);
@@ -60,8 +45,9 @@ function container_permissions_check($hook, $type, $return, $params) {
 							return true;
 
 						case 'group' :
-							if (elgg_instanceof($container, 'group')) {
-								return $container->isMember($user);
+							$group = $container->getContainerEntity();
+							if (elgg_instanceof($group, 'group')) {
+								return $group->isMember($user);
 							}
 							break;
 					}
@@ -70,6 +56,8 @@ function container_permissions_check($hook, $type, $return, $params) {
 			}
 			break;
 	}
+
+	return $return;
 }
 
 /**
