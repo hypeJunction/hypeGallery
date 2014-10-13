@@ -2,6 +2,10 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggEntity;
+use ElggFile;
+use ElggObject;
+
 /**
  * Register albums/image title buttons
  *
