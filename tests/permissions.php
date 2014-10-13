@@ -48,6 +48,7 @@ class GalleryPermissionsTest extends ElggCoreUnitTest {
 		elgg_set_ignore_access($this->ia);
 
 		$this->group->delete();
+		$this->group_owner->delete();
 
 		$this->owner->delete();
 		$this->friend->delete();
