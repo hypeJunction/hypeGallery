@@ -22,11 +22,7 @@
 	},
 	"require": {
 		"php": ">=5.3.3",
-		"composer/installers": ">=1.0.8"
-	},
-	"require-dev": {
-		"hypejunction/cmp-filestore": "1.0.*",
-		"smottt/wideimage": "dev-master#658e6b8699255724589e8fb86959306ec64af318"
+		"composer/installers": "1.0.*"
 	},
 	"autoload": {
 		"psr-4": {

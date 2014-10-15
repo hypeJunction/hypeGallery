@@ -1,36 +1,5 @@
 [
     {
-        "name": "smottt/wideimage",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/smottt/WideImage.git",
-            "reference": "658e6b8699255724589e8fb86959306ec64af318"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/smottt/WideImage/zipball/658e6b8699255724589e8fb86959306ec64af318",
-            "reference": "658e6b8699255724589e8fb86959306ec64af318",
-            "shasum": ""
-        },
-        "time": "2014-02-10 17:56:34",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "WideImage": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0",
-            "LGPL-2.1"
-        ],
-        "description": "An open-source PHP library for image manipulation. (With namespaces, PHP 5.3+)",
-        "homepage": "http://wideimage.sourceforge.net"
-    },
-    {
         "name": "composer/installers",
         "version": "v1.0.18",
         "version_normalized": "1.0.18.0",
@@ -120,49 +89,6 @@
             "wordpress",
             "zend",
             "zikula"
-        ]
-    },
-    {
-        "name": "hypejunction/cmp-filestore",
-        "version": "1.0.4",
-        "version_normalized": "1.0.4.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/hypeJunction/cmp-filestore.git",
-            "reference": "dd0463d0d36fe49c7ce7842fa997be4bff3107a1"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/hypeJunction/cmp-filestore/zipball/dd0463d0d36fe49c7ce7842fa997be4bff3107a1",
-            "reference": "dd0463d0d36fe49c7ce7842fa997be4bff3107a1",
-            "shasum": ""
-        },
-        "require": {
-            "smottt/wideimage": "dev-master"
-        },
-        "time": "2014-10-10 09:20:50",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "hypeJunction\\": "classes/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL-2.0"
-        ],
-        "authors": [
-            {
-                "name": "Ismayil Khayredinov",
-                "email": "ismayil.khayredinov@gmail.com"
-            }
-        ],
-        "description": "Filestore classes",
-        "homepage": "http://hypejunction.com",
-        "keywords": [
-            "classes",
-            "filestore"
         ]
     }
 ]
