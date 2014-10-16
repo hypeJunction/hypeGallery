@@ -75,7 +75,7 @@ class GalleryTestLib {
 		if (!$type) {
 			$type = 'jpg';
 		}
-		
+
 		$image = new hjAlbumImage();
 		$image->owner_guid = $owner_guid;
 		$image->container_guid = $container_guid;
