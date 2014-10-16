@@ -263,7 +263,7 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
 
 /**
  * Normalize files global
- * 
+ *
  * @param array   $_files Global files array
  * @param boolean $top    Top level?
  * @return array Normalized files array
@@ -299,8 +299,8 @@ function prepare_files_global(array $_files, $top = TRUE) {
  * Generate icons for an entity
  *
  * @param hjAlbumImage $entity      Entity
- * @param ElggFile   $filehandler Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
- * @param array      $coords      Coordinates for cropping
+ * @param ElggFile     $filehandler Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
+ * @param array        $coords      Coordinates for cropping
  * @return boolean
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null) {
@@ -406,7 +406,7 @@ function get_simple_type($mimetype) {
 
 /**
  * Get album write permissions_array
- * 
+ *
  * @param ElggObject $container Album
  * @return array
  */
@@ -428,7 +428,7 @@ function get_permissions_options($container) {
 
 /**
  * Get files ordered by priority
- * 
+ *
  * @param array $options Getter options
  * @return ElggObect[]|false
  */
@@ -665,10 +665,10 @@ function get_exif($entity) {
 /**
  * Helper function to convert exif GPS to proper coords
  * @link http://stackoverflow.com/questions/2526304/php-extract-gps-exif-data
- * 
+ *
  * @param array  $exifCoord Exif coords
  * @param string $hemi      Hemisphere
- * @return float 
+ * @return float
  */
 function exif_getGps($exifCoord, $hemi) {
 
@@ -705,7 +705,7 @@ function exif_gps2Num($coordPart) {
 
 /**
  * Get an array of icon sizes for this entity
- * 
+ *
  * @param ElggObject $entity Entity
  * @return array
  */
