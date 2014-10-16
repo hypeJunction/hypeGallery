@@ -96,7 +96,7 @@ function permissions_check($hook, $type, $return, $params) {
 
 /**
  * Filter access sql to display disabled entities
- * 
+ *
  * @param string $hook    'get_sql'
  * @param string $type    'access'
  * @param array  $clauses Current clauses
@@ -111,7 +111,7 @@ function filter_access_sql($hook, $type, $clauses, $params) {
 
 	$table_alias = elgg_extract('table_alias', $params);
 	$table_alias = ($table_alias) ? "{$table_alias}." : "";
-	
+
 	$and_clauses = elgg_extract('ands', $clauses, array());
 	if (is_array($and_clauses)) {
 		foreach ($and_clauses as $key => $clause) {
@@ -140,6 +140,8 @@ function entity_menu_setup($hook, $type, $return, $params) {
 	if (!elgg_instanceof($entity)) {
 		return $return;
 	}
+
+	$items = array();
 
 	switch ($entity->getSubtype()) {
 
@@ -262,7 +264,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 
 /**
  * Album/image manage menu items
- * 
+ *
  * @param string $hook   Equals 'register'
  * @param string $type   Equals 'menu:album:manage'
  * @param array  $return Current menu
@@ -277,6 +279,8 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 		return $return;
 	}
 
+	$items = array();
+	
 	// Is item is pending approval?
 	if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 		// Approve

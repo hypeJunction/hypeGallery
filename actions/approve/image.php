@@ -9,6 +9,8 @@ $entity = get_entity($guid);
 
 $error = elgg_echo('gallery:approve:error');
 
+$success = elgg_echo('gallery:approve:success');
+
 if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 	if ($entity->enable()) {
 
@@ -52,8 +54,6 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 		}
 
 		$error = false;
-
-		$success = elgg_echo('gallery:approve:success');
 	}
 }
 
