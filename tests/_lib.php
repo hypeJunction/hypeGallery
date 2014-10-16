@@ -72,17 +72,19 @@ class GalleryTestLib {
 	 */
 	public static function createImage($owner_guid = ELGG_ENTITIES_ANY_VALUE, $container_guid = ELGG_ENTITIES_ANY_VALUE, $type = null) {
 
+		if (!$type) {
+			$type = 'jpg';
+		}
+		
 		$image = new hjAlbumImage();
 		$image->owner_guid = $owner_guid;
 		$image->container_guid = $container_guid;
 		$image->setFilename("tests/testfile.$type");
-		
-		if ($type) {
-			$file = self::getTestFile($type);
-			$image->open('write');
-			$image->write($file);
-			$image->close();
-		}
+
+		$file = self::getTestFile($type);
+		$image->open('write');
+		$image->write($file);
+		$image->close();
 
 		$image->save();
 
