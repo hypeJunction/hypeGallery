@@ -32,7 +32,7 @@ function pagesetup() {
 /**
  * Run upgrade scripts
  * 
- * @return void
+ * @return boolean
  */
 function upgrade() {
 

@@ -152,7 +152,7 @@ function init_groups() {
  * @param string $type   Equals 'system'
  * @param array  $value  An array of unit test locations
  * @param array  $params Additional params
- * @return array Updated array of unit test locations
+ * @return string[] Updated array of unit test locations
  */
 function unit_test($hook, $type, $value, $params) {
 
