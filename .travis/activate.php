@@ -27,4 +27,4 @@ if ($plugin->activate()) {
 	echo "hypeGallery has been activated [guid = {$plugin->getGUID()}]";
 }
 
-logout($admin);
+logout();
