@@ -17,7 +17,14 @@ require_once(dirname(dirname(dirname(dirname(__FILE__)))) . '/engine/start.php')
 $admin = get_user_by_username('admin');
 login($admin);
 
+$plugin = elgg_get_plugin_from_id('hypeFilestore');
+if ($plugin->activate()) {
+	echo "hypeFilestore has been activated [guid = {$plugin->getGUID()}]";
+}
+
 $plugin = elgg_get_plugin_from_id('hypeGallery');
 if ($plugin->activate()) {
 	echo "hypeGallery has been activated [guid = {$plugin->getGUID()}]";
 }
+
+logout($admin);
