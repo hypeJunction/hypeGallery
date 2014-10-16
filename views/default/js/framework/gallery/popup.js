@@ -76,7 +76,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 						title: data.output.album_title
 					});
 					if ($('.gallery-preview-item[data-guid="' + guid + '"]').length) {
-						$('.gallery-preview-item[data-guid="' + guid + '"]').trigger('click')
+						$('.gallery-preview-item[data-guid="' + guid + '"]').trigger('click');
 					} else {
 						$('.gallery-preview-item:first').trigger('click');
 					}
@@ -142,7 +142,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 					complete: function() {
 						$('body').removeClass('elgg-state-loading');
 					}
-				})
+				});
 			} else {
 				$desc.hide();
 			}
