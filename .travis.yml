@@ -22,13 +22,10 @@ matrix:
        - git clone https://github.com/Elgg/elgg-coding-standards.git ../elgg-coding-standards/
        - phpenv rehash
        - curl -sS https://getcomposer.org/installer | php
-       - wget https://scrutinizer-ci.com/ocular.phar
       script:
        - phpcs --standard=../elgg-coding-standards/elgg.xml --warning-severity=0 --ignore=*../Elgg/mod/hypeGallery/tests/*,*./Elgg/mod/hypeGallery/vendors/* ../Elgg/mod/hypeGallery/
        - phpunit --coverage-clover=coverage.clover
        - php composer.phar validate --verbose ../Elgg/mod/hypeGallery/composer.json
-      after_script:
-       - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 services:
  - mysql

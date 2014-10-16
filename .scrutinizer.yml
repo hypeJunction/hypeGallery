@@ -18,8 +18,6 @@ tools:
         excluded_dirs:
             - vendors
             - vendor
-    external_code_coverage:
-        timeout: '600'
     php_hhvm: true
     php_sim: true
     php_code_sniffer:
