@@ -33,7 +33,7 @@ function pagesetup() {
 
 /**
  * Run upgrade scripts
- * 
+ *
  * @return boolean
  */
 function upgrade() {
@@ -73,6 +73,7 @@ function apply_exif_tags($event, $type, $object) {
 	if ($exif) {
 
 		if (!$object->description) {
+			$description = '';
 			if (isset($exif['ImageDescription'])) {
 				$description = $exif['ImageDescription']['clean'];
 			}
