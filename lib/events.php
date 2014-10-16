@@ -79,7 +79,9 @@ function apply_exif_tags($event, $type, $object) {
 			if (isset($exif['UserComment'])) {
 				$description .= $exif['UserComment']['clean'];
 			}
-			$object->description = $description;
+			if ($description) {
+				$object->description = $description;
+			}
 		}
 
 		if (!$object->copyright) {
@@ -129,6 +131,7 @@ function apply_exif_tags($event, $type, $object) {
 		}
 
 		if (!$object->tags) {
+			$tags = array();
 			if (isset($exif['Model'])) {
 				$tags[] = $exif['Model']['clean'];
 			}
