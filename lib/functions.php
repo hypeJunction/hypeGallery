@@ -18,6 +18,8 @@ function register_entity_title_buttons($entity) {
 		return;
 	}
 
+	$items = array();
+
 	switch ($entity->getSubtype()) {
 
 		default :
@@ -515,8 +517,9 @@ function get_exif($entity) {
 		return false;
 	}
 
-	// Exif is not supported on this file type
-	if (!exif_imagetype($entity->getFilenameOnFilestore())) {
+	// File is too small for exif to identify the type
+	// or xxif is not supported on this file type
+	if (filesize($entity->getFilenameOnFilestore()) <= 11 || !exif_imagetype($entity->getFilenameOnFilestore())) {
 		return false;
 	}
 

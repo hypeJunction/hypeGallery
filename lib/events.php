@@ -2,9 +2,11 @@
 
 namespace hypeJunction\Gallery;
 
+use ElggFile;
+
 /**
  * Add some menu items during page setup
- * 
+ *
  * @return void
  */
 function pagesetup() {
@@ -54,7 +56,7 @@ function upgrade() {
 
 /**
  * Apply EXIF tags to newly created image files
- * 
+ *
  * @param string   $event  Equals 'create'
  * @param string   $type   Equals 'object'
  * @param ElggFile $object New file
@@ -77,7 +79,9 @@ function apply_exif_tags($event, $type, $object) {
 			if (isset($exif['UserComment'])) {
 				$description .= $exif['UserComment']['clean'];
 			}
-			$object->description = $description;
+			if ($description) {
+				$object->description = $description;
+			}
 		}
 
 		if (!$object->copyright) {
@@ -127,6 +131,7 @@ function apply_exif_tags($event, $type, $object) {
 		}
 
 		if (!$object->tags) {
+			$tags = array();
 			if (isset($exif['Model'])) {
 				$tags[] = $exif['Model']['clean'];
 			}
