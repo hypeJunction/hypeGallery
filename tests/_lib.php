@@ -75,7 +75,8 @@ class GalleryTestLib {
 		$image = new hjAlbumImage();
 		$image->owner_guid = $owner_guid;
 		$image->container_guid = $container_guid;
-
+		$image->setFilename("tests/testfile.$type");
+		
 		if ($type) {
 			$file = self::getTestFile($type);
 			$image->open('write');
