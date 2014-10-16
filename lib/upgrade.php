@@ -178,7 +178,7 @@ function hj_gallery_1361379980() {
 
 /**
  * Add icontime metadata
- * @return boolean
+ * @return boolean|null
  */
 function hj_gallery_1369646725() {
 
@@ -204,7 +204,7 @@ function hj_gallery_1369646725() {
 
 /**
  * Migrate tags
- * @return boolean
+ * @return boolean|null
  */
 function hj_gallery_1374851653() {
 	$dbprefix = elgg_get_config('dbprefix');

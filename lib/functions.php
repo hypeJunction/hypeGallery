@@ -10,7 +10,7 @@ use ElggObject;
  * Register albums/image title buttons
  *
  * @param ElggObject $entity Album or image
- * @return boolean
+ * @return null|boolean
  */
 function register_entity_title_buttons($entity) {
 
@@ -300,9 +300,9 @@ function prepare_files_global(array $_files, $top = TRUE) {
 /**
  * Generate icons for an entity
  *
- * @param ElggEntity $entity      Entity
- * @param ElggFile   $filehandler Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
- * @param array      $coords      Coordinates for cropping
+ * @param hjAlbumImage $entity      Entity
+ * @param ElggFile     $filehandler Valid filehandler on Elgg filestore to grab the file from | can be null if $entity is instance of ElggFile
+ * @param array        $coords      Coordinates for cropping
  * @return boolean
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null) {
