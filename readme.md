@@ -1,7 +1,7 @@
 hypeGallery
 ===========
 
-[![Build Status](https://travis-ci.org/hypeJunction/hypeGallery.svg?branch=master)](https://travis-ci.org/hypeJunction/hypeGallery)
+[![Build Status](https://travis-ci.org/hypeJunction/hypeGallery.svg?branch=master)](https://travis-ci.org/hypeJunction/hypeGallery) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/hypeJunction/hypeGallery/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/hypeJunction/hypeGallery/?branch=master)
 
 Extremely user friendly and hype image gallery for Elgg.
 
