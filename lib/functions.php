@@ -103,6 +103,8 @@ function register_entity_title_buttons($entity) {
 			break;
 	}
 
+	$items = array_filter($items);
+	
 	if ($items) {
 		foreach ($items as $name => $options) {
 			$options['name'] = $name;

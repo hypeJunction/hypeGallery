@@ -51,8 +51,7 @@ class hjAlbum extends ElggObject {
 
 			default :
 			case 'view' :
-				$friendly_title = elgg_get_friendly_title($this->title);
-				return "gallery/view/$this->guid/$friendly_title";
+				return parent::getURL();
 
 			case 'edit' :
 				return "gallery/edit/$this->guid";

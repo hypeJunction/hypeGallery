@@ -445,3 +445,27 @@ function entity_icon_sizes($hook, $type, $return, $params) {
 	$gallery_config = elgg_get_config('gallery_icon_sizes');
 	return (is_array($return)) ? array_merge($return, $gallery_config) : $gallery_config;
 }
+
+/**
+ * Returns a URL of the image or gallery
+ * 
+ * @param string $hook   "entity:url"
+ * @param string $type   "object"
+ * @param string $return URL
+ * @param array  $params Hook params
+ * @return string
+ */
+function url_handler($hook, $type, $return, $params) {
+
+	$entity = elgg_extract('entity', $params);
+
+	$subtype = $entity->getSubtype();
+	switch ($subtype) {
+		case hjAlbum::SUBTYPE:
+		case hjAlbumImage::SUBTYPE :
+			$friendly_title = elgg_get_friendly_title($entity->title);
+			return "gallery/view/$entity->guid/$friendly_title";
+	}
+
+	return $return;
+}

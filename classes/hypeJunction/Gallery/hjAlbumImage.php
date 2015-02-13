@@ -48,8 +48,7 @@ class hjAlbumImage extends ElggFile {
 		switch ($action) {
 			default :
 			case 'view' :
-				$friendly_title = elgg_get_friendly_title($this->title);
-				return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
+				return parent::getURL();
 
 			case 'edit' :
 				return elgg_normalize_url("gallery/manage/$this->container_guid#elgg-object-$this->guid");
