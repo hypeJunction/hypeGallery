@@ -11,7 +11,7 @@ $time = time();
 if ($entity) {
     $access_id = $entity->access_id;
 } else {
-    $access_id = (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : ACCESS_DEFAULT;
+    $access_id = (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : get_default_access();
 }
 $main .= '<label>' . elgg_echo('label:hjalbum:title') . '</label>';
 $main .= elgg_view('input/text', array(
