@@ -116,7 +116,7 @@ if (count($images) && !$requires_approval) {
 	elgg_create_river_item(array(
 		'view' => 'river/object/hjalbum/update',
 		'action_type' => 'update',
-		'subject_guid' => elgg_get_logged_in_user_guid,
+		'subject_guid' => elgg_get_logged_in_user_guid(),
 		'object_guid' => $album->guid,
 		'access_id' => $album->access_id,
 		'posted' => $posted,
