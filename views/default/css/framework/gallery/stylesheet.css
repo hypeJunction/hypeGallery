@@ -1254,3 +1254,6 @@ li.elgg-state-loading [class*="gallery-icon-"]:before,
   padding: 0;
   border: 0;
 }
+.hidden, .elgg-page .hidden {
+    display: none!important;
+}
