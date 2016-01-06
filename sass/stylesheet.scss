@@ -436,6 +436,7 @@ li.elgg-state-loading [class*="gallery-icon-"],
 
 .ui-dialog.gallery-slideshow {
 	@include modal;
+	z-index: 1001;
 	.ui-dialog-titlebar {
 		background: #eee;
 		color: #444;
@@ -446,9 +447,13 @@ li.elgg-state-loading [class*="gallery-icon-"],
 			line-height: 45px;
 			font-size: 20px;
 			outline: none;
+			.ui-button-text {
+				display: none;
+			}
 		}
 		button {
 			outline: none;
+			margin: 5px;
 		}
 	}
 	.ui-dialog-content {
