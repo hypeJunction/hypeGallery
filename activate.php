@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-require_once __DIR__ . '/vendors/autoload.php';
+require_once __DIR__ . '/autoloader.php';
 
 $subtypes = array(
 	hjAlbum::SUBTYPE => get_class(new hjAlbum),
