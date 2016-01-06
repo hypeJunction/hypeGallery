@@ -15,18 +15,8 @@ body {
 		max-width: 100%;
 		@include box-sizing(border-box);
 	}
-
 	@media #{$medium} {
 		@include block-grid(2);
-	}
-	/*	@media #{$large} {
-		@include block-grid(3);
-	}*/
-	.elgg-menu-entity {
-		& > li {
-			display: inline-block;
-			margin-left: 10px;
-		}
 	}
 }
 
@@ -46,11 +36,19 @@ body {
 		}
 	}
 	.elgg-menu-entity {
-		margin: 10px;
+		margin: 0;
+		padding: 10px;
 		position: relative;
+		float: none;
+		width: 100%;
+		@include box-sizing(border-box);
+		@include clearfix;
 		& > li {
-			display: inline-block;
+			float: left;
 			margin-left: 10px;
+			&:first-of-type {
+				margin-left: 0;
+			}
 		}
 	}
 }
