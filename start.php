@@ -17,7 +17,7 @@ const PLUGIN_ID = 'hypeGallery';
 const PAGEHANDLER = 'gallery';
 
 // Composer autoload
-require_once __DIR__ . '/vendors/autoload.php';
+require_once __DIR__ . '/autoloader.php';
 
 // Load Gallery libraries
 require_once __DIR__ . '/lib/functions.php';

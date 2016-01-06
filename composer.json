@@ -10,15 +10,11 @@
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
-			"email": "ismayil.khayredinov@gmail.com"
+			"email": "info@hypejunction.com"
 		}
 	],
 	"extra": {
 		"installer-name": "hypeGallery"
-	},
-	"config": {
-		"vendor-dir": "vendors",
-		"preferred-install": "dist"
 	},
 	"require": {
 		"php": ">=5.3.3",
