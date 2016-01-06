@@ -63,6 +63,7 @@ body {
 		min-height: 250px;
 		margin-bottom: 20px;
 		overflow: hidden;
+		@include box-sizing(border-box);
 		.gallery-album-meta {
 			margin: 10px 20px;
 		}
