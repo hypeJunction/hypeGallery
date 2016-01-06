@@ -3,9 +3,11 @@
 .htaccess
 robots.txt
 /nbproject/
-composer.lock
 /.sass-cache/
-
-vendors/jquery
-vendors/.git
-vendors/**/.git
+/node_modules/
+/build/
+/releases/
+/vendor/
+/mod/
+composer.lock
+Gemfile.lock
