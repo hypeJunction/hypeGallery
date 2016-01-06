@@ -31,7 +31,9 @@ if (!is_array($guids)) {
 // files being uploaded via $_FILES
 $uploads = UploadHandler::handle('gallery_files', array(
 			'subtype' => hjAlbumImage::SUBTYPE,
-			'container_guid' => $album->guid));
+			'container_guid' => $album->guid,
+			'icon_sizes' => get_icon_sizes(new hjAlbumImage),
+		));
 
 if ($uploads && count($uploads)) {
 	foreach ($uploads as $upload) {
@@ -53,11 +55,11 @@ if ($guids) {
 	foreach ($guids as $guid) {
 
 		$image = get_entity($guid);
-		
+
 		if (!elgg_instanceof($image)) {
 			continue;
 		}
-		
+
 		$image->container_guid = $album->guid; // in case these were uploaded with filedrop
 
 		if (!$image->title) {

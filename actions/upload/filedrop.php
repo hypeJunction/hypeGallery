@@ -10,6 +10,7 @@ $album = get_entity($album_guid);
 $uploads = UploadHandler::handle('dropzone', array(
 			'subtype' => hjAlbumImage::SUBTYPE,
 			'container_guid' => $album->guid,
+			'icon_sizes' => get_icon_sizes(new hjAlbumImage),
 		));
 
 $output = array();

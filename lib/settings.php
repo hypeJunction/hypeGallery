@@ -26,18 +26,21 @@ elgg_set_config('gallery_icon_sizes', array(
 		'h' => 200,
 		'square' => false,
 		'upscale' => true,
+		'croppable' => true,
 	),
 	'125' => array(
 		'w' => 125,
 		'h' => 125,
 		'square' => false,
-		'upscale' => true
+		'upscale' => true,
+		'croppable' => true,
 	),
 	'325x200' => array(
 		'w' => 325,
 		'h' => 200,
 		'square' => false,
 		'upscale' => true,
+		'croppable' => true,
 	),
 	'taggable' => array(
 		'w' => 550,
