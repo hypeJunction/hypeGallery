@@ -36,7 +36,7 @@ echo $content;
 
 if ($content) {
 	$more_link = elgg_view('output/url', array(
-		'href' => $more_link,
+		'href' => $more_url,
 		'text' => elgg_echo('gallery:widget:more'),
 		'is_trusted' => true,
 	));
