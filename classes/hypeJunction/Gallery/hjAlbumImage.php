@@ -58,7 +58,7 @@ class hjAlbumImage extends ElggFile {
 				return elgg_add_action_tokens_to_url(elgg_normalize_url("action/gallery/delete/object?guid=$this->guid"));
 
 			case 'download' :
-				return elgg_normalize_url("gallery/download/$this->guid");
+				return elgg_get_download_url($this, true);
 		}
 	}
 
@@ -69,7 +69,29 @@ class hjAlbumImage extends ElggFile {
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {
-		return elgg_normalize_url("gallery/icon/$this->guid/$size");
+
+		switch ($this->mimetype) {
+			case 'image/png' :
+				$ext = 'png';
+				break;
+			case 'gif' :
+				$ext = 'gif';
+				break;
+			default :
+				$ext = 'jpg';
+				break;
+		}
+
+		$filehandler = new ElggFile();
+		$filehandler->owner_guid = $this->owner_guid;
+		$filehandler->setFilename("icons/{$this->guid}{$size}.{$ext}");
+
+		$url = elgg_get_inline_url($filehandler, true);
+		if (!$url) {
+			$url = elgg_get_download_url($this, true);
+		}
+
+		return $url;
 	}
 
 	/**

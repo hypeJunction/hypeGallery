@@ -197,17 +197,20 @@ function page_handler($page) {
 			break;
 
 		case 'icon':
-			$guid = elgg_extract(1, $page, 0);
-			$size = elgg_extract(2, $page, 'medium');
+			array_shift($page);
+			$guid = array_shift($page);
+			$size = array_shift($page) ? : 'medium';
 
-			set_input('guid', $guid);
-			set_input('size', $size);
-
-			include "{$path}icon/icon.php";
+			$entity = get_entity($guid);
+			if (!$entity) {
+				return false;
+			}
+			
+			forward($entity->getIconURL($size));
 			break;
 
 		case 'download':
-
+			array_shift($page);
 			if (!HYPEGALLERY_DOWNLOADS) {
 				register_error(elgg_echo('gallery:download:error:disabled'));
 				forward('', '403');
@@ -218,8 +221,13 @@ function page_handler($page) {
 				forward('', '403');
 			}
 
-			set_input('guid', $page[1]);
-			include "{$path}file/download.php";
+			$guid = array_shift($page);
+			$entity = get_entity($guid);
+			if (!$entity) {
+				return false;
+			}
+
+			forward(elgg_get_download_url($entity, true));
 			break;
 
 		case 'livesearch':

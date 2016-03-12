@@ -18,15 +18,23 @@
         <type>elgg_release</type>
 		<version>1.9</version>
     </requires>
+
 	<requires>
 		<type>plugin</type>
 		<name>hypeFilestore</name>
 	</requires>
+
+	<requires>
+		<type>plugin</type>
+		<name>proxy</name>
+	</requires>
+	
 	<suggests>
 		<type>plugin</type>
 		<name>elgg_dropzone</name>
 		<version>1.0.1</version>
 	</suggests>
+
 	<suggests>
 		<type>php_extension</type>
 		<name>exif</name>
