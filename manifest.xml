@@ -16,17 +16,12 @@
 
 	<requires>
         <type>elgg_release</type>
-		<version>1.9</version>
+		<version>2.1</version>
     </requires>
 
 	<requires>
 		<type>plugin</type>
 		<name>hypeFilestore</name>
-	</requires>
-
-	<requires>
-		<type>plugin</type>
-		<name>proxy</name>
 	</requires>
 	
 	<suggests>
