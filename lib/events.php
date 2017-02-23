@@ -118,7 +118,7 @@ function apply_exif_tags($event, $type, $object) {
 				if ($data = json_decode($json_data, true)) {
 					if (!isset($data['error'])) {
 						$object->osm_id = $data['osm_id'];
-						$object->setSearchLocation($data['display_name']);
+						$object->setLocation($data['display_name']);
 						$object->setLatLong($data['lat'], $data['lon']);
 					}
 				}
