@@ -8,7 +8,11 @@ $container = (elgg_instanceof($entity)) ? $entity->getContainerEntity() : $conta
 
 $sticky_values = elgg_get_sticky_values('edit:object:hjalbum');
 $time = time();
-
+if ($entity) {
+    $access_id = $entity->access_id;
+} else {
+    $access_id = (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : get_default_access();
+}
 $main .= '<label>' . elgg_echo('label:hjalbum:title') . '</label>';
 $main .= elgg_view('input/text', array(
 	'name' => "title",
@@ -41,7 +45,7 @@ $main .= '<div class="elgg-col elgg-col-1of2">';
 $main .= '<label>' . elgg_echo('label:hjalbum:access_id') . '</label>';
 $main .= elgg_view('input/access', array(
 	'entity' => $entity,
-	'value' => (isset($sticky_values['access_id'])) ? $sticky_values['access_id'] : $entity->access_id,
+	'value' => $access_id,
 	'name' => 'access_id',
 		));
 $main .= '</div>';
