@@ -77,7 +77,7 @@ class hjAlbumImage extends ElggFile {
 	 * 
 	 * @return boolean
 	 */
-	public function delete() {
+	public function delete($follow_symlinks = true) {
 
 		$icon_sizes = elgg_get_config('icon_sizes');
 
