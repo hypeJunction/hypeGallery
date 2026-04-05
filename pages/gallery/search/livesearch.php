@@ -33,6 +33,7 @@ switch ($search_type) {
 			'limit' => 20,
 			'joins' => array(
 				"JOIN {$dbprefix}entity_relationships er ON e.guid = er.guid_two",
+				// WARNING: users_entity subtable removed in Elgg 3.0 — rewrite this SQL
 				"JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid",
 			),
 			'wheres' => array(

@@ -26,6 +26,7 @@ $images = new ElggBatch('elgg_get_entities', array(
 	'subtypes' => hjAlbumImage::SUBTYPE,
 	'container_guids' => $album->guid,
 	'joins' => array(
+		// WARNING: objects_entity subtable removed in Elgg 3.0 — rewrite this SQL
 		"JOIN {$dbprefix}objects_entity oe ON oe.guid = e.guid",
 	),
 	'limit' => 0,
