@@ -1,18 +1,17 @@
 <?php
 
+/**
+ * Legacy upgrade scripts.
+ *
+ * run_function_once() was removed in Elgg 3.0. These one-time data migrations
+ * should have already executed on any production site running 2.x. They are
+ * retained here for reference only.
+ *
+ * If you need to re-run any of these migrations on a fresh 3.x install,
+ * implement them as \Elgg\Upgrade\Batch classes instead.
+ */
+
 use hypeJunction\Gallery\hjAlbumImage;
-ini_set('memory_limit', '512M');
-set_time_limit(0);
-$ia = elgg_set_ignore_access(true);
-elgg_push_context('show_hidden_entities');
-run_function_once('hj_gallery_1361394670');
-run_function_once('hj_gallery_1361396953');
-run_function_once('hj_gallery_1361394680');
-run_function_once('hj_gallery_1369646725');
-run_function_once('hj_gallery_1374851653');
-run_function_once('hj_gallery_tidypics_albums');
-elgg_set_ignore_access($ia);
-elgg_pop_context();
 /**
  * Migrate images
  * @return boolean
