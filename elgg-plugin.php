@@ -1,20 +1,17 @@
 <?php
 
-use hypeJunction\Gallery\hjAlbum;
-use hypeJunction\Gallery\hjAlbumImage;
-
 return [
 	'entities' => [
 		[
 			'type' => 'object',
-			'subtype' => hjAlbum::SUBTYPE,
-			'class' => hjAlbum::class,
+			'subtype' => 'hjalbum',
+			'class' => \hypeJunction\Gallery\hjAlbum::class,
 			'searchable' => true,
 		],
 		[
 			'type' => 'object',
-			'subtype' => hjAlbumImage::SUBTYPE,
-			'class' => hjAlbumImage::class,
+			'subtype' => 'hjalbumimage',
+			'class' => \hypeJunction\Gallery\hjAlbumImage::class,
 			'searchable' => true,
 		],
 	],
