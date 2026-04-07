@@ -13,8 +13,8 @@ $user_guid = get_input('relationship_guid', false);
 
 $title = get_input('title', false);
 
-if (!elgg_instanceof($image) || !$image->canEdit()) {
-	register_error(elgg_echo('gallery:phototag:error'));
+if (!$image instanceof \ElggEntity || !$image->canEdit()) {
+	elgg_register_error_message(elgg_echo('gallery:phototag:error'));
 	forward(REFERER);
 }
 
@@ -33,7 +33,7 @@ if (is_numeric($user_guid)) {
 }
 
 if (!$title && !$user) {
-	register_error(elgg_echo('gallery:phototag:error'));
+	elgg_register_error_message(elgg_echo('gallery:phototag:error'));
 	forward(REFERER);
 }
 
@@ -91,7 +91,7 @@ if ($tag->save()) {
 		'annotation_id' => -1
 	));
 
-	system_message(elgg_echo('gallery:phototag:success'));
+	elgg_register_success_message(elgg_echo('gallery:phototag:success'));
 
 	$html = elgg_view_entity($tag);
 
@@ -100,7 +100,7 @@ if ($tag->save()) {
 	}
 } else {
 
-	register_error(elgg_echo('gallery:phototag:error'));
+	elgg_register_error_message(elgg_echo('gallery:phototag:error'));
 }
 
 elgg_set_ignore_access($ia);

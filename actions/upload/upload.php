@@ -7,7 +7,7 @@ $guid = get_input('container_guid', null);
 $album = get_entity($guid);
 
 if (!$album) {
-	register_error(elgg_echo('gallery:upload:error:noalbum'));
+	elgg_register_error_message(elgg_echo('gallery:upload:error:noalbum'));
 	forward(REFERER);
 }
 

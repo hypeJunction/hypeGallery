@@ -8,7 +8,7 @@ if (!HYPEGALLERY_TAGGING) {
 
 $entity = elgg_extract('entity', $vars);
 
-if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
+if (!$entity instanceof hjAlbumImage) {
 	return;
 }
 

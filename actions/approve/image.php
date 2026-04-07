@@ -58,9 +58,9 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 }
 
 if ($error) {
-	register_error($error);
+	elgg_register_error_message($error);
 } else {
-	system_message($success);
+	elgg_register_success_message($success);
 	if (elgg_is_xhr()) {
 		print json_encode(array('guid' => $entity->getGUID()));
 	}

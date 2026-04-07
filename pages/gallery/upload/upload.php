@@ -13,12 +13,12 @@ if (!$entity instanceof hjAlbum) {
 $ancestry = get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
-	if (elgg_instanceof($ancestor, 'site')) {
+	if ($ancestor instanceof \ElggSite) {
 		// do nothing
-	} else if (elgg_instanceof($ancestor, 'group')) {
+	} else if ($ancestor instanceof \ElggGroup) {
 		elgg_set_page_owner_guid($ancestor->guid);
 		elgg_push_breadcrumb($ancestor->name, $ancestor->getURL());
-	} else if (elgg_instanceof($ancestor, 'object')) {
+	} else if ($ancestor instanceof \ElggObject) {
 		elgg_push_breadcrumb($ancestor->title, $ancestor->getURL());
 	}
 }

@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 register_dashboard_title_buttons('container');
 
 $container = elgg_get_page_owner_entity();
-$name = (elgg_instanceof($container, 'object')) ? $container->title : $container->name;
+$name = ($container instanceof \ElggObject) ? $container->title : $container->name;
 $title = elgg_echo('gallery:albums:owner', array($name));
 
 elgg_push_breadcrumb($container->name, "gallery/container/$container->guid");

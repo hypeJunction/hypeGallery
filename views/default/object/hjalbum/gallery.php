@@ -6,7 +6,7 @@ $entity = elgg_extract('entity', $vars, false);
 $full = elgg_extract('full_view', $vars, false);
 $size = elgg_extract('size', $vars, '325x200');
 
-if (!elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
+if (!$entity instanceof hjAlbum) {
 	return true;
 }
 

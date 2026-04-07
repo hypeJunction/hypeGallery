@@ -61,7 +61,7 @@ function page_handler($page) {
 			}
 			$group = get_entity($group_guid);
 
-			if (!elgg_instanceof($group, 'group')) {
+			if (!$group instanceof \ElggGroup) {
 				return false;
 			}
 
@@ -77,7 +77,7 @@ function page_handler($page) {
 			}
 			$group = get_entity($container_guid);
 
-			if (!elgg_instanceof($container_guid)) {
+			if (!$container_guid instanceof \ElggEntity) {
 				return false;
 			}
 
@@ -209,12 +209,12 @@ function page_handler($page) {
 		case 'download':
 
 			if (!HYPEGALLERY_DOWNLOADS) {
-				register_error(elgg_echo('gallery:download:error:disabled'));
+				elgg_register_error_message(elgg_echo('gallery:download:error:disabled'));
 				forward('', '403');
 			}
 
 			if (!elgg_is_logged_in() && !HYPEGALLERY_PUBLIC_DOWNLOADS) {
-				register_error(elgg_echo('gallery:download:error:disabled_public'));
+				elgg_register_error_message(elgg_echo('gallery:download:error:disabled_public'));
 				forward('', '403');
 			}
 

@@ -11,7 +11,7 @@ foreach ($files as $guid => $details) {
 
 	$image = get_entity($guid);
 	
-	if (!elgg_instanceof($image)) {
+	if (!$image instanceof \ElggEntity) {
 		continue;
 	}
 	

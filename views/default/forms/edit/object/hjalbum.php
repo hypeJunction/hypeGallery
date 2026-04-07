@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $container = elgg_extract('container', $vars, false);
 $entity = elgg_extract('entity', $vars, false);
-$container = (elgg_instanceof($entity)) ? $entity->getContainerEntity() : $container;
+$container = ($entity instanceof \ElggEntity) ? $entity->getContainerEntity() : $container;
 
 $sticky_values = elgg_get_sticky_values('edit:object:hjalbum');
 $time = time();

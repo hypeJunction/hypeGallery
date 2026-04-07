@@ -9,8 +9,8 @@ $failed = 0;
 $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
-if (!elgg_instanceof($album, 'object', hjAlbum::SUBTYPE) || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-	register_error('gallery:upload:error:noalbum');
+if (!$album instanceof hjAlbum || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
+	elgg_register_error_message('gallery:upload:error:noalbum');
 	forward(REFERER);
 }
 
@@ -56,7 +56,7 @@ if ($guids) {
 
 		$image = get_entity($guid);
 
-		if (!elgg_instanceof($image)) {
+		if (!$image instanceof \ElggEntity) {
 			continue;
 		}
 
@@ -81,12 +81,12 @@ if ($guids) {
 			$images[] = $image->getGUID();
 		}
 
-		if (!elgg_instanceof($image)) {
+		if (!$image instanceof \ElggEntity) {
 			$failed++;
 			continue;
 		}
 
-		if (!elgg_instanceof($image, 'object', hjAlbumImage::SUBTYPE) || $image->simpletype != 'image') {
+		if (!$image instanceof hjAlbumImage || $image->simpletype != 'image') {
 			$failed++;
 			$image->delete();
 			continue;
@@ -101,15 +101,15 @@ if ($guids) {
 }
 
 if (count($images)) {
-	system_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
+	elgg_register_success_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
 }
 
 if ($failed) {
-	system_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
+	elgg_register_success_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
 }
 
 if (count($images_pending)) {
-	system_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
+	elgg_register_success_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
 }
 
 $metadata_id = create_metadata($album->guid, "river_$posted", serialize($images), '', $album->owner_guid, $album->access_id, true);

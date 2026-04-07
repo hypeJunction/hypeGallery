@@ -31,7 +31,7 @@ if (elgg_is_xhr()) {
 		}
 
 		$image = $upload->file;
-		if (!elgg_instanceof($image)) {
+		if (!$image instanceof \ElggEntity) {
 			$messages[] = elgg_echo('gallery:upload:error');
 			$success = false;
 			$guid = false;

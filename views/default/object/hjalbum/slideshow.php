@@ -11,7 +11,7 @@ if (!elgg_is_xhr()) {
 
 $entity = elgg_extract('entity', $vars);
 
-if (elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
+if ($entity instanceof hjAlbum) {
 	$album = $entity;
 	$current = false;
 } else {

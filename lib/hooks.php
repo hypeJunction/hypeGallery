@@ -20,7 +20,7 @@ function container_permissions_check($hook, $type, $return, $params) {
 	$user = elgg_extract('user', $params, false);
 	$subtype = elgg_extract('subtype', $params, false);
 
-	if (!elgg_instanceof($container) || !elgg_instanceof($user, 'user') || !$subtype) {
+	if (!$container instanceof \ElggEntity || !$user instanceof \ElggUser || !$subtype) {
 		return $return;
 	}
 
@@ -46,7 +46,7 @@ function container_permissions_check($hook, $type, $return, $params) {
 
 						case 'group' :
 							$group = $container->getContainerEntity();
-							if (elgg_instanceof($group, 'group')) {
+							if ($group instanceof \ElggGroup) {
 								return $group->isMember($user);
 							}
 							break;
@@ -75,7 +75,7 @@ function permissions_check($hook, $type, $return, $params) {
 	$entity = elgg_extract('entity', $params, false);
 	$user = elgg_extract('user', $params, false);
 
-	if (!elgg_instanceof($entity, 'object') || !elgg_instanceof($user, 'user')) {
+	if (!$entity instanceof \ElggObject || !$user instanceof \ElggUser) {
 		return $return;
 	}
 
@@ -137,7 +137,7 @@ function entity_menu_setup($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params, false);
 
-	if (!elgg_instanceof($entity)) {
+	if (!$entity instanceof \ElggEntity) {
 		return $return;
 	}
 
@@ -275,12 +275,12 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params, false);
 
-	if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
+	if (!$entity instanceof hjAlbumImage) {
 		return $return;
 	}
 
 	$items = array();
-	
+
 	// Is item is pending approval?
 	if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 		// Approve
@@ -408,13 +408,13 @@ function owner_block_menu_setup($hook, $type, $return, $params) {
 
 	$entity = elgg_extract('entity', $params);
 
-	if (HYPEGALLERY_GROUP_ALBUMS && elgg_instanceof($entity, 'group') && $entity->albums_enable !== 'no') {
+	if (HYPEGALLERY_GROUP_ALBUMS && $entity instanceof \ElggGroup && $entity->albums_enable !== 'no') {
 		$return[] = ElggMenuItem::factory(array(
 					'name' => 'group:albums',
 					'text' => elgg_echo('gallery:albums:groups'),
 					'href' => "gallery/group/$entity->guid"
 		));
-	} else if (elgg_instanceof($entity, 'user')) {
+	} else if ($entity instanceof \ElggUser) {
 		$return[] = ElggMenuItem::factory(array(
 					'name' => 'user:albums',
 					'text' => elgg_echo('gallery:albums'),

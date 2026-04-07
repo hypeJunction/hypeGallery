@@ -26,9 +26,8 @@ if ($entity->mimetype == 'image/png') {
 	$filename = "icons/" . $entity->guid . $size . ".jpg";
 }
 
-$etag = md5($filehandler->icontime . $size);
-
 $filehandler = new ElggFile();
+$etag = md5($entity->icontime . $size);
 $filehandler->owner_guid = $entity->owner_guid;
 $filehandler->setFilename($filename);
 $filehandler->open('read');

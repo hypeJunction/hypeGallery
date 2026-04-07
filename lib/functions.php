@@ -13,7 +13,7 @@ use ElggObject;
  */
 function register_entity_title_buttons($entity)
 {
-    if (!elgg_instanceof($entity)) {
+    if (!$entity instanceof \ElggEntity) {
         return;
     }
     $items = array();
@@ -285,7 +285,7 @@ function get_simple_type($mimetype)
  */
 function get_permissions_options($container)
 {
-    if (elgg_instanceof($container, 'group')) {
+    if ($container instanceof \ElggGroup) {
         return array('private' => elgg_echo('permission:value:private'), 'group' => elgg_echo('permission:value:group'));
     }
     return array('private' => elgg_echo('permission:value:private'), 'friends' => elgg_echo('permission:value:friends'), 'public' => elgg_echo('permission:value:public'));
@@ -338,7 +338,7 @@ function get_ancestry($guid)
     // Build an hierarchy from [0]highest to [X]lowest
     $ancestry = array();
     $container = $entity->getContainerEntity();
-    while (elgg_instanceof($container)) {
+    while ($container instanceof \ElggEntity) {
         array_unshift($ancestry, $container);
         $container = $container->getContainerEntity();
     }

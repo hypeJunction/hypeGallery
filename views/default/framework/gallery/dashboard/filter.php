@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $filter_context = elgg_extract('filter_context', $vars, 'site');
 
 $viewer = elgg_get_page_owner_entity();
-if (!elgg_instanceof($viewer, 'user')) {
+if (!$viewer instanceof \ElggUser) {
 	$viewer = elgg_get_logged_in_user_entity();
 }
 

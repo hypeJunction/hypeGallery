@@ -92,7 +92,7 @@ class hjAlbum extends ElggObject {
 			$cover_image = $images[0];
 		}
 
-		if (elgg_instanceof($cover_image)) {
+		if ($cover_image instanceof \ElggEntity) {
 			return $cover_image->getIconURL($size);
 		} else {
 			return parent::getIconURL($size);

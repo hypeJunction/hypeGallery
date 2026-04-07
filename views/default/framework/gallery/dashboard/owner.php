@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $page_owner = elgg_get_page_owner_entity();
 
-if (!elgg_instanceof($page_owner, 'user')) {
+if (!$page_owner instanceof \ElggUser) {
 	return;
 }
 

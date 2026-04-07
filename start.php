@@ -110,7 +110,10 @@ function init_groups()
     if (!HYPEGALLERY_GROUP_ALBUMS) {
         return;
     }
-    add_group_tool_option('albums', elgg_echo('gallery:groupoption:enable'), true);
+    elgg()->group_tools->register('albums', [
+        'label' => elgg_echo('gallery:groupoption:enable'),
+        'default_on' => true,
+    ]);
     elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
 }
 /**

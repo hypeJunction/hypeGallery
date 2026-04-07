@@ -3,7 +3,7 @@
 namespace hypeJunction\Gallery;
 
 $page_owner = elgg_get_page_owner_entity();
-if (!elgg_instanceof($page_owner, 'user') || !$page_owner->canEdit()) {
+if (!$page_owner instanceof \ElggUser || !$page_owner->canEdit()) {
     return;
 }
 $friends = elgg_get_entities(array('types' => 'user', 'relationship' => 'friend', 'relationship_guid' => $page_owner->guid, 'inverse_relationship' => true, 'limit' => 0));
