@@ -19,19 +19,14 @@ if (elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
 	$current = $entity->guid;
 }
 
-$dbprefix = elgg_get_config('dbprefix');
-$images = new ElggBatch('elgg_get_entities', array(
-	'selects' => array('oe.title as title'),
+// In Elgg 3.0 objects_entity subtable was removed; title is now on the
+// entities table directly.
+$images = new ElggBatch('elgg_get_entities', [
 	'types' => 'object',
 	'subtypes' => hjAlbumImage::SUBTYPE,
 	'container_guids' => $album->guid,
-	'joins' => array(
-		// WARNING: objects_entity subtable removed in Elgg 3.0 — rewrite this SQL
-		"JOIN {$dbprefix}objects_entity oe ON oe.guid = e.guid",
-	),
 	'limit' => 0,
-	'callback' => false,
-		));
+]);
 
 $data = array();
 foreach ($images as $img) {
