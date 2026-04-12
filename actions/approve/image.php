@@ -57,15 +57,10 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 	}
 }
 
-if ($error) {
-	elgg_register_error_message($error);
-} else {
-	elgg_register_success_message($success);
-	if (elgg_is_xhr()) {
-		print json_encode(array('guid' => $entity->getGUID()));
-	}
-}
-
 elgg_pop_context();
 
-forward(REFERER);
+if ($error) {
+	return elgg_error_response($error);
+}
+
+return elgg_ok_response(['guid' => $entity->getGUID()], $success);

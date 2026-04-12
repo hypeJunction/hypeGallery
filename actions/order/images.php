@@ -17,8 +17,4 @@ if (is_array($priorities)) {
 		}
 	}
 }
-if (elgg_is_xhr()) {
-	print json_encode($reordered);
-}
-
-forward(REFERER);
+return elgg_ok_response($reordered);

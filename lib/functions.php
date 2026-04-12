@@ -67,7 +67,7 @@ function register_dashboard_title_buttons($dashboard = 'site')
             break;
         case 'group':
             $group = elgg_get_page_owner_entity();
-            if ($group->canWriteToContainer()) {
+            if ($group->canWriteToContainer(0, 'object', 'hjalbum')) {
                 elgg_register_menu_item('title', array('name' => 'create:album', 'text' => elgg_echo('gallery:create:album'), 'href' => "gallery/create/album/{$group->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100));
             }
             break;

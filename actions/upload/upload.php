@@ -7,11 +7,10 @@ $guid = get_input('container_guid', null);
 $album = get_entity($guid);
 
 if (!$album) {
-	elgg_register_error_message(elgg_echo('gallery:upload:error:noalbum'));
-	forward(REFERER);
+	return elgg_error_response(elgg_echo('gallery:upload:error:noalbum'));
 }
 
-include elgg_get_root_path() . 'mod/hypeGallery/actions/upload/handle.php';
-include elgg_get_root_path() . 'mod/hypeGallery/actions/upload/describe.php';
+include elgg_get_root_path() . 'mod/hypegallery/actions/upload/handle.php';
+include elgg_get_root_path() . 'mod/hypegallery/actions/upload/describe.php';
 
-forward($album->getURL());
+return elgg_ok_response([], '', $album->getURL());

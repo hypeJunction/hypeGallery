@@ -6,7 +6,7 @@ use ElggBatch;
 use stdClass;
 
 if (!elgg_is_xhr()) {
-	forward(REFERER);
+	return;
 }
 
 $entity = elgg_extract('entity', $vars);
@@ -41,4 +41,3 @@ print(json_encode(array(
 			'album_guid' => $album->guid,
 			'album_title' => $album->title
 )));
-forward();

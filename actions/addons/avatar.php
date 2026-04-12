@@ -35,8 +35,7 @@ foreach ($icon_sizes as $name => $sinfo) {
 			$file->delete();
 		}
 
-		elgg_register_error_message(elgg_echo('avatar:resize:fail'));
-		forward(REFERER);
+		return elgg_error_response(elgg_echo('avatar:resize:fail'));
 	}
 }
 
@@ -48,8 +47,6 @@ $owner->y2 = 0;
 
 $owner->icontime = time();
 if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
-	elgg_register_success_message(elgg_echo("avatar:upload:success"));
-
 	$view = 'river/user/default/profileiconupdate';
 	elgg_delete_river(array('subject_guid' => $owner->guid, 'view' => $view));
 	elgg_create_river_item(array(
@@ -60,4 +57,8 @@ if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	));
 }
 
-forward("avatar/edit/$owner->username");
+return elgg_ok_response(
+	[],
+	elgg_echo('avatar:upload:success'),
+	elgg_generate_url('avatar:edit', ['username' => $owner->username])
+);

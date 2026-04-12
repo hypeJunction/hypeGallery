@@ -22,12 +22,10 @@ $object_link = elgg_view('output/url', array(
 
 $key = "river:update:object:hjalbum";
 $image_count = $object->countImages();
+// Metadata is JSON-encoded. Legacy serialize()d entries are migrated by
+// \hypeJunction\Gallery\Upgrades\EncodeRiverMetadataAsJson.
 $raw = $object->$river_time;
 $image_guids_new = json_decode((string) $raw, true);
-if (!is_array($image_guids_new)) {
-	// Backward compat with serialize()d metadata written by older versions
-	$image_guids_new = @unserialize((string) $raw, ['allowed_classes' => false]);
-}
 if (!is_array($image_guids_new)) {
 	$image_guids_new = [];
 }

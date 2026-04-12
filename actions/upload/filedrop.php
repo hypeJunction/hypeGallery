@@ -83,8 +83,6 @@ if (elgg_is_xhr()) {
 			'upload' => $upload,
 				), $file_output);
 	}
-
-	echo json_encode($output);
 }
 
-forward(REFERER);
+return elgg_ok_response($output ?? []);

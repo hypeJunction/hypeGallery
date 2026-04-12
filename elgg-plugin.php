@@ -1,6 +1,11 @@
 <?php
 
 return [
+	'plugin' => [
+		'name' => 'hypeGallery',
+		'activate_on_install' => false,
+	],
+
 	'bootstrap' => \hypeJunction\Gallery\Bootstrap::class,
 
 	'upgrades' => [
@@ -19,6 +24,44 @@ return [
 			'subtype' => 'hjalbumimage',
 			'class' => \hypeJunction\Gallery\hjAlbumImage::class,
 			'searchable' => true,
+		],
+	],
+
+	'actions' => [
+		'edit/object/hjalbum' => [],
+		'edit/object/hjalbumimage' => [],
+		'gallery/delete/object' => [],
+		'gallery/order/images' => [],
+		'gallery/upload' => [],
+		'gallery/upload/filedrop' => [],
+		'gallery/upload/handle' => [],
+		'gallery/upload/describe' => [],
+		'gallery/approve/image' => [],
+		'gallery/makeavatar' => [],
+		'gallery/makecover' => [],
+		'gallery/phototag' => [],
+		'gallery/thumb' => [],
+		'gallery/thumb_reset' => [],
+	],
+
+	'widgets' => [
+		'photostream' => [
+			'context' => ['profile', 'dashboard', 'groups'],
+		],
+		'albums' => [
+			'context' => ['profile', 'dashboard', 'groups'],
+		],
+	],
+
+	'view_extensions' => [
+		'elgg.css' => [
+			'css/framework/gallery/base' => [],
+		],
+		'object/hjalbumimage/meta' => [
+			'object/hjalbumimage/exif' => [],
+		],
+		'framework/gallery/sidebar' => [
+			'framework/gallery/tools/tagger' => [],
 		],
 	],
 ];

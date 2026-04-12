@@ -10,8 +10,7 @@ $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
 if (!$album instanceof hjAlbum || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-	elgg_register_error_message('gallery:upload:error:noalbum');
-	forward(REFERER);
+	return elgg_error_response(elgg_echo('gallery:upload:error:noalbum'));
 }
 
 // create timestamp reference for the river entry

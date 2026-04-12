@@ -45,18 +45,8 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function activate() {
-		require_once $this->plugin->getPath() . 'autoloader.php';
-
-		$subtypes = [
-			hjAlbum::SUBTYPE => get_class(new hjAlbum()),
-			hjAlbumImage::SUBTYPE => get_class(new hjAlbumImage()),
-			'hjimagetag' => '',
-		];
-		foreach ($subtypes as $subtype => $class) {
-			if (!elgg_set_entity_class('object', $subtype, $class)) {
-				elgg_set_entity_class('object', $subtype, $class);
-			}
-		}
+		// Entity class mappings are registered declaratively via the
+		// 'entities' key in elgg-plugin.php.
 	}
 
 	/**
