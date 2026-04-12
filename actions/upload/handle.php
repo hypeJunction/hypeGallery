@@ -112,7 +112,7 @@ if (count($images_pending)) {
 	elgg_register_success_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
 }
 
-$metadata_id = create_metadata($album->guid, "river_$posted", serialize($images), '', $album->owner_guid, $album->access_id, true);
+$metadata_id = create_metadata($album->guid, "river_$posted", json_encode($images), '', $album->owner_guid, $album->access_id, true);
 
 if (count($images) && !$requires_approval) {
 	elgg_create_river_item(array(

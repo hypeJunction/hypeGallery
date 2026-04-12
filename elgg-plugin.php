@@ -1,6 +1,10 @@
 <?php
 
 return [
+	'upgrades' => [
+		\hypeJunction\Gallery\Upgrades\EncodeRiverMetadataAsJson::class,
+	],
+
 	'entities' => [
 		[
 			'type' => 'object',

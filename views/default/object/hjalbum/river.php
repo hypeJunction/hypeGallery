@@ -19,7 +19,12 @@ if (!$entity->$river_time) {
 	));
 } else {
 
-	$guids = unserialize($entity->$river_time);
+	$raw = $entity->$river_time;
+	$guids = json_decode((string) $raw, true);
+	if (!is_array($guids)) {
+		// Backward compat with serialize()d metadata written by older versions
+		$guids = @unserialize((string) $raw, ['allowed_classes' => false]);
+	}
 	if (is_array($guids)) {
 		echo elgg_list_entities(array(
 			'guids' => $guids,
