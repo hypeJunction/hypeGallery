@@ -6,7 +6,7 @@
 	"keywords": [
 		"elgg", "plugin", "gallery", "images"
 	],
-	"license": "GPL-2.0",
+	"license": "GPL-2.0-or-later",
 	"authors": [
 		{
 			"name": "Ismayil Khayredinov",
@@ -14,11 +14,15 @@
 		}
 	],
 	"extra": {
-		"installer-name": "hypeGallery"
+		"elgg-plugin": {
+			"id": "hypegallery"
+		}
 	},
 	"require": {
-		"php": ">=5.3.3",
-		"composer/installers": "1.0.*"
+		"php": ">=7.4",
+		"elgg/elgg": "^4.0",
+		"composer/installers": "^2.0",
+		"hypejunction/hypefilestore": "*"
 	},
 	"autoload": {
 		"psr-4": {
