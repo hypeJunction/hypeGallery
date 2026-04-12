@@ -106,7 +106,7 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
             $filestorename = $filehandler->getFilename();
             $filestorename = elgg_substr($filestorename, elgg_strlen($prefix));
         } else {
-            $filehandler->subtype = $subtype;
+            $filehandler->setSubtype($subtype);
             $filehandler->container_guid = $container_guid;
             $filestorename = elgg_strtolower(time() . $file['name']);
         }
