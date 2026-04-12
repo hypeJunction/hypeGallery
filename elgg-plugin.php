@@ -1,6 +1,8 @@
 <?php
 
 return [
+	'bootstrap' => \hypeJunction\Gallery\Bootstrap::class,
+
 	'upgrades' => [
 		\hypeJunction\Gallery\Upgrades\EncodeRiverMetadataAsJson::class,
 	],

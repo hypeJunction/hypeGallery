@@ -15,13 +15,13 @@ namespace hypeJunction\Gallery;
 const PLUGIN_ID = 'hypeGallery';
 const PAGEHANDLER = 'gallery';
 // Composer autoload
-require_once __DIR__ . '/autoloader.php';
+require_once __DIR__ . '/../autoloader.php';
 // Load Gallery libraries
-require_once __DIR__ . '/lib/functions.php';
-require_once __DIR__ . '/lib/events.php';
-require_once __DIR__ . '/lib/hooks.php';
-require_once __DIR__ . '/lib/page_handlers.php';
-require_once __DIR__ . '/lib/settings.php';
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/events.php';
+require_once __DIR__ . '/hooks.php';
+require_once __DIR__ . '/page_handlers.php';
+require_once __DIR__ . '/settings.php';
 // Register event handlers
 elgg_register_event_handler('init', 'system', __NAMESPACE__ . '\init');
 elgg_register_event_handler('init', 'system', __NAMESPACE__ . '\init_groups');
@@ -46,7 +46,7 @@ function init()
     /**
      * Register actions
      */
-    $actions_path = __DIR__ . '/actions/';
+    $actions_path = __DIR__ . '/../actions/';
     elgg_register_action('edit/object/hjalbum', $actions_path . 'edit/object/hjalbum.php');
     elgg_register_action('edit/object/hjalbumimage', $actions_path . 'edit/object/hjalbumimage.php');
     elgg_register_action('gallery/delete/object', $actions_path . 'delete/object.php');
@@ -127,7 +127,7 @@ function init_groups()
  */
 function unit_test($hook, $type, $value, $params)
 {
-    $path = __DIR__ . '/../';
+    $path = __DIR__ . '/../../';
     $value[] = $path . PLUGIN_ID . '/tests/entities.php';
     $value[] = $path . PLUGIN_ID . '/tests/permissions.php';
     return $value;
