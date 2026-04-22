@@ -17,6 +17,7 @@ class AlbumImageEntityTest extends IntegrationTestCase {
     }
 
     private function makeAlbum($user): hjAlbum {
+        elgg_get_session()->setLoggedInUser($user);
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
         $album->container_guid = $user->guid;
@@ -28,6 +29,7 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
     public function testImageClassMapping(): void {
         $user = $this->createUser();
+        elgg_get_session()->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -45,10 +47,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 
     public function testImageSaveAssignsDefaultPriority(): void {
         $user = $this->createUser();
+        elgg_get_session()->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -62,10 +66,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 
     public function testAlbumCountImagesAfterAdd(): void {
         $user = $this->createUser();
+        elgg_get_session()->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image1 = new hjAlbumImage();
@@ -87,10 +93,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         $image1->delete();
         $image2->delete();
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 
     public function testImageUrlsContainGuid(): void {
         $user = $this->createUser();
+        elgg_get_session()->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -105,5 +113,6 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 }

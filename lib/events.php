@@ -33,16 +33,13 @@ function pagesetup() {
 
 /**
  * Apply EXIF tags to newly created image files
- *
- * @param string   $event  Equals 'create'
- * @param string   $type   Equals 'object'
- * @param ElggFile $object New file
- * @return boolean
  */
-function apply_exif_tags($event, $type, $object) {
+function apply_exif_tags(\Elgg\Event $event) {
+
+	$object = $event->getObject();
 
 	if (!$object instanceof ElggFile) {
-		return true;
+		return;
 	}
 
 	$exif = get_exif($object);
@@ -122,5 +119,4 @@ function apply_exif_tags($event, $type, $object) {
 		}
 	}
 
-	return true;
 }

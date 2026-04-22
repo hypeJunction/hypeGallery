@@ -30,8 +30,7 @@ class hjAlbumImage extends ElggFile {
 	 *
 	 * @return integer|false
 	 */
-	public function save() {
-		update_entity_last_action($this->container_guid);
+	public function save(): bool {
 		if (!isset($this->priority)) {
 			$this->priority = 0;
 		}

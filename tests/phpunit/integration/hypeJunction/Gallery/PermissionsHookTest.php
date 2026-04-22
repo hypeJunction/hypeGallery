@@ -18,6 +18,8 @@ class PermissionsHookTest extends IntegrationTestCase {
 
     public function testAlbumOwnerCanEdit(): void {
         $owner = $this->createUser();
+        elgg_get_session()->setLoggedInUser($owner);
+
         $album = new hjAlbum();
         $album->owner_guid = $owner->guid;
         $album->container_guid = $owner->guid;
@@ -27,10 +29,13 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $this->assertTrue($album->canEdit($owner->guid));
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 
     public function testImageInheritsAlbumAccess(): void {
         $user = $this->createUser();
+        elgg_get_session()->setLoggedInUser($user);
+
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
         $album->container_guid = $user->guid;
@@ -49,6 +54,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
+        elgg_get_session()->removeLoggedInUser();
     }
 
     public function testHookHandlerIsCallable(): void {
@@ -57,10 +63,8 @@ class PermissionsHookTest extends IntegrationTestCase {
         $hook->method('getType')->willReturn('object');
         $hook->method('getName')->willReturn('permissions_check');
         $hook->method('getValue')->willReturn(false);
-        $hook->method('getEntityParam')->willReturn(null);
+        $hook->method('getParam')->willReturn(null);
 
-        // Handler functions registered in lib/hooks.php should at minimum be
-        // callable and return a boolean or the original value.
         if (function_exists(__NAMESPACE__ . '\\permissions_check')) {
             $result = call_user_func(__NAMESPACE__ . '\\permissions_check', $hook);
             $this->assertTrue(is_bool($result) || is_null($result));

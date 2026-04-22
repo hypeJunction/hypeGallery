@@ -32,10 +32,8 @@ class PluginBootstrapTest extends IntegrationTestCase {
     }
 
     public function testActionViewsExistOnDisk(): void {
-        $pluginRoot = dirname(__DIR__, 5) . '/mod/hypeGallery';
-        if (!is_dir($pluginRoot)) {
-            $pluginRoot = dirname(__DIR__, 4);
-        }
+        // dirname(__DIR__, 5) traverses: Gallery -> hypeJunction -> integration -> phpunit -> tests -> plugin root
+        $pluginRoot = dirname(__DIR__, 5);
         $actions = [
             'actions/edit/object/hjalbum.php',
             'actions/edit/object/hjalbumimage.php',

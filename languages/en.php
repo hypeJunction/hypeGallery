@@ -1,6 +1,6 @@
 <?php
 
-$english = array(
+return [
 	/**
 	 *  Gallery UI elements
 	 */
@@ -411,6 +411,4 @@ $english = array(
 	// embeds
 	'embed:albumimages' => 'Album Images',
 	'gallery:image:editthumb' => 'Edit Thumbnails',
-);
-
-add_translation("en", $english);
+];
