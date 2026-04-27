@@ -108,8 +108,8 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         $image->title = 'photo.jpg';
         $image->save();
 
-        $this->assertStringContainsString((string) $image->guid, $image->getURL('view'));
-        $this->assertStringContainsString((string) $image->guid, $image->getURL('download'));
+        $this->assertStringContainsString((string) $image->guid, $image->getURL());
+        $this->assertStringContainsString((string) $image->guid, $image->getActionURL('download'));
 
         $image->delete();
         $album->delete();

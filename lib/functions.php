@@ -28,16 +28,16 @@ function register_entity_title_buttons($entity)
                 $items['manage'] = array('text' => elgg_echo('gallery:manage:album'), 'href' => "gallery/manage/{$entity->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 400);
             }
             if ($entity->canEdit()) {
-                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
-                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity', 'data-guid' => $entity->guid, 'priority' => 1000);
+                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getActionURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
+                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getActionURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity', 'data-guid' => $entity->guid, 'priority' => 1000);
             }
             break;
         case hjAlbumImage::SUBTYPE:
-            $items['download'] = HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC) ? array('text' => elgg_echo('gallery:image:download'), 'href' => $entity->getURL('download'), 'link_class' => 'elgg-button elgg-button-action', 'priority' => 50) : NULL;
+            $items['download'] = HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC) ? array('text' => elgg_echo('gallery:image:download'), 'href' => $entity->getActionURL('download'), 'link_class' => 'elgg-button elgg-button-action', 'priority' => 50) : NULL;
             $items['makeavatar'] = HYPEGALLERY_AVATARS && elgg_is_logged_in() ? array('text' => elgg_echo('gallery:image:makeavatar'), 'href' => "action/gallery/makeavatar?e={$entity->guid}", 'is_action' => true, 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100) : null;
             if ($entity->canEdit()) {
-                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
-                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation', 'data-guid' => $entity->guid, 'priority' => 1000);
+                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getActionURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
+                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getActionURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation', 'data-guid' => $entity->guid, 'priority' => 1000);
             }
             break;
     }

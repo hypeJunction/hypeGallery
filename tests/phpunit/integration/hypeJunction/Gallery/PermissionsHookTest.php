@@ -34,7 +34,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
     public function testImageInheritsAlbumAccess(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        _elgg_services()->session_manager->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;

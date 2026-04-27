@@ -92,16 +92,16 @@ class AlbumEntityTest extends IntegrationTestCase {
         $album->title = 'My Trip';
         $album->save();
 
-        $url = $album->getURL('view');
+        $url = $album->getURL();
         $this->assertStringContainsString('gallery/view/' . $album->guid, $url);
 
         $this->assertStringContainsString(
             'gallery/edit/' . $album->guid,
-            $album->getURL('edit')
+            $album->getActionURL('edit')
         );
         $this->assertStringContainsString(
             'gallery/manage/' . $album->guid,
-            $album->getURL('manage')
+            $album->getActionURL('manage')
         );
 
         $album->delete();
@@ -112,7 +112,7 @@ class AlbumEntityTest extends IntegrationTestCase {
         $owner = $this->createUser();
         $other = $this->createUser();
 
-        elgg_get_session()->setLoggedInUser($owner);
+        _elgg_services()->session_manager->setLoggedInUser($owner);
 
         $album = new hjAlbum();
         $album->owner_guid = $owner->guid;
