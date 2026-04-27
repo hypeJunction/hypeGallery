@@ -112,7 +112,7 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
         }
         $filehandler->setFilename($prefix . $filestorename);
         $filehandler->title = $file['name'];
-        $mime_type = ElggFile::detectMimeType($file['tmp_name'], $file['type']);
+        $mime_type = file_exists($file['tmp_name']) ? (mime_content_type($file['tmp_name']) ?: $file['type']) : $file['type'];
         // hack for Microsoft zipped formats
         $info = pathinfo($file['name']);
         $office_formats = array('docx', 'xlsx', 'pptx');
@@ -458,7 +458,7 @@ function get_exif($entity)
             }
         }
     }
-    return elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity, 'exif' => $exif), $tags);
+    return elgg_trigger_event_results('format:exif', 'framework:gallery', array('entity' => $entity, 'exif' => $exif), $tags);
 }
 /**
  * Helper function to convert exif GPS to proper coords
@@ -503,6 +503,6 @@ function exif_gps2Num($coordPart)
 function get_icon_sizes($entity)
 {
     $config = elgg_get_config('icon_sizes');
-    $config = elgg_trigger_plugin_hook('entity:icon:sizes', 'object', array('entity' => $entity), $config);
+    $config = elgg_trigger_event_results('entity:icon:sizes', 'object', array('entity' => $entity), $config);
     return $config;
 }

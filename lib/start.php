@@ -30,26 +30,18 @@ elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\apply_exif_tag
  */
 function init()
 {
-    // Entities, actions, widgets, and view extensions are registered
-    // declaratively in elgg-plugin.php for Elgg 4.x.
-    //
-    // Hook handlers are registered imperatively here because they use the
-    // legacy 4-arg callback signature. TODO(4.x): migrate these to
-    // single-arg \Elgg\Hook handlers in classes/hypeJunction/Gallery/Hooks/
-    // and register declaratively via the 'hooks' key.
-
     // Permissions
-    elgg_register_plugin_hook_handler('permissions_check', 'object', __NAMESPACE__ . '\permissions_check');
-    elgg_register_plugin_hook_handler('container_permissions_check', 'object', __NAMESPACE__ . '\container_permissions_check');
-    elgg_register_plugin_hook_handler('get_sql', 'access', __NAMESPACE__ . '\filter_access_sql');
+    elgg_register_event_handler('permissions_check', 'object', __NAMESPACE__ . '\permissions_check');
+    elgg_register_event_handler('container_permissions_check', 'object', __NAMESPACE__ . '\container_permissions_check');
+    elgg_register_event_handler('get_sql', 'access', __NAMESPACE__ . '\filter_access_sql');
 
     // Menus
-    elgg_register_plugin_hook_handler('register', 'menu:entity', __NAMESPACE__ . '\entity_menu_setup');
-    elgg_register_plugin_hook_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\manage_album_image_menu_setup');
-    elgg_register_plugin_hook_handler('register', 'menu:owner_block', __NAMESPACE__ . '\owner_block_menu_setup');
+    elgg_register_event_handler('register', 'menu:entity', __NAMESPACE__ . '\entity_menu_setup');
+    elgg_register_event_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\manage_album_image_menu_setup');
+    elgg_register_event_handler('register', 'menu:owner_block', __NAMESPACE__ . '\owner_block_menu_setup');
 
     // Icon sizes
-    elgg_register_plugin_hook_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\entity_icon_sizes');
+    elgg_register_event_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\entity_icon_sizes');
 }
 /**
  * Initialize group related functionality if the settings say so

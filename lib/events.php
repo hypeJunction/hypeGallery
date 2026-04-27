@@ -16,19 +16,6 @@ function pagesetup() {
 		'text' => elgg_echo('gallery'),
 		'href' => 'gallery/dashboard/site',
 	));
-
-	// embed support
-	elgg_register_menu_item('embed', array(
-		'name' => 'albumimages',
-		'text' => elgg_echo('embed:albumimages'),
-		'priority' => 50,
-		'data' => array(
-			'options' => array(
-				'type' => 'object',
-				'subtype' => hjAlbumImage::SUBTYPE,
-			),
-		),
-	));
 }
 
 /**

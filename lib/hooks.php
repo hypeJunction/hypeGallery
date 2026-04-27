@@ -4,16 +4,12 @@ namespace hypeJunction\Gallery;
 
 use ElggMenuItem;
 
-/**
- * Bypass default access controls
- * - Allow users to add images to shared albums
- */
-function container_permissions_check(\Elgg\Hook $hook) {
+function container_permissions_check(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$container = $hook->getParam('container', false);
-	$user = $hook->getParam('user', false);
-	$subtype = $hook->getParam('subtype', false);
+	$return = $event->getValue();
+	$container = $event->getParam('container', false);
+	$user = $event->getParam('user', false);
+	$subtype = $event->getParam('subtype', false);
 
 	if (!$container instanceof \ElggEntity || !$user instanceof \ElggUser || !$subtype) {
 		return $return;
@@ -55,15 +51,11 @@ function container_permissions_check(\Elgg\Hook $hook) {
 	return $return;
 }
 
-/**
- * Bypass default editing permissions
- * - Allow users to edit tags that have been added to photos they own
- */
-function permissions_check(\Elgg\Hook $hook) {
+function permissions_check(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$entity = $hook->getParam('entity', false);
-	$user = $hook->getParam('user', false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
+	$user = $event->getParam('user', false);
 
 	if (!$entity instanceof \ElggObject || !$user instanceof \ElggUser) {
 		return $return;
@@ -84,20 +76,14 @@ function permissions_check(\Elgg\Hook $hook) {
 	}
 }
 
-/**
- * Filter access sql to display disabled entities (Elgg 4.x: no-op — use elgg_call(ELGG_SHOW_DISABLED_ENTITIES))
- */
-function filter_access_sql(\Elgg\Hook $hook) {
-	return $hook->getValue();
+function filter_access_sql(\Elgg\Event $event) {
+	return $event->getValue();
 }
 
-/**
- * Update entity menus
- */
-function entity_menu_setup(\Elgg\Hook $hook) {
+function entity_menu_setup(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$entity = $hook->getParam('entity', false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
 
 	if (!$entity instanceof \ElggEntity) {
 		return $return;
@@ -221,13 +207,10 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 	return $return;
 }
 
-/**
- * Album/image manage menu items
- */
-function manage_album_image_menu_setup(\Elgg\Hook $hook) {
+function manage_album_image_menu_setup(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$entity = $hook->getParam('entity', false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
 
 	if (!$entity instanceof hjAlbumImage) {
 		return $return;
@@ -333,13 +316,10 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 	return $return;
 }
 
-/**
- * Add gallery related items to owner block menu
- */
-function owner_block_menu_setup(\Elgg\Hook $hook) {
+function owner_block_menu_setup(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$entity = $hook->getParam('entity');
+	$return = $event->getValue();
+	$entity = $event->getParam('entity');
 
 	$group_albums = defined('HYPEGALLERY_GROUP_ALBUMS') ? HYPEGALLERY_GROUP_ALBUMS : false;
 
@@ -368,13 +348,10 @@ function owner_block_menu_setup(\Elgg\Hook $hook) {
 	return $return;
 }
 
-/**
- * Icon size config
- */
-function entity_icon_sizes(\Elgg\Hook $hook) {
+function entity_icon_sizes(\Elgg\Event $event) {
 
-	$return = $hook->getValue();
-	$entity = $hook->getParam('entity');
+	$return = $event->getValue();
+	$entity = $event->getParam('entity');
 
 	if (!$entity instanceof hjAlbumImage) {
 		return $return;

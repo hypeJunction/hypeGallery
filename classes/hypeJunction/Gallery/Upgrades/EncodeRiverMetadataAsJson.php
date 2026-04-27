@@ -2,20 +2,9 @@
 
 namespace hypeJunction\Gallery\Upgrades;
 
-use Elgg\Database\QueryBuilder;
-use Elgg\Upgrade\Batch;
-use Elgg\Upgrade\Result;
+use Elgg\Upgrade\AsynchronousUpgrade;
 
-/**
- * Re-encode hjalbum `river_<timestamp>` metadata previously written by
- * serialize() as JSON.
- *
- * The runtime readers in views/object/hjalbum/river.php and
- * views/river/object/hjalbum/update.php still accept legacy serialize()
- * payloads as a backward-compat fallback. Once this upgrade has run on
- * every site, the fallback can be removed in a future release.
- */
-class EncodeRiverMetadataAsJson implements Batch {
+class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 
 	public function getVersion(): int {
 		return 2026041200;
@@ -30,10 +19,10 @@ class EncodeRiverMetadataAsJson implements Batch {
 	}
 
 	public function countItems(): int {
-		return Batch::UNKNOWN_COUNT;
+		return self::UNKNOWN_COUNT;
 	}
 
-	public function run(Result $result, $offset): Result {
+	public function run(int $count): bool {
 		$db = elgg()->db;
 		$prefix = $db->prefix;
 
@@ -46,6 +35,8 @@ class EncodeRiverMetadataAsJson implements Batch {
 			AND e.subtype = 'hjalbum'
 		");
 
+		$upgrade = $this->getUpgrade();
+
 		foreach ($rows as $row) {
 			$raw = (string) $row->value;
 
@@ -56,8 +47,8 @@ class EncodeRiverMetadataAsJson implements Batch {
 
 			$decoded = @unserialize($raw, ['allowed_classes' => false]);
 			if (!is_array($decoded)) {
-				$result->addFailures();
-				$result->addError("hypeGallery: metadata id={$row->id} is not parseable");
+				$upgrade->addFailures();
+				$upgrade->addError("hypeGallery: metadata id={$row->id} is not parseable");
 				continue;
 			}
 
@@ -69,10 +60,10 @@ class EncodeRiverMetadataAsJson implements Batch {
 					':id' => (int) $row->id,
 				]
 			);
-			$result->addSuccesses();
+			$upgrade->addSuccesses();
 		}
 
-		$result->markComplete();
-		return $result;
+		$upgrade->markComplete();
+		return true;
 	}
 }
