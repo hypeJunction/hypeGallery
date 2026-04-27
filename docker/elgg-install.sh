@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# Per-plugin Elgg 4.x install + activation script.
+# Per-plugin Elgg 5.x install + activation script.
 # PLUGIN_ID must be set in the container environment (passed by docker-compose
 # from <plugin>/docker/.env). Only that one plugin is activated — no fleet
 # activation, no plugin-order.txt, no cross-plugin side effects.
@@ -21,7 +21,7 @@ echo "MySQL is ready."
 cd /var/www/html
 
 if [ ! -f /var/www/html/.elgg-installed ]; then
-    echo "Installing Elgg 4.x..."
+    echo "Installing Elgg 5.x..."
 
     mkdir -p elgg-config
     cat > elgg-config/settings.php <<'SETTINGS_TEMPLATE'
@@ -41,7 +41,7 @@ SETTINGS_TEMPLATE
 \$CONFIG->dbprefix = 'elgg_';
 \$CONFIG->dbencoding = 'utf8mb4';
 \$CONFIG->dataroot = '${ELGG_DATA_ROOT:-/var/www/data/}';
-\$CONFIG->wwwroot = '${ELGG_SITE_URL:-http://localhost:8480/}';
+\$CONFIG->wwwroot = '${ELGG_SITE_URL:-http://elgg/}';
 \$CONFIG->cacheroot = '${ELGG_DATA_ROOT:-/var/www/data/}cache/';
 \$CONFIG->assetroot = '${ELGG_DATA_ROOT:-/var/www/data/}assets/';
 SETTINGS_VALUES
@@ -56,9 +56,9 @@ SETTINGS_VALUES
             'dbhost' => '${ELGG_DB_HOST:-db}',
             'dbport' => '3306',
             'dbprefix' => 'elgg_',
-            'sitename' => 'Elgg 4.x Plugin Test',
+            'sitename' => 'Elgg 5.x Plugin Test',
             'siteemail' => '${ELGG_ADMIN_EMAIL:-admin@example.com}',
-            'wwwroot' => '${ELGG_SITE_URL:-http://localhost:8480/}',
+            'wwwroot' => '${ELGG_SITE_URL:-http://elgg/}',
             'dataroot' => '${ELGG_DATA_ROOT:-/var/www/data/}',
             'displayname' => 'Admin',
             'email' => '${ELGG_ADMIN_EMAIL:-admin@example.com}',
@@ -68,7 +68,7 @@ SETTINGS_VALUES
 
         \$installer = new \ElggInstaller();
         \$installer->batchInstall(\$params);
-        echo 'Elgg 4.x installed successfully.' . PHP_EOL;
+        echo 'Elgg 5.x installed successfully.' . PHP_EOL;
     " 2>&1 || echo "Install completed (check for errors above)."
 
     echo "Activating plugins..."
@@ -79,7 +79,7 @@ SETTINGS_VALUES
         _elgg_services()->plugins->generateEntities();
 
         // Resolve dep plugin IDs from the plugin's own metadata.
-        // Priority: elgg-plugin.php 'plugin.dependencies' (Elgg 4.x) then manifest.xml <requires type='plugin'>.
+        // Priority: elgg-plugin.php 'plugin.dependencies' (Elgg 5.x) then manifest.xml <requires type='plugin'>.
         // IDs are lowercased to match mod/ directory names.
         // Deps not present in mod/ are skipped with a warning — this naturally excludes
         // deps that are unsafe to activate (e.g. unmigrated plugins not volume-mounted).
@@ -139,11 +139,22 @@ SETTINGS_VALUES
                 exit(1);
             }
         }
+
+        // Clear caches after activation so view_locations picks up the plugin.
+        // elgg_invalidate_caches() is a no-op for localFileCache — must use elgg_clear_caches().
+        elgg_clear_caches();
+        echo 'Caches cleared.' . PHP_EOL;
+
+        // Enable registration for Playwright tests.
+        elgg_save_config('allow_registration', true);
     " 2>&1 || echo "Plugin activation completed (check for errors above)."
 
     touch /var/www/html/.elgg-installed
-    echo "Elgg 4.x setup complete."
+    echo "Elgg 5.x setup complete."
 fi
+
+# Ensure data dir is writable by Apache (install script runs as root).
+chown -R www-data:www-data /var/www/data
 
 echo "Starting Apache..."
 exec apache2-foreground
