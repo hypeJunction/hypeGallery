@@ -18,7 +18,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
     public function testAlbumOwnerCanEdit(): void {
         $owner = $this->createUser();
-        elgg_get_session()->setLoggedInUser($owner);
+        _elgg_services()->session_manager->setLoggedInUser($owner);
 
         $album = new hjAlbum();
         $album->owner_guid = $owner->guid;
@@ -29,7 +29,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $this->assertTrue($album->canEdit($owner->guid));
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testImageInheritsAlbumAccess(): void {
@@ -54,19 +54,19 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testHookHandlerIsCallable(): void {
         // \Elgg\Hook is an INTERFACE — mock it rather than instantiate.
-        $hook = $this->getMockBuilder(\Elgg\Hook::class)->getMock();
-        $hook->method('getType')->willReturn('object');
-        $hook->method('getName')->willReturn('permissions_check');
-        $hook->method('getValue')->willReturn(false);
-        $hook->method('getParam')->willReturn(null);
+        $event = $this->getMockBuilder(\Elgg\Event::class)->disableOriginalConstructor()->getMock();
+        $event->method('getType')->willReturn('object');
+        $event->method('getName')->willReturn('permissions_check');
+        $event->method('getValue')->willReturn(false);
+        $event->method('getParam')->willReturn(null);
 
         if (function_exists(__NAMESPACE__ . '\\permissions_check')) {
-            $result = call_user_func(__NAMESPACE__ . '\\permissions_check', $hook);
+            $result = call_user_func(__NAMESPACE__ . '\\permissions_check', $event);
             $this->assertTrue(is_bool($result) || is_null($result));
         } else {
             $this->markTestSkipped('permissions_check function not loaded');

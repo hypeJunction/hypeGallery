@@ -19,7 +19,7 @@ class AlbumEntityTest extends IntegrationTestCase {
 
     public function testAlbumClassMapping(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        _elgg_services()->session_manager->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
@@ -36,12 +36,12 @@ class AlbumEntityTest extends IntegrationTestCase {
         $this->assertSame('Test Album', $loaded->title);
 
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testAlbumMetadataPersists(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        _elgg_services()->session_manager->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
@@ -61,12 +61,12 @@ class AlbumEntityTest extends IntegrationTestCase {
         $this->assertSame('2024-08-01', $loaded->date);
 
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testAlbumCountImagesReturnsZeroInitially(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        _elgg_services()->session_manager->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
@@ -78,12 +78,12 @@ class AlbumEntityTest extends IntegrationTestCase {
         $this->assertSame(0, (int) $album->countImages());
 
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testAlbumUrlReturnsFriendlySlug(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        _elgg_services()->session_manager->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
@@ -105,7 +105,7 @@ class AlbumEntityTest extends IntegrationTestCase {
         );
 
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testNonOwnerCannotEditAlbum(): void {
@@ -125,6 +125,6 @@ class AlbumEntityTest extends IntegrationTestCase {
         $this->assertFalse($album->canEdit($other->guid));
 
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        _elgg_services()->session_manager->removeLoggedInUser();
     }
 }
