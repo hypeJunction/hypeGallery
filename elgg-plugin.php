@@ -3,6 +3,7 @@
 return [
 	'plugin' => [
 		'name' => 'hypeGallery',
+		'version' => '4.0.0',
 		'activate_on_install' => false,
 	],
 
