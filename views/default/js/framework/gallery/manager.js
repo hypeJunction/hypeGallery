@@ -42,7 +42,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 		var $elem = $(this);
 		elgg.action($elem.attr('href'), {beforeSend: function() {
 				$elem.addClass('elgg-state-loading');
-			},
+		},
 			complete: function() {
 				$elem.removeClass('elgg-state-loading');
 			},
@@ -67,7 +67,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 		var $elem = $(this);
 		elgg.action($elem.attr('href'), {beforeSend: function() {
 				$elem.addClass('elgg-state-loading');
-			},
+		},
 			complete: function() {
 				$elem.removeClass('elgg-state-loading');
 			},
@@ -86,7 +86,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 		var $elem = $(this);
 		elgg.action($elem.attr('href'), {beforeSend: function() {
 				$elem.addClass('elgg-state-loading');
-			},
+		},
 			complete: function() {
 				$elem.removeClass('elgg-state-loading');
 			},
@@ -134,4 +134,3 @@ define(['jquery', 'elgg'], function($, elgg) {
 		});
 	});
 });
-

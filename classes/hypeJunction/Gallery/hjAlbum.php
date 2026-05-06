@@ -4,29 +4,55 @@ namespace hypeJunction\Gallery;
 
 use ElggObject;
 
+// phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps -- legacy subtype-name preserved for entity mapping
+/**
+ * hjAlbum class.
+ */
 class hjAlbum extends ElggObject {
 
 	const SUBTYPE = 'hjalbum';
 
+	/**
+	 * initializeAttributes.
+	 *
+	 * @return mixed
+	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
+	/**
+	 * countImages.
+	 *
+	 * @return mixed
+	 */
 	public function countImages() {
-		return elgg_get_entities(array(
+		return elgg_get_entities([
 			'types' => 'object',
-			'subtypes' => array('hjalbumimage'),
+			'subtypes' => ['hjalbumimage'],
 			'container_guids' => $this->guid,
 			'count' => true
-		));
+		]);
 	}
 
+	/**
+	 * getURL.
+	 *
+	 * @return string
+	 */
 	public function getURL(): string {
 		$friendly_title = elgg_get_friendly_title($this->title);
 		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 	}
 
+	/**
+	 * getActionURL.
+	 *
+	 * @param string $action action
+	 *
+	 * @return string
+	 */
 	public function getActionURL(string $action): string {
 		switch ($action) {
 			default:
@@ -44,17 +70,32 @@ class hjAlbum extends ElggObject {
 		}
 	}
 
-	public function getContainedFiles($options = array()) {
-		$options['container_guids'] = array($this->guid);
+	/**
+	 * getContainedFiles.
+	 *
+	 * @param mixed $options options
+	 *
+	 * @return mixed
+	 */
+	public function getContainedFiles($options = []) {
+		$options['container_guids'] = [$this->guid];
 		return get_files($options);
 	}
 
+	/**
+	 * getIconURL.
+	 *
+	 * @param array|string $params params
+	 *
+	 * @return string
+	 */
 	public function getIconURL(array|string $params = []): string {
 		if ($this->cover) {
 			$cover_image = get_entity($this->cover);
 		}
+
 		if (!isset($cover_image) || !$cover_image) {
-			$images = $this->getContainedFiles(array('limit' => 1));
+			$images = $this->getContainedFiles(['limit' => 1]);
 			$cover_image = $images[0] ?? null;
 		}
 

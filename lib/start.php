@@ -24,40 +24,42 @@ require_once __DIR__ . '/settings.php';
 elgg_register_event_handler('init', 'system', __NAMESPACE__ . '\init');
 elgg_register_event_handler('init', 'system', __NAMESPACE__ . '\init_groups');
 elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\apply_exif_tags');
+
 /**
  * Initialize the plugin on 'init','system'
  * @return void
  */
-function init()
-{
-    // Permissions
-    elgg_register_event_handler('permissions_check', 'object', __NAMESPACE__ . '\permissions_check');
-    elgg_register_event_handler('container_permissions_check', 'object', __NAMESPACE__ . '\container_permissions_check');
-    elgg_register_event_handler('get_sql', 'access', __NAMESPACE__ . '\filter_access_sql');
+function init() {
+	// Permissions
+	elgg_register_event_handler('permissions_check', 'object', __NAMESPACE__ . '\permissions_check');
+	elgg_register_event_handler('container_permissions_check', 'object', __NAMESPACE__ . '\container_permissions_check');
+	elgg_register_event_handler('get_sql', 'access', __NAMESPACE__ . '\filter_access_sql');
 
-    // Menus
-    elgg_register_event_handler('register', 'menu:entity', __NAMESPACE__ . '\entity_menu_setup');
-    elgg_register_event_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\manage_album_image_menu_setup');
-    elgg_register_event_handler('register', 'menu:owner_block', __NAMESPACE__ . '\owner_block_menu_setup');
+	// Menus
+	elgg_register_event_handler('register', 'menu:entity', __NAMESPACE__ . '\entity_menu_setup');
+	elgg_register_event_handler('register', 'menu:manage_album_image', __NAMESPACE__ . '\manage_album_image_menu_setup');
+	elgg_register_event_handler('register', 'menu:owner_block', __NAMESPACE__ . '\owner_block_menu_setup');
 
-    // Icon sizes
-    elgg_register_event_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\entity_icon_sizes');
+	// Icon sizes
+	elgg_register_event_handler('entity:icon:sizes', 'object', __NAMESPACE__ . '\entity_icon_sizes');
 }
+
 /**
  * Initialize group related functionality if the settings say so
  * @return void
  */
-function init_groups()
-{
-    if (!HYPEGALLERY_GROUP_ALBUMS) {
-        return;
-    }
-    elgg()->group_tools->register('albums', [
-        'label' => elgg_echo('gallery:groupoption:enable'),
-        'default_on' => true,
-    ]);
-    elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
+function init_groups() {
+	if (!HYPEGALLERY_GROUP_ALBUMS) {
+		return;
+	}
+
+	elgg()->group_tools->register('albums', [
+		'label' => elgg_echo('gallery:groupoption:enable'),
+		'default_on' => true,
+	]);
+	elgg_extend_view('groups/tool_latest', 'framework/gallery/group_module');
 }
+
 /**
  * Run unit tests
  *

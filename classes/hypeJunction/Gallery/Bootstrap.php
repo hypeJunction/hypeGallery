@@ -4,13 +4,15 @@ namespace hypeJunction\Gallery;
 
 use Elgg\PluginBootstrap;
 
+/**
+ * Bootstrap class.
+ */
 class Bootstrap extends PluginBootstrap {
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function load() {
-
 	}
 
 	/**
@@ -24,21 +26,18 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function init() {
-
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function ready() {
-
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function shutdown() {
-
 	}
 
 	/**
@@ -53,13 +52,11 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function deactivate() {
-
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
 	public function upgrade() {
-
 	}
 }

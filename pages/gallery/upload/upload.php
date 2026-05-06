@@ -13,9 +13,7 @@ if (!$entity instanceof hjAlbum) {
 $ancestry = get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
-	if ($ancestor instanceof \ElggSite) {
-		// do nothing
-	} else if ($ancestor instanceof \ElggGroup) {
+	if ($ancestor instanceof \ElggGroup) {
 		elgg_set_page_owner_guid($ancestor->guid);
 		elgg_push_breadcrumb($ancestor->name, $ancestor->getURL());
 	} else if ($ancestor instanceof \ElggObject) {
@@ -34,18 +32,18 @@ elgg_push_breadcrumb($title);
 elgg_push_context('gallery-upload');
 
 
-$content = elgg_view_form("gallery/upload", array(
+$content = elgg_view_form('gallery/upload', [
 	'enctype' => 'multipart/form-data'
-		), array(
+], [
 	'entity' => $entity,
-		));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'entity' => $entity,
 	'title' => $title,
 	'content' => $content,
 	'filter' => false,
-		));
+]);
 
 echo elgg_view_page($title, $layout);
 

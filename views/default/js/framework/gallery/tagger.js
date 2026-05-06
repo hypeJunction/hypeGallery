@@ -23,14 +23,12 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
 						.unbind('mousemove', tagger.mouseMove);
-
 			} else {
 				$(this).addClass('elgg-state-active')
 						.attr('title', elgg.echo('gallery:tools:tagger:stop'))
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
 						.bind('mousemove', tagger.mouseMove);
-
 			}
 		},
 		showTag: function(e) {
@@ -46,6 +44,7 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 				var $circle = $('<div>').addClass('tagger-tag').insertAfter($img);
 				$circle.css({position: 'absolute', left: position.left + x - 40, top: position.top + y - 40});
 			}
+
 			$circle.show();
 			$(this).data('tagger-tag', $circle);
 		},
@@ -85,13 +84,13 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 			} else if (e.srcElement) {
 				$src = e.srcElement;
 			}
+
 			if ($src.nodeType === 3) {
 				// defeat Safari bug
 				$src = $src.parentNode;
 			}
 
 			if ($src.is('.taggable') || $src.is($tagger)) {
-
 				var w = $src.width(), h = $src.height();
 				var x1 = $src.offset().left, y1 = $src.offset().top;
 				var x2 = x1 + w, y2 = y1 + h;
@@ -128,8 +127,8 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 										$('.elgg-input-tokeninput', $form).bind('clear', function(e) {
 											$(this).tokenInput("clear");
 										}).trigger('clear');
-
 									}
+
 									$form.resetForm();
 									$('.tagged-user-preview').attr('src', '');
 									$elem.bind('mousemove', tagger.mouseMove);
@@ -156,11 +155,13 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 														.find('.tagger-close')
 														.trigger('click');
 											}
+
 											$('.gallery-tags-list').append(response.output);
 
 											if (response.system_messages.success) {
 												elgg.system_message(response.system_messages.success);
 											}
+
 											if (response.system_messages.error) {
 												elgg.register_error(response.system_messages.error);
 											}
@@ -175,7 +176,6 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 				} else {
 					$tagger.hide();
 				}
-
 			} else {
 				$tagger.hide();
 			}
@@ -184,5 +184,3 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 
 	return tagger;
 });
-
-

@@ -4,6 +4,13 @@ namespace hypeJunction\Gallery;
 
 use ElggMenuItem;
 
+/**
+ * container_permissions_check.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function container_permissions_check(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -16,33 +23,27 @@ function container_permissions_check(\Elgg\Event $event) {
 	}
 
 	switch ($container->getSubtype()) {
-
-		case hjAlbum::SUBTYPE :
-
+		case hjAlbum::SUBTYPE:
 			switch ($subtype) {
-
-				case hjAlbumImage::SUBTYPE :
-
+				case hjAlbumImage::SUBTYPE:
 					$owner = $container->getOwnerEntity();
 
 					$permission = $container->permission;
 
 					switch ($permission) {
-
-						case 'friends' :
+						case 'friends':
 							return $owner->isFriendsWith($user->guid);
 
-						case 'public' :
+						case 'public':
 							return true;
 
-						case 'group' :
+						case 'group':
 							$group = $container->getContainerEntity();
 							if ($group instanceof \ElggGroup) {
 								return $group->isMember($user);
 							}
 							break;
 					}
-
 					return $return;
 			}
 			break;
@@ -51,6 +52,13 @@ function container_permissions_check(\Elgg\Event $event) {
 	return $return;
 }
 
+/**
+ * permissions_check.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function permissions_check(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -62,12 +70,10 @@ function permissions_check(\Elgg\Event $event) {
 	}
 
 	switch ($entity->getSubtype()) {
-
-		default :
+		default:
 			return $return;
 
-		case 'hjimagetag' :
-
+		case 'hjimagetag':
 			$image = $entity->getContainerEntity();
 			if ($image->owner_guid == $user->guid) {
 				return true;
@@ -76,10 +82,24 @@ function permissions_check(\Elgg\Event $event) {
 	}
 }
 
+/**
+ * filter_access_sql.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function filter_access_sql(\Elgg\Event $event) {
 	return $event->getValue();
 }
 
+/**
+ * entity_menu_setup.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function entity_menu_setup(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -92,12 +112,10 @@ function entity_menu_setup(\Elgg\Event $event) {
 	$items = [];
 
 	switch ($entity->getSubtype()) {
-
-		default :
+		default:
 			return $return;
 
-		case hjAlbum::SUBTYPE :
-
+		case hjAlbum::SUBTYPE:
 			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 				$items[] = ElggMenuItem::factory([
 					'name' => 'upload',
@@ -137,13 +155,10 @@ function entity_menu_setup(\Elgg\Event $event) {
 					'priority' => 1000,
 				]);
 			}
-
 			break;
 
-		case hjAlbumImage::SUBTYPE :
-
+		case hjAlbumImage::SUBTYPE:
 			if (elgg_in_context('gallery-manage')) {
-
 				if (defined('HYPEGALLERY_AVATARS') && HYPEGALLERY_AVATARS && elgg_is_logged_in()) {
 					$items[] = ElggMenuItem::factory([
 						'name' => 'makeavatar',
@@ -154,11 +169,8 @@ function entity_menu_setup(\Elgg\Event $event) {
 						'priority' => 100,
 					]);
 				}
-
 			} else {
-
 				if (elgg_is_logged_in()) {
-
 					if (defined('HYPEGALLERY_DOWNLOADS') && HYPEGALLERY_DOWNLOADS &&
 						(elgg_is_logged_in() || (defined('HYPEGALLERY_PUBLIC_DOWNLOADS') && HYPEGALLERY_PUBLIC_DOWNLOADS))) {
 						$items[] = ElggMenuItem::factory([
@@ -189,7 +201,6 @@ function entity_menu_setup(\Elgg\Event $event) {
 					]);
 				}
 			}
-
 			break;
 	}
 
@@ -197,6 +208,7 @@ function entity_menu_setup(\Elgg\Event $event) {
 		if (!$item instanceof ElggMenuItem) {
 			continue;
 		}
+
 		if ($return instanceof \Elgg\Collections\Collection) {
 			$return->add($item);
 		} elseif (is_array($return)) {
@@ -207,6 +219,13 @@ function entity_menu_setup(\Elgg\Event $event) {
 	return $return;
 }
 
+/**
+ * manage_album_image_menu_setup.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function manage_album_image_menu_setup(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -241,7 +260,6 @@ function manage_album_image_menu_setup(\Elgg\Event $event) {
 	}
 
 	if ($entity->canEdit()) {
-
 		$items[] = ElggMenuItem::factory([
 			'name' => 'delete',
 			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
@@ -265,7 +283,6 @@ function manage_album_image_menu_setup(\Elgg\Event $event) {
 
 	$container = $entity->getContainerEntity();
 	if ($container && $container->canEdit()) {
-
 		$items[] = ElggMenuItem::factory([
 			'name' => 'drag',
 			'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
@@ -306,6 +323,7 @@ function manage_album_image_menu_setup(\Elgg\Event $event) {
 		if (!$item instanceof ElggMenuItem) {
 			continue;
 		}
+
 		if ($return instanceof \Elgg\Collections\Collection) {
 			$return->add($item);
 		} elseif (is_array($return)) {
@@ -316,6 +334,13 @@ function manage_album_image_menu_setup(\Elgg\Event $event) {
 	return $return;
 }
 
+/**
+ * owner_block_menu_setup.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function owner_block_menu_setup(\Elgg\Event $event) {
 
 	$return = $event->getValue();
@@ -348,6 +373,13 @@ function owner_block_menu_setup(\Elgg\Event $event) {
 	return $return;
 }
 
+/**
+ * entity_icon_sizes.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
 function entity_icon_sizes(\Elgg\Event $event) {
 
 	$return = $event->getValue();

@@ -26,6 +26,7 @@ if (!$guid) {
 	$album->owner_guid = $owner_guid;
 	$album->container_guid = $container_guid;
 }
+
 $album->title = $title;
 $album->description = $description;
 $previous_access_id = $entity->access_id;
@@ -37,12 +38,12 @@ if (!$album->save()) {
 
 // Update image access if album access has changed
 if ($guid && $previous_access_id !== $album->access_id) {
-	$images = new ElggBatch('elgg_get_entities', array(
+	$images = new ElggBatch('elgg_get_entities', [
 		'types' => 'object',
 		'subtypes' => hjAlbumImage::SUBTYPE,
 		'container_guids' => $album->guid,
 		'limit' => 0
-	));
+	]);
 	foreach ($images as $image) {
 		$image->access_id = $album->access_id;
 		$image->save();
@@ -51,7 +52,7 @@ if ($guid && $previous_access_id !== $album->access_id) {
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $location));
+	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', ['location' => $location]);
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}

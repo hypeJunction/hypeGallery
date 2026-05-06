@@ -162,5 +162,3 @@ define(['jquery', 'elgg'], function($, elgg) {
 
 	return popup;
 });
-
-

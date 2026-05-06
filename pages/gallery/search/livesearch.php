@@ -5,11 +5,10 @@ namespace hypeJunction\Gallery;
 $search_type = get_input('search_type');
 $term = get_input('term');
 
-$response = array();
+$response = [];
 
 switch ($search_type) {
-
-	case 'tag' :
+	case 'tag':
 		// In Elgg 3.0 metastrings table was removed; tag values are stored
 		// directly in the metadata table value column.
 		$tags = elgg_get_tags([
@@ -22,14 +21,13 @@ switch ($search_type) {
 		]);
 
 		foreach ($tags as $tag) {
-			$response[] = array(
+			$response[] = [
 				'label' => $tag->tag
-			);
+			];
 		}
 		break;
 
-	case 'friend' :
-
+	case 'friend':
 		$logged_in = elgg_get_logged_in_user_entity();
 
 		// In Elgg 3.0 users_entity subtable was removed; name is now on the
@@ -49,17 +47,16 @@ switch ($search_type) {
 
 		if ($users) {
 			foreach ($users as $user) {
-				$response[] = array(
+				$response[] = [
 					'icon' => $user->getIconURL('tiny'),
 					'label' => $user->name,
 					'value' => $user->guid
-				);
+				];
 			}
 		}
-
 		break;
 }
 
-header("Content-type:application/json");
+header('Content-type:application/json');
 print(json_encode($response));
 exit;

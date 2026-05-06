@@ -10,4 +10,4 @@ if (!$entity instanceof hjAlbumImage || !$entity->canEdit()) {
 
 elgg_load_css('cropper');
 
-echo elgg_view_form('gallery/thumb', array(), $vars);
+echo elgg_view_form('gallery/thumb', [], $vars);

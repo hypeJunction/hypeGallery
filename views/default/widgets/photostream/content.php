@@ -7,7 +7,7 @@ $owner = $entity->getOwnerEntity();
 if (elgg_in_context('dashboard')) {
 	$owner_guids = ELGG_ENTITIES_ANY_VALUE;
 	$container_guids = ELGG_ENTITIES_ANY_VALUE;
-	$more_url = "/gallery";
+	$more_url = '/gallery';
 } else if ($owner instanceof ElggUser) {
 	$owner_guids = $owner->guid;
 	$container_guids = ELGG_ENTITIES_ANY_VALUE;
@@ -18,9 +18,9 @@ if (elgg_in_context('dashboard')) {
 	$more_url = "/gallery/group/$owner->guid";
 }
 
-$options = array(
+$options = [
 	'types' => 'object',
-	'subtypes' => array(hjAlbumImage::SUBTYPE),
+	'subtypes' => [hjAlbumImage::SUBTYPE],
 	'owner_guids' => $owner_guids,
 	'container_guids' => $container_guids,
 	'limit' => $entity->num_display,
@@ -31,7 +31,7 @@ $options = array(
 	'pagination' => false,
 	'size' => '125',
 	//'item_class' => 'elgg-photo mas',
-);
+];
 
 elgg_push_context('activity');
 $content = elgg_list_entities($options);
@@ -40,11 +40,11 @@ elgg_pop_context();
 echo $content;
 
 if ($content) {
-	$more_link = elgg_view('output/url', array(
+	$more_link = elgg_view('output/url', [
 		'href' => $more_url,
 		'text' => elgg_echo('gallery:widget:more'),
 		'is_trusted' => true,
-	));
+	]);
 	echo "<span class=\"elgg-widget-more\">$more_link</span>";
 } else {
 	echo elgg_echo('gallery:widget:none');

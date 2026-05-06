@@ -28,7 +28,7 @@ $images = new ElggBatch('elgg_get_entities', [
 	'limit' => 0,
 ]);
 
-$data = array();
+$data = [];
 foreach ($images as $img) {
 	$img_data = new stdClass();
 	$img_data->guid = $img->guid;
@@ -36,8 +36,8 @@ foreach ($images as $img) {
 	$data[] = $img_data;
 }
 
-print(json_encode(array(
-			'img' => $data,
-			'album_guid' => $album->guid,
-			'album_title' => $album->title
-)));
+print(json_encode([
+	'img' => $data,
+	'album_guid' => $album->guid,
+	'album_title' => $album->title
+]));

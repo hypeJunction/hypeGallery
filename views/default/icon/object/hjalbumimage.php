@@ -4,7 +4,8 @@ namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars);
 
-$requested_size = $size = elgg_extract('size', $vars);
+$size = elgg_extract('size', $vars);
+$requested_size = $size;
 
 $gallery_config = get_icon_sizes($entity);
 
@@ -27,32 +28,33 @@ if (isset($vars['href'])) {
 	$url = $vars['href'];
 }
 
-$img = elgg_view('output/img', array(
+$img = elgg_view('output/img', [
 	'src' => $entity->getIconURL($vars['size']),
 	'alt' => $title,
 	'class' => $class,
 	'width' => ($requested_w) ? $requested_w : null,
 	'height' => ($requested_h) ? $requested_h : null,
-		));
+]);
 
 if ($url) {
-
 	if (!$requested_h) {
 		$requested_h = 'auto';
 	} else {
 		$requested_h = "{$requested_h}px";
 	}
+
 	if (!$requested_w) {
 		$requested_w = '100%';
 	} else {
 		$requested_w = "{$requested_w}px";
 	}
-	$params = array(
+
+	$params = [
 		'href' => $url,
 		'text' => $img,
 		'is_trusted' => true,
 		'data-guid' => $entity->guid,
-	);
+	];
 	$class = elgg_extract('link_class', $vars, '');
 
 	if ($class) {

@@ -7,12 +7,11 @@ $display = get_input('display', 'albums');
 echo '<div id="gallery-dashboard">';
 
 switch ($display) {
-
-	default :
-	case 'albums' :
-		echo elgg_list_entities(array(
+	default:
+	case 'albums':
+		echo elgg_list_entities([
 			'types' => 'object',
-			'subtypes' => array(hjAlbum::SUBTYPE),
+			'subtypes' => [hjAlbum::SUBTYPE],
 			'full_view' => false,
 			'list_type' => get_input('list_type', 'gallery'),
 			'list_type_toggle' => true,
@@ -21,13 +20,13 @@ switch ($display) {
 			'limit' => get_input('limit', 20),
 			'offset' => get_input('offset-albums', 0),
 			'offset_key' => 'offset-albums'
-		));
+		]);
 		break;
 
-	case 'photostream' :
-		echo elgg_list_entities(array(
+	case 'photostream':
+		echo elgg_list_entities([
 			'types' => 'object',
-			'subtypes' => array(hjAlbumImage::SUBTYPE),
+			'subtypes' => [hjAlbumImage::SUBTYPE],
 			'list_type' => get_input('list_type', 'gallery'),
 			'list_type_toggle' => true,
 			'gallery_class' => 'gallery-photostream',
@@ -36,7 +35,7 @@ switch ($display) {
 			'limit' => get_input('limit', 20),
 			'offset' => get_input('offset-photostream', 0),
 			'offset_key' => 'offset-photostream'
-		));
+		]);
 		break;
 }
 

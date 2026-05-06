@@ -17,9 +17,11 @@ if (!$image instanceof \ElggEntity || !$image->canEdit()) {
 if (is_array($title)) {
 	$title = implode(', ', $title);
 }
+
 if (is_array($user_guid)) {
 	$user_guid = $user_guid[0];
 }
+
 if (is_numeric($user_guid)) {
 	$user = get_entity($user_guid);
 } else {
@@ -61,8 +63,8 @@ if ($user && $user->guid != $logged_in->guid) {
 	$to = $user->guid;
 	$from = $logged_in->guid;
 	$subject = elgg_echo('gallery:user:tagged');
-	$image_link = elgg_view('output/url', array('href' => $image->getURL(), 'is_trusted' => true));
-	$message = elgg_echo('gallery:user:tagged:message', array($image_link));
+	$image_link = elgg_view('output/url', ['href' => $image->getURL(), 'is_trusted' => true]);
+	$message = elgg_echo('gallery:user:tagged:message', [$image_link]);
 	notify_user($to, $from, $subject, $message);
 }
 
@@ -72,7 +74,8 @@ if (count($tags)) {
 		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
 	}
 }
-elgg_create_river_item(array(
+
+elgg_create_river_item([
 	'view' => 'framework/river/stream/phototag',
 	'action_type' => 'stream:phototag',
 	'subject_guid' => elgg_get_logged_in_user_guid(),
@@ -80,7 +83,7 @@ elgg_create_river_item(array(
 	'target_guid' => $tag->container_guid,
 	'access_id' => $tag->access_id,
 	'annotation_id' => -1,
-));
+]);
 
 return elgg_ok_response(
 	['html' => elgg_view_entity($tag)],

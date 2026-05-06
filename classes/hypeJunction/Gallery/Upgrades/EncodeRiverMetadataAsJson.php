@@ -4,6 +4,9 @@ namespace hypeJunction\Gallery\Upgrades;
 
 use Elgg\Upgrade\AsynchronousUpgrade;
 
+/**
+ * EncodeRiverMetadataAsJson class.
+ */
 class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 
 	public function getVersion(): int {

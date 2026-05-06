@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 use ElggFile;
 
-$file_guid = (int) get_input("guid");
+$file_guid = (int) get_input('guid');
 $file = get_entity($file_guid);
 
 if (!$file || !$file instanceof ElggFile) {
@@ -15,11 +15,12 @@ $file->downloads++;
 
 $mime = $file->getMimeType();
 if (!$mime) {
-	$mime = "application/octet-stream";
+	$mime = 'application/octet-stream';
 }
+
 $filename = $file->originalfilename;
 
-header("Pragma: public");
+header('Pragma: public');
 header("Content-type: $mime");
 header("Content-Disposition: attachment; filename=\"$filename\"");
 

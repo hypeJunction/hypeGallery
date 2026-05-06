@@ -8,18 +8,21 @@ if (!$entity instanceof \ElggEntity) {
 	return;
 }
 
-$meta = array();
+$meta = [];
 if (HYPEGALLERY_CATEGORIES) {
-	$meta[] = elgg_view('output/gallery/categories', array('value' => $entity->categories));
+	$meta[] = elgg_view('output/gallery/categories', ['value' => $entity->categories]);
 }
+
 if (HYPEGALLERY_COPYRIGHTS) {
-	$meta[] = elgg_view('output/text', array('value' => $entity->copyright));
+	$meta[] = elgg_view('output/text', ['value' => $entity->copyright]);
 }
+
 if (HYPEGALLERY_INTERFACE_LOCATION) {
-	$meta[] = elgg_view('output/location', array('value' => $entity->location));
+	$meta[] = elgg_view('output/location', ['value' => $entity->location]);
 }
+
 if (HYPEGALLERY_INTERFACE_CALENDAR) {
-	$meta[] = elgg_view('output/date', array('value' => $entity->date));
+	$meta[] = elgg_view('output/date', ['value' => $entity->date]);
 }
 
 echo '<ul class="gallery-media-meta-details elgg-subtext">';
@@ -27,6 +30,8 @@ foreach ($meta as $m) {
 	if (!$m) {
 		continue;
 	}
+
 	echo '<li>' . $m . '</li>';
 }
+
 echo '</ul>';

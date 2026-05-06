@@ -2,13 +2,12 @@
 
 namespace hypeJunction\Gallery;
 
-$files = get_input('files', array());
+$files = get_input('files', []);
 
 // show hidden entities that might be pending approval
 elgg_push_context('show_hidden_entities');
 
 foreach ($files as $guid => $details) {
-
 	$image = get_entity($guid);
 	
 	if (!$image instanceof \ElggEntity) {
@@ -16,12 +15,13 @@ foreach ($files as $guid => $details) {
 	}
 	
 	foreach ($details as $name => $value) {
-		if (in_array($name, array('tags', 'categories'))) {
+		if (in_array($name, ['tags', 'categories'])) {
 			$value = string_to_tag_array($value);
 		}
+
 		$image->$name = $value;
 		if ($name == 'location') {
-			$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $value));
+			$coordinates = elgg_trigger_plugin_hook('geocode', 'location', ['location' => $value]);
 			if ($coordinates) {
 				$image->setLatLong($coordinates['lat'], $coordinates['long']);
 			}

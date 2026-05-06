@@ -12,6 +12,7 @@ define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
 				cropper.bind();
 				elgg.config.gallery_cropper = true;
 			}
+
 			setTimeout(function() {
 				$('.gallery-croppable').trigger('initialize');
 			}, 500);
@@ -83,9 +84,11 @@ define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
 							$('.gallery-croppable').trigger('initialize');
 						}
 					}
+
 					if (response.system_messages.success) {
 						elgg.system_message(response.system_messages.success);
 					}
+
 					if (response.system_messages.error) {
 						elgg.register_error(response.system_messages.error);
 					}
@@ -100,5 +103,3 @@ define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
 	};
 	return cropper;
 });
-
-

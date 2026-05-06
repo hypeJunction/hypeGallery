@@ -16,7 +16,7 @@ $icon_sizes = elgg_get_config('icon_sizes');
 
 // get the images and save their file handlers into an array
 // so we can do clean up if one fails.
-$files = array();
+$files = [];
 foreach ($icon_sizes as $name => $sinfo) {
 	$resized = get_resized_image_from_existing_file($filename, $sinfo['w'], $sinfo['h'], $sinfo['square'], 0, 0, 0, 0, $sinfo['upscale']);
 
@@ -48,13 +48,13 @@ $owner->y2 = 0;
 $owner->icontime = time();
 if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	$view = 'river/user/default/profileiconupdate';
-	elgg_delete_river(array('subject_guid' => $owner->guid, 'view' => $view));
-	elgg_create_river_item(array(
+	elgg_delete_river(['subject_guid' => $owner->guid, 'view' => $view]);
+	elgg_create_river_item([
 		'view' => $view,
 		'action_type' => 'update',
 		'subject_guid' => $owner->guid,
 		'object_guid' => $owner->guid,
-	));
+	]);
 }
 
 return elgg_ok_response(

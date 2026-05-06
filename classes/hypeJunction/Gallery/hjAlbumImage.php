@@ -4,27 +4,54 @@ namespace hypeJunction\Gallery;
 
 use ElggFile;
 
+// phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps -- legacy subtype-name preserved for entity mapping
+/**
+ * hjAlbumImage class.
+ */
 class hjAlbumImage extends ElggFile {
 
 	const SUBTYPE = 'hjalbumimage';
 
+	/**
+	 * initializeAttributes.
+	 *
+	 * @return mixed
+	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 		$this->attributes['subtype'] = self::SUBTYPE;
 	}
 
+	/**
+	 * save.
+	 *
+	 * @return bool
+	 */
 	public function save(): bool {
 		if (!isset($this->priority)) {
 			$this->priority = 0;
 		}
+
 		return parent::save();
 	}
 
+	/**
+	 * getURL.
+	 *
+	 * @return string
+	 */
 	public function getURL(): string {
 		$friendly_title = elgg_get_friendly_title($this->title);
 		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 	}
 
+	/**
+	 * getActionURL.
+	 *
+	 * @param string $action action
+	 *
+	 * @return string
+	 */
 	public function getActionURL(string $action): string {
 		switch ($action) {
 			default:
@@ -42,11 +69,25 @@ class hjAlbumImage extends ElggFile {
 		}
 	}
 
+	/**
+	 * getIconURL.
+	 *
+	 * @param array|string $params params
+	 *
+	 * @return string
+	 */
 	public function getIconURL(array|string $params = []): string {
 		$size = is_string($params) ? $params : (elgg_extract('size', (array) $params, 'medium'));
 		return elgg_normalize_url("gallery/icon/$this->guid/$size");
 	}
 
+	/**
+	 * delete.
+	 *
+	 * @param bool $follow_symlinks follow_symlinks
+	 *
+	 * @return bool
+	 */
 	public function delete(bool $follow_symlinks = true): bool {
 		$icon_sizes = elgg_get_config('icon_sizes');
 
@@ -81,12 +122,14 @@ class hjAlbumImage extends ElggFile {
 			$delfile->setFilename($thumbnail);
 			$delfile->delete();
 		}
+
 		if ($smallthumb) {
 			$delfile = new ElggFile();
 			$delfile->owner_guid = $this->getOwnerGUID();
 			$delfile->setFilename($smallthumb);
 			$delfile->delete();
 		}
+
 		if ($largethumb) {
 			$delfile = new ElggFile();
 			$delfile->owner_guid = $this->getOwnerGUID();
@@ -97,7 +140,12 @@ class hjAlbumImage extends ElggFile {
 		return parent::delete($follow_symlinks);
 	}
 
-	function getExif() {
+	/**
+	 * getExif.
+	 *
+	 * @return mixed
+	 */
+	public function getExif() {
 		return get_exif($this);
 	}
 }

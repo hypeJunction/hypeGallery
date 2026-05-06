@@ -11,15 +11,19 @@ use ElggFile;
  */
 function pagesetup() {
 
-	elgg_register_menu_item('site', array(
+	elgg_register_menu_item('site', [
 		'name' => 'gallery',
 		'text' => elgg_echo('gallery'),
 		'href' => 'gallery/dashboard/site',
-	));
+	]);
 }
 
 /**
  * Apply EXIF tags to newly created image files
+ *
+ * @param \Elgg\Event $event Event
+ *
+ * @return void
  */
 function apply_exif_tags(\Elgg\Event $event) {
 
@@ -32,15 +36,16 @@ function apply_exif_tags(\Elgg\Event $event) {
 	$exif = get_exif($object);
 
 	if ($exif) {
-
 		if (!$object->description) {
 			$description = '';
 			if (isset($exif['ImageDescription'])) {
 				$description = $exif['ImageDescription']['clean'];
 			}
+
 			if (isset($exif['UserComment'])) {
 				$description .= $exif['UserComment']['clean'];
 			}
+
 			if ($description) {
 				$object->description = $description;
 			}
@@ -53,17 +58,15 @@ function apply_exif_tags(\Elgg\Event $event) {
 		}
 
 		if (!$object->location) {
-
 			if (isset($exif['GPSLatitude']) && isset($exif['GPSLongitude'])) {
-
-				$params = array(
+				$params = [
 					'lat' => $exif['GPSLatitude']['clean'],
 					'lon' => $exif['GPSLongitude']['clean'],
 					'zoom' => 15,
 					'addressdetails' => false,
 					'format' => 'json',
 					'email' => elgg_get_config('siteemail'),
-				);
+				];
 
 				$query = http_build_query($params);
 
@@ -76,7 +79,8 @@ function apply_exif_tags(\Elgg\Event $event) {
 				$json_data = curl_exec($curl);
 				curl_close($curl);
 
-				if ($data = json_decode($json_data, true)) {
+				$data = json_decode($json_data, true);
+				if ($data) {
 					if (!isset($data['error'])) {
 						$object->osm_id = $data['osm_id'];
 						$object->setSearchLocation($data['display_name']);
@@ -93,17 +97,18 @@ function apply_exif_tags(\Elgg\Event $event) {
 		}
 
 		if (!$object->tags) {
-			$tags = array();
+			$tags = [];
 			if (isset($exif['Model'])) {
 				$tags[] = $exif['Model']['clean'];
 			}
+
 			if (isset($exif['LensModel'])) {
 				$tags[] = $exif['LensModel']['clean'];
 			}
+
 			if ($tags) {
 				$object->tags = $tags;
 			}
 		}
 	}
-
 }

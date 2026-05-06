@@ -20,35 +20,35 @@ define('HYPEGALLERY_EXIF', elgg_get_plugin_setting('exif', PLUGIN_ID));
 
 define('HYPEGALLERY_ALBUM_IMAGE_QUOTA', 100);
 
-elgg_set_config('gallery_icon_sizes', array(
-	'800x200' => array(
+elgg_set_config('gallery_icon_sizes', [
+	'800x200' => [
 		'w' => 800,
 		'h' => 200,
 		'square' => false,
 		'upscale' => true,
 		'croppable' => true,
-	),
-	'125' => array(
+	],
+	'125' => [
 		'w' => 125,
 		'h' => 125,
 		'square' => false,
 		'upscale' => true,
 		'croppable' => true,
-	),
-	'325x200' => array(
+	],
+	'325x200' => [
 		'w' => 325,
 		'h' => 200,
 		'square' => false,
 		'upscale' => true,
 		'croppable' => true,
-	),
-	'taggable' => array(
+	],
+	'taggable' => [
 		'w' => 550,
 		'h' => 550,
 		'square' => false,
 		'upscale' => true,
-	)
-));
+	]
+]);
 
-elgg_set_config('gallery_allowed_dynamic_width', array('auto', 125, 325, 550, 800));
-elgg_set_config('gallery_allowed_dynamic_height', array(0, 200, 550));
+elgg_set_config('gallery_allowed_dynamic_width', ['auto', 125, 325, 550, 800]);
+elgg_set_config('gallery_allowed_dynamic_height', [0, 200, 550]);

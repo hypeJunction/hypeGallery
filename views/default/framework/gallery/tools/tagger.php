@@ -17,17 +17,16 @@ $mod .= '<div class="gallery-media-tags">';
 $title = elgg_echo('gallery:inthisphoto');
 
 if ($entity->canEdit()) {
-
 	$mod .= '<div class="tagger-float-template hidden">';
 	$mod .= '<div class="tagger-circle"></div>';
 	$mod .= '<div class="tagger-close hidden"></div>';
 	$mod .= '</div>';
 
-	$form = elgg_view_form('gallery/phototag', array(
+	$form = elgg_view_form('gallery/phototag', [
 		'id' => 'gallery-tagger',
-			), array(
+	], [
 		'entity' => $entity,
-	));
+	]);
 	$form .= '<a class="elgg-button-gallery-tagger"></a>';
 }
 
@@ -43,6 +42,7 @@ if ($tags) {
 		$mod .= elgg_view_entity($tag);
 	}
 }
+
 $mod .= '</div>';
 $mod .= '</div>';
 

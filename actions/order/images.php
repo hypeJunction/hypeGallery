@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $priorities = get_input('elgg-object');
 
 $i = 0;
-$reordered = array();
+$reordered = [];
 if (is_array($priorities)) {
 	foreach ($priorities as $priority => $guid) {
 		$image = get_entity($guid);
@@ -17,4 +17,5 @@ if (is_array($priorities)) {
 		}
 	}
 }
+
 return elgg_ok_response($reordered);
