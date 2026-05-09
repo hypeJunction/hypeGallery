@@ -39,7 +39,7 @@ elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\\apply_exif_ta
  */
 function init() {
 
-	elgg_require_js('framework/gallery/init');
+	elgg_import_esm('framework/gallery/init');
 
 	/**
 	 * Register entities
