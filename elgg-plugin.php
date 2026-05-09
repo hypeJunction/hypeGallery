@@ -3,7 +3,7 @@
 return [
 	'plugin' => [
 		'name' => 'hypeGallery',
-		'version' => '6.0.0',
+		'version' => '7.0.0',
 		'activate_on_install' => false,
 	],
 
@@ -24,12 +24,21 @@ return [
 			'subtype' => 'hjalbumimage',
 			'class' => \hypeJunction\Gallery\hjAlbumImage::class,
 		],
+		[
+			'type' => 'object',
+			'subtype' => 'hjimagetag',
+		],
 	],
 
 	'capabilities' => [
 		'searchable' => [
 			'object:hjalbum' => true,
 			'object:hjalbumimage' => true,
+		],
+		'river_emittable' => [
+			'object:hjalbum' => true,
+			'object:hjalbumimage' => true,
+			'object:hjimagetag' => true,
 		],
 	],
 

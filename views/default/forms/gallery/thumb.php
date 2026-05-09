@@ -71,7 +71,7 @@ echo elgg_view('output/url', [
 	'href' => "action/gallery/thumb_reset?guid=$entity->guid",
 	'is_action' => true,
 	'is_trusted' => true,
-	'class' => 'elgg-button elgg-button-action elgg-button-gallery-reset-thumb',
+	'class' => 'elgg-button elgg-button-gallery-reset-thumb',
 ]);
 
 echo '</div>';

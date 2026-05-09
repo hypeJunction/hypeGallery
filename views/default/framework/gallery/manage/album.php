@@ -32,7 +32,7 @@ $options = array_merge($options, $list_options);
 $body = elgg_list_entities($options);
 $body .= elgg_view('navigation/pagination', ['limit' => $limit, 'offset' => $offset, 'offset_key' => "offset-images-{$entity->guid}", 'count' => $count]);
 $body .= '<div class="elgg-foot">';
-$body .= elgg_view('input/submit', ['value' => elgg_echo('save'), 'class' => 'elgg-button elgg-button-submit float-alt']);
+$body .= elgg_view('input/submit', ['value' => elgg_echo('save'), 'class' => 'elgg-button float-alt']);
 $body .= '</div>';
 if ($count) {
 	$form = elgg_view('input/form', ['action' => 'action/gallery/upload/describe', 'body' => $body, 'class' => 'elgg-form-gallery-manage']);

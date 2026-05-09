@@ -124,7 +124,7 @@ echo elgg_view('output/url', [
 
 echo elgg_view('input/submit', [
 	'value' => elgg_echo('save'),
-	'class' => 'elgg-button elgg-button-submit float-alt'
+	'class' => 'elgg-button float-alt'
 ]);
 echo '</div>';
 

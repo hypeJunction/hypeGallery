@@ -344,6 +344,7 @@ function get_files($options = []) {
  * @return array|false
  */
 function get_image_tags($entity) {
+	// TODO(elgg7): limit=0 may be clamped in Elgg 7.x — verify max tags per image or switch to batch mode
 	$tag_params = ['type' => 'object', 'subtype' => 'hjimagetag', 'container_guid' => $entity->guid, 'limit' => 0, 'order_by' => 'e.time_created asc'];
 	$tags = elgg_get_entities($tag_params);
 	return $tags;

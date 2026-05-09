@@ -2,8 +2,6 @@
 
 namespace hypeJunction\Gallery;
 
-use ElggObject;
-
 $logged_in = elgg_get_logged_in_user_entity();
 $guid = get_input('container_guid', false);
 $image = get_entity($guid);
@@ -33,8 +31,7 @@ if (!$title && !$user) {
 	return elgg_error_response(elgg_echo('gallery:phototag:error'));
 }
 
-$tag = new ElggObject();
-$tag->setSubtype('hjimagetag');
+$tag = elgg_new_entity('object', 'hjimagetag');
 $tag->owner_guid = $user ? $user->guid : $logged_in->guid;
 // tagged user is owner, so can delete the tag
 $tag->container_guid = $image->guid;
