@@ -2,7 +2,7 @@
 	"name": "hypejunction/hypegallery",
 	"type": "elgg-plugin",
 	"description": "Image galleries for Elgg",
-	"homepage": "http://hypejunction.com",
+	"homepage": "https://github.com/hypeJunction/hypegallery",
 	"keywords": [
 		"elgg", "plugin", "gallery", "images"
 	],
