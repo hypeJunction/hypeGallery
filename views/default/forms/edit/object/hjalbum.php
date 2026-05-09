@@ -26,7 +26,7 @@ $main .= elgg_view('input/gallery/filedrop', [
 
 $main .= '<div class="clearfix">';
 if (HYPEGALLERY_COLLABORATIVE_ALBUMS) {
-	$main .= '<div class="elgg-col elgg-col-1of2">';
+	$main .= '<div class="gallery-col-half">';
 	$main .= '<label>' . elgg_echo('label:hjalbum:permission') . '</label>';
 	$main .= elgg_view('input/dropdown', [
 		'name' => 'permission',
@@ -37,7 +37,7 @@ if (HYPEGALLERY_COLLABORATIVE_ALBUMS) {
 	$main .= '</div>';
 }
 
-$main .= '<div class="elgg-col elgg-col-1of2">';
+$main .= '<div class="gallery-col-half">';
 $main .= '<label>' . elgg_echo('label:hjalbum:access_id') . '</label>';
 $main .= elgg_view('input/access', [
 	'entity' => $entity,

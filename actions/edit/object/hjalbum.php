@@ -52,7 +52,7 @@ if ($guid && $previous_access_id !== $album->access_id) {
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', ['location' => $location]);
+	$coordinates = elgg_trigger_event_results('geocode', 'location', ['location' => $location], null);
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}

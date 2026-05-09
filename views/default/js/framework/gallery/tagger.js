@@ -1,6 +1,9 @@
-define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
+import $ from 'jquery';
+import elgg from 'elgg';
+import i18n from 'elgg/i18n';
+import 'jquery.form';
 
-	var tagger = {
+var tagger = {
 		taggerFloat : {},
 		init: function() {
 
@@ -19,13 +22,13 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 			e.preventDefault();
 			if ($(this).is('.elgg-state-active')) {
 				$(this).removeClass('elgg-state-active')
-						.attr('title', elgg.echo('gallery:tools:tagger:start'))
+						.attr('title', i18n.echo('gallery:tools:tagger:start'))
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
 						.unbind('mousemove', tagger.mouseMove);
 			} else {
 				$(this).addClass('elgg-state-active')
-						.attr('title', elgg.echo('gallery:tools:tagger:stop'))
+						.attr('title', i18n.echo('gallery:tools:tagger:stop'))
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
 						.bind('mousemove', tagger.mouseMove);
@@ -52,7 +55,7 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 			$(this).data('tagger-tag').hide();
 		},
 		deleteTag: function(e) {
-			var confirmText = elgg.echo('question:areyousure');
+			var confirmText = i18n.echo('question:areyousure');
 			if (!confirm(confirmText)) {
 				return false;
 			}
@@ -182,5 +185,4 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 		}
 	};
 
-	return tagger;
-});
+export default tagger;

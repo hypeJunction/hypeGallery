@@ -45,7 +45,7 @@ $owner->x2 = 0;
 $owner->y1 = 0;
 $owner->y2 = 0;
 
-$owner->icontime = time();
+$owner->setIconLastChange(time());
 if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	$view = 'river/user/default/profileiconupdate';
 	elgg_delete_river(['subject_guid' => $owner->guid, 'view' => $view]);

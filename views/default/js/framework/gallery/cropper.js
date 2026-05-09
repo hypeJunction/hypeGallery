@@ -1,6 +1,10 @@
-define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
+import $ from 'jquery';
+import elgg from 'elgg';
+import i18n from 'elgg/i18n';
+import 'jquery.form';
+import 'cropper';
 
-	var cropper = {
+var cropper = {
 		bind: function() {
 			$(document).on('initialize', '.gallery-croppable', cropper.build);
 			$(document).on('destroy', '.gallery-croppable', cropper.destroy);
@@ -101,5 +105,4 @@ define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
 			return false;
 		}
 	};
-	return cropper;
-});
+export default cropper;

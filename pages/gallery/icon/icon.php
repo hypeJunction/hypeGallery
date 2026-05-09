@@ -28,7 +28,7 @@ if ($entity->mimetype == 'image/png') {
 }
 
 $filehandler = new ElggFile();
-$etag = md5($entity->icontime . $size);
+$etag = md5(($entity->getIconLastChange() ?? $entity->time_updated) . $size);
 $filehandler->owner_guid = $entity->owner_guid;
 $filehandler->setFilename($filename);
 $filehandler->open('read');

@@ -1,8 +1,10 @@
-define(['jquery', 'elgg'], function($, elgg) {
+import $ from 'jquery';
+import elgg from 'elgg';
+import i18n from 'elgg/i18n';
 
-	/**
-	 * Order images in album
-	 */
+/**
+ * Order images in album
+ */
 	$(".gallery-manage-album").sortable({
 		items: 'li.elgg-item',
 		connectWith: '.gallery-manage-album',
@@ -58,7 +60,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 	 */
 	$(document).on('click', '.elgg-button-gallery-delete', function(e) {
 
-		var confirmText = elgg.echo('question:areyousure');
+		var confirmText = i18n.echo('question:areyousure');
 		if (!confirm(confirmText)) {
 			return false;
 		}
@@ -121,7 +123,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 			success: function(data) {
 				$thumbeditor.html(data);
 				$thumbeditor.dialog({
-					title: elgg.echo('gallery:tools:crop:ready'),
+					title: i18n.echo('gallery:tools:crop:ready'),
 					dialogClass: 'gallery-slideshow',
 					width: $(window).width() - $(window).width() * 0.1,
 					height: $(window).height() - $(window).height() * 0.1,
@@ -133,4 +135,4 @@ define(['jquery', 'elgg'], function($, elgg) {
 			}
 		});
 	});
-});
+

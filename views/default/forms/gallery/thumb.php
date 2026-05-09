@@ -32,7 +32,7 @@ echo '</div>';
 echo '<div class="gallery-crop-preview-wrapper clearfix">';
 echo '<span class="elgg-text-help">' . elgg_echo('gallery:tools:crop:instructions') . '</span>';
 
-echo '<div class="elgg-col elgg-col-1of2">';
+echo '<div class="gallery-col-half">';
 echo '<label>' . elgg_echo('gallery:tools:crop:preview') . '</label>';
 echo '<div id="gallery-crop-preview">';
 echo elgg_view('output/img', [
@@ -41,7 +41,7 @@ echo elgg_view('output/img', [
 echo '</div>';
 echo '</div>';
 
-echo '<div class="elgg-col elgg-col-1of2">';
+echo '<div class="gallery-col-half">';
 echo '<label>' . elgg_echo('gallery:tools:crop:current') . '</label>';
 echo '<div id="gallery-crop-current">';
 echo elgg_view('output/img', [

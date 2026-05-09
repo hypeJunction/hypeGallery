@@ -263,7 +263,7 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
 	}
 
 	if ($icontime) {
-		$entity->icontime = time();
+		$entity->setIconLastChange(time());
 		return true;
 	}
 

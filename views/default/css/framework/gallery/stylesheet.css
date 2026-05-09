@@ -993,7 +993,7 @@ li.elgg-state-loading [class*="gallery-icon-"]:before,
   max-width: 250px;
 }
 
-.elgg-form-gallery-thumb .gallery-crop-preview-wrapper .elgg-col {
+.elgg-form-gallery-thumb .gallery-crop-preview-wrapper .gallery-col-half {
   width: 100px;
   display: inline-block;
   vertical-align: bottom;
@@ -1285,4 +1285,15 @@ li.elgg-state-loading [class*="gallery-icon-"]:before,
 .elgg-form-gallery-phototag fieldset {
   padding: 0;
   border: 0;
+}
+
+.gallery-col-half {
+  display: inline-block;
+  width: 48%;
+  vertical-align: top;
+  margin-right: 2%;
+}
+
+.gallery-col-half:last-child {
+  margin-right: 0;
 }

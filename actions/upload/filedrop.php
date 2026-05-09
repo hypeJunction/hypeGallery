@@ -78,7 +78,7 @@ if (elgg_is_xhr()) {
 			'html' => $html,
 		];
 
-		$output[] = elgg_trigger_plugin_hook('upload:after', 'dropzone', [
+		$output[] = elgg_trigger_event_results('upload:after', 'dropzone', [
 			'upload' => $upload,
 		], $file_output);
 	}
