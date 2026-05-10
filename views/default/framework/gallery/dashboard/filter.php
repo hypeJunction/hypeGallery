@@ -5,44 +5,51 @@ namespace hypeJunction\Gallery;
 $filter_context = elgg_extract('filter_context', $vars, 'site');
 
 $viewer = elgg_get_page_owner_entity();
-if (!elgg_instanceof($viewer, 'user')) {
+if (!$viewer instanceof \ElggUser) {
 	$viewer = elgg_get_logged_in_user_entity();
 }
 
 if (elgg_is_logged_in()) {
-	$tabs = array(
-		'mine' => array(
+	$tabs = [
+		'mine' => [
 			'text' => elgg_echo('gallery:albums:mine'),
 			'href' => "gallery/dashboard/owner/$viewer->username",
 			'selected' => ($filter_context == 'owner'),
 			'priority' => 200,
-		),
-		'friends' => array(
+		],
+		'friends' => [
 			'text' => elgg_echo('gallery:albums:friends'),
 			'href' => "gallery/dashboard/friends/$viewer->username",
 			'selected' => ($filter_context == 'friends'),
 			'priority' => 300,
-		),
-		'groups' => (HYPEGALLERY_GROUP_ALBUMS) ? array(
+		],
+	];
+
+	if (HYPEGALLERY_GROUP_ALBUMS) {
+		$tabs['groups'] = [
 			'text' => elgg_echo('gallery:albums:groups'),
 			'href' => "gallery/dashboard/groups/$viewer->username",
 			'selected' => ($filter_context == 'groups'),
 			'priority' => 400,
-				) : NULL,
-		'favorites' => (HYPEGALLERY_FAVORITES) ? array(
+		];
+	}
+
+	if (HYPEGALLERY_FAVORITES) {
+		$tabs['favorites'] = [
 			'text' => elgg_echo('gallery:albums:favorites'),
 			'href' => "gallery/dashboard/favorites/$viewer->username",
 			'selected' => ($filter_context == 'favorites'),
 			'priority' => 500,
-				) : NULL,
-	);
+		];
+	}
 }
-$tabs['site'] = array(
+
+$tabs['site'] = [
 	'text' => elgg_echo('gallery:albums:all'),
 	'href' => 'gallery/dashboard/site',
 	'selected' => ($filter_context == 'site'),
 	'priority' => 100,
-);
+];
 
 foreach ($tabs as $name => $tab) {
 	if ($tab) {
@@ -51,4 +58,4 @@ foreach ($tabs as $name => $tab) {
 	}
 }
 
-echo elgg_view_menu('filter', array('sort_by' => 'priority', 'class' => 'elgg-menu-hz'));
+echo elgg_view_menu('filter', ['sort_by' => 'priority', 'class' => 'elgg-menu-hz']);

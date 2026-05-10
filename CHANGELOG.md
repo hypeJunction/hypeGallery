@@ -1,3 +1,23 @@
+## [5.0.0] - 2026-04-27
+
+### Breaking Changes
+
+- Requires Elgg 5.x and PHP 8.2+
+- Removed embed menu integration (embed plugin removed in Elgg 5.x)
+- `hjAlbum::getURL($action)` split into `getURL()` (view) and `getActionURL(string $action)`
+- `hjAlbumImage::getURL($action)` split into `getURL()` (view) and `getActionURL(string $action)`
+- `getIconURL()` signature updated to `getIconURL(array|string $params = []): string`
+
+### Migration
+
+- Hooks merged into events system: all `elgg_register_plugin_hook_handler()` calls updated
+- All `\Elgg\Hook` type hints replaced with `\Elgg\Event`
+- `EncodeRiverMetadataAsJson` upgrade class updated to extend `AsynchronousUpgrade`
+- `ElggFile::detectMimeType()` replaced with `mime_content_type()`
+- Docker test stack updated to PHP 8.2 and MySQL 8.0
+
+---
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/hypeJunction/hypeGallery/compare/3.2.0...v3.2.1) (2016-01-06)
 

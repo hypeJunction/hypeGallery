@@ -8,7 +8,7 @@ if (!HYPEGALLERY_EXIF) {
 
 $entity = elgg_extract('entity', $vars);
 
-if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
+if (!$entity instanceof hjAlbumImage) {
 	return;
 }
 
@@ -26,8 +26,9 @@ foreach ($exif as $key => $values) {
 	$exif_body .= '<span>' . $values['clean'] . '</span>';
 	$exif_body .= '</li>';
 }
+
 $exif_body .= '</ul>';
 
-echo elgg_view_module('aside', $exif_title, $exif_body, array(
+echo elgg_view_module('aside', $exif_title, $exif_body, [
 	'class' => 'hj-gallery-exif-module'
-));
+]);

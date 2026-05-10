@@ -3,57 +3,60 @@
 namespace hypeJunction\Gallery;
 
 $search_type = get_input('search_type');
-$term = sanitize_string(get_input('term'));
+$term = get_input('term');
 
-$dbprefix = elgg_get_config('dbprefix');
-
-$response = array();
+$response = [];
 
 switch ($search_type) {
-
-	case 'tag' :
-		$tags = elgg_get_tags(array(
+	case 'tag':
+		// In Elgg 3.0 metastrings table was removed; tag values are stored
+		// directly in the metadata table value column.
+		$tags = elgg_get_tags([
 			'limit' => 20,
-			'wheres' => array("msv.string LIKE '$term%'")
-		));
+			'wheres' => [
+				function (\Elgg\Database\QueryBuilder $qb) use ($term) {
+					return $qb->compare('msv.value', 'LIKE', "{$term}%", ELGG_VALUE_STRING);
+				},
+			],
+		]);
 
 		foreach ($tags as $tag) {
-			$response[] = array(
+			$response[] = [
 				'label' => $tag->tag
-			);
+			];
 		}
 		break;
 
-	case 'friend' :
-
+	case 'friend':
 		$logged_in = elgg_get_logged_in_user_entity();
 
-		$users = elgg_get_entities(array(
+		// In Elgg 3.0 users_entity subtable was removed; name is now on the
+		// entities table.  Use the built-in search_name_value_pairs option.
+		$users = elgg_get_entities([
 			'types' => 'user',
 			'limit' => 20,
-			'joins' => array(
-				"JOIN {$dbprefix}entity_relationships er ON e.guid = er.guid_two",
-				"JOIN {$dbprefix}users_entity ue ON e.guid = ue.guid",
-			),
-			'wheres' => array(
-				"((er.relationship = 'friend' AND er.guid_one = $logged_in->guid) OR ue.guid = $logged_in->guid)",
-				"ue.name LIKE '%$term%'"
-			)
-		));
+			'relationship' => 'friend',
+			'relationship_guid' => $logged_in->guid,
+			'inverse_relationship' => false,
+			'wheres' => [
+				function (\Elgg\Database\QueryBuilder $qb, $main_alias) use ($term) {
+					return $qb->compare("{$main_alias}.name", 'LIKE', "%{$term}%", ELGG_VALUE_STRING);
+				},
+			],
+		]);
 
 		if ($users) {
 			foreach ($users as $user) {
-				$response[] = array(
+				$response[] = [
 					'icon' => $user->getIconURL('tiny'),
 					'label' => $user->name,
 					'value' => $user->guid
-				);
+				];
 			}
 		}
-
 		break;
 }
 
-header("Content-type:application/json");
+header('Content-type:application/json');
 print(json_encode($response));
 exit;

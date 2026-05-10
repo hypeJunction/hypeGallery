@@ -5,7 +5,7 @@
  *
  * Display largely controlled by a set of overrideable volatile data:
  *   - search_icon (defaults to entity icon)
- *   - search_matched_title 
+ *   - search_matched_title
  *   - search_matched_description
  *   - search_matched_extra
  *   - search_url (defaults to entity->getURL())
@@ -43,8 +43,9 @@ $body = "<p class=\"mbn\">$title</p>$description";
 if ($extra_info) {
 	$body .= "<p class=\"elgg-subtext\">$extra_info</p>";
 }
+
 $body .= "<p class=\"elgg-subtext\">$time</p>";
 
-echo elgg_view_image_block($icon, $body, array(
+echo elgg_view_image_block($icon, $body, [
 	'image_alt' => $image
-));
+]);

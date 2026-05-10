@@ -5,53 +5,45 @@ namespace hypeJunction\Gallery;
 use ElggMenuItem;
 
 /**
- * Bypass default access controls
- * - Allow users to add images to shared albums
+ * container_permissions_check.
  *
- * @param string  $hook   Equals 'container_permissions_check'
- * @param string  $type   Equals 'object'
- * @param boolean $return Current permission
- * @param array   $params Additional params
- * @return boolean Updated permission
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function container_permissions_check($hook, $type, $return, $params) {
+function container_permissions_check(\Elgg\Event $event) {
 
-	$container = elgg_extract('container', $params, false);
-	$user = elgg_extract('user', $params, false);
-	$subtype = elgg_extract('subtype', $params, false);
+	$return = $event->getValue();
+	$container = $event->getParam('container', false);
+	$user = $event->getParam('user', false);
+	$subtype = $event->getParam('subtype', false);
 
-	if (!elgg_instanceof($container) || !elgg_instanceof($user, 'user') || !$subtype) {
+	if (!$container instanceof \ElggEntity || !$user instanceof \ElggUser || !$subtype) {
 		return $return;
 	}
 
 	switch ($container->getSubtype()) {
-
-		case hjAlbum::SUBTYPE :
-
+		case hjAlbum::SUBTYPE:
 			switch ($subtype) {
-
-				case hjAlbumImage::SUBTYPE :
-
+				case hjAlbumImage::SUBTYPE:
 					$owner = $container->getOwnerEntity();
 
 					$permission = $container->permission;
 
 					switch ($permission) {
-
-						case 'friends' :
+						case 'friends':
 							return $owner->isFriendsWith($user->guid);
 
-						case 'public' :
+						case 'public':
 							return true;
 
-						case 'group' :
+						case 'group':
 							$group = $container->getContainerEntity();
-							if (elgg_instanceof($group, 'group')) {
+							if ($group instanceof \ElggGroup) {
 								return $group->isMember($user);
 							}
 							break;
 					}
-
 					return $return;
 			}
 			break;
@@ -61,31 +53,27 @@ function container_permissions_check($hook, $type, $return, $params) {
 }
 
 /**
- * Bypass default editing permissions
- * - Allow users to edit tags that have been added to photos they own
+ * permissions_check.
  *
- * @param string  $hook   Equals 'permissions_check'
- * @param string  $type   Equals 'object'
- * @param boolena $return Current permission
- * @param array   $params Additional params
- * @return boolean Updated permission
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function permissions_check($hook, $type, $return, $params) {
+function permissions_check(\Elgg\Event $event) {
 
-	$entity = elgg_extract('entity', $params, false);
-	$user = elgg_extract('user', $params, false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
+	$user = $event->getParam('user', false);
 
-	if (!elgg_instanceof($entity, 'object') || !elgg_instanceof($user, 'user')) {
+	if (!$entity instanceof \ElggObject || !$user instanceof \ElggUser) {
 		return $return;
 	}
 
 	switch ($entity->getSubtype()) {
-
-		default :
+		default:
 			return $return;
 
-		case 'hjimagetag' :
-
+		case 'hjimagetag':
 			$image = $entity->getContainerEntity();
 			if ($image->owner_guid == $user->guid) {
 				return true;
@@ -95,277 +83,231 @@ function permissions_check($hook, $type, $return, $params) {
 }
 
 /**
- * Filter access sql to display disabled entities
+ * filter_access_sql.
  *
- * @param string $hook    'get_sql'
- * @param string $type    'access'
- * @param array  $clauses Current clauses
- * @param array  $params  Additional params
- * @return array Filtered clauses
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function filter_access_sql($hook, $type, $clauses, $params) {
-
-	if (!elgg_in_context('show_hidden_entities')) {
-		return $clauses;
-	}
-
-	$table_alias = elgg_extract('table_alias', $params);
-	$table_alias = ($table_alias) ? "{$table_alias}." : "";
-
-	$and_clauses = elgg_extract('ands', $clauses, array());
-	if (is_array($and_clauses)) {
-		foreach ($and_clauses as $key => $clause) {
-			if ($clause == "{$table_alias}enabled = 'yes'") {
-				unset($clauses['ands'][$key]);
-			}
-		}
-	}
-
-	return $clauses;
+function filter_access_sql(\Elgg\Event $event) {
+	return $event->getValue();
 }
 
 /**
- * Update entity menus
+ * entity_menu_setup.
  *
- * @param string $hook   Equals 'register'
- * @param string $type   Equals 'menu:entity'
- * @param array  $return Current menu array
- * @param array  $params Additional params
- * @return array Updated menu
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function entity_menu_setup($hook, $type, $return, $params) {
+function entity_menu_setup(\Elgg\Event $event) {
 
-	$entity = elgg_extract('entity', $params, false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
 
-	if (!elgg_instanceof($entity)) {
+	if (!$entity instanceof \ElggEntity) {
 		return $return;
 	}
 
-	$items = array();
+	$items = [];
 
 	switch ($entity->getSubtype()) {
-
-		default :
+		default:
 			return $return;
 
-		case hjAlbum::SUBTYPE :
-
-			// Add images
+		case hjAlbum::SUBTYPE:
 			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-				$items['upload'] = array(
+				$items[] = ElggMenuItem::factory([
+					'name' => 'upload',
 					'text' => elgg_echo('gallery:upload'),
 					'title' => elgg_echo('gallery:upload'),
 					'href' => "gallery/upload/$entity->guid",
 					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
-					'priority' => 400
-				);
-			}
-
-			// Manage album
-			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-				$items['manage'] = array(
+					'priority' => 400,
+				]);
+				$items[] = ElggMenuItem::factory([
+					'name' => 'manage',
 					'text' => elgg_echo('gallery:manage:album'),
 					'title' => elgg_echo('gallery:manage:album'),
 					'href' => "gallery/manage/$entity->guid",
-					'priority' => 400
-				);
+					'priority' => 400,
+				]);
 			}
 
-			// Edit and/or Delete
 			if ($entity->canEdit()) {
-				$items['edit'] = array(
+				$items[] = ElggMenuItem::factory([
+					'name' => 'edit',
 					'text' => elgg_view_icon('edit'),
 					'title' => elgg_echo('edit'),
-					'href' => $entity->getURL('edit'),
+					'href' => $entity->getActionURL('edit'),
 					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
-					'priority' => 995
-				);
-				$items['delete'] = array(
+					'priority' => 995,
+				]);
+				$items[] = ElggMenuItem::factory([
+					'name' => 'delete',
 					'text' => elgg_view_icon('delete'),
 					'title' => elgg_echo('delete'),
-					'href' => $entity->getURL('delete'),
+					'href' => $entity->getActionURL('delete'),
 					'link_class' => 'elgg-button-delete-entity',
 					'data-guid' => $entity->guid,
-					'priority' => 1000
-				);
+					'priority' => 1000,
+				]);
 			}
-
 			break;
 
-		case hjAlbumImage::SUBTYPE :
-
+		case hjAlbumImage::SUBTYPE:
 			if (elgg_in_context('gallery-manage')) {
-				$return = array();
-
-				// Use this image as avatar
-				$items['makeavatar'] = (HYPEGALLERY_AVATARS && elgg_is_logged_in()) ? array(
-					'text' => elgg_echo('gallery:image:makeavatar'),
-					'title' => elgg_echo('gallery:image:makeavatar'),
-					'href' => "action/gallery/makeavatar?e=$entity->guid",
-					'is_action' => true,
-					'priority' => 100,
-						) : NULL;
+				if (defined('HYPEGALLERY_AVATARS') && HYPEGALLERY_AVATARS && elgg_is_logged_in()) {
+					$items[] = ElggMenuItem::factory([
+						'name' => 'makeavatar',
+						'text' => elgg_echo('gallery:image:makeavatar'),
+						'title' => elgg_echo('gallery:image:makeavatar'),
+						'href' => "action/gallery/makeavatar?e=$entity->guid",
+						'is_action' => true,
+						'priority' => 100,
+					]);
+				}
 			} else {
-
 				if (elgg_is_logged_in()) {
+					if (defined('HYPEGALLERY_DOWNLOADS') && HYPEGALLERY_DOWNLOADS &&
+						(elgg_is_logged_in() || (defined('HYPEGALLERY_PUBLIC_DOWNLOADS') && HYPEGALLERY_PUBLIC_DOWNLOADS))) {
+						$items[] = ElggMenuItem::factory([
+							'name' => 'download',
+							'text' => elgg_echo('gallery:image:download'),
+							'title' => elgg_echo('gallery:image:download'),
+							'href' => $entity->getActionURL('download'),
+							'priority' => 150,
+						]);
+					}
 
-					// Download if allowed
-					$items['download'] = (HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC_DOWNLOADS)) ? array(
-						'text' => elgg_echo('gallery:image:download'),
-						'title' => elgg_echo('gallery:image:download'),
-						'href' => $entity->getURL('download'),
-						'priority' => 150,
-							) : NULL;
-
-					// Edit
-					$items['edit'] = array(
+					$items[] = ElggMenuItem::factory([
+						'name' => 'edit',
 						'text' => elgg_view_icon('edit'),
 						'title' => elgg_echo('edit'),
-						'href' => $entity->getURL('edit'),
-						//'link_class' => 'elgg-button-edit-entity',
+						'href' => $entity->getActionURL('edit'),
 						'data-guid' => $entity->guid,
-						'priority' => 995
-					);
+						'priority' => 995,
+					]);
 
-					// Delete
-					$items['delete'] = array(
+					$items[] = ElggMenuItem::factory([
+						'name' => 'delete',
 						'text' => elgg_view_icon('delete'),
 						'title' => elgg_echo('delete'),
-						'href' => $entity->getURL('delete'),
-						//'link_class' => 'elgg-button-gallery-delete',
+						'href' => $entity->getActionURL('delete'),
 						'data-guid' => $entity->guid,
-						'priority' => 1000
-					);
+						'priority' => 1000,
+					]);
 				}
 			}
-
 			break;
 	}
 
-	if ($items) {
-		foreach ($items as $name => $item) {
-			foreach ($return as $key => $val) {
-				if (!$val instanceof ElggMenuItem) {
-					unset($return[$key]);
-				}
-				if ($val instanceof ElggMenuItem && $val->getName() == $name) {
-					unset($return[$key]);
-				}
-			}
-			$item['name'] = $name;
-			$return[$name] = ElggMenuItem::factory($item);
+	foreach ($items as $item) {
+		if (!$item instanceof ElggMenuItem) {
+			continue;
+		}
+
+		if ($return instanceof \Elgg\Collections\Collection) {
+			$return->add($item);
+		} elseif (is_array($return)) {
+			$return[$item->getName()] = $item;
 		}
 	}
 
-	return array_filter($return);
+	return $return;
 }
 
 /**
- * Album/image manage menu items
+ * manage_album_image_menu_setup.
  *
- * @param string $hook   Equals 'register'
- * @param string $type   Equals 'menu:album:manage'
- * @param array  $return Current menu
- * @param array  $params Additional params
- * @return array Filtered menu
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function manage_album_image_menu_setup($hook, $type, $return, $params) {
+function manage_album_image_menu_setup(\Elgg\Event $event) {
 
-	$entity = elgg_extract('entity', $params, false);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity', false);
 
-	if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE)) {
+	if (!$entity instanceof hjAlbumImage) {
 		return $return;
 	}
 
-	$items = array();
-	
-	// Is item is pending approval?
+	$items = [];
+
 	if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
-		// Approve
-		$items['approve'] = array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'approve',
 			'text' => '<i class="gallery-icon-approve"></i><span>' . elgg_echo('gallery:approve') . '</span>',
 			'title' => elgg_echo('gallery:approve'),
 			'href' => "action/gallery/approve/image?guid=$entity->guid",
 			'is_action' => true,
 			'link_class' => 'elgg-button-gallery-approve',
 			'data-guid' => $entity->guid,
-			'priority' => 990
-		);
-		// Delete
-		$items['delete'] = array(
+			'priority' => 990,
+		]);
+		$items[] = ElggMenuItem::factory([
+			'name' => 'delete',
 			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 			'title' => elgg_echo('delete'),
-			'href' => $entity->getURL('delete'),
+			'href' => $entity->getActionURL('delete'),
 			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
-			'priority' => 1000
-		);
+			'priority' => 1000,
+		]);
 	}
 
-
 	if ($entity->canEdit()) {
-
-		// Edit
-		//$items['edit'] = array(
-		//	'text' => '<i class="gallery-icon-edit"></i><span>' . elgg_echo('edit') . '</span>',
-		//	'title' => elgg_echo('edit'),
-		//	'href' => $entity->getURL('edit'),
-		//	'link_class' => 'elgg-button-edit-entity',
-		//	'data-guid' => $entity->guid,
-		//	'priority' => 995
-		//);
-
-		// Delete
-		$items['delete'] = array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'delete',
 			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
 			'title' => elgg_echo('delete'),
-			'href' => $entity->getURL('delete'),
+			'href' => $entity->getActionURL('delete'),
 			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
-			'priority' => 1000
-		);
+			'priority' => 1000,
+		]);
 
-		// Crop
-		$items['cropper'] = array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'cropper',
 			'text' => '<i class="gallery-icon-cropper"></i><span>' . elgg_echo('gallery:image:cropper') . '</span>',
 			'title' => elgg_echo('gallery:image:cropper'),
 			'href' => "gallery/thumb/$entity->guid",
 			'data-guid' => $entity->guid,
 			'link_class' => 'elgg-button-gallery-cropper',
 			'priority' => 990,
-		);
+		]);
 	}
 
 	$container = $entity->getContainerEntity();
 	if ($container && $container->canEdit()) {
-
-		// Reorder drag handle
-		$items['drag'] = array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'drag',
 			'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
 			'title' => elgg_echo('gallery:image:reorder'),
 			'href' => "#elgg-object-$entity->guid",
 			'link_class' => 'elgg-button-gallery-drag',
 			'priority' => 10,
-			'section' => 'drag'
-		);
+			'section' => 'drag',
+		]);
 
-		// Reorder input
-		$items['position'] = array(
-			'text' => elgg_view('input/text', array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'position',
+			'text' => elgg_view('input/text', [
 				'name' => "files[$entity->guid][priority]",
-				'value' => $entity->priority
-			)),
+				'value' => $entity->priority,
+			]),
 			'title' => elgg_echo('gallery:image:priority'),
 			'href' => false,
 			'link_class' => '',
 			'priority' => 20,
-			'section' => 'drag'
-		);
+			'section' => 'drag',
+		]);
 
-		// Make is image an album cover
-		$items['makecover'] = array(
+		$items[] = ElggMenuItem::factory([
+			'name' => 'makecover',
 			'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('gallery:image:makecover') . '</span>',
 			'title' => elgg_echo('gallery:image:makecover'),
 			'href' => "action/gallery/makecover?e=$entity->guid",
@@ -374,72 +316,77 @@ function manage_album_image_menu_setup($hook, $type, $return, $params) {
 			'item_class' => ($entity->getContainerEntity()->cover == $entity->guid) ? 'hidden' : '',
 			'data-guid' => $entity->guid,
 			'priority' => 980,
-		);
+		]);
 	}
 
-	if ($items) {
-		foreach ($items as $name => $item) {
-			foreach ($return as $key => $val) {
-				if (!$val instanceof ElggMenuItem) {
-					unset($return[$key]);
-				}
-				if ($val instanceof ElggMenuItem && $val->getName() == $name) {
-					unset($return[$key]);
-				}
-			}
-			$item['name'] = $name;
-			$return[$name] = ElggMenuItem::factory($item);
+	foreach ($items as $item) {
+		if (!$item instanceof ElggMenuItem) {
+			continue;
 		}
-	}
 
-	return array_filter($return);
-}
-
-/**
- * Add gallery related items to owner block menu
- *
- * @param string $hook   Equals 'register'
- * @param string $type   Equals 'menu:owner_block'
- * @param array  $return Current menu items
- * @param array  $params Additional params
- * @return array Updated menu
- */
-function owner_block_menu_setup($hook, $type, $return, $params) {
-
-	$entity = elgg_extract('entity', $params);
-
-	if (HYPEGALLERY_GROUP_ALBUMS && elgg_instanceof($entity, 'group') && $entity->albums_enable !== 'no') {
-		$return[] = ElggMenuItem::factory(array(
-					'name' => 'group:albums',
-					'text' => elgg_echo('gallery:albums:groups'),
-					'href' => "gallery/group/$entity->guid"
-		));
-	} else if (elgg_instanceof($entity, 'user')) {
-		$return[] = ElggMenuItem::factory(array(
-					'name' => 'user:albums',
-					'text' => elgg_echo('gallery:albums'),
-					'href' => "gallery/dashboard/owner/$entity->username"
-		));
+		if ($return instanceof \Elgg\Collections\Collection) {
+			$return->add($item);
+		} elseif (is_array($return)) {
+			$return[$item->getName()] = $item;
+		}
 	}
 
 	return $return;
 }
 
 /**
- * Icon size config
+ * owner_block_menu_setup.
  *
- * @param string $hook   Equals 'entity:icon:sizes'
- * @param string $type   Equals 'object'
- * @param array  $return Current config
- * @param array  $params Additional params
- * @return array Updated config
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
  */
-function entity_icon_sizes($hook, $type, $return, $params) {
+function owner_block_menu_setup(\Elgg\Event $event) {
 
-	$entity = elgg_extract('entity', $params);
+	$return = $event->getValue();
+	$entity = $event->getParam('entity');
+
+	$group_albums = defined('HYPEGALLERY_GROUP_ALBUMS') ? HYPEGALLERY_GROUP_ALBUMS : false;
+
+	if ($group_albums && $entity instanceof \ElggGroup && $entity->albums_enable !== 'no') {
+		$item = ElggMenuItem::factory([
+			'name' => 'group:albums',
+			'text' => elgg_echo('gallery:albums:groups'),
+			'href' => "gallery/group/$entity->guid",
+		]);
+	} elseif ($entity instanceof \ElggUser) {
+		$item = ElggMenuItem::factory([
+			'name' => 'user:albums',
+			'text' => elgg_echo('gallery:albums'),
+			'href' => "gallery/dashboard/owner/$entity->username",
+		]);
+	} else {
+		return $return;
+	}
+
+	if ($return instanceof \Elgg\Collections\Collection) {
+		$return->add($item);
+	} elseif (is_array($return)) {
+		$return[] = $item;
+	}
+
+	return $return;
+}
+
+/**
+ * entity_icon_sizes.
+ *
+ * @param \Elgg\Event $event event
+ *
+ * @return mixed
+ */
+function entity_icon_sizes(\Elgg\Event $event) {
+
+	$return = $event->getValue();
+	$entity = $event->getParam('entity');
 
 	if (!$entity instanceof hjAlbumImage) {
-		return;
+		return $return;
 	}
 
 	$gallery_config = elgg_get_config('gallery_icon_sizes');

@@ -4,21 +4,18 @@ namespace hypeJunction\Gallery;
 
 use ElggObject;
 
+// phpcs:disable Squiz.Classes.ValidClassName.NotCamelCaps -- legacy subtype-name preserved for entity mapping
 /**
- * Album Class
- *
- * @package    Elgg
- * @subpackage Gallery	
+ * hjAlbum class.
  */
 class hjAlbum extends ElggObject {
 
 	const SUBTYPE = 'hjalbum';
 
 	/**
-	 * Initialize attributes
-	 * Set subtype
-	 * 
-	 * @return void
+	 * initializeAttributes.
+	 *
+	 * @return mixed
 	 */
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
@@ -26,77 +23,86 @@ class hjAlbum extends ElggObject {
 	}
 
 	/**
-	 * Count images contained in an album
-	 * 
-	 * @return integer
+	 * countImages.
+	 *
+	 * @return mixed
 	 */
 	public function countImages() {
-
-		return elgg_get_entities(array(
+		return elgg_get_entities([
 			'types' => 'object',
-			'subtypes' => array('hjalbumimage'),
+			'subtypes' => ['hjalbumimage'],
 			'container_guids' => $this->guid,
 			'count' => true
-		));
+		]);
 	}
 
 	/**
-	 * Get album URL
-	 * 
-	 * @param string $action Operation
+	 * getURL.
+	 *
 	 * @return string
 	 */
-	public function getURL($action = 'view') {
+	public function getURL(): string {
+		$friendly_title = elgg_get_friendly_title($this->title);
+		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
+	}
+
+	/**
+	 * getActionURL.
+	 *
+	 * @param string $action action
+	 *
+	 * @return string
+	 */
+	public function getActionURL(string $action): string {
 		switch ($action) {
+			default:
+			case 'view':
+				return $this->getURL();
 
-			default :
-			case 'view' :
-				$friendly_title = elgg_get_friendly_title($this->title);
-				return "gallery/view/$this->guid/$friendly_title";
+			case 'edit':
+				return elgg_normalize_url("gallery/edit/$this->guid");
 
-			case 'edit' :
-				return "gallery/edit/$this->guid";
-
-			case 'delete' :
+			case 'delete':
 				return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
 
-			case 'manage' :
-				return "gallery/manage/$this->guid";
+			case 'manage':
+				return elgg_normalize_url("gallery/manage/$this->guid");
 		}
 	}
 
 	/**
-	 * Get files contained in this album
+	 * getContainedFiles.
 	 *
-	 * @param array $options Getter options
-	 * @return ElggObject[]|false
+	 * @param mixed $options options
+	 *
+	 * @return mixed
 	 */
-	public function getContainedFiles($options = array()) {
-		$options['container_guids'] = array($this->guid);
+	public function getContainedFiles($options = []) {
+		$options['container_guids'] = [$this->guid];
 		return get_files($options);
 	}
 
 	/**
-	 * Get icon URL
+	 * getIconURL.
 	 *
-	 * @param string $size Icon size
+	 * @param array|string $params params
+	 *
 	 * @return string
 	 */
-	public function getIconURL($size = 'medium') {
-
+	public function getIconURL(array|string $params = []): string {
 		if ($this->cover) {
 			$cover_image = get_entity($this->cover);
 		}
-		if (!$cover_image) {
-			$images = $this->getContainedFiles(array('limit' => 1));
-			$cover_image = $images[0];
+
+		if (!isset($cover_image) || !$cover_image) {
+			$images = $this->getContainedFiles(['limit' => 1]);
+			$cover_image = $images[0] ?? null;
 		}
 
-		if (elgg_instanceof($cover_image)) {
-			return $cover_image->getIconURL($size);
+		if ($cover_image instanceof \ElggEntity) {
+			return $cover_image->getIconURL($params);
 		} else {
-			return parent::getIconURL($size);
+			return parent::getIconURL($params);
 		}
 	}
-
 }

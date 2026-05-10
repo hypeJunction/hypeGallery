@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $page_owner = elgg_get_page_owner_entity();
 
-if (!elgg_instanceof($page_owner, 'user')) {
+if (!$page_owner instanceof \ElggUser) {
 	return;
 }
 
@@ -13,12 +13,11 @@ $display = get_input('display', 'albums');
 echo '<div id="gallery-dashboard-owner">';
 
 switch ($display) {
-
-	default :
-	case 'albums' :
-		echo elgg_list_entities(array(
+	default:
+	case 'albums':
+		echo elgg_list_entities([
 			'types' => 'object',
-			'subtypes' => array(hjAlbum::SUBTYPE),
+			'subtypes' => [hjAlbum::SUBTYPE],
 			'owner_guids' => $page_owner->guid,
 			'full_view' => false,
 			'list_type' => get_input('list_type', 'gallery'),
@@ -28,13 +27,13 @@ switch ($display) {
 			'limit' => get_input('limit', 20),
 			'offset' => get_input('offset-albums', 0),
 			'offset_key' => 'offset-albums'
-		));
+		]);
 		break;
 
-	case 'photostream' :
-		echo elgg_list_entities(array(
+	case 'photostream':
+		echo elgg_list_entities([
 			'types' => 'object',
-			'subtypes' => array(hjAlbumImage::SUBTYPE),
+			'subtypes' => [hjAlbumImage::SUBTYPE],
 			'owner_guids' => $page_owner->guid,
 			'list_type' => get_input('list_type', 'gallery'),
 			'list_type_toggle' => true,
@@ -44,7 +43,7 @@ switch ($display) {
 			'limit' => get_input('limit', 20),
 			'offset' => get_input('offset-photostream', 0),
 			'offset_key' => 'offset-photostream'
-		));
+		]);
 		break;
 }
 

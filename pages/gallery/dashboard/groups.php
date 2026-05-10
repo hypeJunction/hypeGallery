@@ -10,23 +10,23 @@ $title = elgg_echo('gallery:albums:groups');
 
 elgg_push_breadcrumb($title);
 
-$filter = elgg_view('framework/gallery/dashboard/filter', array(
+$filter = elgg_view('framework/gallery/dashboard/filter', [
 	'filter_context' => 'groups'
-		));
+]);
 
 $content = elgg_view('framework/gallery/dashboard/groups');
 
-$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array(
+$sidebar = elgg_view('framework/gallery/dashboard/sidebar', [
 	'dashboard' => 'groups'
-		));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'filter' => $filter,
 	'content' => $content,
 	'sidebar' => $sidebar,
 	'class' => 'gallery-dashboard'
-		));
+]);
 
 echo elgg_view_page($title, $layout);
 

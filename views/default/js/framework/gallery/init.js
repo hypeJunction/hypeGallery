@@ -16,8 +16,8 @@ if ($('.gallery-croppable').length) {
 	});
 }
 
-$(document).ajaxSuccess(function(data) {
-	if ($(data).has('.gallery-croppable')) {
+$(document).on('ajaxSuccess', function(data) {
+	if ($(data).has('.gallery-croppable').length) {
 		import('framework/gallery/cropper').then(({default: cropper}) => {
 			cropper.init();
 		});
@@ -30,8 +30,8 @@ if ($('.gallery-popup,.gallery-slideshow').length) {
 	});
 }
 
-$(document).ajaxSuccess(function(data) {
-	if ($(data).has('.gallery-popup,.gallery-slideshow')) {
+$(document).on('ajaxSuccess', function(data) {
+	if ($(data).has('.gallery-popup,.gallery-slideshow').length) {
 		import('framework/gallery/popup').then(({default: popup}) => {
 			popup.init();
 		});

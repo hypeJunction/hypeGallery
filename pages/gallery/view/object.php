@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-if (!elgg_instanceof($entity)) {
+if (!$entity instanceof \ElggEntity) {
 	return false;
 }
 
@@ -14,12 +14,10 @@ $entity->views++;
 $ancestry = get_ancestry($entity->guid);
 
 foreach ($ancestry as $ancestor) {
-	if (elgg_instanceof($ancestor, 'site')) {
-		// do nothing
-	} else if (elgg_instanceof($ancestor, 'group')) {
+	if ($ancestor instanceof \ElggGroup) {
 		elgg_set_page_owner_guid($ancestor->guid);
 		elgg_push_breadcrumb($ancestor->name, $ancestor->getURL());
-	} else if (elgg_instanceof($ancestor, 'object')) {
+	} else if ($ancestor instanceof \ElggObject) {
 		elgg_push_breadcrumb($ancestor->title, $ancestor->getURL());
 	}
 }
@@ -30,23 +28,23 @@ elgg_push_breadcrumb($title);
 
 register_entity_title_buttons($entity);
 
-$sidebar = elgg_view('framework/gallery/sidebar', array(
+$sidebar = elgg_view('framework/gallery/sidebar', [
 	'entity' => $entity
-		));
+]);
 
-$content = elgg_view_entity($entity, array(
+$content = elgg_view_entity($entity, [
 	'full_view' => true,
 	'list_type' => 'list'
-		));
+]);
 
-$layout = elgg_view_layout('content', array(
+$layout = elgg_view_layout('content', [
 	'title' => $title,
 	'content' => $content,
 	'sidebar' => $sidebar,
 	'filter' => false
-		));
+]);
 
-echo elgg_view_page($title, $layout, 'default', array(
+echo elgg_view_page($title, $layout, 'default', [
 	'entity' => $entity
-));
+]);
 

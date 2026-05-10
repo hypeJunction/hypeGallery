@@ -6,12 +6,12 @@ use ElggBatch;
 use stdClass;
 
 if (!elgg_is_xhr()) {
-	forward(REFERER);
+	return;
 }
 
 $entity = elgg_extract('entity', $vars);
 
-if (elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
+if ($entity instanceof hjAlbum) {
 	$album = $entity;
 	$current = false;
 } else {
@@ -19,20 +19,16 @@ if (elgg_instanceof($entity, 'object', hjAlbum::SUBTYPE)) {
 	$current = $entity->guid;
 }
 
-$dbprefix = elgg_get_config('dbprefix');
-$images = new ElggBatch('elgg_get_entities', array(
-	'selects' => array('oe.title as title'),
+// In Elgg 3.0 objects_entity subtable was removed; title is now on the
+// entities table directly.
+$images = new ElggBatch('elgg_get_entities', [
 	'types' => 'object',
 	'subtypes' => hjAlbumImage::SUBTYPE,
 	'container_guids' => $album->guid,
-	'joins' => array(
-		"JOIN {$dbprefix}objects_entity oe ON oe.guid = e.guid",
-	),
 	'limit' => 0,
-	'callback' => false,
-		));
+]);
 
-$data = array();
+$data = [];
 foreach ($images as $img) {
 	$img_data = new stdClass();
 	$img_data->guid = $img->guid;
@@ -40,9 +36,8 @@ foreach ($images as $img) {
 	$data[] = $img_data;
 }
 
-print(json_encode(array(
-			'img' => $data,
-			'album_guid' => $album->guid,
-			'album_title' => $album->title
-)));
-forward();
+print(json_encode([
+	'img' => $data,
+	'album_guid' => $album->guid,
+	'album_title' => $album->title
+]));

@@ -14,21 +14,21 @@ if (!$entity) {
 	return false;
 }
 
-$requested_size = $size = strtolower(get_input('size', 'master'));
+$size = strtolower(get_input('size', 'master'));
+$requested_size = $size;
 
 $config = get_icon_sizes($entity);
 
 if ($entity->mimetype == 'image/png') {
-	$filename = "icons/" . $entity->guid . $size . ".png";
+	$filename = 'icons/' . $entity->guid . $size . '.png';
 } else if ($entity->mimetype == 'image/gif') {
-	$filename = "icons/" . $entity->guid . $size . ".gif";
+	$filename = 'icons/' . $entity->guid . $size . '.gif';
 } else {
-	$filename = "icons/" . $entity->guid . $size . ".jpg";
+	$filename = 'icons/' . $entity->guid . $size . '.jpg';
 }
 
-$etag = md5($filehandler->icontime . $size);
-
 $filehandler = new ElggFile();
+$etag = md5(($entity->getIconLastChange() ?? $entity->time_updated) . $size);
 $filehandler->owner_guid = $entity->owner_guid;
 $filehandler->setFilename($filename);
 $filehandler->open('read');
@@ -96,18 +96,18 @@ if (!$contents) {
 	}
 
 	switch ($entity->mimetype) {
-		default :
-		case 'image/jpeg' :
+		default:
+		case 'image/jpeg':
 			$mime = 'image/jpeg';
 			$contents = $resized->asString('jpg', 80);
 			break;
 
-		case 'image/gif' :
+		case 'image/gif':
 			$mime = 'image/gif';
 			$contents = $resized->asString('gif');
 			break;
 
-		case 'image/png' :
+		case 'image/png':
 			$mime = 'image/png';
 			$contents = $resized->asString('png');
 			break;
@@ -128,8 +128,8 @@ elgg_pop_context();
 header("Content-type: $mime");
 header("Etag: $etag");
 header('Expires: ' . date('r', time() + 864000));
-header("Pragma: public");
-header("Cache-Control: public");
-header("Content-Length: " . strlen($contents));
+header('Pragma: public');
+header('Cache-Control: public');
+header('Content-Length: ' . strlen($contents));
 
 echo $contents;

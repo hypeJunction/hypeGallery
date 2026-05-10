@@ -4,10 +4,10 @@ namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars);
 
-if (!elgg_instanceof($entity, 'object', hjAlbumImage::SUBTYPE) || !$entity->canEdit()) {
+if (!$entity instanceof hjAlbumImage || !$entity->canEdit()) {
 	return;
 }
 
 elgg_load_css('cropper');
 
-echo elgg_view_form('gallery/thumb', array(), $vars);
+echo elgg_view_form('gallery/thumb', [], $vars);

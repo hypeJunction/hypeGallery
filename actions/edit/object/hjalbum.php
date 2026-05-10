@@ -26,34 +26,33 @@ if (!$guid) {
 	$album->owner_guid = $owner_guid;
 	$album->container_guid = $container_guid;
 }
+
 $album->title = $title;
 $album->description = $description;
 $previous_access_id = $entity->access_id;
 $album->access_id = $access_id;
 
 if (!$album->save()) {
-	register_error(elgg_echo('gallery:save:error'));
-	forward(REFERER);
-} else {
-	// Update image access if album access has changed
-	if ($guid && $previous_access_id !== $album->access_id) {
-		$images = new ElggBatch('elgg_get_entities', array(
-			'types' => 'object',
-			'subtypes' => hjAlbumImage::SUBTYPE,
-			'container_guids' => $album->guid,
-			'limit' => 0
-		));
-		foreach ($images as $image) {
-			$image->access_id = $album->access_id;
-			$image->save();
-		}
+	return elgg_error_response(elgg_echo('gallery:save:error'));
+}
+
+// Update image access if album access has changed
+if ($guid && $previous_access_id !== $album->access_id) {
+	$images = new ElggBatch('elgg_get_entities', [
+		'types' => 'object',
+		'subtypes' => hjAlbumImage::SUBTYPE,
+		'container_guids' => $album->guid,
+		'limit' => 0
+	]);
+	foreach ($images as $image) {
+		$image->access_id = $album->access_id;
+		$image->save();
 	}
-	system_message(elgg_echo('gallery:save:success'));
 }
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $location));
+	$coordinates = elgg_trigger_event_results('geocode', 'location', ['location' => $location], null);
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}
@@ -68,9 +67,13 @@ $album->save();
 
 set_input('container_guid', $album->guid);
 
-include elgg_get_root_path() . 'mod/hypeGallery/actions/upload/handle.php';
-include elgg_get_root_path() . 'mod/hypeGallery/actions/upload/describe.php';
+include elgg_get_root_path() . 'mod/hypegallery/actions/upload/handle.php';
+include elgg_get_root_path() . 'mod/hypegallery/actions/upload/describe.php';
 
 elgg_clear_sticky_form('edit:object:hjalbum');
 
-forward("gallery/manage/$album->guid");
+return elgg_ok_response(
+	['guid' => $album->guid],
+	elgg_echo('gallery:save:success'),
+	"gallery/manage/{$album->guid}"
+);

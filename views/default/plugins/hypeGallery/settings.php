@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $entity = elgg_extract('entity', $vars);
 
-$settings = array(
+$settings = [
 	'album_river',
 	'favorites',
 	'interface_location',
@@ -17,7 +17,7 @@ $settings = array(
 	'tagging',
 	'downloads',
 	'public_downloads'
-);
+];
 
 if (is_callable('exif_read_data')) {
 	$settings[] = 'exif';
@@ -26,14 +26,14 @@ if (is_callable('exif_read_data')) {
 foreach ($settings as $s) {
 	echo '<div>';
 	echo '<label>' . elgg_echo("edit:plugin:hypegallery:params[$s]") . '</label>';
-	echo elgg_view('input/dropdown', array(
+	echo elgg_view('input/dropdown', [
 		'name' => "params[$s]",
-		'options_values' => array(
+		'options_values' => [
 			0 => elgg_echo('disable'),
 			1 => elgg_echo('enable')
-		),
+		],
 		'value' => $entity->$s
-	));
+	]);
 	echo '<span class="elgg-text-help">' . elgg_echo("edit:plugin:hypegallery:hint:$s") . '</span>';
 	echo '</div>';
 }
