@@ -14,6 +14,23 @@ class Seeder extends Seed {
 	/**
 	 * {@inheritdoc}
 	 */
+	public static function getType(): string {
+		return 'gallery';
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function getCountOptions(): array {
+		return [
+			'type' => 'object',
+			'subtype' => hjAlbum::SUBTYPE,
+		];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function seed() {
 		$this->advance($this->getCount());
 
