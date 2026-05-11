@@ -10,4 +10,5 @@ robots.txt
 /vendor/
 /mod/
 composer.lock
-Gemfile.lockdocker/.env
+Gemfile.lock
+docker/.env
