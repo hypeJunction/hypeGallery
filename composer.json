@@ -20,8 +20,9 @@
 		"installer-name": "hypeGallery"
 	},
 	"require": {
-		"php": ">=5.3.3",
-		"composer/installers": "^1.0 || ^2.0"
+		"composer/installers": "^1.0 || ^2.0",
+		"php": ">=7.2",
+		"elgg/elgg": "^3.0"
 	},
 	"autoload": {
 		"psr-4": {
