@@ -86,4 +86,22 @@ class Seeder extends Seed {
 		$seeds[] = self::class;
 		return $seeds;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function getType(): string {
+		return 'hjalbum';
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	protected function getCountOptions(): array {
+		return [
+			'type' => 'object',
+			'subtype' => hjAlbum::SUBTYPE,
+		];
+	}
+
 }
