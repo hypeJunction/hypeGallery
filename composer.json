@@ -1,37 +1,43 @@
 {
-	"name": "hypejunction/hypegallery",
-	"type": "elgg-plugin",
-	"description": "Image galleries for Elgg",
-	"homepage": "https://github.com/hypeJunction/hypegallery",
-	"keywords": [
-		"elgg", "plugin", "gallery", "images"
-	],
-	"license": "GPL-2.0-or-later",
-	"authors": [
-		{
-			"name": "Ismayil Khayredinov",
-			"email": "info@hypejunction.com"
-		}
-	],
-	"extra": {
-		"elgg-plugin": {
-			"id": "hypegallery"
-		}
-	},
-	"require": {
-		"php": ">=8.2",
-		"elgg/elgg": "^5.0",
-		"composer/installers": "^2.0",
-		"hypejunction/hypefilestore": "*"
-	},
-	"autoload": {
-		"psr-4": {
-			"hypeJunction\\": "classes/hypeJunction/"
-		}
-	},
-	"config": {
-		"allow-plugins": {
-			"composer/installers": true
-		}
-	}
+    "name": "hypejunction/hypegallery",
+    "type": "elgg-plugin",
+    "description": "Image galleries for Elgg",
+    "homepage": "https://github.com/hypeJunction/hypegallery",
+    "keywords": [
+        "elgg",
+        "plugin",
+        "gallery",
+        "images"
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Ismayil Khayredinov",
+            "email": "info@hypejunction.com"
+        }
+    ],
+    "extra": {
+        "elgg-plugin": {
+            "id": "hypegallery"
+        }
+    },
+    "require": {
+        "php": ">=8.2",
+        "elgg/elgg": "^5.0",
+        "composer/installers": "^2.0",
+        "hypejunction/hypefilestore": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "hypeJunction\\": "classes/hypeJunction/"
+        },
+        "files": [
+            "lib/functions.php"
+        ]
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/installers": true
+        }
+    }
 }
