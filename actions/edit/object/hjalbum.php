@@ -12,7 +12,7 @@ $owner_guid = get_input('owner_guid', elgg_get_logged_in_user_guid());
 $container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
 $title = get_input('title', elgg_echo('album:untitled'));
 $description = get_input('description', '');
-$access_id = get_input('access_id', get_default_access());
+$access_id = get_input('access_id', elgg_get_default_access());
 
 // Metadata
 $location = get_input('location', '');
