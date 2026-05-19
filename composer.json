@@ -37,6 +37,5 @@
         "allow-plugins": {
             "composer/installers": true
         }
-    },
-    "version": "5.0.0"
+    }
 }
