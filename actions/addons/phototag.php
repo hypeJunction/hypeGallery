@@ -24,7 +24,7 @@ if (is_numeric($user_guid)) {
 	$user = get_entity($user_guid);
 } else {
 	// fallback for default userpicker
-	$user = get_user_by_username($user_guid);
+	$user = elgg_get_user_by_username($user_guid);
 }
 
 if (!$title && !$user) {
