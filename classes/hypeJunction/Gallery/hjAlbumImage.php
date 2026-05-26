@@ -82,13 +82,14 @@ class hjAlbumImage extends ElggFile {
 	}
 
 	/**
-	 * delete.
+	 * Match ElggFile::delete() 6.x signature.
 	 *
-	 * @param bool $follow_symlinks follow_symlinks
+	 * @param bool      $recursive  Was $follow_symlinks pre-6.x
+	 * @param bool|null $persistent New 6.x parameter — pass through unchanged
 	 *
 	 * @return bool
 	 */
-	public function delete(bool $follow_symlinks = true): bool {
+	public function delete(bool $recursive = true, ?bool $persistent = null): bool {
 		$icon_sizes = elgg_get_config('icon_sizes');
 
 		$prefix_old = "ElggFile/$this->container_guid/$this->guid";
