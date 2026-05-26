@@ -138,7 +138,7 @@ class hjAlbumImage extends ElggFile {
 			$delfile->delete();
 		}
 
-		return parent::delete($follow_symlinks);
+		return parent::delete($recursive, $persistent);
 	}
 
 	/**
