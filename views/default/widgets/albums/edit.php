@@ -12,9 +12,9 @@ $params = array(
 	'value' => $vars['entity']->num_display,
 	'options' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20),
 );
-$dropdown = elgg_view('input/dropdown', $params);
+$dropdown = \elgg_view('input/dropdown', $params);
 ?>
 <div>
-	<?php echo elgg_echo('gallery:widget:limit'); ?>:
+	<?php echo \elgg_echo('gallery:widget:limit'); ?>:
 	<?php echo $dropdown; ?>
 </div>

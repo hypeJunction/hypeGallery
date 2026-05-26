@@ -10,7 +10,7 @@ switch ($display) {
 
 	default :
 	case 'albums' :
-		echo elgg_list_entities(array(
+		echo \elgg_list_entities(array(
 			'types' => 'object',
 			'subtypes' => array(hjAlbum::SUBTYPE),
 			'full_view' => false,
@@ -25,7 +25,7 @@ switch ($display) {
 		break;
 
 	case 'photostream' :
-		echo elgg_list_entities(array(
+		echo \elgg_list_entities(array(
 			'types' => 'object',
 			'subtypes' => array(hjAlbumImage::SUBTYPE),
 			'list_type' => get_input('list_type', 'gallery'),

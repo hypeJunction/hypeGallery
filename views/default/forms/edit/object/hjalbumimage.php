@@ -2,67 +2,67 @@
 
 namespace hypeJunction\Gallery;
 
-$entity = elgg_extract('entity', $vars, false);
+$entity = \elgg_extract('entity', $vars, false);
 
 if (!$entity instanceof \ElggEntity) {
 	return;
 }
 
-$cover = elgg_view_entity_icon($entity, $size);
+$cover = \elgg_view_entity_icon($entity, $size);
 
 $guid = $entity->guid;
 
-$title = elgg_view('input/text', array(
+$title = \elgg_view('input/text', array(
 	'name' => "files[$guid][title]",
-	'placeholder' => elgg_echo('label:hjalbumimage:title'),
+	'placeholder' => \elgg_echo('label:hjalbumimage:title'),
 	'value' => $entity->title
 		));
 
-$info_link = elgg_view('output/url', array(
-	'text' => elgg_echo('gallery:edit:more'),
+$info_link = \elgg_view('output/url', array(
+	'text' => \elgg_echo('gallery:edit:more'),
 	'href' => "#gallery-info-$entity->guid",
 	'rel' => 'toggle'
 		));
 
-$info .= '<label>' . elgg_echo('label:hjalbumimage:description') . '</label>';
-$info .= elgg_view('input/plaintext', array(
+$info .= '<label>' . \elgg_echo('label:hjalbumimage:description') . '</label>';
+$info .= \elgg_view('input/plaintext', array(
 	'name' => "files[$guid][description]",
 	'value' => $entity->description
 		));
 
-$info .= '<label>' . elgg_echo('label:hjalbumimage:tags') . '</label>';
-$info .= elgg_view('input/tags', array(
+$info .= '<label>' . \elgg_echo('label:hjalbumimage:tags') . '</label>';
+$info .= \elgg_view('input/tags', array(
 	'name' => "files[$guid][tags]",
 	'value' => $entity->tags
 		));
 
 if (HYPEGALLERY_CATEGORIES) {
-	$info .= '<label>' . elgg_echo('label:hjalbumimage:category') . '</label>';
-	$info .= elgg_view('input/gallery/categories', array(
+	$info .= '<label>' . \elgg_echo('label:hjalbumimage:category') . '</label>';
+	$info .= \elgg_view('input/gallery/categories', array(
 		'name' => "files[$guid][categories]",
 		'value' => $entity->categories
 	));
 }
 
 if (HYPEGALLERY_COPYRIGHTS) {
-	$info .= '<label>' . elgg_echo('label:hjalbumimage:copyright') . '</label>';
-	$info .= elgg_view('input/text', array(
+	$info .= '<label>' . \elgg_echo('label:hjalbumimage:copyright') . '</label>';
+	$info .= \elgg_view('input/text', array(
 		'name' => "files[$guid][copyright]",
 		'value' => $entity->copyright
 	));
 }
 
 if (HYPEGALLERY_INTERFACE_LOCATION) {
-	$info .= '<label>' . elgg_echo('label:hjalbumimage:location') . '</label>';
-	$info .= elgg_view('input/location', array(
+	$info .= '<label>' . \elgg_echo('label:hjalbumimage:location') . '</label>';
+	$info .= \elgg_view('input/location', array(
 		'name' => "files[$guid][location]",
 		'value' => $entity->location
 	));
 }
 
 if (HYPEGALLERY_INTERFACE_CALENDAR) {
-	$info .= '<label>' . elgg_echo('label:hjalbumimage:date') . '</label>';
-	$info .= elgg_view('input/date', array(
+	$info .= '<label>' . \elgg_echo('label:hjalbumimage:date') . '</label>';
+	$info .= \elgg_view('input/date', array(
 		'name' => "files[$guid][date]",
 		'value' => $entity->date
 	));
@@ -86,7 +86,7 @@ $html = <<<__HTML
 __HTML;
 
 echo $html;
-echo elgg_view('input/hidden', array(
+echo \elgg_view('input/hidden', array(
 	'name' => 'filedrop_guids[]',
 	'value' => $guid,
 ));

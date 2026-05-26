@@ -4,14 +4,14 @@ namespace hypeJunction\Gallery;
 
 use ElggObject;
 
-$logged_in = elgg_get_logged_in_user_entity();
+$logged_in = \elgg_get_logged_in_user_entity();
 $guid = get_input('container_guid', false);
 $image = get_entity($guid);
 $user_guid = get_input('relationship_guid', false);
 $title = get_input('title', false);
 
 if (!$image instanceof \ElggEntity || !$image->canEdit()) {
-	return elgg_error_response(elgg_echo('gallery:phototag:error'));
+	return \elgg_error_response(\elgg_echo('gallery:phototag:error'));
 }
 
 if (is_array($title)) {
@@ -28,7 +28,7 @@ if (is_numeric($user_guid)) {
 }
 
 if (!$title && !$user) {
-	return elgg_error_response(elgg_echo('gallery:phototag:error'));
+	return \elgg_error_response(\elgg_echo('gallery:phototag:error'));
 }
 
 $tag = new ElggObject();
@@ -48,21 +48,21 @@ $tag->y2 = get_input('y2');
 $tag->access_id = get_input('access_id');
 
 // need to bypass the access system so that we can save the tag with the tagged user being the owner
-$ia = elgg_set_ignore_access();
+$ia = \elgg_set_ignore_access();
 $saved = $tag->save();
-elgg_set_ignore_access($ia);
+\elgg_set_ignore_access($ia);
 
 if (!$saved) {
-	return elgg_error_response(elgg_echo('gallery:phototag:error'));
+	return \elgg_error_response(\elgg_echo('gallery:phototag:error'));
 }
 
 if ($user && $user->guid != $logged_in->guid) {
 	// don't notify self
 	$to = $user->guid;
 	$from = $logged_in->guid;
-	$subject = elgg_echo('gallery:user:tagged');
-	$image_link = elgg_view('output/url', array('href' => $image->getURL(), 'is_trusted' => true));
-	$message = elgg_echo('gallery:user:tagged:message', array($image_link));
+	$subject = \elgg_echo('gallery:user:tagged');
+	$image_link = \elgg_view('output/url', array('href' => $image->getURL(), 'is_trusted' => true));
+	$message = \elgg_echo('gallery:user:tagged:message', array($image_link));
 	notify_user($to, $from, $subject, $message);
 }
 
@@ -72,17 +72,17 @@ if (count($tags)) {
 		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
 	}
 }
-elgg_create_river_item(array(
+\elgg_create_river_item(array(
 	'view' => 'framework/river/stream/phototag',
 	'action_type' => 'stream:phototag',
-	'subject_guid' => elgg_get_logged_in_user_guid(),
+	'subject_guid' => \elgg_get_logged_in_user_guid(),
 	'object_guid' => $tag->guid,
 	'target_guid' => $tag->container_guid,
 	'access_id' => $tag->access_id,
 	'annotation_id' => -1,
 ));
 
-return elgg_ok_response(
-	['html' => elgg_view_entity($tag)],
-	elgg_echo('gallery:phototag:success')
+return \elgg_ok_response(
+	['html' => \elgg_view_entity($tag)],
+	\elgg_echo('gallery:phototag:success')
 );

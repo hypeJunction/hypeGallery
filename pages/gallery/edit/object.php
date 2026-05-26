@@ -15,31 +15,31 @@ foreach ($ancestry as $ancestor) {
 	if ($ancestor instanceof \ElggSite) {
 		// do nothing
 	} else if ($ancestor instanceof \ElggGroup) {
-		elgg_set_page_owner_guid($ancestor->guid);
-		elgg_push_breadcrumb($ancestor->name, $ancestor->getURL());
+		\elgg_set_page_owner_guid($ancestor->guid);
+		\elgg_push_breadcrumb($ancestor->name, $ancestor->getURL());
 	} else if ($ancestor instanceof \ElggObject) {
-		elgg_push_breadcrumb($ancestor->title, $ancestor->getURL());
+		\elgg_push_breadcrumb($ancestor->title, $ancestor->getURL());
 	}
 }
 
 $type = $entity->getType();
 $subtype = $entity->getSubtype();
 
-$title = elgg_echo("gallery:edit:$type:$subtype");
+$title = \elgg_echo("gallery:edit:$type:$subtype");
 
-elgg_push_breadcrumb($entity->title, $entity->getURL());
-elgg_push_breadcrumb($title);
+\elgg_push_breadcrumb($entity->title, $entity->getURL());
+\elgg_push_breadcrumb($title);
 
-$content = elgg_view_form("edit/$type/$subtype", array(
+$content = \elgg_view_form("edit/$type/$subtype", array(
 	'enctype' => 'multipart/form-data',
 		), array(
 	'entity' => $entity,
 		));
 
-$layout = elgg_view_layout('one_sidebar', array(
+$layout = \elgg_view_layout('one_sidebar', array(
 	'title' => $title,
 	'content' => $content,
 		));
 
-echo elgg_view_page($title, $layout);
+echo \elgg_view_page($title, $layout);
 

@@ -37,7 +37,7 @@ class GalleryPermissionsTest extends ElggCoreUnitTest {
 		$this->user_album = GalleryTestLib::createAlbum($this->owner->getGUID(), $this->owner->getGUID());
 		$this->group_album = GalleryTestLib::createAlbum($this->owner->getGUID(), $this->group->getGUID());
 
-		$this->ia = elgg_set_ignore_access(false);
+		$this->ia = \elgg_set_ignore_access(false);
 	}
 
 	/**
@@ -45,7 +45,7 @@ class GalleryPermissionsTest extends ElggCoreUnitTest {
 	 */
 	public function tearDown() {
 
-		elgg_set_ignore_access($this->ia);
+		\elgg_set_ignore_access($this->ia);
 
 		$this->group->delete();
 		$this->group_owner->delete();

@@ -11,16 +11,16 @@ use ElggFile;
  */
 function pagesetup() {
 
-	elgg_register_menu_item('site', array(
+	\elgg_register_menu_item('site', array(
 		'name' => 'gallery',
-		'text' => elgg_echo('gallery'),
+		'text' => \elgg_echo('gallery'),
 		'href' => 'gallery/dashboard/site',
 	));
 
 	// embed support
-	elgg_register_menu_item('embed', array(
+	\elgg_register_menu_item('embed', array(
 		'name' => 'albumimages',
-		'text' => elgg_echo('embed:albumimages'),
+		'text' => \elgg_echo('embed:albumimages'),
 		'priority' => 50,
 		'data' => array(
 			'options' => array(
@@ -75,7 +75,7 @@ function apply_exif_tags(\Elgg\Event $event) {
 					'zoom' => 15,
 					'addressdetails' => false,
 					'format' => 'json',
-					'email' => elgg_get_config('siteemail'),
+					'email' => \elgg_get_config('siteemail'),
 				);
 
 				$query = http_build_query($params);

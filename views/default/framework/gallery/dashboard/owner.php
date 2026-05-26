@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$page_owner = elgg_get_page_owner_entity();
+$page_owner = \elgg_get_page_owner_entity();
 
 if (!$page_owner instanceof \ElggUser) {
 	return;
@@ -16,7 +16,7 @@ switch ($display) {
 
 	default :
 	case 'albums' :
-		echo elgg_list_entities(array(
+		echo \elgg_list_entities(array(
 			'types' => 'object',
 			'subtypes' => array(hjAlbum::SUBTYPE),
 			'owner_guids' => $page_owner->guid,
@@ -32,7 +32,7 @@ switch ($display) {
 		break;
 
 	case 'photostream' :
-		echo elgg_list_entities(array(
+		echo \elgg_list_entities(array(
 			'types' => 'object',
 			'subtypes' => array(hjAlbumImage::SUBTYPE),
 			'owner_guids' => $page_owner->guid,

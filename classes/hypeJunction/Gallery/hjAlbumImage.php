@@ -47,17 +47,17 @@ class hjAlbumImage extends ElggFile {
 		switch ($action) {
 			default :
 			case 'view' :
-				$friendly_title = elgg_get_friendly_title($this->title);
-				return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
+				$friendly_title = \elgg_get_friendly_title($this->title);
+				return \elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 
 			case 'edit' :
-				return elgg_normalize_url("gallery/manage/$this->container_guid#elgg-object-$this->guid");
+				return \elgg_normalize_url("gallery/manage/$this->container_guid#elgg-object-$this->guid");
 
 			case 'delete' :
-				return elgg_add_action_tokens_to_url(elgg_normalize_url("action/gallery/delete/object?guid=$this->guid"));
+				return \elgg_add_action_tokens_to_url(\elgg_normalize_url("action/gallery/delete/object?guid=$this->guid"));
 
 			case 'download' :
-				return elgg_normalize_url("gallery/download/$this->guid");
+				return \elgg_normalize_url("gallery/download/$this->guid");
 		}
 	}
 
@@ -68,7 +68,7 @@ class hjAlbumImage extends ElggFile {
 	 * @return string
 	 */
 	public function getIconURL($size = 'medium') {
-		return elgg_normalize_url("gallery/icon/$this->guid/$size");
+		return \elgg_normalize_url("gallery/icon/$this->guid/$size");
 	}
 
 	/**
@@ -78,7 +78,7 @@ class hjAlbumImage extends ElggFile {
 	 */
 	public function delete($follow_symlinks = true) {
 
-		$icon_sizes = elgg_get_config('icon_sizes');
+		$icon_sizes = \elgg_get_config('icon_sizes');
 
 		$prefix_old = "ElggFile/$this->container_guid/$this->guid";
 		$prefix_old_alt = "ElggFile/$this->guid";
@@ -86,17 +86,17 @@ class hjAlbumImage extends ElggFile {
 
 		foreach ($icon_sizes as $size => $values) {
 			$thumb = new ElggFile();
-			$thumb->owner_guid = elgg_get_logged_in_user_guid();
+			$thumb->owner_guid = \elgg_get_logged_in_user_guid();
 			$thumb->setFilename("$prefix$size.jpg");
 			$thumb->delete();
 
 			$thumb = new ElggFile();
-			$thumb->owner_guid = elgg_get_logged_in_user_guid();
+			$thumb->owner_guid = \elgg_get_logged_in_user_guid();
 			$thumb->setFilename("$prefix_old$size.jpg");
 			$thumb->delete();
 
 			$thumb = new ElggFile();
-			$thumb->owner_guid = elgg_get_logged_in_user_guid();
+			$thumb->owner_guid = \elgg_get_logged_in_user_guid();
 			$thumb->setFilename("$prefix_old_alt$size.jpg");
 			$thumb->delete();
 		}

@@ -38,8 +38,8 @@ class GalleryEntitiesTest extends ElggCoreUnitTest
      */
     public function testSubtypeClasses()
     {
-        $album_class = elgg_get_entity_class('object', hjAlbum::SUBTYPE);
-        $image_class = elgg_get_entity_class('object', hjAlbumImage::SUBTYPE);
+        $album_class = \elgg_get_entity_class('object', hjAlbum::SUBTYPE);
+        $image_class = \elgg_get_entity_class('object', hjAlbumImage::SUBTYPE);
         $this->assertEqual($album_class, get_class(new hjAlbum()));
         $this->assertEqual($image_class, get_class(new hjAlbumImage()));
     }

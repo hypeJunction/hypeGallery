@@ -2,25 +2,25 @@
 
 namespace hypeJunction\Gallery;
 
-elgg_push_context('groups');
+\elgg_push_context('groups');
 
 register_dashboard_title_buttons('groups');
 
-$title = elgg_echo('gallery:albums:groups');
+$title = \elgg_echo('gallery:albums:groups');
 
-elgg_push_breadcrumb($title);
+\elgg_push_breadcrumb($title);
 
-$filter = elgg_view('framework/gallery/dashboard/filter', array(
+$filter = \elgg_view('framework/gallery/dashboard/filter', array(
 	'filter_context' => 'groups'
 		));
 
-$content = elgg_view('framework/gallery/dashboard/groups');
+$content = \elgg_view('framework/gallery/dashboard/groups');
 
-$sidebar = elgg_view('framework/gallery/dashboard/sidebar', array(
+$sidebar = \elgg_view('framework/gallery/dashboard/sidebar', array(
 	'dashboard' => 'groups'
 		));
 
-$layout = elgg_view_layout('content', array(
+$layout = \elgg_view_layout('content', array(
 	'title' => $title,
 	'filter' => $filter,
 	'content' => $content,
@@ -28,6 +28,6 @@ $layout = elgg_view_layout('content', array(
 	'class' => 'gallery-dashboard'
 		));
 
-echo elgg_view_page($title, $layout);
+echo \elgg_view_page($title, $layout);
 
-elgg_pop_context();
+\elgg_pop_context();

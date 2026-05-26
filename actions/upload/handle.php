@@ -10,7 +10,7 @@ $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
 if (!$album instanceof hjAlbum || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-	return elgg_error_response(elgg_echo('gallery:upload:error:noalbum'));
+	return \elgg_error_response(\elgg_echo('gallery:upload:error:noalbum'));
 }
 
 // create timestamp reference for the river entry
@@ -44,7 +44,7 @@ if ($uploads && count($uploads)) {
 	}
 }
 
-$metadata = elgg_get_metadata(array(
+$metadata = \elgg_get_metadata(array(
 	'guid' => $album->guid,
 	'limit' => 0
 		));
@@ -100,60 +100,60 @@ if ($guids) {
 }
 
 if (count($images)) {
-	elgg_register_success_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
+	\elgg_register_success_message(\elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
 }
 
 if ($failed) {
-	elgg_register_success_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
+	\elgg_register_success_message(\elgg_echo('gallery:upload:unsupportedtype', array($failed)));
 }
 
 if (count($images_pending)) {
-	elgg_register_success_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
+	\elgg_register_success_message(\elgg_echo('gallery:upload:pending', array(count($images_pending))));
 }
 
 $metadata_id = create_metadata($album->guid, "river_$posted", json_encode($images), '', $album->owner_guid, $album->access_id, true);
 
 if (count($images) && !$requires_approval) {
-	elgg_create_river_item(array(
+	\elgg_create_river_item(array(
 		'view' => 'river/object/hjalbum/update',
 		'action_type' => 'update',
-		'subject_guid' => elgg_get_logged_in_user_guid(),
+		'subject_guid' => \elgg_get_logged_in_user_guid(),
 		'object_guid' => $album->guid,
 		'access_id' => $album->access_id,
 		'posted' => $posted,
 	));
 } else {
-	$metadata = elgg_get_metadata_from_id($metadata_id);
+	$metadata = \elgg_get_metadata_from_id($metadata_id);
 	// make sure we have sufficient privileges
-	$ia = elgg_set_ignore_access(true);
+	$ia = \elgg_set_ignore_access(true);
 	$metadata->disable();
-	elgg_set_ignore_access($ia);
+	\elgg_set_ignore_access($ia);
 }
 
 if (count($images_pending)) {
 	$to = $album->owner_guid;
-	$from = elgg_get_logged_in_user_guid();
-	$subject = elgg_echo('gallery:upload:pending', array(count($images_pending)));
+	$from = \elgg_get_logged_in_user_guid();
+	$subject = \elgg_echo('gallery:upload:pending', array(count($images_pending)));
 
-	$album_link = elgg_view('output/url', array(
+	$album_link = \elgg_view('output/url', array(
 		'text' => $album->title,
 		'href' => $album->getURL(),
 		'is_trusted' => true
 	));
 
-	$manage_link = elgg_view('output/url', array(
-		'text' => elgg_echo('gallery:manage:album'),
+	$manage_link = \elgg_view('output/url', array(
+		'text' => \elgg_echo('gallery:manage:album'),
 		'href' => "gallery/manage/$album->guid",
 		'is_trusted' => true
 	));
 
-	$message = elgg_echo('gallery:upload:pending:message', array(
+	$message = \elgg_echo('gallery:upload:pending:message', array(
 		count($images_pending), $album_link, $manage_link,
 	));
 
 	notify_user($to, $from, $subject, $message);
 }
 
-if (elgg_is_xhr()) {
+if (\elgg_is_xhr()) {
 	print json_encode(array('album_guid' => $album->guid, 'image_guids' => $images));
 }

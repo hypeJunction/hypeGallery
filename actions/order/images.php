@@ -17,4 +17,4 @@ if (is_array($priorities)) {
 		}
 	}
 }
-return elgg_ok_response($reordered);
+return \elgg_ok_response($reordered);

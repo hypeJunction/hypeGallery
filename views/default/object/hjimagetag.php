@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$tag = elgg_extract('entity', $vars);
+$tag = \elgg_extract('entity', $vars);
 if (!$tag instanceof \ElggEntity) {
 	return;
 }
@@ -12,7 +12,7 @@ $image_owner = $image->getOwnerEntity();
 $tagged_user = $tag->getOwnerEntity();
 
 if ($tagged_user->guid != $image_owner->guid || empty($tag->title)) {
-	$text = elgg_view('output/img', array(
+	$text = \elgg_view('output/img', array(
 				'src' => $tagged_user->getIconURL('tiny')
 			)) . $tagged_user->name;
 	if ($tag->title) {
@@ -24,7 +24,7 @@ if ($tagged_user->guid != $image_owner->guid || empty($tag->title)) {
 	$href = '#';
 }
 
-$attr = elgg_format_attributes(array(
+$attr = \elgg_format_attributes(array(
 	'id' => "elgg-object-$tag->guid",
 	'class' => 'gallery-tag',
 	'data-guid' => $tag->guid,
@@ -33,14 +33,14 @@ $attr = elgg_format_attributes(array(
 		));
 
 echo "<div $attr>";
-echo elgg_view('output/url', array(
+echo \elgg_view('output/url', array(
 	'title' => $tag->title,
 	'href' => $href,
 	'text' => '<span>' . $text . '</span>',
 ));
 
 if ($tag->canEdit()) {
-	echo elgg_view('output/url', array(
+	echo \elgg_view('output/url', array(
 		'text' => '<i class="gallery-icon-delete icon-small"></i>',
 		'class' => 'elgg-button-gallery-tag-delete',
 		'data-guid' => $tag->guid,

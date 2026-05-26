@@ -115,8 +115,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 			if ($entity->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 				$items[] = ElggMenuItem::factory([
 					'name' => 'upload',
-					'text' => elgg_echo('gallery:upload'),
-					'title' => elgg_echo('gallery:upload'),
+					'text' => \elgg_echo('gallery:upload'),
+					'title' => \elgg_echo('gallery:upload'),
 					'href' => "gallery/upload/$entity->guid",
 					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
@@ -124,8 +124,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 				]);
 				$items[] = ElggMenuItem::factory([
 					'name' => 'manage',
-					'text' => elgg_echo('gallery:manage:album'),
-					'title' => elgg_echo('gallery:manage:album'),
+					'text' => \elgg_echo('gallery:manage:album'),
+					'title' => \elgg_echo('gallery:manage:album'),
 					'href' => "gallery/manage/$entity->guid",
 					'priority' => 400,
 				]);
@@ -134,8 +134,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 			if ($entity->canEdit()) {
 				$items[] = ElggMenuItem::factory([
 					'name' => 'edit',
-					'text' => elgg_view_icon('edit'),
-					'title' => elgg_echo('edit'),
+					'text' => \elgg_view_icon('edit'),
+					'title' => \elgg_echo('edit'),
 					'href' => $entity->getURL('edit'),
 					'link_class' => 'elgg-button-edit-entity',
 					'data-guid' => $entity->guid,
@@ -143,8 +143,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 				]);
 				$items[] = ElggMenuItem::factory([
 					'name' => 'delete',
-					'text' => elgg_view_icon('delete'),
-					'title' => elgg_echo('delete'),
+					'text' => \elgg_view_icon('delete'),
+					'title' => \elgg_echo('delete'),
 					'href' => $entity->getURL('delete'),
 					'link_class' => 'elgg-button-delete-entity',
 					'data-guid' => $entity->guid,
@@ -156,13 +156,13 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 
 		case hjAlbumImage::SUBTYPE :
 
-			if (elgg_in_context('gallery-manage')) {
+			if (\elgg_in_context('gallery-manage')) {
 
-				if (defined('HYPEGALLERY_AVATARS') && HYPEGALLERY_AVATARS && elgg_is_logged_in()) {
+				if (defined('HYPEGALLERY_AVATARS') && HYPEGALLERY_AVATARS && \elgg_is_logged_in()) {
 					$items[] = ElggMenuItem::factory([
 						'name' => 'makeavatar',
-						'text' => elgg_echo('gallery:image:makeavatar'),
-						'title' => elgg_echo('gallery:image:makeavatar'),
+						'text' => \elgg_echo('gallery:image:makeavatar'),
+						'title' => \elgg_echo('gallery:image:makeavatar'),
 						'href' => "action/gallery/makeavatar?e=$entity->guid",
 						'is_action' => true,
 						'priority' => 100,
@@ -171,14 +171,14 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 
 			} else {
 
-				if (elgg_is_logged_in()) {
+				if (\elgg_is_logged_in()) {
 
 					if (defined('HYPEGALLERY_DOWNLOADS') && HYPEGALLERY_DOWNLOADS &&
-						(elgg_is_logged_in() || (defined('HYPEGALLERY_PUBLIC_DOWNLOADS') && HYPEGALLERY_PUBLIC_DOWNLOADS))) {
+						(\elgg_is_logged_in() || (defined('HYPEGALLERY_PUBLIC_DOWNLOADS') && HYPEGALLERY_PUBLIC_DOWNLOADS))) {
 						$items[] = ElggMenuItem::factory([
 							'name' => 'download',
-							'text' => elgg_echo('gallery:image:download'),
-							'title' => elgg_echo('gallery:image:download'),
+							'text' => \elgg_echo('gallery:image:download'),
+							'title' => \elgg_echo('gallery:image:download'),
 							'href' => $entity->getURL('download'),
 							'priority' => 150,
 						]);
@@ -186,8 +186,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 
 					$items[] = ElggMenuItem::factory([
 						'name' => 'edit',
-						'text' => elgg_view_icon('edit'),
-						'title' => elgg_echo('edit'),
+						'text' => \elgg_view_icon('edit'),
+						'title' => \elgg_echo('edit'),
 						'href' => $entity->getURL('edit'),
 						'data-guid' => $entity->guid,
 						'priority' => 995,
@@ -195,8 +195,8 @@ function entity_menu_setup(\Elgg\Hook $hook) {
 
 					$items[] = ElggMenuItem::factory([
 						'name' => 'delete',
-						'text' => elgg_view_icon('delete'),
-						'title' => elgg_echo('delete'),
+						'text' => \elgg_view_icon('delete'),
+						'title' => \elgg_echo('delete'),
 						'href' => $entity->getURL('delete'),
 						'data-guid' => $entity->guid,
 						'priority' => 1000,
@@ -238,8 +238,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 	if (!$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 		$items[] = ElggMenuItem::factory([
 			'name' => 'approve',
-			'text' => '<i class="gallery-icon-approve"></i><span>' . elgg_echo('gallery:approve') . '</span>',
-			'title' => elgg_echo('gallery:approve'),
+			'text' => '<i class="gallery-icon-approve"></i><span>' . \elgg_echo('gallery:approve') . '</span>',
+			'title' => \elgg_echo('gallery:approve'),
 			'href' => "action/gallery/approve/image?guid=$entity->guid",
 			'is_action' => true,
 			'link_class' => 'elgg-button-gallery-approve',
@@ -248,8 +248,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 		]);
 		$items[] = ElggMenuItem::factory([
 			'name' => 'delete',
-			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
-			'title' => elgg_echo('delete'),
+			'text' => '<i class="gallery-icon-delete"></i><span>' . \elgg_echo('delete') . '</span>',
+			'title' => \elgg_echo('delete'),
 			'href' => $entity->getURL('delete'),
 			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
@@ -261,8 +261,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 
 		$items[] = ElggMenuItem::factory([
 			'name' => 'delete',
-			'text' => '<i class="gallery-icon-delete"></i><span>' . elgg_echo('delete') . '</span>',
-			'title' => elgg_echo('delete'),
+			'text' => '<i class="gallery-icon-delete"></i><span>' . \elgg_echo('delete') . '</span>',
+			'title' => \elgg_echo('delete'),
 			'href' => $entity->getURL('delete'),
 			'link_class' => 'elgg-button-gallery-delete',
 			'data-guid' => $entity->guid,
@@ -271,8 +271,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 
 		$items[] = ElggMenuItem::factory([
 			'name' => 'cropper',
-			'text' => '<i class="gallery-icon-cropper"></i><span>' . elgg_echo('gallery:image:cropper') . '</span>',
-			'title' => elgg_echo('gallery:image:cropper'),
+			'text' => '<i class="gallery-icon-cropper"></i><span>' . \elgg_echo('gallery:image:cropper') . '</span>',
+			'title' => \elgg_echo('gallery:image:cropper'),
 			'href' => "gallery/thumb/$entity->guid",
 			'data-guid' => $entity->guid,
 			'link_class' => 'elgg-button-gallery-cropper',
@@ -285,8 +285,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 
 		$items[] = ElggMenuItem::factory([
 			'name' => 'drag',
-			'text' => '<i class="gallery-icon-drag"></i><span>' . elgg_echo('gallery:image:reorder') . '</span>',
-			'title' => elgg_echo('gallery:image:reorder'),
+			'text' => '<i class="gallery-icon-drag"></i><span>' . \elgg_echo('gallery:image:reorder') . '</span>',
+			'title' => \elgg_echo('gallery:image:reorder'),
 			'href' => "#elgg-object-$entity->guid",
 			'link_class' => 'elgg-button-gallery-drag',
 			'priority' => 10,
@@ -295,11 +295,11 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 
 		$items[] = ElggMenuItem::factory([
 			'name' => 'position',
-			'text' => elgg_view('input/text', [
+			'text' => \elgg_view('input/text', [
 				'name' => "files[$entity->guid][priority]",
 				'value' => $entity->priority,
 			]),
-			'title' => elgg_echo('gallery:image:priority'),
+			'title' => \elgg_echo('gallery:image:priority'),
 			'href' => false,
 			'link_class' => '',
 			'priority' => 20,
@@ -308,8 +308,8 @@ function manage_album_image_menu_setup(\Elgg\Hook $hook) {
 
 		$items[] = ElggMenuItem::factory([
 			'name' => 'makecover',
-			'text' => '<i class="gallery-icon-makecover"></i><span>' . elgg_echo('gallery:image:makecover') . '</span>',
-			'title' => elgg_echo('gallery:image:makecover'),
+			'text' => '<i class="gallery-icon-makecover"></i><span>' . \elgg_echo('gallery:image:makecover') . '</span>',
+			'title' => \elgg_echo('gallery:image:makecover'),
 			'href' => "action/gallery/makecover?e=$entity->guid",
 			'is_action' => true,
 			'link_class' => 'elgg-button-gallery-makecover',
@@ -346,13 +346,13 @@ function owner_block_menu_setup(\Elgg\Hook $hook) {
 	if ($group_albums && $entity instanceof \ElggGroup && $entity->albums_enable !== 'no') {
 		$item = ElggMenuItem::factory([
 			'name' => 'group:albums',
-			'text' => elgg_echo('gallery:albums:groups'),
+			'text' => \elgg_echo('gallery:albums:groups'),
 			'href' => "gallery/group/$entity->guid",
 		]);
 	} elseif ($entity instanceof \ElggUser) {
 		$item = ElggMenuItem::factory([
 			'name' => 'user:albums',
-			'text' => elgg_echo('gallery:albums'),
+			'text' => \elgg_echo('gallery:albums'),
 			'href' => "gallery/dashboard/owner/$entity->username",
 		]);
 	} else {
@@ -380,6 +380,6 @@ function entity_icon_sizes(\Elgg\Hook $hook) {
 		return $return;
 	}
 
-	$gallery_config = elgg_get_config('gallery_icon_sizes');
+	$gallery_config = \elgg_get_config('gallery_icon_sizes');
 	return (is_array($return)) ? array_merge($return, $gallery_config) : $gallery_config;
 }

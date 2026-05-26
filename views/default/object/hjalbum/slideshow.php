@@ -5,11 +5,11 @@ namespace hypeJunction\Gallery;
 use ElggBatch;
 use stdClass;
 
-if (!elgg_is_xhr()) {
+if (!\elgg_is_xhr()) {
 	return;
 }
 
-$entity = elgg_extract('entity', $vars);
+$entity = \elgg_extract('entity', $vars);
 
 if ($entity instanceof hjAlbum) {
 	$album = $entity;

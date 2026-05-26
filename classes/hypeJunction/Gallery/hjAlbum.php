@@ -32,7 +32,7 @@ class hjAlbum extends ElggObject {
 	 */
 	public function countImages() {
 
-		return elgg_get_entities(array(
+		return \elgg_get_entities(array(
 			'types' => 'object',
 			'subtypes' => array('hjalbumimage'),
 			'container_guids' => $this->guid,
@@ -51,14 +51,14 @@ class hjAlbum extends ElggObject {
 
 			default :
 			case 'view' :
-				$friendly_title = elgg_get_friendly_title($this->title);
+				$friendly_title = \elgg_get_friendly_title($this->title);
 				return "gallery/view/$this->guid/$friendly_title";
 
 			case 'edit' :
 				return "gallery/edit/$this->guid";
 
 			case 'delete' :
-				return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
+				return \elgg_add_action_tokens_to_url(\elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
 
 			case 'manage' :
 				return "gallery/manage/$this->guid";

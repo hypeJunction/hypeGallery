@@ -6,7 +6,7 @@ if (!HYPEGALLERY_TAGGING) {
 	return;
 }
 
-$entity = elgg_extract('entity', $vars);
+$entity = \elgg_extract('entity', $vars);
 
 if (!$entity instanceof hjAlbumImage) {
 	return;
@@ -14,7 +14,7 @@ if (!$entity instanceof hjAlbumImage) {
 
 $mod .= '<div class="gallery-media-tags">';
 
-$title = elgg_echo('gallery:inthisphoto');
+$title = \elgg_echo('gallery:inthisphoto');
 
 if ($entity->canEdit()) {
 
@@ -23,7 +23,7 @@ if ($entity->canEdit()) {
 	$mod .= '<div class="tagger-close hidden"></div>';
 	$mod .= '</div>';
 
-	$form = elgg_view_form('gallery/phototag', array(
+	$form = \elgg_view_form('gallery/phototag', array(
 		'id' => 'gallery-tagger',
 			), array(
 		'entity' => $entity,
@@ -35,19 +35,19 @@ $mod .= "<div class=\"elgg-gallery gallery-tags-list\" data-guid=\"$entity->guid
 $tags = get_image_tags($entity);
 if ($tags) {
 	foreach ($tags as $tag) {
-		$mod .= elgg_view_entity($tag);
+		$mod .= \elgg_view_entity($tag);
 	}
 } else {
-	$mod .= '<p class="placeholder">' . elgg_echo('gallery:inthisphoto:none') . '</p>';
+	$mod .= '<p class="placeholder">' . \elgg_echo('gallery:inthisphoto:none') . '</p>';
 	foreach ($tags as $tag) {
-		$mod .= elgg_view_entity($tag);
+		$mod .= \elgg_view_entity($tag);
 	}
 }
 $mod .= '</div>';
 $mod .= '</div>';
 
 if ($form) {
-	echo elgg_view_module('aside', elgg_echo('gallery:image:tag:create'), $form);
+	echo \elgg_view_module('aside', \elgg_echo('gallery:image:tag:create'), $form);
 }
 
-echo elgg_view_module('aside', $title, $mod);
+echo \elgg_view_module('aside', $title, $mod);

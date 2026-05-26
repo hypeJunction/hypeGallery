@@ -21,30 +21,30 @@ function register_entity_title_buttons($entity)
         default:
             return true;
         case hjAlbum::SUBTYPE:
-            if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage') && !elgg_in_context('gallery-upload')) {
-                $items['upload'] = array('text' => elgg_echo('gallery:upload'), 'href' => "gallery/upload/{$entity->guid}", 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 400);
+            if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage') && !\elgg_in_context('gallery-upload')) {
+                $items['upload'] = array('text' => \elgg_echo('gallery:upload'), 'href' => "gallery/upload/{$entity->guid}", 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 400);
             }
-            if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage') && !elgg_in_context('gallery-manage')) {
-                $items['manage'] = array('text' => elgg_echo('gallery:manage:album'), 'href' => "gallery/manage/{$entity->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 400);
+            if ($entity->canWriteToContainer(0, 'object', 'hjalbumimage') && !\elgg_in_context('gallery-manage')) {
+                $items['manage'] = array('text' => \elgg_echo('gallery:manage:album'), 'href' => "gallery/manage/{$entity->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 400);
             }
             if ($entity->canEdit()) {
-                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
-                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity', 'data-guid' => $entity->guid, 'priority' => 1000);
+                $items['edit'] = array('text' => \elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
+                $items['delete'] = array('text' => \elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity', 'data-guid' => $entity->guid, 'priority' => 1000);
             }
             break;
         case hjAlbumImage::SUBTYPE:
-            $items['download'] = HYPEGALLERY_DOWNLOADS && (elgg_is_logged_in() || HYPEGALLERY_PUBLIC) ? array('text' => elgg_echo('gallery:image:download'), 'href' => $entity->getURL('download'), 'link_class' => 'elgg-button elgg-button-action', 'priority' => 50) : NULL;
-            $items['makeavatar'] = HYPEGALLERY_AVATARS && elgg_is_logged_in() ? array('text' => elgg_echo('gallery:image:makeavatar'), 'href' => "action/gallery/makeavatar?e={$entity->guid}", 'is_action' => true, 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100) : null;
+            $items['download'] = HYPEGALLERY_DOWNLOADS && (\elgg_is_logged_in() || HYPEGALLERY_PUBLIC) ? array('text' => \elgg_echo('gallery:image:download'), 'href' => $entity->getURL('download'), 'link_class' => 'elgg-button elgg-button-action', 'priority' => 50) : NULL;
+            $items['makeavatar'] = HYPEGALLERY_AVATARS && \elgg_is_logged_in() ? array('text' => \elgg_echo('gallery:image:makeavatar'), 'href' => "action/gallery/makeavatar?e={$entity->guid}", 'is_action' => true, 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100) : null;
             if ($entity->canEdit()) {
-                $items['edit'] = array('text' => elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
-                $items['delete'] = array('text' => elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation', 'data-guid' => $entity->guid, 'priority' => 1000);
+                $items['edit'] = array('text' => \elgg_echo('edit'), 'href' => $entity->getURL('edit'), 'link_class' => 'elgg-button elgg-button-action elgg-button-edit-entity', 'data-guid' => $entity->guid, 'priority' => 995);
+                $items['delete'] = array('text' => \elgg_echo('delete'), 'href' => $entity->getURL('delete'), 'link_class' => 'elgg-button elgg-button-delete elgg-button-delete-entity elgg-requires-confirmation', 'data-guid' => $entity->guid, 'priority' => 1000);
             }
             break;
     }
     if ($items) {
         foreach ($items as $name => $options) {
             $options['name'] = $name;
-            elgg_register_menu_item('title', $options);
+            \elgg_register_menu_item('title', $options);
         }
     }
     return true;
@@ -60,15 +60,15 @@ function register_dashboard_title_buttons($dashboard = 'site')
     switch ($dashboard) {
         case 'site':
         case 'owner':
-            if (elgg_is_logged_in()) {
-                $user = elgg_get_logged_in_user_entity();
-                elgg_register_menu_item('title', array('name' => 'create:album', 'text' => elgg_echo('gallery:create:album'), 'href' => "gallery/create/album/{$user->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100));
+            if (\elgg_is_logged_in()) {
+                $user = \elgg_get_logged_in_user_entity();
+                \elgg_register_menu_item('title', array('name' => 'create:album', 'text' => \elgg_echo('gallery:create:album'), 'href' => "gallery/create/album/{$user->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100));
             }
             break;
         case 'group':
-            $group = elgg_get_page_owner_entity();
+            $group = \elgg_get_page_owner_entity();
             if ($group->canWriteToContainer(0, 'object', 'hjalbum')) {
-                elgg_register_menu_item('title', array('name' => 'create:album', 'text' => elgg_echo('gallery:create:album'), 'href' => "gallery/create/album/{$group->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100));
+                \elgg_register_menu_item('title', array('name' => 'create:album', 'text' => \elgg_echo('gallery:create:album'), 'href' => "gallery/create/album/{$group->guid}", 'link_class' => 'elgg-button elgg-button-action', 'priority' => 100));
             }
             break;
     }
@@ -104,11 +104,11 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
                 unlink($filename);
             }
             $filestorename = $filehandler->getFilename();
-            $filestorename = elgg_substr($filestorename, elgg_strlen($prefix));
+            $filestorename = \elgg_substr($filestorename, \elgg_strlen($prefix));
         } else {
             $filehandler->setSubtype($subtype);
             $filehandler->container_guid = $container_guid;
-            $filestorename = elgg_strtolower(time() . $file['name']);
+            $filestorename = \elgg_strtolower(time() . $file['name']);
         }
         $filehandler->setFilename($prefix . $filestorename);
         $filehandler->title = $file['name'];
@@ -145,8 +145,8 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
             if ($filehandler->simpletype == "image") {
                 generate_entity_icons($filehandler);
                 // the settings tell us not to keep the original image file, so downsizing to master
-                if (elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
-                    $icon_sizes = elgg_get_config('icon_sizes');
+                if (\elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
+                    $icon_sizes = \elgg_get_config('icon_sizes');
                     $values = $icon_sizes['master'];
                     $master = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
                     $filehandler->open('write');
@@ -198,8 +198,8 @@ function prepare_files_global(array $_files, $top = TRUE)
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null)
 {
-    $icon_sizes = elgg_get_config('icon_sizes');
-    $gallery_icon_sizes = elgg_get_config('gallery_icon_sizes');
+    $icon_sizes = \elgg_get_config('icon_sizes');
+    $gallery_icon_sizes = \elgg_get_config('gallery_icon_sizes');
     $icon_sizes = array_merge($icon_sizes, $gallery_icon_sizes);
     if (!$filehandler && $entity instanceof ElggFile) {
         $filehandler = $entity;
@@ -209,16 +209,16 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null)
     }
     $prefix = "icons/" . $entity->getGUID();
     foreach ($icon_sizes as $size => $values) {
-        $w = elgg_extract('w', $values, 200);
-        $h = elgg_extract('h', $values, 200);
-        $square = elgg_extract('square', $values, true);
-        $upscale = elgg_extract('upscale', $values, false);
+        $w = \elgg_extract('w', $values, 200);
+        $h = \elgg_extract('h', $values, 200);
+        $square = \elgg_extract('square', $values, true);
+        $upscale = \elgg_extract('upscale', $values, false);
         $filepath = $filehandler->getFilenameOnFilestore();
         if (is_array($coords) && in_array($size, array('topbar', 'tiny', 'small', 'medium', 'large'))) {
-            $x1 = elgg_extract('x1', $coords, 0);
-            $y1 = elgg_extract('y1', $coords, 0);
-            $x2 = elgg_extract('x2', $coords, 0);
-            $y2 = elgg_extract('y2', $coords, 0);
+            $x1 = \elgg_extract('x1', $coords, 0);
+            $y1 = \elgg_extract('y1', $coords, 0);
+            $x2 = \elgg_extract('x2', $coords, 0);
+            $y2 = \elgg_extract('y2', $coords, 0);
             $thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, $x1, $y1, $x2, $y2, $upscale);
         } else if (!is_array($coords)) {
             $thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, 0, 0, 0, 0, $upscale);
@@ -286,9 +286,9 @@ function get_simple_type($mimetype)
 function get_permissions_options($container)
 {
     if ($container instanceof \ElggGroup) {
-        return array('private' => elgg_echo('permission:value:private'), 'group' => elgg_echo('permission:value:group'));
+        return array('private' => \elgg_echo('permission:value:private'), 'group' => \elgg_echo('permission:value:group'));
     }
-    return array('private' => elgg_echo('permission:value:private'), 'friends' => elgg_echo('permission:value:friends'), 'public' => elgg_echo('permission:value:public'));
+    return array('private' => \elgg_echo('permission:value:private'), 'friends' => \elgg_echo('permission:value:friends'), 'public' => \elgg_echo('permission:value:public'));
 }
 /**
  * Get files ordered by priority
@@ -300,7 +300,7 @@ function get_files($options = array())
 {
     $defaults = array('types' => 'object', 'count' => false, 'limit' => get_input('limit', 10), 'offset' => get_input('offset', 0), 'metadata_names' => array('simpletype'), 'order_by_metadata' => array('name' => 'priority', 'direction' => 'ASC', 'as' => 'integer'));
     $options = array_merge($defaults, $options);
-    return elgg_get_entities($options);
+    return \elgg_get_entities($options);
 }
 /**
  * Get tag objects attached to a given image
@@ -311,7 +311,7 @@ function get_files($options = array())
 function get_image_tags($entity)
 {
     $tag_params = array('type' => 'object', 'subtype' => 'hjimagetag', 'container_guid' => $entity->guid, 'limit' => 0, 'order_by' => 'e.time_created asc');
-    $tags = elgg_get_entities($tag_params);
+    $tags = \elgg_get_entities($tag_params);
     return $tags;
 }
 /**
@@ -413,11 +413,11 @@ function get_exif($entity)
                 case 'DeviceSettingDescription':
                 case 'ImageUniqueID':
                 case 'GPSAltitude':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => $value);
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => $value);
                     break;
                 case 'ExifVersion':
                 case 'FlashpixVersion':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => number_format((int) $value / 100, 2));
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => number_format((int) $value / 100, 2));
                     break;
                 case 'ExposureProgram':
                 case 'ComponentsConfiguration':
@@ -439,26 +439,26 @@ function get_exif($entity)
                 case 'SubjectDistanceRange':
                 case 'GPSAltitudeRef':
                     if (is_numeric($value)) {
-                        $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => elgg_echo("exif.{$key}.{$value}"));
+                        $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => \elgg_echo("exif.{$key}.{$value}"));
                     }
                     break;
                 case 'SubjectArea':
                 case 'SubjectLocation':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => is_array($value) ? implode(' ', $value) : $value);
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => is_array($value) ? implode(' ', $value) : $value);
                     break;
                 case 'GPSVersionID':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => is_array($value) ? implode('.', $value) : $value);
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => is_array($value) ? implode('.', $value) : $value);
                     break;
                 case 'GPSLatitude':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => exif_getGps($value, $data['GPSLatitudeRef']));
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => exif_getGps($value, $data['GPSLatitudeRef']));
                     break;
                 case 'GPSLongitude':
-                    $tags[$key] = array('label' => elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => exif_getGps($value, $data['GPSLongitudeRef']));
+                    $tags[$key] = array('label' => \elgg_echo("exif.{$key}"), 'raw' => $value, 'clean' => exif_getGps($value, $data['GPSLongitudeRef']));
                     break;
             }
         }
     }
-    return elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity, 'exif' => $exif), $tags);
+    return \elgg_trigger_plugin_hook('format:exif', 'framework:gallery', array('entity' => $entity, 'exif' => $exif), $tags);
 }
 /**
  * Helper function to convert exif GPS to proper coords
@@ -502,7 +502,7 @@ function exif_gps2Num($coordPart)
  */
 function get_icon_sizes($entity)
 {
-    $config = elgg_get_config('icon_sizes');
-    $config = elgg_trigger_plugin_hook('entity:icon:sizes', 'object', array('entity' => $entity), $config);
+    $config = \elgg_get_config('icon_sizes');
+    $config = \elgg_trigger_plugin_hook('entity:icon:sizes', 'object', array('entity' => $entity), $config);
     return $config;
 }

@@ -18,7 +18,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
     public function testAlbumOwnerCanEdit(): void {
         $owner = $this->createUser();
-        elgg_get_session()->setLoggedInUser($owner);
+        \elgg_get_session()->setLoggedInUser($owner);
 
         $album = new hjAlbum();
         $album->owner_guid = $owner->guid;
@@ -29,12 +29,12 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $this->assertTrue($album->canEdit($owner->guid));
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        \elgg_get_session()->removeLoggedInUser();
     }
 
     public function testImageInheritsAlbumAccess(): void {
         $user = $this->createUser();
-        elgg_get_session()->setLoggedInUser($user);
+        \elgg_get_session()->setLoggedInUser($user);
 
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
@@ -54,7 +54,7 @@ class PermissionsHookTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
-        elgg_get_session()->removeLoggedInUser();
+        \elgg_get_session()->removeLoggedInUser();
     }
 
     public function testHookHandlerIsCallable(): void {

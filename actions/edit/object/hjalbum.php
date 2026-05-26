@@ -4,13 +4,13 @@ namespace hypeJunction\Gallery;
 
 use ElggBatch;
 
-elgg_make_sticky_form('edit:object:hjalbum');
+\elgg_make_sticky_form('edit:object:hjalbum');
 
 // Attributes
 $guid = get_input('guid', null);
-$owner_guid = get_input('owner_guid', elgg_get_logged_in_user_guid());
-$container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
-$title = get_input('title', elgg_echo('album:untitled'));
+$owner_guid = get_input('owner_guid', \elgg_get_logged_in_user_guid());
+$container_guid = get_input('container_guid', \elgg_get_logged_in_user_guid());
+$title = get_input('title', \elgg_echo('album:untitled'));
 $description = get_input('description', '');
 $access_id = get_input('access_id', get_default_access());
 
@@ -32,7 +32,7 @@ $previous_access_id = $entity->access_id;
 $album->access_id = $access_id;
 
 if (!$album->save()) {
-	return elgg_error_response(elgg_echo('gallery:save:error'));
+	return \elgg_error_response(\elgg_echo('gallery:save:error'));
 }
 
 // Update image access if album access has changed
@@ -51,7 +51,7 @@ if ($guid && $previous_access_id !== $album->access_id) {
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = elgg_trigger_plugin_hook('geocode', 'location', array('location' => $location));
+	$coordinates = \elgg_trigger_plugin_hook('geocode', 'location', array('location' => $location));
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}
@@ -66,13 +66,13 @@ $album->save();
 
 set_input('container_guid', $album->guid);
 
-include elgg_get_root_path() . 'mod/hypegallery/actions/upload/handle.php';
-include elgg_get_root_path() . 'mod/hypegallery/actions/upload/describe.php';
+include \elgg_get_root_path() . 'mod/hypegallery/actions/upload/handle.php';
+include \elgg_get_root_path() . 'mod/hypegallery/actions/upload/describe.php';
 
-elgg_clear_sticky_form('edit:object:hjalbum');
+\elgg_clear_sticky_form('edit:object:hjalbum');
 
-return elgg_ok_response(
+return \elgg_ok_response(
 	['guid' => $album->guid],
-	elgg_echo('gallery:save:success'),
+	\elgg_echo('gallery:save:success'),
 	"gallery/manage/{$album->guid}"
 );

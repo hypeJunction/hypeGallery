@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 use ElggFile;
 use WideImage\WideImage;
 
-elgg_push_context('show_hidden_entities');
+\elgg_push_context('show_hidden_entities');
 
 $entity_guid = get_input('guid');
 $entity = get_entity($entity_guid);
@@ -41,9 +41,9 @@ if (!$contents) {
 		$square = $config[$size]['square'];
 	} else {
 		list($requested_w, $requested_h) = explode('x', $requested_size);
-		if ($requested_w && !in_array($requested_w, elgg_get_config('gallery_allowed_dynamic_width'))) {
+		if ($requested_w && !in_array($requested_w, \elgg_get_config('gallery_allowed_dynamic_width'))) {
 			exit;
-		} else if ($requested_h && !in_array($requested_h, elgg_get_config('gallery_allowed_dynamic_height'))) {
+		} else if ($requested_h && !in_array($requested_h, \elgg_get_config('gallery_allowed_dynamic_height'))) {
 			exit;
 		}
 	}
@@ -122,7 +122,7 @@ if (!$contents) {
 	$thumb->close();
 }
 
-elgg_pop_context();
+\elgg_pop_context();
 
 header("Content-type: $mime");
 header("Etag: $etag");

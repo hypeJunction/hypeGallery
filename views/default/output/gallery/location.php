@@ -2,4 +2,4 @@
 
 namespace hypeJunction\Gallery;
 
-echo elgg_view('output/location', $vars);
+echo \elgg_view('output/location', $vars);

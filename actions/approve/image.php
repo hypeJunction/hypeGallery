@@ -2,14 +2,14 @@
 
 namespace hypeJunction\Gallery;
 
-elgg_push_context('show_hidden_entities');
+\elgg_push_context('show_hidden_entities');
 
 $guid = get_input('guid');
 $entity = get_entity($guid);
 
-$error = elgg_echo('gallery:approve:error');
+$error = \elgg_echo('gallery:approve:error');
 
-$success = elgg_echo('gallery:approve:success');
+$success = \elgg_echo('gallery:approve:success');
 
 if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_approval' && $entity->getContainerEntity()->canEdit()) {
 	if ($entity->enable()) {
@@ -17,7 +17,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 		$posted = $entity->posted;
 		$river_posted = "river_$posted";
 
-		$md = elgg_get_metadata(array(
+		$md = \elgg_get_metadata(array(
 			'guid' => $entity->container_guid,
 			'metadata_names' => $river_posted,
 			'limit' => 1
@@ -26,7 +26,7 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 		if ($md) {
 			$meta = $md[0];
 			if ($meta->enable()) { // will return false if already enabled.. we want to perform this only once
-				elgg_create_river_item(array(
+				\elgg_create_river_item(array(
 					'view' => 'river/object/hjalbum/update',
 					'action_type' => 'update',
 					'subject_guid' => $entity->owner_guid,
@@ -36,16 +36,16 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 				));
 
 				$to = $entity->owner_guid;
-				$from = elgg_get_logged_in_user_guid();
-				$subject = elgg_echo('gallery:upload:approved');
+				$from = \elgg_get_logged_in_user_guid();
+				$subject = \elgg_echo('gallery:upload:approved');
 
-				$album_link = elgg_view('output/url', array(
+				$album_link = \elgg_view('output/url', array(
 					'text' => $entity->getContainerEntity()->title,
 					'href' => $entity->getContainerEntity()->getURL(),
 					'is_trusted' => true
 				));
 
-				$message = elgg_echo('gallery:upload:approved:message', array(
+				$message = \elgg_echo('gallery:upload:approved:message', array(
 					$album_link
 				));
 
@@ -57,10 +57,10 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 	}
 }
 
-elgg_pop_context();
+\elgg_pop_context();
 
 if ($error) {
-	return elgg_error_response($error);
+	return \elgg_error_response($error);
 }
 
-return elgg_ok_response(['guid' => $entity->getGUID()], $success);
+return \elgg_ok_response(['guid' => $entity->getGUID()], $success);

@@ -2,27 +2,27 @@
 
 namespace hypeJunction\Gallery;
 
-$entity = elgg_extract('entity', $vars, false);
-$full = elgg_extract('full_view', $vars, false);
-$size = elgg_extract('size', $vars, '325x200');
+$entity = \elgg_extract('entity', $vars, false);
+$full = \elgg_extract('full_view', $vars, false);
+$size = \elgg_extract('size', $vars, '325x200');
 
 if (!$entity instanceof hjAlbum) {
 	return true;
 }
 
-$title = elgg_view('output/url', array(
+$title = \elgg_view('output/url', array(
 	'text' => $entity->title,
 	'href' => $entity->getURL(),
-	'title' => elgg_strip_tags($entity->description),
+	'title' => \elgg_strip_tags($entity->description),
 	'is_trusted' => true
 		));
 
 $count = $entity->getContainedFiles(array('count' => true));
 if ($count) {
-	$cover = elgg_view_entity_icon($entity, $size);
-	$cover .= elgg_view('output/url', array(
+	$cover = \elgg_view_entity_icon($entity, $size);
+	$cover .= \elgg_view('output/url', array(
 		'text' => '<i class="gallery-icon-slideshow gallery-icon-small"></i>',
-		'title' => elgg_echo('gallery:slideshow'),
+		'title' => \elgg_echo('gallery:slideshow'),
 		'class' => 'gallery-popup',
 		'href' => '#',
 		'data-guid' => $entity->guid
@@ -33,35 +33,35 @@ if ($count) {
 
 $owner = get_entity($entity->owner_guid);
 if ($owner) {
-	$author = elgg_view('output/url', array(
-		'text' => elgg_view('output/img', array(
+	$author = \elgg_view('output/url', array(
+		'text' => \elgg_view('output/img', array(
 			'src' => $owner->getIconURL('small'),
 		)),
 		'href' => $owner->getURL(),
 		'title' => $owner->name
 	));
-	$owner_link = elgg_view('output/url', array(
+	$owner_link = \elgg_view('output/url', array(
 		'href' => $owner->getURL(),
 		'text' => $owner->name,
 		'is_trusted' => true,
 	));
 }
 
-$info_link = elgg_view('output/url', array(
+$info_link = \elgg_view('output/url', array(
 	'text' => '<i class="gallery-icon-info icon-small"></i>',
 	'href' => "#gallery-info-$entity->guid",
 	'rel' => 'toggle'
 		));
 
-$info .= elgg_view('object/hjalbum/meta', $vars);
-$info .= elgg_view('output/longtext', array(
+$info .= \elgg_view('object/hjalbum/meta', $vars);
+$info .= \elgg_view('output/longtext', array(
 	'value' => $entity->description,
 	'class' => 'gallery-description'
 		));
 
-$subtitle = elgg_echo('gallery:byline', array($owner_link, elgg_view_friendly_time($entity->time_created)));
+$subtitle = \elgg_echo('gallery:byline', array($owner_link, \elgg_view_friendly_time($entity->time_created)));
 
-$menu = elgg_view_menu('entity', array(
+$menu = \elgg_view_menu('entity', array(
 	'entity' => $entity,
 	'sort_by' => 'priority',
 	'class' => 'gallery-media-menu',
@@ -69,7 +69,7 @@ $menu = elgg_view_menu('entity', array(
 
 if (!$full) {
 
-	$summary = elgg_view('object/elements/summary', array(
+	$summary = \elgg_view('object/elements/summary', array(
 		'entity' => $entity,
 		'title' => false,
 		'subtitle' => $subtitle,
@@ -95,7 +95,7 @@ if (!$full) {
 __HTML;
 } else {
 
-	$summary = elgg_view('object/elements/summary', array(
+	$summary = \elgg_view('object/elements/summary', array(
 		'entity' => $entity,
 		'title' => $title,
 		'subtitle' => $subtitle,
