@@ -17,7 +17,7 @@ class AlbumImageEntityTest extends IntegrationTestCase {
     }
 
     private function makeAlbum($user): hjAlbum {
-        _elgg_services()->session_manager->setLoggedInUser($user);
+        \_elgg_services()->session_manager->setLoggedInUser($user);
         $album = new hjAlbum();
         $album->owner_guid = $user->guid;
         $album->container_guid = $user->guid;
@@ -29,7 +29,7 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
     public function testImageClassMapping(): void {
         $user = $this->createUser();
-        _elgg_services()->session_manager->setLoggedInUser($user);
+        \_elgg_services()->session_manager->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -39,7 +39,7 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         $image->title = 'photo.jpg';
         $this->assertNotFalse($image->save());
 
-        _elgg_services()->entityCache->delete($image->guid);
+        \_elgg_services()->entityCache->delete($image->guid);
         $loaded = get_entity($image->guid);
 
         $this->assertInstanceOf(hjAlbumImage::class, $loaded);
@@ -47,12 +47,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
-        _elgg_services()->session_manager->removeLoggedInUser();
+        \_elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testImageSaveAssignsDefaultPriority(): void {
         $user = $this->createUser();
-        _elgg_services()->session_manager->setLoggedInUser($user);
+        \_elgg_services()->session_manager->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -66,12 +66,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
-        _elgg_services()->session_manager->removeLoggedInUser();
+        \_elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testAlbumCountImagesAfterAdd(): void {
         $user = $this->createUser();
-        _elgg_services()->session_manager->setLoggedInUser($user);
+        \_elgg_services()->session_manager->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image1 = new hjAlbumImage();
@@ -93,12 +93,12 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         $image1->delete();
         $image2->delete();
         $album->delete();
-        _elgg_services()->session_manager->removeLoggedInUser();
+        \_elgg_services()->session_manager->removeLoggedInUser();
     }
 
     public function testImageUrlsContainGuid(): void {
         $user = $this->createUser();
-        _elgg_services()->session_manager->setLoggedInUser($user);
+        \_elgg_services()->session_manager->setLoggedInUser($user);
         $album = $this->makeAlbum($user);
 
         $image = new hjAlbumImage();
@@ -113,6 +113,6 @@ class AlbumImageEntityTest extends IntegrationTestCase {
 
         $image->delete();
         $album->delete();
-        _elgg_services()->session_manager->removeLoggedInUser();
+        \_elgg_services()->session_manager->removeLoggedInUser();
     }
 }

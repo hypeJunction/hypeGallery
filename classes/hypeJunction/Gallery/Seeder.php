@@ -67,7 +67,7 @@ class Seeder extends Seed {
 	 * {@inheritdoc}
 	 */
 	public function unseed() {
-		$images = elgg_get_entities([
+		$images = \elgg_get_entities([
 			'type' => 'object',
 			'subtype' => hjAlbumImage::SUBTYPE,
 			'limit' => false,
@@ -79,7 +79,7 @@ class Seeder extends Seed {
 			$this->advance();
 		}
 
-		$albums = elgg_get_entities([
+		$albums = \elgg_get_entities([
 			'type' => 'object',
 			'subtype' => hjAlbum::SUBTYPE,
 			'limit' => false,

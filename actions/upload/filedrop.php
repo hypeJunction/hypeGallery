@@ -15,7 +15,7 @@ $uploads = UploadHandler::handle('dropzone', [
 
 $output = [];
 
-if (elgg_is_xhr()) {
+if (\elgg_is_xhr()) {
 	$name = get_input('input_name');
 	foreach ($uploads as $upload) {
 		$messages = [];
@@ -26,24 +26,24 @@ if (elgg_is_xhr()) {
 			$success = false;
 			$guid = false;
 		} else {
-			$messages[] = elgg_echo('gallery:upload:success');
+			$messages[] = \elgg_echo('gallery:upload:success');
 		}
 
 		$image = $upload->file;
 		if (!$image instanceof \ElggEntity) {
-			$messages[] = elgg_echo('gallery:upload:error');
+			$messages[] = \elgg_echo('gallery:upload:error');
 			$success = false;
 			$guid = false;
 		} else if ($image->simpletype !== 'image') {
 			$image->delete();
-			$messages[] = elgg_echo('gallery:upload:unsupportedtype');
+			$messages[] = \elgg_echo('gallery:upload:unsupportedtype');
 			$success = false;
 			$guid = false;
 		}
 
 		if ($success) {
 			if ($album) {
-				$metadata = elgg_get_metadata([
+				$metadata = \elgg_get_metadata([
 					'guid' => $album->guid,
 					'limit' => 0
 				]);
@@ -65,7 +65,7 @@ if (elgg_is_xhr()) {
 
 			if ($image->save()) {
 				$guid = $image->getGUID();
-				$html = elgg_view('forms/edit/object/hjalbumimage', [
+				$html = \elgg_view('forms/edit/object/hjalbumimage', [
 					'entity' => $image
 				]);
 			}
@@ -78,10 +78,10 @@ if (elgg_is_xhr()) {
 			'html' => $html,
 		];
 
-		$output[] = elgg_trigger_event_results('upload:after', 'dropzone', [
+		$output[] = \elgg_trigger_event_results('upload:after', 'dropzone', [
 			'upload' => $upload,
 		], $file_output);
 	}
 }
 
-return elgg_ok_response($output ?? []);
+return \elgg_ok_response($output ?? []);

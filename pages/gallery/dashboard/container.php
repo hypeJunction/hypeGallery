@@ -4,19 +4,19 @@ namespace hypeJunction\Gallery;
 
 register_dashboard_title_buttons('container');
 
-$container = elgg_get_page_owner_entity();
+$container = \elgg_get_page_owner_entity();
 $name = ($container instanceof \ElggObject) ? $container->title : $container->name;
-$title = elgg_echo('gallery:albums:owner', [$name]);
+$title = \elgg_echo('gallery:albums:owner', [$name]);
 
-elgg_push_breadcrumb($container->name, "gallery/container/$container->guid");
+\elgg_push_breadcrumb($container->name, "gallery/container/$container->guid");
 
-$content = elgg_view('framework/gallery/dashboard/container');
+$content = \elgg_view('framework/gallery/dashboard/container');
 
-$sidebar = elgg_view('framework/gallery/dashboard/sidebar', [
+$sidebar = \elgg_view('framework/gallery/dashboard/sidebar', [
 	'dashboard' => 'container'
 ]);
 
-$layout = elgg_view_layout('content', [
+$layout = \elgg_view_layout('content', [
 	'title' => $title,
 	'filter' => false,
 	'content' => $content,
@@ -24,4 +24,4 @@ $layout = elgg_view_layout('content', [
 	'class' => 'gallery-dashboard'
 ]);
 
-echo elgg_view_page($title, $layout);
+echo \elgg_view_page($title, $layout);

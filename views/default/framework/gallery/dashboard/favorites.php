@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$page_owner = elgg_get_page_owner_entity();
+$page_owner = \elgg_get_page_owner_entity();
 echo '<div id="gallery-dashboard-favorites">';
-echo elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbum::SUBTYPE, hjAlbumImage::SUBTYPE], 'annotation_names' => ['likes'], 'annotation_owner_guids' => $page_owner->guid, 'full_view' => false, 'list_type' => get_input('list_type', 'gallery'), 'list_type_toggle' => true, 'gallery_class' => 'gallery-photostream', 'pagination' => true, 'limit' => get_input('limit', 20), 'offset' => get_input('offset-albums', 0), 'offset_key' => 'offset-albums']);
+echo \elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbum::SUBTYPE, hjAlbumImage::SUBTYPE], 'annotation_names' => ['likes'], 'annotation_owner_guids' => $page_owner->guid, 'full_view' => false, 'list_type' => get_input('list_type', 'gallery'), 'list_type_toggle' => true, 'gallery_class' => 'gallery-photostream', 'pagination' => true, 'limit' => get_input('limit', 20), 'offset' => get_input('offset-albums', 0), 'offset_key' => 'offset-albums']);
 echo '</div>';

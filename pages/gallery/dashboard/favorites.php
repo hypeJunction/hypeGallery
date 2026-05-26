@@ -4,28 +4,28 @@ namespace hypeJunction\Gallery;
 
 register_dashboard_title_buttons('favorites');
 
-$viewer = elgg_get_logged_in_user_entity();
-$page_owner = elgg_get_page_owner_entity();
+$viewer = \elgg_get_logged_in_user_entity();
+$page_owner = \elgg_get_page_owner_entity();
 
 if ($page_owner->guid == $viewer->guid) {
-	$title = elgg_echo('gallery:albums:favorites:mine');
+	$title = \elgg_echo('gallery:albums:favorites:mine');
 } else {
-	$title = elgg_echo('gallery:albums:favorites:owner', [$page_owner->name]);
+	$title = \elgg_echo('gallery:albums:favorites:owner', [$page_owner->name]);
 }
 
-elgg_push_breadcrumb($title);
+\elgg_push_breadcrumb($title);
 
-$filter = elgg_view('framework/gallery/dashboard/filter', [
+$filter = \elgg_view('framework/gallery/dashboard/filter', [
 	'filter_context' => 'favorites'
 ]);
 
-$content = elgg_view('framework/gallery/dashboard/favorites');
+$content = \elgg_view('framework/gallery/dashboard/favorites');
 
-$sidebar = elgg_view('framework/gallery/dashboard/sidebar', [
+$sidebar = \elgg_view('framework/gallery/dashboard/sidebar', [
 	'dashboard' => 'favorites'
 ]);
 
-$layout = elgg_view_layout('content', [
+$layout = \elgg_view_layout('content', [
 	'title' => $title,
 	'filter' => $filter,
 	'content' => $content,
@@ -33,4 +33,4 @@ $layout = elgg_view_layout('content', [
 	'class' => 'gallery-dashboard'
 ]);
 
-echo elgg_view_page($title, $layout);
+echo \elgg_view_page($title, $layout);

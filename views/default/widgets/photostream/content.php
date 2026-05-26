@@ -2,9 +2,9 @@
 
 namespace hypeJunction\Gallery;
 
-$entity = elgg_extract('entity', $vars);
+$entity = \elgg_extract('entity', $vars);
 $owner = $entity->getOwnerEntity();
-if (elgg_in_context('dashboard')) {
+if (\elgg_in_context('dashboard')) {
 	$owner_guids = ELGG_ENTITIES_ANY_VALUE;
 	$container_guids = ELGG_ENTITIES_ANY_VALUE;
 	$more_url = '/gallery';
@@ -33,19 +33,19 @@ $options = [
 	//'item_class' => 'elgg-photo mas',
 ];
 
-elgg_push_context('activity');
-$content = elgg_list_entities($options);
-elgg_pop_context();
+\elgg_push_context('activity');
+$content = \elgg_list_entities($options);
+\elgg_pop_context();
 
 echo $content;
 
 if ($content) {
-	$more_link = elgg_view('output/url', [
+	$more_link = \elgg_view('output/url', [
 		'href' => $more_url,
-		'text' => elgg_echo('gallery:widget:more'),
+		'text' => \elgg_echo('gallery:widget:more'),
 		'is_trusted' => true,
 	]);
 	echo "<span class=\"elgg-widget-more\">$more_link</span>";
 } else {
-	echo elgg_echo('gallery:widget:none');
+	echo \elgg_echo('gallery:widget:none');
 }

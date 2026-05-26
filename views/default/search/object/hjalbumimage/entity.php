@@ -18,8 +18,8 @@ namespace hypeJunction\Gallery;
 
 $entity = $vars['entity'];
 
-$icon = elgg_view_entity_icon($entity->getOwnerEntity(), 'tiny');
-$image = elgg_view_entity_icon($entity, 'small');
+$icon = \elgg_view_entity_icon($entity->getOwnerEntity(), 'tiny');
+$image = \elgg_view_entity_icon($entity, 'small');
 
 $title = $entity->getVolatileData('search_matched_title');
 $description = $entity->getVolatileData('search_matched_description');
@@ -35,7 +35,7 @@ $time = $entity->getVolatileData('search_time');
 if (!$time) {
 	$tc = $entity->time_created;
 	$tu = $entity->time_updated;
-	$time = elgg_view_friendly_time(($tu > $tc) ? $tu : $tc);
+	$time = \elgg_view_friendly_time(($tu > $tc) ? $tu : $tc);
 }
 
 $body = "<p class=\"mbn\">$title</p>$description";
@@ -46,6 +46,6 @@ if ($extra_info) {
 
 $body .= "<p class=\"elgg-subtext\">$time</p>";
 
-echo elgg_view_image_block($icon, $body, [
+echo \elgg_view_image_block($icon, $body, [
 	'image_alt' => $image
 ]);
