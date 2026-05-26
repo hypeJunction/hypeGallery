@@ -2,23 +2,23 @@
 
 namespace hypeJunction\Gallery;
 
-$filter_context = elgg_extract('filter_context', $vars, 'site');
+$filter_context = \elgg_extract('filter_context', $vars, 'site');
 
-$viewer = elgg_get_page_owner_entity();
+$viewer = \elgg_get_page_owner_entity();
 if (!$viewer instanceof \ElggUser) {
-	$viewer = elgg_get_logged_in_user_entity();
+	$viewer = \elgg_get_logged_in_user_entity();
 }
 
-if (elgg_is_logged_in()) {
+if (\elgg_is_logged_in()) {
 	$tabs = [
 		'mine' => [
-			'text' => elgg_echo('gallery:albums:mine'),
+			'text' => \elgg_echo('gallery:albums:mine'),
 			'href' => "gallery/dashboard/owner/$viewer->username",
 			'selected' => ($filter_context == 'owner'),
 			'priority' => 200,
 		],
 		'friends' => [
-			'text' => elgg_echo('gallery:albums:friends'),
+			'text' => \elgg_echo('gallery:albums:friends'),
 			'href' => "gallery/dashboard/friends/$viewer->username",
 			'selected' => ($filter_context == 'friends'),
 			'priority' => 300,
@@ -27,7 +27,7 @@ if (elgg_is_logged_in()) {
 
 	if (HYPEGALLERY_GROUP_ALBUMS) {
 		$tabs['groups'] = [
-			'text' => elgg_echo('gallery:albums:groups'),
+			'text' => \elgg_echo('gallery:albums:groups'),
 			'href' => "gallery/dashboard/groups/$viewer->username",
 			'selected' => ($filter_context == 'groups'),
 			'priority' => 400,
@@ -36,7 +36,7 @@ if (elgg_is_logged_in()) {
 
 	if (HYPEGALLERY_FAVORITES) {
 		$tabs['favorites'] = [
-			'text' => elgg_echo('gallery:albums:favorites'),
+			'text' => \elgg_echo('gallery:albums:favorites'),
 			'href' => "gallery/dashboard/favorites/$viewer->username",
 			'selected' => ($filter_context == 'favorites'),
 			'priority' => 500,
@@ -45,7 +45,7 @@ if (elgg_is_logged_in()) {
 }
 
 $tabs['site'] = [
-	'text' => elgg_echo('gallery:albums:all'),
+	'text' => \elgg_echo('gallery:albums:all'),
 	'href' => 'gallery/dashboard/site',
 	'selected' => ($filter_context == 'site'),
 	'priority' => 100,
@@ -54,8 +54,8 @@ $tabs['site'] = [
 foreach ($tabs as $name => $tab) {
 	if ($tab) {
 		$tab['name'] = $name;
-		elgg_register_menu_item('filter', $tab);
+		\elgg_register_menu_item('filter', $tab);
 	}
 }
 
-echo elgg_view_menu('filter', ['sort_by' => 'priority', 'class' => 'elgg-menu-hz']);
+echo \elgg_view_menu('filter', ['sort_by' => 'priority', 'class' => 'elgg-menu-hz']);

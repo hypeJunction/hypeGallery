@@ -2,14 +2,14 @@
 
 namespace hypeJunction\Gallery;
 
-$page_owner = elgg_get_page_owner_entity();
+$page_owner = \elgg_get_page_owner_entity();
 if (!$page_owner instanceof \ElggUser || !$page_owner->canEdit()) {
 	return;
 }
 
-$groups = elgg_get_entities(['types' => 'group', 'relationship' => 'member', 'relationship_guid' => $page_owner->guid, 'limit' => 0]);
+$groups = \elgg_get_entities(['types' => 'group', 'relationship' => 'member', 'relationship_guid' => $page_owner->guid, 'limit' => 0]);
 if (!$groups) {
-	echo '<p>' . elgg_echo('gallery:nogroups') . '</p>';
+	echo '<p>' . \elgg_echo('gallery:nogroups') . '</p>';
 	return true;
 }
 
@@ -22,10 +22,10 @@ echo '<div id="gallery-dashboard-groups">';
 switch ($display) {
 	default:
 	case 'albums':
-		echo elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbum::SUBTYPE], 'container_guids' => $group_guids, 'full_view' => false, 'list_type' => get_input('list_type', 'gallery'), 'list_type_toggle' => true, 'gallery_class' => 'gallery-photostream', 'pagination' => true, 'limit' => get_input('limit', 20), 'offset' => get_input('offset-albums', 0), 'offset_key' => 'offset-albums']);
+		echo \elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbum::SUBTYPE], 'container_guids' => $group_guids, 'full_view' => false, 'list_type' => get_input('list_type', 'gallery'), 'list_type_toggle' => true, 'gallery_class' => 'gallery-photostream', 'pagination' => true, 'limit' => get_input('limit', 20), 'offset' => get_input('offset-albums', 0), 'offset_key' => 'offset-albums']);
 		break;
 	case 'photostream':
-		echo elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbumImage::SUBTYPE], 'owner_guids' => $page_owner->guid, 'wheres' => [
+		echo \elgg_list_entities(['types' => 'object', 'subtypes' => [hjAlbumImage::SUBTYPE], 'owner_guids' => $page_owner->guid, 'wheres' => [
 			function (\Elgg\Database\QueryBuilder $qb, $main_alias) use ($group_guids) {
 				$album_alias = $qb->joinEntitiesTable($main_alias, 'container_guid', 'inner', 'albcont');
 				return $qb->compare("{$album_alias}.container_guid", 'IN', $group_guids, ELGG_VALUE_INTEGER);

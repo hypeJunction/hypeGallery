@@ -11,7 +11,7 @@ switch ($search_type) {
 	case 'tag':
 		// In Elgg 3.0 metastrings table was removed; tag values are stored
 		// directly in the metadata table value column.
-		$tags = elgg_get_tags([
+		$tags = \elgg_get_tags([
 			'limit' => 20,
 			'wheres' => [
 				function (\Elgg\Database\QueryBuilder $qb) use ($term) {
@@ -28,11 +28,11 @@ switch ($search_type) {
 		break;
 
 	case 'friend':
-		$logged_in = elgg_get_logged_in_user_entity();
+		$logged_in = \elgg_get_logged_in_user_entity();
 
 		// In Elgg 3.0 users_entity subtable was removed; name is now on the
 		// entities table.  Use the built-in search_name_value_pairs option.
-		$users = elgg_get_entities([
+		$users = \elgg_get_entities([
 			'types' => 'user',
 			'limit' => 20,
 			'relationship' => 'friend',

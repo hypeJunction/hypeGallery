@@ -28,7 +28,7 @@ class hjAlbum extends ElggObject {
 	 * @return mixed
 	 */
 	public function countImages() {
-		return elgg_get_entities([
+		return \elgg_get_entities([
 			'types' => 'object',
 			'subtypes' => ['hjalbumimage'],
 			'container_guids' => $this->guid,
@@ -42,8 +42,8 @@ class hjAlbum extends ElggObject {
 	 * @return string
 	 */
 	public function getURL(): string {
-		$friendly_title = elgg_get_friendly_title($this->title);
-		return elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
+		$friendly_title = \elgg_get_friendly_title($this->title);
+		return \elgg_normalize_url("gallery/view/$this->guid/$friendly_title");
 	}
 
 	/**
@@ -60,13 +60,13 @@ class hjAlbum extends ElggObject {
 				return $this->getURL();
 
 			case 'edit':
-				return elgg_normalize_url("gallery/edit/$this->guid");
+				return \elgg_normalize_url("gallery/edit/$this->guid");
 
 			case 'delete':
-				return elgg_add_action_tokens_to_url(elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
+				return \elgg_add_action_tokens_to_url(\elgg_get_site_url() . "action/gallery/delete/object?guid=$this->guid");
 
 			case 'manage':
-				return elgg_normalize_url("gallery/manage/$this->guid");
+				return \elgg_normalize_url("gallery/manage/$this->guid");
 		}
 	}
 

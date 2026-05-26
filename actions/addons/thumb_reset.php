@@ -9,7 +9,7 @@ $guid = get_input('guid');
 $entity = get_entity($guid);
 
 if (!$entity instanceof ElggFile || !$entity->canEdit()) {
-	return elgg_error_response(elgg_echo('gallery:tools:crop:error'));
+	return \elgg_error_response(\elgg_echo('gallery:tools:crop:error'));
 }
 
 $icon_sizes = get_icon_sizes($entity);
@@ -20,7 +20,7 @@ $result = IconHandler::makeIcons($entity, null, [
 ]);
 
 if (!$result) {
-	return elgg_error_response(elgg_echo('gallery:tools:crop:error'));
+	return \elgg_error_response(\elgg_echo('gallery:tools:crop:error'));
 }
 
-return elgg_ok_response([], elgg_echo('gallery:tools:crop:success'));
+return \elgg_ok_response([], \elgg_echo('gallery:tools:crop:success'));

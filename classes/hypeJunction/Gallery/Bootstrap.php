@@ -26,7 +26,7 @@ class Bootstrap extends PluginBootstrap {
 	 * {@inheritdoc}
 	 */
 	public function init() {
-		elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
+		\elgg_register_event_handler('seeds', 'database', [Seeder::class, 'addSeed']);
 	}
 
 	/**

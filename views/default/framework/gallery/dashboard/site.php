@@ -9,7 +9,7 @@ echo '<div id="gallery-dashboard">';
 switch ($display) {
 	default:
 	case 'albums':
-		echo elgg_list_entities([
+		echo \elgg_list_entities([
 			'types' => 'object',
 			'subtypes' => [hjAlbum::SUBTYPE],
 			'full_view' => false,
@@ -24,7 +24,7 @@ switch ($display) {
 		break;
 
 	case 'photostream':
-		echo elgg_list_entities([
+		echo \elgg_list_entities([
 			'types' => 'object',
 			'subtypes' => [hjAlbumImage::SUBTYPE],
 			'list_type' => get_input('list_type', 'gallery'),

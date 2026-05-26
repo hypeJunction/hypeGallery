@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$entity = elgg_extract('entity', $vars);
+$entity = \elgg_extract('entity', $vars);
 
 if (!$entity instanceof \ElggEntity) {
 	return;
@@ -10,19 +10,19 @@ if (!$entity instanceof \ElggEntity) {
 
 $meta = [];
 if (HYPEGALLERY_CATEGORIES) {
-	$meta[] = elgg_view('output/gallery/categories', ['value' => $entity->categories]);
+	$meta[] = \elgg_view('output/gallery/categories', ['value' => $entity->categories]);
 }
 
 if (HYPEGALLERY_COPYRIGHTS) {
-	$meta[] = elgg_view('output/text', ['value' => $entity->copyright]);
+	$meta[] = \elgg_view('output/text', ['value' => $entity->copyright]);
 }
 
 if (HYPEGALLERY_INTERFACE_LOCATION) {
-	$meta[] = elgg_view('output/location', ['value' => $entity->location]);
+	$meta[] = \elgg_view('output/location', ['value' => $entity->location]);
 }
 
 if (HYPEGALLERY_INTERFACE_CALENDAR) {
-	$meta[] = elgg_view('output/date', ['value' => $entity->date]);
+	$meta[] = \elgg_view('output/date', ['value' => $entity->date]);
 }
 
 echo '<ul class="gallery-media-meta-details elgg-subtext">';

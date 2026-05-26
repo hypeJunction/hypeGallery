@@ -11,9 +11,9 @@ use ElggFile;
  */
 function pagesetup() {
 
-	elgg_register_menu_item('site', [
+	\elgg_register_menu_item('site', [
 		'name' => 'gallery',
-		'text' => elgg_echo('gallery'),
+		'text' => \elgg_echo('gallery'),
 		'href' => 'gallery/dashboard/site',
 	]);
 }
@@ -65,7 +65,7 @@ function apply_exif_tags(\Elgg\Event $event) {
 					'zoom' => 15,
 					'addressdetails' => false,
 					'format' => 'json',
-					'email' => elgg_get_config('siteemail'),
+					'email' => \elgg_get_config('siteemail'),
 				];
 
 				$query = http_build_query($params);

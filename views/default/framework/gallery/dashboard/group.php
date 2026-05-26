@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-$page_owner = elgg_get_page_owner_entity();
+$page_owner = \elgg_get_page_owner_entity();
 
 if (!$page_owner instanceof \ElggGroup) {
 	return;
@@ -15,7 +15,7 @@ echo '<div id="gallery-dashboard-group">';
 switch ($display) {
 	default:
 	case 'albums':
-		echo elgg_list_entities([
+		echo \elgg_list_entities([
 			'types' => 'object',
 			'subtypes' => [hjAlbum::SUBTYPE],
 			'container_guids' => $page_owner->guid,
@@ -31,7 +31,7 @@ switch ($display) {
 		break;
 
 	case 'photostream':
-		echo elgg_list_entities([
+		echo \elgg_list_entities([
 			'types' => 'object',
 			'subtypes' => [hjAlbumImage::SUBTYPE],
 			'container_guids' => $page_owner->guid,

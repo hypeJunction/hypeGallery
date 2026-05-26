@@ -8,11 +8,11 @@ gatekeeper();
 
 $file_guid = get_input('e');
 $file = get_entity($file_guid);
-$owner = elgg_get_logged_in_user_entity();
+$owner = \elgg_get_logged_in_user_entity();
 
 $filename = $file->getFilenameOnFilestore();
 
-$icon_sizes = elgg_get_config('icon_sizes');
+$icon_sizes = \elgg_get_config('icon_sizes');
 
 // get the images and save their file handlers into an array
 // so we can do clean up if one fails.
@@ -35,7 +35,7 @@ foreach ($icon_sizes as $name => $sinfo) {
 			$file->delete();
 		}
 
-		return elgg_error_response(elgg_echo('avatar:resize:fail'));
+		return \elgg_error_response(\elgg_echo('avatar:resize:fail'));
 	}
 }
 
@@ -46,10 +46,10 @@ $owner->y1 = 0;
 $owner->y2 = 0;
 
 $owner->icontime = time();
-if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
+if (\elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	$view = 'river/user/default/profileiconupdate';
-	elgg_delete_river(['subject_guid' => $owner->guid, 'view' => $view]);
-	elgg_create_river_item([
+	\elgg_delete_river(['subject_guid' => $owner->guid, 'view' => $view]);
+	\elgg_create_river_item([
 		'view' => $view,
 		'action_type' => 'update',
 		'subject_guid' => $owner->guid,
@@ -57,8 +57,8 @@ if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	]);
 }
 
-return elgg_ok_response(
+return \elgg_ok_response(
 	[],
-	elgg_echo('avatar:upload:success'),
-	elgg_generate_url('avatar:edit', ['username' => $owner->username])
+	\elgg_echo('avatar:upload:success'),
+	\elgg_generate_url('avatar:edit', ['username' => $owner->username])
 );
