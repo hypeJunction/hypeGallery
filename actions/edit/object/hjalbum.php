@@ -32,7 +32,7 @@ $previous_access_id = $entity->access_id;
 $album->access_id = $access_id;
 
 if (!$album->save()) {
-	elgg_register_error_message(elgg_echo('gallery:save:error'));
+	register_error(elgg_echo('gallery:save:error'));
 	forward(REFERER);
 } else {
 	// Update image access if album access has changed
@@ -48,7 +48,7 @@ if (!$album->save()) {
 			$image->save();
 		}
 	}
-	elgg_register_success_message(elgg_echo('gallery:save:success'));
+	system_message(elgg_echo('gallery:save:success'));
 }
 
 if ($location) {

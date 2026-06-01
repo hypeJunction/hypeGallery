@@ -10,7 +10,7 @@ $album_guid = get_input('container_guid');
 $album = get_entity($album_guid);
 
 if (!$album instanceof hjAlbum || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
-	elgg_register_error_message('gallery:upload:error:noalbum');
+	register_error('gallery:upload:error:noalbum');
 	forward(REFERER);
 }
 
@@ -101,15 +101,15 @@ if ($guids) {
 }
 
 if (count($images)) {
-	elgg_register_success_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
+	system_message(elgg_echo('gallery:upload:imagesuploaded', array(count($images))));
 }
 
 if ($failed) {
-	elgg_register_success_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
+	system_message(elgg_echo('gallery:upload:unsupportedtype', array($failed)));
 }
 
 if (count($images_pending)) {
-	elgg_register_success_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
+	system_message(elgg_echo('gallery:upload:pending', array(count($images_pending))));
 }
 
 $metadata_id = create_metadata($album->guid, "river_$posted", json_encode($images), '', $album->owner_guid, $album->access_id, true);

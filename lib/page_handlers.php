@@ -209,12 +209,12 @@ function page_handler($page) {
 		case 'download':
 
 			if (!HYPEGALLERY_DOWNLOADS) {
-				elgg_register_error_message(elgg_echo('gallery:download:error:disabled'));
+				register_error(elgg_echo('gallery:download:error:disabled'));
 				forward('', '403');
 			}
 
 			if (!elgg_is_logged_in() && !HYPEGALLERY_PUBLIC_DOWNLOADS) {
-				elgg_register_error_message(elgg_echo('gallery:download:error:disabled_public'));
+				register_error(elgg_echo('gallery:download:error:disabled_public'));
 				forward('', '403');
 			}
 
