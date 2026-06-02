@@ -31,15 +31,24 @@ class RiverMetadataDecoderTest extends UnitTestCase {
         return $decoded;
     }
 
+    /**
+     * @return void
+     */
     public function testDecodeJsonArrayOfGuids(): void {
         $result = $this->decode(json_encode([10, 11, 12]));
         $this->assertSame([10, 11, 12], $result);
     }
 
+    /**
+     * @return void
+     */
     public function testDecodeEmptyStringReturnsEmptyArray(): void {
         $this->assertSame([], $this->decode(''));
     }
 
+    /**
+     * @return void
+     */
     public function testDecodeInvalidReturnsEmptyArray(): void {
         $this->assertSame([], $this->decode('not-json'));
     }
@@ -55,6 +64,9 @@ class RiverMetadataDecoderTest extends UnitTestCase {
         $this->assertSame([], $result);
     }
 
+    /**
+     * @return void
+     */
     public function testLegacySerializedArrayIsRejected(): void {
         // Legacy serialize()d arrays are not decoded — production data must
         // be migrated to JSON by the EncodeRiverMetadataAsJson upgrade batch.

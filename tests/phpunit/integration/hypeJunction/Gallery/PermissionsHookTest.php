@@ -12,10 +12,16 @@ class PermissionsHookTest extends IntegrationTestCase {
     public function up() {}
     public function down() {}
 
+    /**
+     * @return string
+     */
     public function getPluginID(): string {
         return '';
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumOwnerCanEdit(): void {
         $owner = $this->createUser();
         \elgg_get_session()->setLoggedInUser($owner);
@@ -32,6 +38,9 @@ class PermissionsHookTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testImageInheritsAlbumAccess(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -57,6 +66,9 @@ class PermissionsHookTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testHookHandlerIsCallable(): void {
         // \Elgg\Hook is an INTERFACE — mock it rather than instantiate.
         $hook = $this->getMockBuilder(\Elgg\Hook::class)->getMock();

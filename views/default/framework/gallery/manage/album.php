@@ -2,7 +2,7 @@
 
 namespace hypeJunction\Gallery;
 
-\elgg_load_css('cropper');
+\elgg_load_external_file('css', 'cropper');
 $entity = \elgg_extract('entity', $vars);
 $summary = \elgg_view('object/hjalbum/gallery', array('size' => '800x200', 'full_view' => true, 'entity' => $entity));
 $collab_album = false;

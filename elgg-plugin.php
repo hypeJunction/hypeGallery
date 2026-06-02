@@ -70,4 +70,9 @@ return [
 			'framework/gallery/tools/tagger' => [],
 		],
 	],
+    'cli' => [
+        'commands' => [
+            \hypeJunction\Cli\DoctorCommand::class,
+        ],
+    ],
 ];

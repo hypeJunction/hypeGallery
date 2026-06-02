@@ -12,11 +12,17 @@ class AlbumEntityTest extends IntegrationTestCase {
     public function up() {}
     public function down() {}
 
+    /**
+     * @return string
+     */
     public function getPluginID(): string {
         // Skip the plugin-active check — tests the entity class directly.
         return '';
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumClassMapping(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -39,6 +45,9 @@ class AlbumEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumMetadataPersists(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -64,6 +73,9 @@ class AlbumEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumCountImagesReturnsZeroInitially(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -81,6 +93,9 @@ class AlbumEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumUrlReturnsFriendlySlug(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -108,6 +123,9 @@ class AlbumEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testNonOwnerCannotEditAlbum(): void {
         $owner = $this->createUser();
         $other = $this->createUser();

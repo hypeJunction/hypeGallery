@@ -10,7 +10,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 		},
 		init: function() {
 			if (!elgg.config.gallery_popup) {
-				popup.bind();
+				popup.on();
 				elgg.config.gallery_popup = true;
 			}
 		},
@@ -35,7 +35,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 				success: function(data) {
 
 					$slideshow.dialog({
-						title: elgg.echo('gallery:slideshow:loading'),
+						title: i18n.echo('gallery:slideshow:loading'),
 						dialogClass: 'gallery-slideshow',
 						width: $(window).width() - 150,
 						height: $(window).height() - 150,
@@ -109,7 +109,7 @@ define(['jquery', 'elgg'], function($, elgg) {
 			var paneWidth = $parent.closest('.preview-pane').innerWidth();
 			var margin = paneWidth / 2 - prevWidth;
 			$parent.parent().css('margin-left', paneWidth / 2 - prevWidth + elemWidth * 1.5);
-			$('.gallery-slideshow .controls .pager').text(elgg.echo('gallery:slideshow:pager', [pos, total]));
+			$('.gallery-slideshow .controls .pager').text(i18n.echo('gallery:slideshow:pager', [pos, total]));
 			if ($parent.prev().length) {
 				$('.gallery-slideshow .controls .prev').removeClass('hidden').data('elem', $parent.prev());
 			} else {

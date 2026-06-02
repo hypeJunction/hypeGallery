@@ -19,17 +19,17 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 			e.preventDefault();
 			if ($(this).is('.elgg-state-active')) {
 				$(this).removeClass('elgg-state-active')
-						.attr('title', elgg.echo('gallery:tools:tagger:start'))
+						.attr('title', i18n.echo('gallery:tools:tagger:start'))
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
-						.unbind('mousemove', tagger.mouseMove);
+						.off('mousemove', tagger.mouseMove);
 
 			} else {
 				$(this).addClass('elgg-state-active')
-						.attr('title', elgg.echo('gallery:tools:tagger:stop'))
+						.attr('title', i18n.echo('gallery:tools:tagger:stop'))
 						.closest('.elgg-layout')
 						.find('.gallery-media-full')
-						.bind('mousemove', tagger.mouseMove);
+						.on('mousemove', tagger.mouseMove);
 
 			}
 		},
@@ -53,7 +53,7 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 			$(this).data('tagger-tag').hide();
 		},
 		deleteTag: function(e) {
-			var confirmText = elgg.echo('question:areyousure');
+			var confirmText = i18n.echo('question:areyousure');
 			if (!confirm(confirmText)) {
 				return false;
 			}
@@ -97,14 +97,14 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 				var x2 = x1 + w, y2 = y1 + h;
 				if (x1 < e.pageX && x2 > e.pageX && y1 < e.pageY && y2 > e.pageY) {
 					$tagger.show().offset({top: e.pageY - 40, left: e.pageX - 40});
-					$tagger.unbind('click').bind('click', function(e2) {
+					$tagger.off('click').on('click', function(e2) {
 
 						var tagger_offset = $tagger.offset();
 						var src_offset = $src.offset();
 						var tag_y1 = e.pageY - src_offset.top;
 						var tag_x1 = e.pageX - src_offset.left;
 
-						$elem.unbind('mousemove');
+						$elem.off('mousemove');
 
 						var $form = $('.elgg-form-gallery-phototag');
 						$('[name="x1"]', $form).val(tag_x1 - 40);
@@ -121,23 +121,23 @@ define(['jquery', 'elgg', 'jquery.form'], function($, elgg) {
 
 						$tagger.find('.tagger-close')
 								.show()
-								.bind('click', function(e3) {
+								.on('click', function(e3) {
 									$(this).hide();
-									$tagger.unbind('click').hide();
+									$tagger.off('click').hide();
 									if ($('.elgg-input-tokeninput', $form).length) {
-										$('.elgg-input-tokeninput', $form).bind('clear', function(e) {
+										$('.elgg-input-tokeninput', $form).on('clear', function(e) {
 											$(this).tokenInput("clear");
 										}).trigger('clear');
 
 									}
 									$form.resetForm();
 									$('.tagged-user-preview').attr('src', '');
-									$elem.bind('mousemove', tagger.mouseMove);
+									$elem.on('mousemove', tagger.mouseMove);
 								});
 
 
-						$form.unbind('submit')
-								.bind('submit', function(e) {
+						$form.off('submit')
+								.on('submit', function(e) {
 									e.preventDefault();
 
 									var data = {};

@@ -145,7 +145,7 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
             if ($filehandler->simpletype == "image") {
                 generate_entity_icons($filehandler);
                 // the settings tell us not to keep the original image file, so downsizing to master
-                if (\elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
+                if (\elgg_get_plugin_setting('remove_original_files', 'hypegallery')) {
                     $icon_sizes = \elgg_get_config('icon_sizes');
                     $values = $icon_sizes['master'];
                     $master = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);

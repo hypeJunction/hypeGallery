@@ -12,10 +12,17 @@ class AlbumImageEntityTest extends IntegrationTestCase {
     public function up() {}
     public function down() {}
 
+    /**
+     * @return string
+     */
     public function getPluginID(): string {
         return '';
     }
 
+    /**
+     * @param mixed $user
+     * @return hjAlbum
+     */
     private function makeAlbum($user): hjAlbum {
         \elgg_get_session()->setLoggedInUser($user);
         $album = new hjAlbum();
@@ -27,6 +34,9 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         return $album;
     }
 
+    /**
+     * @return void
+     */
     public function testImageClassMapping(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -50,6 +60,9 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testImageSaveAssignsDefaultPriority(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -69,6 +82,9 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testAlbumCountImagesAfterAdd(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);
@@ -96,6 +112,9 @@ class AlbumImageEntityTest extends IntegrationTestCase {
         \elgg_get_session()->removeLoggedInUser();
     }
 
+    /**
+     * @return void
+     */
     public function testImageUrlsContainGuid(): void {
         $user = $this->createUser();
         \elgg_get_session()->setLoggedInUser($user);

@@ -9,7 +9,7 @@ define(['jquery', 'elgg', 'jquery.form', 'cropper'], function($, elgg) {
 		},
 		init: function() {
 			if (!elgg.config.gallery_cropper) {
-				cropper.bind();
+				cropper.on();
 				elgg.config.gallery_cropper = true;
 			}
 			setTimeout(function() {
