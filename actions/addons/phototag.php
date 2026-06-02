@@ -50,9 +50,9 @@ $tag->y2 = get_input('y2');
 $tag->access_id = get_input('access_id');
 
 // need to bypass the access system so that we can save the tag with the tagged user being the owner
-$ia = \elgg_set_ignore_access();
-$saved = $tag->save();
-\elgg_set_ignore_access($ia);
+$saved = \elgg_call(ELGG_IGNORE_ACCESS, function () use ($tag) {
+	return $tag->save();
+});
 
 if (!$saved) {
 	return \elgg_error_response(\elgg_echo('gallery:phototag:error'));
@@ -68,11 +68,9 @@ if ($user && $user->guid != $logged_in->guid) {
 	notify_user($to, $from, $subject, $message);
 }
 
-$tags = string_to_tag_array($title);
+$tags = \elgg_string_to_array($title);
 if (count($tags)) {
-	foreach ($tags as $t) {
-		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
-	}
+	$image->setMetadata('tags', $tags, '', true);
 }
 
 \elgg_create_river_item([

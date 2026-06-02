@@ -12,7 +12,7 @@ $owner_guid = get_input('owner_guid', \elgg_get_logged_in_user_guid());
 $container_guid = get_input('container_guid', \elgg_get_logged_in_user_guid());
 $title = get_input('title', \elgg_echo('album:untitled'));
 $description = get_input('description', '');
-$access_id = get_input('access_id', get_default_access());
+$access_id = get_input('access_id', elgg_get_default_access());
 
 // Metadata
 $location = get_input('location', '');
@@ -52,15 +52,15 @@ if ($guid && $previous_access_id !== $album->access_id) {
 
 if ($location) {
 	$album->location = $location;
-	$coordinates = \elgg_trigger_plugin_hook('geocode', 'location', ['location' => $location]);
+	$coordinates = \elgg_trigger_event_results('geocode', 'location', ['location' => $location]);
 	if ($coordinates) {
 		$album->setLatLong($coordinates['lat'], $coordinates['long']);
 	}
 }
 
 $album->date = $date;
-$album->categories = string_to_tag_array($categories);
-$album->tags = string_to_tag_array($tags);
+$album->categories = \elgg_string_to_array($categories);
+$album->tags = \elgg_string_to_array($tags);
 $album->permission = $permission;
 
 $album->save();

@@ -9,23 +9,39 @@ use Elgg\Upgrade\AsynchronousUpgrade;
  */
 class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 
-	public function getVersion(): int {
+	/**
+     * @return int
+     */
+    public function getVersion(): int {
 		return 2026041200;
 	}
 
-	public function shouldBeSkipped(): bool {
+	/**
+     * @return bool
+     */
+    public function shouldBeSkipped(): bool {
 		return false;
 	}
 
-	public function needsIncrementOffset(): bool {
+	/**
+     * @return bool
+     */
+    public function needsIncrementOffset(): bool {
 		return false;
 	}
 
-	public function countItems(): int {
+	/**
+     * @return int
+     */
+    public function countItems(): int {
 		return self::UNKNOWN_COUNT;
 	}
 
-	public function run(int $count): bool {
+	/**
+     * @param int $count
+     * @return bool
+     */
+    public function run(int $count): bool {
 		$db = elgg()->db;
 		$prefix = $db->prefix;
 

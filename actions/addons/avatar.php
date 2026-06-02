@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 use ElggFile;
 
-gatekeeper();
+\elgg_gatekeeper();
 
 $file_guid = get_input('e');
 $file = get_entity($file_guid);
@@ -18,17 +18,23 @@ $icon_sizes = \elgg_get_config('icon_sizes');
 // so we can do clean up if one fails.
 $files = [];
 foreach ($icon_sizes as $name => $sinfo) {
-	$resized = get_resized_image_from_existing_file($filename, $sinfo['w'], $sinfo['h'], $sinfo['square'], 0, 0, 0, 0, $sinfo['upscale']);
+	//@todo Make these actual entities.  See exts #348.
+	$resized_file = new ElggFile();
+	$resized_file->owner_guid = $owner->guid;
+	$resized_file->setFilename("profile/{$owner->guid}{$name}.jpg");
+	// touch the file so the filestore resolves a stable path, then resize directly into it
+	$resized_file->open('write');
+	$resized_file->close();
+
+	$resized = \_elgg_services()->imageService->resize($filename, $resized_file->getFilenameOnFilestore(), [
+		'w' => $sinfo['w'],
+		'h' => $sinfo['h'],
+		'square' => $sinfo['square'],
+		'upscale' => $sinfo['upscale'],
+	]);
 
 	if ($resized) {
-		//@todo Make these actual entities.  See exts #348.
-		$file = new ElggFile();
-		$file->owner_guid = $guid;
-		$file->setFilename("profile/{$owner->guid}{$name}.jpg");
-		$file->open('write');
-		$file->write($resized);
-		$file->close();
-		$files[] = $file;
+		$files[] = $resized_file;
 	} else {
 		// cleanup on fail
 		foreach ($files as $file) {

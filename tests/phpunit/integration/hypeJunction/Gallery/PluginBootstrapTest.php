@@ -17,11 +17,17 @@ class PluginBootstrapTest extends IntegrationTestCase {
     public function up() {}
     public function down() {}
 
+    /**
+     * @return void
+     */
     public function testAlbumSubtypeRegistered(): void {
         $this->assertTrue(class_exists(hjAlbum::class));
         $this->assertTrue(class_exists(hjAlbumImage::class));
     }
 
+    /**
+     * @return void
+     */
     public function testPageHandlerConstantDefined(): void {
         // These constants are defined in start.php — tests document the
         // contract the migration must preserve in PluginBootstrap.
@@ -31,6 +37,9 @@ class PluginBootstrapTest extends IntegrationTestCase {
         $this->assertSame('gallery', PAGEHANDLER);
     }
 
+    /**
+     * @return void
+     */
     public function testActionViewsExistOnDisk(): void {
         // dirname(__DIR__, 5) traverses: Gallery -> hypeJunction -> integration -> phpunit -> tests -> plugin root
         $pluginRoot = dirname(__DIR__, 5);

@@ -8,6 +8,6 @@ if (!$entity instanceof hjAlbumImage || !$entity->canEdit()) {
 	return;
 }
 
-\elgg_load_css('cropper');
+\elgg_require_css('cropper');
 
 echo \elgg_view_form('gallery/thumb', [], $vars);

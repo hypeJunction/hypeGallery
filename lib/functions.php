@@ -163,13 +163,16 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
 			if ($filehandler->simpletype == 'image') {
 				generate_entity_icons($filehandler);
 				// the settings tell us not to keep the original image file, so downsizing to master
-				if (\elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
+				if (\elgg_get_plugin_setting('remove_original_files', 'hypegallery')) {
 					$icon_sizes = \elgg_get_config('icon_sizes');
 					$values = $icon_sizes['master'];
-					$master = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
-					$filehandler->open('write');
-					$filehandler->write($master);
-					$filehandler->close();
+					$source = $filehandler->getFilenameOnFilestore();
+					\_elgg_services()->imageService->resize($source, $source, [
+						'w' => $values['w'],
+						'h' => $values['h'],
+						'square' => $values['square'],
+						'upscale' => $values['upscale'],
+					]);
 				}
 			}
 
@@ -238,26 +241,30 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
 		$square = \elgg_extract('square', $values, true);
 		$upscale = \elgg_extract('upscale', $values, false);
 		$filepath = $filehandler->getFilenameOnFilestore();
+		$resize_params = [
+			'w' => $w,
+			'h' => $h,
+			'square' => $square,
+			'upscale' => $upscale,
+		];
 		if (is_array($coords) && in_array($size, ['topbar', 'tiny', 'small', 'medium', 'large'])) {
-			$x1 = \elgg_extract('x1', $coords, 0);
-			$y1 = \elgg_extract('y1', $coords, 0);
-			$x2 = \elgg_extract('x2', $coords, 0);
-			$y2 = \elgg_extract('y2', $coords, 0);
-			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, $x1, $y1, $x2, $y2, $upscale);
-		} else if (!is_array($coords)) {
-			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, 0, 0, 0, 0, $upscale);
-		} else {
+			$resize_params['x1'] = \elgg_extract('x1', $coords, 0);
+			$resize_params['y1'] = \elgg_extract('y1', $coords, 0);
+			$resize_params['x2'] = \elgg_extract('x2', $coords, 0);
+			$resize_params['y2'] = \elgg_extract('y2', $coords, 0);
+		} else if (is_array($coords)) {
 			continue;
 		}
 
-		if ($thumb_resized) {
-			$thumb = new ElggFile();
-			$thumb->owner_guid = $entity->owner_guid;
-			$thumb->setMimeType('image/jpeg');
-			$thumb->setFilename($prefix . "{$size}.jpg");
-			$thumb->open('write');
-			$thumb->write($thumb_resized);
-			$thumb->close();
+		$thumb = new ElggFile();
+		$thumb->owner_guid = $entity->owner_guid;
+		$thumb->setMimeType('image/jpeg');
+		$thumb->setFilename($prefix . "{$size}.jpg");
+		// touch the file so the filestore resolves a stable path, then resize directly into it
+		$thumb->open('write');
+		$thumb->close();
+
+		if (\_elgg_services()->imageService->resize($filepath, $thumb->getFilenameOnFilestore(), $resize_params)) {
 			$icontime = true;
 		}
 	}

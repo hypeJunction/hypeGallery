@@ -110,9 +110,11 @@ if (count($images_pending)) {
 	\elgg_register_success_message(\elgg_echo('gallery:upload:pending', [count($images_pending)]));
 }
 
-$metadata_id = create_metadata($album->guid, "river_$posted", json_encode($images), '', $album->owner_guid, $album->access_id, true);
-
 if (count($images) && !$requires_approval) {
+	// only record the river payload (and item) for immediately-visible uploads;
+	// 5.x metadata can no longer be disabled, so pending uploads simply skip the river
+	$album->setMetadata("river_$posted", json_encode($images));
+
 	\elgg_create_river_item([
 		'view' => 'river/object/hjalbum/update',
 		'action_type' => 'update',
@@ -121,12 +123,6 @@ if (count($images) && !$requires_approval) {
 		'access_id' => $album->access_id,
 		'posted' => $posted,
 	]);
-} else {
-	$metadata = \elgg_get_metadata_from_id($metadata_id);
-	// make sure we have sufficient privileges
-	$ia = \elgg_set_ignore_access(true);
-	$metadata->disable();
-	\elgg_set_ignore_access($ia);
 }
 
 if (count($images_pending)) {
