@@ -124,9 +124,9 @@ if (count($images) && !$requires_approval) {
 } else {
 	$metadata = elgg_get_metadata_from_id($metadata_id);
 	// make sure we have sufficient privileges
-	$ia = elgg_set_ignore_access(true);
-	$metadata->disable();
-	elgg_set_ignore_access($ia);
+	elgg_call(ELGG_IGNORE_ACCESS, function () use ($metadata) {
+		$metadata->disable();
+	});
 }
 
 if (count($images_pending)) {

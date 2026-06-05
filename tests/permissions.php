@@ -36,17 +36,14 @@ class GalleryPermissionsTest extends ElggCoreUnitTest {
 
 		$this->user_album = GalleryTestLib::createAlbum($this->owner->getGUID(), $this->owner->getGUID());
 		$this->group_album = GalleryTestLib::createAlbum($this->owner->getGUID(), $this->group->getGUID());
-
-		$this->ia = elgg_set_ignore_access(false);
+		// TODO(7.x): elgg_set_ignore_access removed; set/restore spanned setUp/tearDown (un-bracketable across methods). Value was false (= default no-op), so the bracket was dropped. This legacy ElggCoreUnitTest suite does not run on 7.x.
 	}
 
 	/**
 	 * Called after each test method.
 	 */
 	public function tearDown() {
-
-		elgg_set_ignore_access($this->ia);
-
+		// TODO(7.x): elgg_set_ignore_access($this->ia) restore removed (see setUp note).
 		$this->group->delete();
 		$this->group_owner->delete();
 

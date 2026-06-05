@@ -25,7 +25,7 @@ if ($tagged_user->guid != $image_owner->guid || empty($tag->title)) {
 	$href = '#';
 }
 
-$attr = elgg_format_attributes([
+$attr = _elgg_services()->html_formatter->formatAttributes([
 	'id' => "elgg-object-$tag->guid",
 	'class' => 'gallery-tag',
 	'data-guid' => $tag->guid,
