@@ -124,9 +124,9 @@ if (count($images) && !$requires_approval) {
 } else {
 	$metadata = \elgg_get_metadata_from_id($metadata_id);
 	// make sure we have sufficient privileges
-	$ia = \elgg_set_ignore_access(true);
+	$ia = _elgg_services()->session_manager->setIgnoreAccess(true);
 	$metadata->disable();
-	\elgg_set_ignore_access($ia);
+	_elgg_services()->session_manager->setIgnoreAccess($ia);
 }
 
 if (count($images_pending)) {

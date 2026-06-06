@@ -50,9 +50,9 @@ $tag->y2 = get_input('y2');
 $tag->access_id = get_input('access_id');
 
 // need to bypass the access system so that we can save the tag with the tagged user being the owner
-$ia = \elgg_set_ignore_access();
+$ia = _elgg_services()->session_manager->setIgnoreAccess();
 $saved = $tag->save();
-\elgg_set_ignore_access($ia);
+_elgg_services()->session_manager->setIgnoreAccess($ia);
 
 if (!$saved) {
 	return \elgg_error_response(\elgg_echo('gallery:phototag:error'));
