@@ -5,11 +5,11 @@ namespace hypeJunction\Gallery;
 use hypeJunction\Filestore\UploadHandler;
 
 $album_guid = get_input('container_guid');
-$album = get_entity($album_guid);
+$album = $album_guid ? get_entity((int) $album_guid) : null;
 
 $uploads = UploadHandler::handle('dropzone', [
 	'subtype' => hjAlbumImage::SUBTYPE,
-	'container_guid' => $album->guid,
+	'container_guid' => $album instanceof \ElggEntity ? $album->guid : 0,
 	'icon_sizes' => get_icon_sizes(new hjAlbumImage),
 ]);
 

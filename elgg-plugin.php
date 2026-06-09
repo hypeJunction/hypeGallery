@@ -1,10 +1,5 @@
 <?php
 
-// Load git-tracked global helper functions eagerly. composer autoload.files
-// does not reliably load git-tracked customs, and Bootstrap::boot() requires
-// lib/start.php too late for some callsites. See project convention.
-require_once __DIR__ . '/lib/functions.php';
-
 return [
 	'plugin' => [
 		'name' => 'hypeGallery',

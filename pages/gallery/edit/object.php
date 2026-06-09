@@ -3,7 +3,7 @@
 namespace hypeJunction\Gallery;
 
 $guid = get_input('guid');
-$entity = get_entity($guid);
+$entity = $guid ? get_entity((int) $guid) : null;
 
 if (!$entity instanceof \ElggEntity || !$entity->canEdit()) {
 	return false;

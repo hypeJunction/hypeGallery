@@ -9,7 +9,7 @@
 namespace hypeJunction\Gallery;
 
 $guid = get_input('guid');
-$entity = get_entity($guid);
+$entity = $guid ? get_entity((int) $guid) : null;
 
 if (!$entity instanceof \ElggEntity) {
 	return elgg_error_response(elgg_echo('gallery:delete:error:notentity'));

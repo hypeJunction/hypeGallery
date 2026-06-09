@@ -3,14 +3,14 @@
 namespace hypeJunction\Gallery;
 
 $image_guid = get_input('e');
-$image = get_entity($image_guid);
+$image = $image_guid ? get_entity((int) $image_guid) : null;
 
-if (!$image) {
+if (!$image instanceof \ElggEntity) {
 	return elgg_error_response(elgg_echo('gallery:tools:cover:error'));
 }
 
-$album = get_entity($image->container_guid);
-if (!$album || !$album->canEdit()) {
+$album = $image->container_guid ? get_entity((int) $image->container_guid) : null;
+if (!$album instanceof \ElggEntity || !$album->canEdit()) {
 	return elgg_error_response(elgg_echo('gallery:tools:cover:error'));
 }
 

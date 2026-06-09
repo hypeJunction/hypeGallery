@@ -8,7 +8,7 @@ use WideImage\WideImage;
 elgg_push_context('show_hidden_entities');
 
 $entity_guid = get_input('guid');
-$entity = get_entity($entity_guid);
+$entity = $entity_guid ? get_entity((int) $entity_guid) : null;
 
 if (!$entity) {
 	return false;

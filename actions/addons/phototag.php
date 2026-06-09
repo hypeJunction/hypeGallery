@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $logged_in = elgg_get_logged_in_user_entity();
 $guid = get_input('container_guid', false);
-$image = get_entity($guid);
+$image = (is_scalar($guid) && $guid) ? get_entity((int) $guid) : null;
 $user_guid = get_input('relationship_guid', false);
 $title = get_input('title', false);
 
@@ -56,20 +56,21 @@ if (!$saved) {
 	return elgg_error_response(elgg_echo('gallery:phototag:error'));
 }
 
-if ($user && $user->guid != $logged_in->guid) {
+if ($user instanceof \ElggUser && $user->guid != $logged_in->guid) {
 	// don't notify self
-	$to = $user->guid;
-	$from = $logged_in->guid;
 	$subject = elgg_echo('gallery:user:tagged');
 	$image_link = elgg_view('output/url', ['href' => $image->getURL(), 'is_trusted' => true]);
 	$message = elgg_echo('gallery:user:tagged:message', [$image_link]);
-	notify_user($to, $from, $subject, $message);
+	elgg_notify_user($user, 'gallery:phototag', $image, [
+		'subject' => $subject,
+		'body' => $message,
+	], $logged_in);
 }
 
-$tags = string_to_tag_array($title);
+$tags = elgg_string_to_array($title);
 if (count($tags)) {
 	foreach ($tags as $t) {
-		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
+		$image->setMetadata('tags', $t, '', true);
 	}
 }
 

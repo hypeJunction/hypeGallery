@@ -3,7 +3,7 @@
 namespace hypeJunction\Gallery;
 
 $container_guid = get_input('container_guid');
-$container = get_entity($container_guid);
+$container = $container_guid ? get_entity((int) $container_guid) : null;
 
 if (!$container instanceof \ElggEntity || !$container->canWriteToContainer(0, 'object', hjAlbum::SUBTYPE)) {
 	return false;

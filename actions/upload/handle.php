@@ -7,7 +7,7 @@ use hypeJunction\Filestore\UploadHandler;
 $failed = 0;
 
 $album_guid = get_input('container_guid');
-$album = get_entity($album_guid);
+$album = (is_scalar($album_guid) && $album_guid) ? get_entity((int) $album_guid) : null;
 
 if (!$album instanceof hjAlbum || !$album->canWriteToContainer(0, 'object', hjAlbumImage::SUBTYPE)) {
 	return elgg_error_response(elgg_echo('gallery:upload:error:noalbum'));
@@ -51,7 +51,7 @@ $metadata = elgg_get_metadata([
 
 if ($guids) {
 	foreach ($guids as $guid) {
-		$image = get_entity($guid);
+		$image = (is_scalar($guid) && $guid) ? get_entity((int) $guid) : null;
 
 		if (!$image instanceof \ElggEntity) {
 			continue;
@@ -110,7 +110,7 @@ if (count($images_pending)) {
 	elgg_register_success_message(elgg_echo('gallery:upload:pending', [count($images_pending)]));
 }
 
-$metadata_id = create_metadata($album->guid, "river_$posted", json_encode($images), '', $album->owner_guid, $album->access_id, true);
+$album->setMetadata("river_$posted", json_encode($images), '', true);
 
 if (count($images) && !$requires_approval) {
 	elgg_create_river_item([
@@ -122,16 +122,22 @@ if (count($images) && !$requires_approval) {
 		'posted' => $posted,
 	]);
 } else {
-	$metadata = elgg_get_metadata_from_id($metadata_id);
 	// make sure we have sufficient privileges
-	elgg_call(ELGG_IGNORE_ACCESS, function () use ($metadata) {
-		$metadata->disable();
+	elgg_call(ELGG_IGNORE_ACCESS, function () use ($album, $posted) {
+		$metadata = elgg_get_metadata([
+			'guid' => $album->guid,
+			'metadata_names' => "river_$posted",
+			'limit' => 1,
+		]);
+		if ($metadata) {
+			$metadata[0]->disable();
+		}
 	});
 }
 
 if (count($images_pending)) {
-	$to = $album->owner_guid;
-	$from = elgg_get_logged_in_user_guid();
+	$recipient = $album->owner_guid ? get_entity((int) $album->owner_guid) : null;
+	$from = elgg_get_logged_in_user_entity();
 	$subject = elgg_echo('gallery:upload:pending', [count($images_pending)]);
 
 	$album_link = elgg_view('output/url', [
@@ -150,7 +156,12 @@ if (count($images_pending)) {
 		count($images_pending), $album_link, $manage_link,
 	]);
 
-	notify_user($to, $from, $subject, $message);
+	if ($recipient instanceof \ElggUser) {
+		elgg_notify_user($recipient, 'gallery:upload:pending', $album, [
+			'subject' => $subject,
+			'body' => $message,
+		], $from);
+	}
 }
 
 if (elgg_is_xhr()) {

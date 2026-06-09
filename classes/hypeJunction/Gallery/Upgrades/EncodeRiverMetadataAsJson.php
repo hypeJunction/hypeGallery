@@ -30,17 +30,19 @@ class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 		$db = elgg()->db;
 		$prefix = $db->prefix;
 
-		$rows = $db->getData("
+		$rows = $db->getConnection('read')->executeQuery("
 			SELECT m.id, m.value
 			FROM {$prefix}metadata m
 			INNER JOIN {$prefix}entities e ON e.guid = m.entity_guid
 			WHERE m.name LIKE 'river_%'
 			AND e.type = 'object'
 			AND e.subtype = 'hjalbum'
-		");
+		")->fetchAllAssociative();
+
+		$write = $db->getConnection('write');
 
 		foreach ($rows as $row) {
-			$raw = (string) $row->value;
+			$raw = (string) $row['value'];
 
 			$decoded = json_decode($raw, true);
 			if (is_array($decoded)) {
@@ -50,22 +52,22 @@ class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 			$decoded = @unserialize($raw, ['allowed_classes' => false]);
 			if (!is_array($decoded)) {
 				$result->addFailures();
-				$result->addError("hypeGallery: metadata id={$row->id} is not parseable");
+				$result->addError("hypeGallery: metadata id={$row['id']} is not parseable");
 				continue;
 			}
 
-			$db->updateData(
+			$write->executeStatement(
 				"UPDATE {$prefix}metadata SET value = :value WHERE id = :id",
-				false,
 				[
-					':value' => json_encode($decoded),
-					':id' => (int) $row->id,
+					'value' => json_encode($decoded),
+					'id' => (int) $row['id'],
 				]
 			);
 			$result->addSuccesses();
 		}
 
 		$result->markComplete();
+
 		return $result;
 	}
 }

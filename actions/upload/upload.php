@@ -4,9 +4,9 @@ namespace hypeJunction\Gallery;
 
 // Attributes
 $guid = get_input('container_guid', null);
-$album = get_entity($guid);
+$album = $guid ? get_entity((int) $guid) : null;
 
-if (!$album) {
+if (!$album instanceof \ElggEntity) {
 	return elgg_error_response(elgg_echo('gallery:upload:error:noalbum'));
 }
 

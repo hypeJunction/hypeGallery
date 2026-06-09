@@ -59,8 +59,8 @@ if ($location) {
 }
 
 $album->date = $date;
-$album->categories = string_to_tag_array($categories);
-$album->tags = string_to_tag_array($tags);
+$album->categories = is_array($categories) ? $categories : elgg_string_to_array((string) $categories);
+$album->tags = is_array($tags) ? $tags : elgg_string_to_array((string) $tags);
 $album->permission = $permission;
 
 $album->save();

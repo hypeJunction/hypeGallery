@@ -8,15 +8,15 @@ $files = get_input('files', []);
 elgg_push_context('show_hidden_entities');
 
 foreach ($files as $guid => $details) {
-	$image = get_entity($guid);
-	
+	$image = $guid ? get_entity((int) $guid) : null;
+
 	if (!$image instanceof \ElggEntity) {
 		continue;
 	}
-	
+
 	foreach ($details as $name => $value) {
 		if (in_array($name, ['tags', 'categories'])) {
-			$value = string_to_tag_array($value);
+			$value = is_array($value) ? $value : elgg_string_to_array((string) $value);
 		}
 
 		$image->$name = $value;

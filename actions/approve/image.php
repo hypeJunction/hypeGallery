@@ -5,7 +5,7 @@ namespace hypeJunction\Gallery;
 elgg_push_context('show_hidden_entities');
 
 $guid = get_input('guid');
-$entity = get_entity($guid);
+$entity = $guid ? get_entity((int) $guid) : null;
 
 $error = elgg_echo('gallery:approve:error');
 
@@ -34,8 +34,8 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 					'posted' => $posted
 				]);
 
-				$to = $entity->owner_guid;
-				$from = elgg_get_logged_in_user_guid();
+				$recipient = $entity->owner_guid ? get_entity((int) $entity->owner_guid) : null;
+				$from = elgg_get_logged_in_user_entity();
 				$subject = elgg_echo('gallery:upload:approved');
 
 				$album_link = elgg_view('output/url', [
@@ -48,7 +48,12 @@ if ($entity && !$entity->isEnabled() && $entity->disable_reason == 'pending_appr
 					$album_link
 				]);
 
-				notify_user($to, $from, $subject, $message);
+				if ($recipient instanceof \ElggUser) {
+					elgg_notify_user($recipient, 'gallery:approve', $entity, [
+						'subject' => $subject,
+						'body' => $message,
+					], $from);
+				}
 			}
 		}
 
