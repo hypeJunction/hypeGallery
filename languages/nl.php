@@ -5,7 +5,7 @@
  *  Dutch/Flemish language
  *  Translation by: Dries de Krom (dries@daltonstudio.be)
  */
-$dutch = array(
+return [
 	/**
 	 *  Gallery UI elements
 	 */
@@ -419,6 +419,4 @@ $dutch = array(
 	'gallery:download:error:disabled_public' => 'Publieke downloads zijn uitgeschakeld. Log in alstublieft',
 	// embeds
 	'embed:albumimages' => 'Album afbeeldingen',
-);
-
-add_translation("nl", $dutch);
+];
