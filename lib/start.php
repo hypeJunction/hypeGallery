@@ -30,6 +30,9 @@ elgg_register_event_handler('create', 'object', __NAMESPACE__ . '\apply_exif_tag
  * @return void
  */
 function init() {
+	// Client-side ESM entry point (importmap resolves to .mjs)
+	elgg_import_esm('framework/gallery/init');
+
 	// Permissions
 	elgg_register_event_handler('permissions_check', 'object', __NAMESPACE__ . '\permissions_check');
 	elgg_register_event_handler('container_permissions_check', 'object', __NAMESPACE__ . '\container_permissions_check');
