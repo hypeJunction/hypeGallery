@@ -8,9 +8,9 @@ $i = 0;
 $reordered = [];
 if (is_array($priorities)) {
 	foreach ($priorities as $priority => $guid) {
-		$image = get_entity($guid);
+		$image = $guid ? get_entity((int) $guid) : null;
 		if ($image instanceof \ElggEntity && $image->canEdit()) {
-			if (create_metadata($image->guid, 'priority', $i, 'int', $entity->owner_guid, ACCESS_PUBLIC)) {
+			if ($image->setMetadata('priority', $i, 'integer')) {
 				$reordered[$image->guid] = $image->priority;
 				$i++;
 			}

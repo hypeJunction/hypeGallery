@@ -4,7 +4,7 @@ namespace hypeJunction\Gallery;
 
 $logged_in = elgg_get_logged_in_user_entity();
 $guid = get_input('container_guid', false);
-$image = get_entity($guid);
+$image = (is_scalar($guid) && $guid) ? get_entity((int) $guid) : null;
 $user_guid = get_input('relationship_guid', false);
 $title = get_input('title', false);
 
@@ -24,14 +24,15 @@ if (is_numeric($user_guid)) {
 	$user = get_entity($user_guid);
 } else {
 	// fallback for default userpicker
-	$user = get_user_by_username($user_guid);
+	$user = elgg_get_user_by_username($user_guid);
 }
 
 if (!$title && !$user) {
 	return elgg_error_response(elgg_echo('gallery:phototag:error'));
 }
 
-$tag = elgg_new_entity('object', 'hjimagetag');
+$tag = new \ElggObject();
+$tag->subtype = 'hjimagetag';
 $tag->owner_guid = $user ? $user->guid : $logged_in->guid;
 // tagged user is owner, so can delete the tag
 $tag->container_guid = $image->guid;
@@ -47,28 +48,29 @@ $tag->y2 = get_input('y2');
 $tag->access_id = get_input('access_id');
 
 // need to bypass the access system so that we can save the tag with the tagged user being the owner
-$ia = elgg_set_ignore_access();
-$saved = $tag->save();
-elgg_set_ignore_access($ia);
+$saved = elgg_call(ELGG_IGNORE_ACCESS, function () use ($tag) {
+	return $tag->save();
+});
 
 if (!$saved) {
 	return elgg_error_response(elgg_echo('gallery:phototag:error'));
 }
 
-if ($user && $user->guid != $logged_in->guid) {
+if ($user instanceof \ElggUser && $user->guid != $logged_in->guid) {
 	// don't notify self
-	$to = $user->guid;
-	$from = $logged_in->guid;
 	$subject = elgg_echo('gallery:user:tagged');
 	$image_link = elgg_view('output/url', ['href' => $image->getURL(), 'is_trusted' => true]);
 	$message = elgg_echo('gallery:user:tagged:message', [$image_link]);
-	notify_user($to, $from, $subject, $message);
+	elgg_notify_user($user, 'gallery:phototag', $image, [
+		'subject' => $subject,
+		'body' => $message,
+	], $logged_in);
 }
 
-$tags = string_to_tag_array($title);
+$tags = elgg_string_to_array($title);
 if (count($tags)) {
 	foreach ($tags as $t) {
-		create_metadata($image->guid, 'tags', $t, '', $logged_in->guid, $image->access_id, true);
+		$image->setMetadata('tags', $t, '', true);
 	}
 }
 

@@ -161,16 +161,10 @@ function process_file_upload($name, $subtype = hjAlbumImage::SUBTYPE, $guid = nu
 		if ($filehandler->save()) {
 			// Generate icons for images
 			if ($filehandler->simpletype == 'image') {
+				// IconHandler generates the full size set (including 'master')
+				// from the configured icon sizes, honouring the
+				// 'remove_original_files' plugin setting internally.
 				generate_entity_icons($filehandler);
-				// the settings tell us not to keep the original image file, so downsizing to master
-				if (elgg_get_plugin_setting('remove_original_files', 'hypeGallery')) {
-					$icon_sizes = elgg_get_config('icon_sizes');
-					$values = $icon_sizes['master'];
-					$master = get_resized_image_from_existing_file($filehandler->getFilenameOnFilestore(), $values['w'], $values['h'], $values['square'], 0, 0, 0, 0, $values['upscale']);
-					$filehandler->open('write');
-					$filehandler->write($master);
-					$filehandler->close();
-				}
 			}
 
 			$return[$file['name']] = $filehandler->getGUID();
@@ -220,9 +214,10 @@ function prepare_files_global(array $_files, $top = true) {
  * @return boolean
  */
 function generate_entity_icons($entity, $filehandler = null, $coords = null) {
-	$icon_sizes = elgg_get_config('icon_sizes');
-	$gallery_icon_sizes = elgg_get_config('gallery_icon_sizes');
+	$icon_sizes = (array) elgg_get_config('icon_sizes');
+	$gallery_icon_sizes = (array) elgg_get_config('gallery_icon_sizes');
 	$icon_sizes = array_merge($icon_sizes, $gallery_icon_sizes);
+
 	if (!$filehandler && $entity instanceof ElggFile) {
 		$filehandler = $entity;
 	}
@@ -231,43 +226,15 @@ function generate_entity_icons($entity, $filehandler = null, $coords = null) {
 		return false;
 	}
 
-	$prefix = 'icons/' . $entity->getGUID();
-	foreach ($icon_sizes as $size => $values) {
-		$w = elgg_extract('w', $values, 200);
-		$h = elgg_extract('h', $values, 200);
-		$square = elgg_extract('square', $values, true);
-		$upscale = elgg_extract('upscale', $values, false);
-		$filepath = $filehandler->getFilenameOnFilestore();
-		if (is_array($coords) && in_array($size, ['topbar', 'tiny', 'small', 'medium', 'large'])) {
-			$x1 = elgg_extract('x1', $coords, 0);
-			$y1 = elgg_extract('y1', $coords, 0);
-			$x2 = elgg_extract('x2', $coords, 0);
-			$y2 = elgg_extract('y2', $coords, 0);
-			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, $x1, $y1, $x2, $y2, $upscale);
-		} else if (!is_array($coords)) {
-			$thumb_resized = get_resized_image_from_existing_file($filepath, $w, $h, $square, 0, 0, 0, 0, $upscale);
-		} else {
-			continue;
-		}
+	$config = [
+		'icon_sizes' => $icon_sizes,
+	];
 
-		if ($thumb_resized) {
-			$thumb = new ElggFile();
-			$thumb->owner_guid = $entity->owner_guid;
-			$thumb->setMimeType('image/jpeg');
-			$thumb->setFilename($prefix . "{$size}.jpg");
-			$thumb->open('write');
-			$thumb->write($thumb_resized);
-			$thumb->close();
-			$icontime = true;
-		}
+	if (is_array($coords)) {
+		$config['coords'] = $coords;
 	}
 
-	if ($icontime) {
-		$entity->setIconLastChange(time());
-		return true;
-	}
-
-	return false;
+	return (bool) \hypeJunction\Filestore\IconHandler::makeIcons($entity, $filehandler, $config);
 }
 
 /**
@@ -366,7 +333,7 @@ function handle_uploaded_files() {
  * @return boolean|array
  */
 function get_ancestry($guid) {
-	$entity = get_entity($guid);
+	$entity = $guid ? get_entity((int) $guid) : null;
 	if (!$entity) {
 		return false;
 	}

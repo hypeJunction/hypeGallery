@@ -12,7 +12,7 @@ $owner_guid = get_input('owner_guid', elgg_get_logged_in_user_guid());
 $container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
 $title = get_input('title', elgg_echo('album:untitled'));
 $description = get_input('description', '');
-$access_id = get_input('access_id', get_default_access());
+$access_id = get_input('access_id', elgg_get_default_access());
 
 // Metadata
 $location = get_input('location', '');
@@ -59,8 +59,8 @@ if ($location) {
 }
 
 $album->date = $date;
-$album->categories = string_to_tag_array($categories);
-$album->tags = string_to_tag_array($tags);
+$album->categories = is_array($categories) ? $categories : elgg_string_to_array((string) $categories);
+$album->tags = is_array($tags) ? $tags : elgg_string_to_array((string) $tags);
 $album->permission = $permission;
 
 $album->save();

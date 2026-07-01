@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/lib/functions.php';
+
 return [
 	'plugin' => [
 		'name' => 'hypeGallery',
@@ -45,18 +47,18 @@ return [
 	'actions' => [
 		'edit/object/hjalbum' => [],
 		'edit/object/hjalbumimage' => [],
-		'gallery/delete/object' => [],
-		'gallery/order/images' => [],
-		'gallery/upload' => [],
-		'gallery/upload/filedrop' => [],
-		'gallery/upload/handle' => [],
-		'gallery/upload/describe' => [],
-		'gallery/approve/image' => [],
-		'gallery/makeavatar' => [],
-		'gallery/makecover' => [],
-		'gallery/phototag' => [],
-		'gallery/thumb' => [],
-		'gallery/thumb_reset' => [],
+		'gallery/delete/object' => ['filename' => __DIR__ . '/actions/delete/object.php'],
+		'gallery/order/images' => ['filename' => __DIR__ . '/actions/order/images.php'],
+		'gallery/upload' => ['filename' => __DIR__ . '/actions/upload/upload.php'],
+		'gallery/upload/filedrop' => ['filename' => __DIR__ . '/actions/upload/filedrop.php'],
+		'gallery/upload/handle' => ['filename' => __DIR__ . '/actions/upload/handle.php'],
+		'gallery/upload/describe' => ['filename' => __DIR__ . '/actions/upload/describe.php'],
+		'gallery/approve/image' => ['filename' => __DIR__ . '/actions/approve/image.php'],
+		'gallery/makeavatar' => ['filename' => __DIR__ . '/actions/addons/avatar.php'],
+		'gallery/makecover' => ['filename' => __DIR__ . '/actions/addons/cover.php'],
+		'gallery/phototag' => ['filename' => __DIR__ . '/actions/addons/phototag.php'],
+		'gallery/thumb' => ['filename' => __DIR__ . '/actions/addons/thumb.php'],
+		'gallery/thumb_reset' => ['filename' => __DIR__ . '/actions/addons/thumb_reset.php'],
 	],
 
 	'widgets' => [

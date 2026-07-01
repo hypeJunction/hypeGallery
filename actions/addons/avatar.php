@@ -2,41 +2,18 @@
 
 namespace hypeJunction\Gallery;
 
-use ElggFile;
-
-gatekeeper();
+elgg_gatekeeper();
 
 $file_guid = get_input('e');
-$file = get_entity($file_guid);
+$file = $file_guid ? get_entity((int) $file_guid) : null;
 $owner = elgg_get_logged_in_user_entity();
 
-$filename = $file->getFilenameOnFilestore();
+if (!$file instanceof \ElggFile) {
+	return elgg_error_response(elgg_echo('avatar:resize:fail'));
+}
 
-$icon_sizes = elgg_get_config('icon_sizes');
-
-// get the images and save their file handlers into an array
-// so we can do clean up if one fails.
-$files = [];
-foreach ($icon_sizes as $name => $sinfo) {
-	$resized = get_resized_image_from_existing_file($filename, $sinfo['w'], $sinfo['h'], $sinfo['square'], 0, 0, 0, 0, $sinfo['upscale']);
-
-	if ($resized) {
-		//@todo Make these actual entities.  See exts #348.
-		$file = new ElggFile();
-		$file->owner_guid = $guid;
-		$file->setFilename("profile/{$owner->guid}{$name}.jpg");
-		$file->open('write');
-		$file->write($resized);
-		$file->close();
-		$files[] = $file;
-	} else {
-		// cleanup on fail
-		foreach ($files as $file) {
-			$file->delete();
-		}
-
-		return elgg_error_response(elgg_echo('avatar:resize:fail'));
-	}
+if (!$owner instanceof \ElggUser) {
+	return elgg_error_response(elgg_echo('avatar:resize:fail'));
 }
 
 // reset crop coordinates
@@ -45,7 +22,10 @@ $owner->x2 = 0;
 $owner->y1 = 0;
 $owner->y2 = 0;
 
-$owner->setIconLastChange(time());
+if (!$owner->saveIconFromElggFile($file)) {
+	return elgg_error_response(elgg_echo('avatar:resize:fail'));
+}
+
 if (elgg_trigger_event('profileiconupdate', $owner->type, $owner)) {
 	$view = 'river/user/default/profileiconupdate';
 	elgg_delete_river(['subject_guid' => $owner->guid, 'view' => $view]);

@@ -82,13 +82,15 @@ class hjAlbumImage extends ElggFile {
 	}
 
 	/**
-	 * delete.
+	 * Delete the album image and all its sized icon copies.
 	 *
-	 * @param bool $follow_symlinks follow_symlinks
+	 * Signature mirrors ElggFile::delete in Elgg 7.x.
 	 *
+	 * @param bool       $recursive  delete from disk + DB (passed to parent)
+	 * @param bool|null  $persistent retain in trash bin per core's flag
 	 * @return bool
 	 */
-	public function delete(bool $follow_symlinks = true): bool {
+	public function delete(bool $recursive = true, ?bool $persistent = null): bool {
 		$icon_sizes = elgg_get_config('icon_sizes');
 
 		$prefix_old = "ElggFile/$this->container_guid/$this->guid";
@@ -137,7 +139,7 @@ class hjAlbumImage extends ElggFile {
 			$delfile->delete();
 		}
 
-		return parent::delete($follow_symlinks);
+		return parent::delete($recursive, $persistent);
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <?php
 
-$french = array(
+return [
 	/**
 	 *  Galerie UI elements
 	 */
@@ -412,6 +412,4 @@ $french = array(
 	'gallery:download:error:disabled_public' => 'Les téléchargements publics ne sont pas autorisés. Veuillez vous identifier.',
 	// embeds
 	'embed:albumimages' => 'Album photo',
-);
-
-add_translation("fr", $french);
+];

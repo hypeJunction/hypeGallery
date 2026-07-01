@@ -91,7 +91,7 @@ class hjAlbum extends ElggObject {
 	 */
 	public function getIconURL(array|string $params = []): string {
 		if ($this->cover) {
-			$cover_image = get_entity($this->cover);
+			$cover_image = get_entity((int) $this->cover);
 		}
 
 		if (!isset($cover_image) || !$cover_image) {

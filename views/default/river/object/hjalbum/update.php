@@ -30,8 +30,9 @@ if (!is_array($image_guids_new)) {
 	$image_guids_new = [];
 }
 
+$image_count_new = 0;
 foreach ($image_guids_new as $guid) {
-	if (get_entity($guid)) {
+	if (is_scalar($guid) && $guid && get_entity((int) $guid)) {
 		$image_count_new++;
 	}
 }
