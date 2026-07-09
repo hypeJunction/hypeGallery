@@ -61,6 +61,27 @@ return [
 		'gallery/thumb_reset' => ['filename' => __DIR__ . '/actions/addons/thumb_reset.php'],
 	],
 
+	'routes' => [
+		// Dashboard landing — the gallery root the site menu points at.
+		'collection:object:hjalbum:site' => ['path' => '/gallery', 'file' => __DIR__ . '/pages/gallery/dashboard/site.php'],
+		'collection:object:hjalbum:dashboard' => ['path' => '/gallery/dashboard/site', 'file' => __DIR__ . '/pages/gallery/dashboard/site.php'],
+		'collection:object:hjalbum:owner' => ['path' => '/gallery/dashboard/owner/{username}', 'file' => __DIR__ . '/pages/gallery/dashboard/owner.php'],
+		'collection:object:hjalbum:friends' => ['path' => '/gallery/dashboard/friends/{username}', 'file' => __DIR__ . '/pages/gallery/dashboard/friends.php'],
+		'collection:object:hjalbum:groups' => ['path' => '/gallery/dashboard/groups/{username}', 'file' => __DIR__ . '/pages/gallery/dashboard/groups.php'],
+		'collection:object:hjalbum:favorites' => ['path' => '/gallery/dashboard/favorites/{username}', 'file' => __DIR__ . '/pages/gallery/dashboard/favorites.php'],
+		'collection:object:hjalbum:group' => ['path' => '/gallery/group/{guid}', 'file' => __DIR__ . '/pages/gallery/dashboard/group.php'],
+		'collection:object:hjalbum:container' => ['path' => '/gallery/container/{guid}', 'file' => __DIR__ . '/pages/gallery/dashboard/container.php'],
+		'view:object:hjalbum' => ['path' => '/gallery/view/{guid}/{title?}', 'file' => __DIR__ . '/pages/gallery/view/object.php'],
+		'edit:object:hjalbum' => ['path' => '/gallery/edit/{guid}', 'file' => __DIR__ . '/pages/gallery/edit/object.php', 'middleware' => [\Elgg\Router\Middleware\Gatekeeper::class]],
+		'collection:object:hjalbum:manage' => ['path' => '/gallery/manage/{guid}', 'file' => __DIR__ . '/pages/gallery/manage/album.php', 'middleware' => [\Elgg\Router\Middleware\Gatekeeper::class]],
+		'add:object:hjalbum' => ['path' => '/gallery/create/album/{container_guid}', 'file' => __DIR__ . '/pages/gallery/create/album.php', 'middleware' => [\Elgg\Router\Middleware\Gatekeeper::class]],
+		'collection:object:hjalbumimage:upload' => ['path' => '/gallery/upload/{container_guid}', 'file' => __DIR__ . '/pages/gallery/upload/upload.php', 'middleware' => [\Elgg\Router\Middleware\Gatekeeper::class]],
+		'view:object:hjalbumimage:thumb' => ['path' => '/gallery/thumb/{guid}', 'file' => __DIR__ . '/pages/gallery/thumb/thumb.php', 'middleware' => [\Elgg\Router\Middleware\Gatekeeper::class]],
+		'view:object:hjalbumimage:icon' => ['path' => '/gallery/icon/{guid}/{size?}', 'file' => __DIR__ . '/pages/gallery/icon/icon.php', 'defaults' => ['size' => 'master']],
+		'view:object:hjalbumimage:download' => ['path' => '/gallery/download/{guid}', 'file' => __DIR__ . '/pages/gallery/file/download.php'],
+		'gallery:livesearch' => ['path' => '/gallery/livesearch', 'file' => __DIR__ . '/pages/gallery/search/livesearch.php'],
+	],
+
 	'widgets' => [
 		'photostream' => [
 			'context' => ['profile', 'dashboard', 'groups'],
