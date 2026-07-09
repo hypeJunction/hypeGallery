@@ -40,7 +40,7 @@ if ($url) {
 	$params = [
 		'href' => $url,
 		'text' => $img,
-		'title' => $title . ': ' . elgg_strip_tags($entity->description),
+		'title' => $title . ': ' . elgg_strip_tags((string) $entity->description),
 		'is_trusted' => true,
 		'data-guid' => $entity->guid,
 	];

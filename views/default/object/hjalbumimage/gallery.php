@@ -25,7 +25,7 @@ if (!elgg_in_context('gallery-manage')) {
 $title = elgg_view('output/url', [
 	'text' => $entity->title,
 	'href' => $entity->getURL(),
-	'title' => elgg_strip_tags($entity->description),
+	'title' => elgg_strip_tags((string) $entity->description),
 	'is_trusted' => true
 ]);
 
