@@ -51,8 +51,19 @@ class EncodeRiverMetadataAsJson extends AsynchronousUpgrade {
 
 			$decoded = @unserialize($raw, ['allowed_classes' => false]);
 			if (!is_array($decoded)) {
-				$result->addFailures();
-				$result->addError("hypeGallery: metadata id={$row['id']} is not parseable");
+				// A serialized OBJECT (these rows hold 2016-era serialized ElggBatch
+				// caches). allowed_classes:false decodes it to __PHP_Incomplete_Class,
+				// so it can never become JSON. Counting it as a failure made Elgg reject
+				// the whole upgrade promise, and every upgrade queued behind this one —
+				// including core's MigratePageTop — stayed pending forever.
+				//
+				// The row is dead cache and an object-injection vector. Drop it.
+				$write->executeStatement(
+					"DELETE FROM {$prefix}metadata WHERE id = :id",
+					['id' => (int) $row['id']]
+				);
+				elgg_log("hypeGallery: dropped unparseable river metadata id={$row['id']} (serialized object)", \Psr\Log\LogLevel::NOTICE);
+				$result->addSuccesses();
 				continue;
 			}
 
