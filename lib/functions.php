@@ -45,11 +45,14 @@ function register_entity_title_buttons($entity) {
 			break;
 	}
 
-	if ($items) {
-		foreach ($items as $name => $options) {
-			$options['name'] = $name;
-			elgg_register_menu_item('title', $options);
-		}
+	// The hjAlbumImage branch assigns null when a ternary's condition is false, so a
+	// disabled item still occupies its key. Writing $options['name'] onto that null
+	// auto-vivifies an array carrying a name and no text, and ElggMenuItem::factory()
+	// requires both — a hard 500 on every image page for any user who can see the
+	// title buttons. Drop the empties before building anything.
+	foreach (array_filter($items) as $name => $options) {
+		$options['name'] = $name;
+		elgg_register_menu_item('title', $options);
 	}
 
 	return true;
